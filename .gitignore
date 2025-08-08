@@ -1,0 +1,19 @@
+# Java
+**/target/
+*.class
+*.jar
+*.war
+*.log
+
+# Node / React
+**/node_modules/
+**/build/
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
