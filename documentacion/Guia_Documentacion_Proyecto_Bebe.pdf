@@ -1,0 +1,465 @@
+%PDF-1.4
+%“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+1 0 obj
+<<
+/F1 2 0 R /F2 3 0 R /F3 5 0 R /F4 26 0 R
+>>
+endobj
+2 0 obj
+<<
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+>>
+endobj
+3 0 obj
+<<
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+>>
+endobj
+4 0 obj
+<<
+/Contents 53 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 52 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+5 0 obj
+<<
+/BaseFont /ZapfDingbats /Name /F3 /Subtype /Type1 /Type /Font
+>>
+endobj
+6 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
+>> /Border [ 0 0 0 ] /Rect [ 78 713.8898 375.9 725.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+7 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.oracle.com/en/java/javase/17/)
+>> /Border [ 0 0 0 ] /Rect [ 78 679.8898 264.2 691.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+8 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://maven.apache.org/guides/index.html)
+>> /Border [ 0 0 0 ] /Rect [ 78 645.8898 271.43 657.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+9 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://git-scm.com/doc | https://docs.github.com/es)
+>> /Border [ 0 0 0 ] /Rect [ 78 611.8898 305.14 623.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+10 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://cloud.spring.io/spring-cloud-config/reference/html/)
+>> /Border [ 0 0 0 ] /Rect [ 78 577.8898 329.21 589.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+11 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.spring.io/spring-security/reference/ | https://www.baeldung.com/spring-security-oauth-jwt)
+>> /Border [ 0 0 0 ] /Rect [ 78 543.8898 290.68 555.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+12 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.spring.io/spring-security/reference/ | https://www.baeldung.com/spring-security-oauth-jwt)
+>> /Border [ 0 0 0 ] /Rect [ 78 529.8898 306.96 541.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+13 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://dev.mysql.com/doc/)
+>> /Border [ 0 0 0 ] /Rect [ 78 495.8898 196.38 507.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+14 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://springdoc.org/)
+>> /Border [ 0 0 0 ] /Rect [ 78 461.8898 171.38 473.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+15 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.docker.com/get-started/ | https://docs.docker.com/compose/)
+>> /Border [ 0 0 0 ] /Rect [ 78 427.8898 396.85 439.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+16 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://reactjs.org/ | https://mui.com/ | https://reactrouter.com/en/main)
+>> /Border [ 0 0 0 ] /Rect [ 78 393.8898 382.77 405.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+17 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://www.jenkins.io/doc/)
+>> /Border [ 0 0 0 ] /Rect [ 78 359.8898 195.82 371.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+18 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://www.baeldung.com/spring-email)
+>> /Border [ 0 0 0 ] /Rect [ 78 325.8898 252.5 337.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+19 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://cloudinary.com/documentation | https://aws.amazon.com/s3/)
+>> /Border [ 0 0 0 ] /Rect [ 78 291.8898 375.73 303.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+20 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.spring.io/spring-boot/docs/current/actuator-api/htmlsingle/ | https://prometheus.io/docs/ | https://grafana.com/docs/)
+>> /Border [ 0 0 0 ] /Rect [ 78 257.8898 514.68 269.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+21 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.spring.io/spring-boot/docs/current/actuator-api/htmlsingle/ | https://prometheus.io/docs/ | https://grafana.com/docs/)
+>> /Border [ 0 0 0 ] /Rect [ 78 243.8898 195.66 255.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+22 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://www.elastic.co/guide/index.html)
+>> /Border [ 0 0 0 ] /Rect [ 78 209.8898 249.73 221.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+23 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://firebase.google.com/docs/cloud-messaging)
+>> /Border [ 0 0 0 ] /Rect [ 78 175.8898 300.32 187.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+24 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://www.baeldung.com/exception-handling-for-rest-with-spring)
+>> /Border [ 0 0 0 ] /Rect [ 78 141.8898 368.65 153.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+25 0 obj
+<<
+/Annots [ 6 0 R 7 0 R 8 0 R 9 0 R 10 0 R 11 0 R 12 0 R 13 0 R 14 0 R 15 0 R 
+  16 0 R 17 0 R 18 0 R 19 0 R 20 0 R 21 0 R 22 0 R 23 0 R 24 0 R ] /Contents 54 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 52 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+26 0 obj
+<<
+/BaseFont /Helvetica-BoldOblique /Encoding /WinAnsiEncoding /Name /F4 /Subtype /Type1 /Type /Font
+>>
+endobj
+27 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://git-scm.com/doc | https://docs.github.com/es)
+>> /Border [ 0 0 0 ] /Rect [ 148.41 701.8898 375.55 713.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+28 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
+>> /Border [ 0 0 0 ] /Rect [ 208.74 687.8898 506.64 699.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+29 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://maven.apache.org/guides/index.html)
+>> /Border [ 0 0 0 ] /Rect [ 123.96 673.8898 317.39 685.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+30 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://dev.mysql.com/doc/)
+>> /Border [ 0 0 0 ] /Rect [ 127.29 587.8898 245.67 599.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+31 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.spring.io/spring-security/reference/ | https://www.baeldung.com/spring-security-oauth-jwt)
+>> /Border [ 0 0 0 ] /Rect [ 193.7 515.8898 406.38 527.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+32 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.spring.io/spring-security/reference/ | https://www.baeldung.com/spring-security-oauth-jwt)
+>> /Border [ 0 0 0 ] /Rect [ 78 501.8898 306.96 513.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+33 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://reactjs.org/ | https://mui.com/ | https://reactrouter.com/en/main)
+>> /Border [ 0 0 0 ] /Rect [ 250.12 443.8898 413.72 455.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+34 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://reactjs.org/ | https://mui.com/ | https://reactrouter.com/en/main)
+>> /Border [ 0 0 0 ] /Rect [ 78 429.8898 216.39 441.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+35 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.docker.com/get-started/ | https://docs.docker.com/compose/)
+>> /Border [ 0 0 0 ] /Rect [ 213.42 315.8898 377.76 327.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+36 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.docker.com/get-started/ | https://docs.docker.com/compose/)
+>> /Border [ 0 0 0 ] /Rect [ 78 301.8898 229.73 313.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+37 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://www.jenkins.io/doc/)
+>> /Border [ 0 0 0 ] /Rect [ 157.85 243.8898 275.67 255.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+38 0 obj
+<<
+/Annots [ 27 0 R 28 0 R 29 0 R 30 0 R 31 0 R 32 0 R 33 0 R 34 0 R 35 0 R 36 0 R 
+  37 0 R ] /Contents 55 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 52 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+39 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://cloud.spring.io/spring-cloud-config/reference/html/)
+>> /Border [ 0 0 0 ] /Rect [ 215.66 635.8898 466.87 647.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+40 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.docker.com/get-started/ | https://docs.docker.com/compose/)
+>> /Border [ 0 0 0 ] /Rect [ 213.42 621.8898 377.76 633.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+41 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.docker.com/get-started/ | https://docs.docker.com/compose/)
+>> /Border [ 0 0 0 ] /Rect [ 78 607.8898 229.73 619.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+42 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://www.jenkins.io/doc/)
+>> /Border [ 0 0 0 ] /Rect [ 157.85 549.8898 275.67 561.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+43 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://www.baeldung.com/spring-email)
+>> /Border [ 0 0 0 ] /Rect [ 211.2 491.8898 385.7 503.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+44 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.spring.io/spring-boot/docs/current/actuator-api/htmlsingle/ | https://prometheus.io/docs/ | https://grafana.com/docs/)
+>> /Border [ 0 0 0 ] /Rect [ 78 463.8898 514.68 475.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+45 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.spring.io/spring-boot/docs/current/actuator-api/htmlsingle/ | https://prometheus.io/docs/ | https://grafana.com/docs/)
+>> /Border [ 0 0 0 ] /Rect [ 78 449.8898 195.66 461.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+46 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://www.elastic.co/guide/index.html)
+>> /Border [ 0 0 0 ] /Rect [ 233.45 435.8898 405.18 447.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+47 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://firebase.google.com/docs/cloud-messaging)
+>> /Border [ 0 0 0 ] /Rect [ 228.44 421.8898 450.76 433.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+48 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://www.baeldung.com/exception-handling-for-rest-with-spring)
+>> /Border [ 0 0 0 ] /Rect [ 78 393.8898 368.65 405.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+49 0 obj
+<<
+/Annots [ 39 0 R 40 0 R 41 0 R 42 0 R 43 0 R 44 0 R 45 0 R 46 0 R 47 0 R 48 0 R ] /Contents 56 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 52 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+50 0 obj
+<<
+/PageMode /UseNone /Pages 52 0 R /Type /Catalog
+>>
+endobj
+51 0 obj
+<<
+/Author (\(anonymous\)) /CreationDate (D:20250808004716+00'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20250808004716+00'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
+  /Subject (\(unspecified\)) /Title (\(anonymous\)) /Trapped /False
+>>
+endobj
+52 0 obj
+<<
+/Count 4 /Kids [ 4 0 R 25 0 R 38 0 R 49 0 R ] /Type /Pages
+>>
+endobj
+53 0 obj
+<<
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 391
+>>
+stream
+Gaqc2b>,r/&A7`fk#d]NG13h_("%'d"lWrE>MCSm:)od+W-gaD[mcsT?h2G-GUt#JA=doK4=ND\,if$,JQrs`W'.S(p,S=<jLW?7PXSkrC1cr=;rk,S-(qhChm:Z2;C!EJ/"A;CM2/C:#fblWle'm>,2F<_<S:mO!Qs]a4+Fi7cIgNXn";isY-JnoI3&on&?GK0WhI-\hi<nS\Oq2;J^2Y>30[&B!Y*!>`eN!QnY%2[E=,Q=0p#g*]_'FQNWCAYi19HG4%6$X<o6S_0AKg.VV/dpZ]a!-k=p%40MnDfUgn2],Sc*04n=MAJN&L2lJ]X;qY!!V3uS]IA(dJlH(S!%rh_Ai$kmd(2C[^OrgB-4*7:.c%)JR<SpYM[nAi4_@J0fCc&LT~>endstream
+endobj
+54 0 obj
+<<
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 1240
+>>
+stream
+Gatm:9lo&K%)(h*i95(!P4`D>HY_FoS$(5;[<M>-$Vf#(*D'4%.ZQUhnI&4&X!AoNX520^7MGk7&&8;+_$D./]P.lFIL5F4%m1r"C[aY<K]O1+QP\O4]Rs`WJN/UYa^dFu%GVeg%@LOqY'2XVME.-rd>0M7W=?B[K.#tNnHP<6(LdKVWpYHe,#AUQ91B;OM:DH#7Uc*smF,-aT).Po/\dme;]F$,+nOj+;176IFVoKM%g9N^hSQ"O]L_"p&/kW5n_g'ad&<!HCpYhFn#i,cWZ5U2*A6.0CUc]*ZfTV-8lfV,Z8KN1b1r!%1PJ.5F0.\s^B4=LCE1Cp($"-.M^1,hn,])mHZKsr0[^FG\]Y>(McS%p1"V>c0ZLBL#pTlT_RLa"XKX^Uf)cF2$/I:W5'>>3-VV(`8D'\9VnhS>&9g/uReCn#MJLiH^Ak-42W%H9LPk4@fGK#2#u=HMgRDs.Ur#`XnL3Tf&]IUS'F/O"1/T>O'?-E<Y[I$Q8K0![Mne>0q)tOnatnoWX"##`4/)J@j9YZb6!H#g/_>>c"J>["rd44:K741>r&g]6l0`^VB15pg<2a%Lo9o;KO@jGGgRYbW_XF:%3:0MFrSm.u$Cj7=q-JKqN^[^-<]K?>;],2)dpbhqPY#iQ9?E'8\(<NnS)C$9VAWL,NB12UqRp$aD>#$!h8A2]-Lt%_G.+mn,As6G12I>e8BheAGu&+1dDiI4UXr)0@+tMWr5K#m8=CKlRH,WG^TMS,r;@rlD=8%AQJ3mQT,,)PiW`HLQ][NPi:0.V#qp+FK1Y6;)FXNW;c_]F6G`$BSUI_NX1>r]K^1gAN\<]J8a=+[:$VFKF,9q@E!TS$/8spbIoi+K[08&dYESVXUd++E'i,)\%'K36+S8Q40SMd9Fi4Y3pXfulJK5Ce#p7o'Q/dfm1`&T]cH&a@,UYfEd/X]Y8b4=#IDZRW3VCNFaX$6oeJ6Ik%DRU$.<;:EXAZR<P%78onpa?4jD`&!Pe9/X[\?ZkN]r]53e_/79.Fe+3lY7S6PjjMdi\6pkN2V;=D1%iYrq.m<Bq.i,T6VJ&ohOGXfJ%)6toC.68La<Ed%(FS`KJ'hW4Vd1gb;r.$c7sr,&8g#YUETRUgRqCG+9I7s-0o,!?A):"IS]Pr#7-MKuY(o#@5:p4D.;^**[7MOMd`8g+f!*cR3?25ipYR61@9CLW?hPr4DR)c@qa?/fY$A[JLn4.Map:#0#n#&P-n`BPpEno4~>endstream
+endobj
+55 0 obj
+<<
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 1120
+>>
+stream
+Gb!#[hf$st&:WMDEK;'CUs>#ZjUF*PS!X=_&MJQP*Kte+ENu'W7Ju[\luoaAlV8oAW)Ao!GL#B`n%QCFkhqNSIoZW`*C+j8J4)*d"saKf(jq!\K;0MYA7=07TU2H?QM!'+^kIeS:rO%CP/lt:Z,Eaggr+)q2&h5cn_3q]<Lpq`mYTaS]W[*1RSoMF"W(-ZaS>s&.66S88F&'VdGXk[^NF@g^DC,8YU,@N[-tB*+Y\kL/mMG/#s&Y_.20V/)cn]uY)THLW>2gKVU#7kmB;+e)B\]c)t6UTA-pikWj;bE)(2`h(u>XQd.%'&4aIRgk]gpf<5/p\6C:]rb(.ShbU%mKY[#"+*T6Lu*naPr]r/s"Q;;KhmjX>>]S,%=&lesNV)/_g&"?(p^pUQVKFH\ekm4EY;TNULG\'4\^N$no4<0i2U=!Yk6gkn>UuaC=dsGD<Su6BG#'<JjQj6M(@8VrQlVLP@Ig?tZ?I7pYH>P:RnKDHT\MCZ19M*LZ4][3b0H.q;d=U?=n@7%,<VZ2$0Z6Y+WJ;j-Y[ftmKkRQCmb&1YiJnF>g>B(FIg*nR2&*2W^%$\g]sb*,\">lKW?Zj6P]Qe5Z4mO^EMRBhd7V>hZm`HTK%NfkoJ!SkNpO6fW)^`G'NA6TPS(`to'Z[Hlk]DoS,J<d/dQUC;;[%pUJ>-D*B[+:otk?1'&hI5301e[fdmt;507S^DCDdKI4?rqj3tW.\$D0u[jsm=G<^dD.8!j&/sNFk0fbIm<q:P\+2nI"l%W,Kr$%@n]s_un;.,-]WSn1s#l&FsGOF^T6sck;`2RA9:0[[(C!pQECaulhbBbSKRHr`FFqWbHC$Y?ejoN)F%mo'_n7#DUCrU#2]f:2a1d6kql'Aaa"k<hQq%Ct!qsN&qCp3k/O,V]Uj<#h"e@r/uPb?qf0$[uf`QW1af%c_HH7LsMeqPZlo53U"C!PM:hB!X'-=q99.D(V)+,"._'sG?0b$1fAde5B-!!-`!iS"$=[$tZLk7!eK[Vn3`U7Hp&e2_1rkded*#t)Dr,2%H$g6-@>U[A&d-0\/OPP?7IB.b:hUA=<J66NDrBKa5C".Ka)QH`K._(5OUFPd;!fDXkPEEm>qaB">:d;Q/-BB&~>endstream
+endobj
+56 0 obj
+<<
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 882
+>>
+stream
+GauHJgJZc[&:Ml+lsj_L<h-dIK0U8Wk_(:D]EifM#].[T1+AcCI+NNSR[ZAZ81-4(Bsi<5fs?i)B[P!RhaITc4p*_:^h^h="L%-7@<Ma>Zc7((>=K*W0^*fME9IgH8)nK&WSLc34Z?R+JrUb6elu4Mg^.!FY,`6oRU^4HI(4+(qsZbX1?IX$AreYC<7J\;.Fe3@Tl*kdkd91RZ#OF:G;ChoCkjlVRVA0ZE3>G-"4HqW@fom'-ph2I@c/?n8AEc%:Ib[_fodk'EPZ#@1L)?uKGm<0aV4maqM`h%>'QT&1$hN=&nJt/L%:k*22YBT&@=9Y&PQ':TK\'M964ufAkj3W7>Pa%GZQ@qI<3QG*Du68)FN#A$=n4I`2o9YL(?5AH,G^%[M8X^9DNF6JJ,s3aq0o._BQ@IZ!:KA)#RQW3#F9JXL2ScIclg;HMt[lD!"_Uqh"'r9F]ZkFNm8k[:$Ru,F`EOVM)6,pL:CH+00q/7\jS.FIh8Sl!"(uUha&[NUp+?Q1A#]4?s#HKr7.\:k+FIL]7=Abi0InbCn%Um[M\[g#W-CT:ui9iuk8A/1e=O9e:J<OuVf]:Aa'SS-b[+X#-5dU/cegNd9U9/'UGQo$dQ4[WCFj:p+hqM-SMD@i8W#G'G@WPK-L)N&85P8sQLd/kp!0Y%ta?72:t``/U.tl5fhB^:a7K;p3,n[JiWa"pD3]A5ok41Ad&]0fN,?U;3L.#0:<ni"*:nV3['aCd3DJ<eaNA@b,58-FoNX/X9>B[nA'4)BWWfh+/u0k$(W])^dp]GXQt_A(B7W`]2*eF3@L0<"L1Fek-U^=.n<s'W_?>B9VXe?geCSrXbH"g>^>%)T7?Q6aALZZd(nk\PlYGQKlJR$oED8=j==]~>endstream
+endobj
+xref
+0 57
+0000000000 65535 f 
+0000000073 00000 n 
+0000000135 00000 n 
+0000000242 00000 n 
+0000000354 00000 n 
+0000000559 00000 n 
+0000000642 00000 n 
+0000000854 00000 n 
+0000001039 00000 n 
+0000001225 00000 n 
+0000001421 00000 n 
+0000001625 00000 n 
+0000001872 00000 n 
+0000002119 00000 n 
+0000002290 00000 n 
+0000002457 00000 n 
+0000002673 00000 n 
+0000002891 00000 n 
+0000003063 00000 n 
+0000003244 00000 n 
+0000003454 00000 n 
+0000003729 00000 n 
+0000004004 00000 n 
+0000004188 00000 n 
+0000004381 00000 n 
+0000004590 00000 n 
+0000004940 00000 n 
+0000005060 00000 n 
+0000005261 00000 n 
+0000005479 00000 n 
+0000005670 00000 n 
+0000005845 00000 n 
+0000006095 00000 n 
+0000006342 00000 n 
+0000006564 00000 n 
+0000006782 00000 n 
+0000007002 00000 n 
+0000007218 00000 n 
+0000007394 00000 n 
+0000007692 00000 n 
+0000007900 00000 n 
+0000008120 00000 n 
+0000008336 00000 n 
+0000008512 00000 n 
+0000008696 00000 n 
+0000008971 00000 n 
+0000009246 00000 n 
+0000009434 00000 n 
+0000009631 00000 n 
+0000009840 00000 n 
+0000010128 00000 n 
+0000010198 00000 n 
+0000010482 00000 n 
+0000010563 00000 n 
+0000011045 00000 n 
+0000012377 00000 n 
+0000013589 00000 n 
+trailer
+<<
+/ID 
+[<dd837929302674fde00f00e5bb0ff21a><dd837929302674fde00f00e5bb0ff21a>]
+% ReportLab generated PDF document -- digest (http://www.reportlab.com)
+
+/Info 51 0 R
+/Root 50 0 R
+/Size 57
+>>
+startxref
+14562
+%%EOF
