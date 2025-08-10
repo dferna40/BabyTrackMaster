@@ -1,0 +1,45 @@
+Principal:
+Usuario: root
+Contraseña: admin1024
+
+Roles BBDD:
+
+api_usuarios:
+
+Nombre usuario: api_usuario_db
+Contraseña: apiUsuariodb
+
+api_citas:
+
+Nombre usuario: api_citas_db
+Contraseña: apiCitasdb
+
+api_cuidados:
+
+Nombre usuario: api_cuidados_db
+Contraseña: apiCuidadosdb
+
+api_diario:
+
+Nombre usuario: api_diario_db
+Contraseña: apiDiariodb
+
+api_gastos:
+
+Nombre usuario: api_gastos_db
+Contraseña: apiGastosdb
+
+api_gateway:
+
+Nombre usuario: api_gateway_db
+Contraseña: apiGatewaydb
+
+api_hitos:
+
+Nombre usuario: api_hitos_db
+Contraseña: apiHitosdb
+
+api_rutinas:
+
+Nombre usuario: api_rutinas_db
+Contraseña: apiRutinasdb
