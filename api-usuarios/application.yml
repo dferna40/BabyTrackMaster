@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: api-usuarios          # Debe coincidir con los nombres de los YML en el repo del config-server
+  profiles:
+    active: dev                 # si usas perfiles
+  config:
+    import: "optional:configserver:http://localhost:8888"  # pon la URL real de tu server
+  cloud:
+    config:
+      label: main               # rama del repo (main/master/lo que uses)
+      # (opcional) si prefieres el estilo antiguo:
+      # uri: http://localhost:8888
