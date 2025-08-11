@@ -85,16 +85,19 @@ public class SecurityConfig {
             .cors(cors -> {}) // toma el bean @Primary automáticamente
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // Swagger / OpenAPI
-                .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                // Actuator mínimo
-                .requestMatchers("/actuator/health", "/actuator/info").permitAll()
-                // Preflight CORS
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                // Login público (ajusta si tu base path cambia)
-                .requestMatchers(HttpMethod.POST, "/api/v1/usuarios/login").permitAll()
-                // Resto protegido
-                .anyRequest().authenticated()
+            	    // Swagger / OpenAPI
+            	    .requestMatchers("/swagger-ui.html","/swagger-ui/**","/v3/api-docs/**").permitAll()
+            	    // Actuator mínimo
+            	    .requestMatchers("/actuator/health","/actuator/info").permitAll()
+            	    // Error y preflight
+            	    .requestMatchers("/error").permitAll()
+            	    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+            	    // Auth públicas
+            	    .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/register").permitAll()
+            	    // (si mantienes el login bajo /usuarios, déjalo también)
+            	    .requestMatchers(HttpMethod.POST, "/api/v1/usuarios/login").permitAll()
+            	    // Resto protegido
+            	    .anyRequest().authenticated()
             )
             .authenticationProvider(authenticationProvider)
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
