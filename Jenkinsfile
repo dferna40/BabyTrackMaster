@@ -1,21 +1,25 @@
 pipeline {
   agent any
+
   tools { 
     jdk 'jdk-17'
     maven 'maven-3.9.6'
   }
+
   options { 
     buildDiscarder(logRotator(numToKeepStr: '15'))
     disableConcurrentBuilds()
     timestamps()
   }
+
   environment {
     SPRING_PROFILES_ACTIVE = 'ci'
-    // Los clientes del config server usarán este URI cuando arranque (se completa con el puerto dinámico)
+    // Se completa tras elegir puerto
     SPRING_CLOUD_CONFIG_URI = "http://localhost:${CONFIG_SERVER_PORT}"
   }
 
   stages {
+
     stage('Checkout') { steps { checkout scm } }
 
     stage('Elegir puerto libre') {
@@ -40,7 +44,6 @@ pipeline {
     stage('Arrancar config-server') {
       steps {
         dir('config-server') {
-          // Arranca en background con puerto dinámico y guarda el PID
           bat """
           mvn -B -U spring-boot:start ^
             -Dspring-boot.run.profiles=%SPRING_PROFILES_ACTIVE% ^
@@ -58,57 +61,36 @@ pipeline {
           $deadline = (Get-Date).AddMinutes(4)
           $ok = $false
 
-          $pidFile = "config-server/target/config-server.pid"
-          if (Test-Path $pidFile) {
-            $pid = Get-Content $pidFile
-            Write-Host "PID leido: $pid"
-          } else {
-            Write-Host "Aún no existe el PID file…"
-          }
-
-          function PortListening([int]$p){
-            try { Test-NetConnection -ComputerName localhost -Port $p -InformationLevel Quiet } catch { $false }
-          }
-
-          $curl = "$env:SystemRoot\\System32\\curl.exe"
-          if (-not (Test-Path $curl)) { $curl = "curl" }  # fallback
-
-          function TryCurl([string]$url){
+          function TryUrl([string]$url){
             try {
-              $psi = New-Object System.Diagnostics.ProcessStartInfo
-              $psi.FileName = $curl
-              $psi.Arguments = "-s -o - -w `%{http_code`% `"$url`""
-              $psi.RedirectStandardOutput = $true
-              $psi.UseShellExecute = $false
-              $p = [System.Diagnostics.Process]::Start($psi)
-              $out = $p.StandardOutput.ReadToEnd()
-              $p.WaitForExit()
-              if ($out.Length -ge 3) {
-                $code = $out.Substring($out.Length-3)
-                $body = $out.Substring(0, $out.Length-3)
-                return @{ ok = ($code -like "2*"); code = $code; body = $body }
-              } else { return @{ ok = $false; code = "000"; body = "" } }
-            } catch { return @{ ok = $false; code = "000"; body = "" } }
+              $resp = Invoke-WebRequest -UseBasicParsing -Uri $url -TimeoutSec 5
+              $code = [int]$resp.StatusCode
+              $body = $resp.Content
+              $preview = if ($null -ne $body) { $body.Substring(0, [Math]::Min(200, $body.Length)) } else { "" }
+              Write-Host ("URL: " + $url)
+              Write-Host ("CODE: " + $code)
+              Write-Host ("BODY: " + $preview)
+              return @{ ok = ($code -ge 200 -and $code -lt 300); code = $code; body = $body }
+            } catch {
+              Write-Host ("URL: " + $url)
+              Write-Host ("ERROR: " + $_.Exception.Message)
+              return @{ ok = $false; code = 0; body = "" }
+            }
           }
 
           while(-not $ok -and (Get-Date) -lt $deadline) {
-            if (PortListening $port) {
-              Write-Host "Puerto $port en escucha; probando /actuator/health…"
-              $r = TryCurl ("http://localhost:"+$port+"/actuator/health")
-              Write-Host ("HEALTH http " + $r.code)
-              if ($r.ok -and $r.body -match '"status"\\s*:\\s*"UP"') { $ok = $true; break }
+            # 1) Actuator health (si está expuesto)
+            $r = TryUrl ("http://localhost:" + $port + "/actuator/health")
+            if ($r.ok -and $r.body -match '"status"\\s*:\\s*"UP"') { $ok = $true; break }
 
-              Write-Host "Probando /application/default…"
-              $r2 = TryCurl ("http://localhost:"+$port+"/application/default")
-              Write-Host ("APP/DEFAULT http " + $r2.code)
-              if ($r2.ok) { $ok = $true; break }
-            } else {
-              Write-Host "Aún no hay nadie escuchando en $port…"
-            }
+            # 2) Fallback: endpoint propio del Config Server
+            $r2 = TryUrl ("http://localhost:" + $port + "/application/default")
+            if ($r2.ok) { $ok = $true; break }
+
             Start-Sleep -Seconds 2
           }
 
-          if (-not $ok) { throw "Config-server no respondió en 4 minutos (puerto $port)" }
+          if (-not $ok) { throw "Config-server no respondió dentro del tiempo (puerto $port)" }
         '''
       }
     }
@@ -116,7 +98,7 @@ pipeline {
     stage('Build & Test (módulos)') {
       steps {
         script {
-          // Añade/quita módulos Maven aquí (carpetas que contienen pom.xml)
+          // Ajusta la lista de módulos según tus carpetas con pom.xml
           def modules = [
             'api-citas','api-cuidados','api-diario','api-gastos',
             'api-gateway','api-hitos','api-rutinas','api-usuarios'
@@ -152,7 +134,7 @@ pipeline {
             bat 'mvn -B -U -Dspring-boot.stop.pidFile=target/config-server.pid spring-boot:stop'
           }
         } catch (e) {
-          echo "Stop vía Maven falló, intento matar el proceso por PID…"
+          echo "Stop por Maven falló; intento matar por PID…"
           bat 'for /f %a in (config-server\\target\\config-server.pid) do taskkill /PID %a /F'
         }
       }
