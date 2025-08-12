@@ -1,12 +1,14 @@
 pipeline {
   agent any
 
-  tools { 
-    jdk 'jdk-17'
-    maven 'maven-3.9.6'
+  tools {
+    jdk   'jdk-17'         
+    maven 'maven-3.9.6'  
+    // Si quieres fijar Git y tienes la herramienta definida en Tools:
+    // git 'GitDefault'
   }
 
-  options { 
+  options {
     buildDiscarder(logRotator(numToKeepStr: '15'))
     disableConcurrentBuilds()
     timestamps()
@@ -20,7 +22,9 @@ pipeline {
 
   stages {
 
-    stage('Checkout') { steps { checkout scm } }
+    stage('Checkout') {
+      steps { checkout scm }
+    }
 
     stage('Elegir puerto libre') {
       steps {
@@ -38,7 +42,11 @@ pipeline {
     }
 
     stage('Empaquetar config-server') {
-      steps { dir('config-server') { bat 'mvn -B -U -DskipTests package' } }
+      steps {
+        dir('config-server') {
+          bat 'mvn -B -U -DskipTests package'
+        }
+      }
     }
 
     stage('Arrancar config-server') {
@@ -83,7 +91,7 @@ pipeline {
             $r = TryUrl ("http://localhost:" + $port + "/actuator/health")
             if ($r.ok -and $r.body -match '"status"\\s*:\\s*"UP"') { $ok = $true; break }
 
-            # 2) Fallback: endpoint propio del Config Server
+            # 2) Fallback: endpoint del Config Server
             $r2 = TryUrl ("http://localhost:" + $port + "/application/default")
             if ($r2.ok) { $ok = $true; break }
 
@@ -98,7 +106,7 @@ pipeline {
     stage('Build & Test (módulos)') {
       steps {
         script {
-          // Ajusta la lista de módulos según tus carpetas con pom.xml
+          // Ajusta esta lista a las carpetas con pom.xml
           def modules = [
             'api-citas','api-cuidados','api-diario','api-gastos',
             'api-gateway','api-hitos','api-rutinas','api-usuarios'
@@ -108,6 +116,7 @@ pipeline {
             builds[m] = {
               stage("Build & Test: ${m}") {
                 dir(m) {
+                  // Si de momento no tienes tests y quieres evitar fallos: añade -DskipTests
                   bat 'mvn -B -U clean verify'
                 }
               }
@@ -118,16 +127,16 @@ pipeline {
       }
     }
 
-    stage('Reportes') {
-      steps {
-        junit '**/target/surefire-reports/*.xml'
-        archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-      }
-    }
+    // (Sin stage de “Reportes”; publicamos en post { always } para que suba aunque falle)
   }
 
   post {
     always {
+      // Publica resultados SIEMPRE, aunque falle un módulo
+      junit '**/target/surefire-reports/*.xml'
+      archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+
+      // Parar el config-server aunque falle algo
       script {
         try {
           dir('config-server') {
