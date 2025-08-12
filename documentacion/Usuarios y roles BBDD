@@ -1,6 +1,7 @@
 Principal:
 Usuario: root
 Contraseña: admin1024
+url: jdbc:mysql://localhost:3306/?allowPublicKeyRetrieval=true&useSSL=false
 
 Roles BBDD:
 
