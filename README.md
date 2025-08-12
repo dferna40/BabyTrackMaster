@@ -12,17 +12,17 @@ El sistema está compuesto por varios microservicios independientes, un frontend
 
 ```
 BabyTrackMaster/
-├── config-server/       # Configuración centralizada con Spring Cloud Config
-├── api-usuarios/        # Autenticación, login, roles, JWT
-├── api-cuidados/        # Registro de biberones, pañales, sueño, baño
-├── api-gastos/          # Control de gastos del bebé
-├── api-hitos/           # Registro de hitos importantes
-├── api-citas/           # Citas médicas y recordatorios
-├── api-diario/          # Diario emocional y personal
-├── api-rutinas/         # Planificación de rutinas del bebé
-├── api-gateway/         # Puerta de entrada y routing de peticiones
-├── frontend/            # Aplicación React con Material UI
-└── documentacion/       # Documentación funcional, técnica y wireframes
+├── config-server/       # Configuración centralizada con Spring Cloud Config	#Puerto: 8888
+├── api-usuarios/        # Autenticación, login, roles, JWT						#Puerto: 8080
+├── api-cuidados/        # Registro de biberones, pañales, sueño, baño			#Puerto: 8081
+├── api-gastos/          # Control de gastos del bebé							#Puerto: 8082
+├── api-hitos/           # Registro de hitos importantes						#Puerto: 8083
+├── api-citas/           # Citas médicas y recordatorios						#Puerto: 8084
+├── api-diario/          # Diario emocional y personal							#Puerto: 8085
+├── api-rutinas/         # Planificación de rutinas del bebé					#Puerto: 8086
+├── api-gateway/         # Puerta de entrada y routing de peticiones			#Puerto: 8090
+├── frontend/            # Aplicación React con Material UI						
+└── documentacion/       # Documentación funcional, técnica y wireframes		
 ```
 
 ---
@@ -30,11 +30,13 @@ BabyTrackMaster/
 ## 🧰 Tecnologías Utilizadas
 
 ### 🔹 Backend
-- Java 17
-- Spring Boot 3.x
+- Java 8
+- Spring Boot 3.4.2
 - Spring Security
 - Spring Data JPA
-- Spring Cloud Config
+- Hibernate
+- Lombok
+- Spring Cloud Config 2024.0.0
 - JWT (JSON Web Tokens)
 - Swagger / OpenAPI
 
@@ -45,8 +47,21 @@ BabyTrackMaster/
 - React Router DOM
 - JWT-decode
 
+### 🔹 Sistema de control de versiones
+- Git
+
+### 🔹 Herramienta de gestión y automatización de proyectos
+- Maven
+
 ### 🔹 Base de Datos
-- MySQL (una por microservicio)
+- MySQL
+	- api_usuario_db
+	- api_rutinas_db
+	- api_hitos_db
+	- api_gastos_db
+	- api_diario_db
+	- api_cuidado_db
+	- api_citas_db
 
 ### 🔹 Infraestructura y DevOps
 - Docker & Docker Compose
@@ -62,7 +77,9 @@ BabyTrackMaster/
 
 ## 📦 Estado del Proyecto
 
-✅ Estructura inicial creada  
+✅ Estructura inicial creada de todos los microservicios
+✅ Microservicio `config-server`
+✅ Microservicio `api-usuarios`
 🔜 Desarrollo del `config-server` y microservicio `api-usuarios`  
 
 ---
@@ -76,3 +93,4 @@ Todos los endpoints están protegidos con JWT y Spring Security. Se utilizan rol
 ## 📝 Licencia
 
 Este proyecto es de uso personal y educativo. Todos los derechos reservados.
+©️ Desarrollado por **David Fernández Ramírez**
