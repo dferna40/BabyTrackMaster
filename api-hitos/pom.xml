@@ -13,22 +13,10 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>api-hitos</name>
 	<description>Microservicio para **registro de hitos del desarrollo** (primeros pasos, sonrisas, etc.).  CRUD de hitos, soporte opcional de imágenes y visualización cronológica.</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2025.0.0</spring-cloud.version>
+		<springdoc-openapi.version>2.8.6</springdoc-openapi.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -62,6 +50,12 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<!-- Swagger / OpenAPI (springdoc), alineado con el pom de referencia -->
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>${springdoc-openapi.version}</version>
+    </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
