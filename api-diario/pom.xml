@@ -19,7 +19,7 @@
   <properties>
     <java.version>17</java.version>
     <spring-cloud.version>2024.0.2</spring-cloud.version>
-    <springdoc.version>2.6.0</springdoc.version>
+    <springdoc.version>2.8.6</springdoc.version>
     <lombok.version>1.18.34</lombok.version>
   </properties>
 
