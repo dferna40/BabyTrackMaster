@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:apiusuariosdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false
+    driverClassName: org.h2.Driver
+    username: sa
+    password: 
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      mode: never
+
+# Clave de JWT (igual que en main pero de test)
+security:
+  jwt:
+    secret: dGhpc19pc19hX3NhZmVfZGV2X3NlY3JldF9iYXNlNjQ=
+    expiration: 3600000
