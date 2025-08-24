@@ -1,6 +1,5 @@
 package com.babytrackmaster.api_cuidados.service;
 
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Collection;
 import java.util.Date;
