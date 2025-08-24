@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.babytrackmaster.api_hitos.dto.HitoRequest;
 import com.babytrackmaster.api_hitos.dto.HitoResponse;
 import com.babytrackmaster.api_hitos.service.HitoService;
+import com.babytrackmaster.api_hitos.security.UserPrincipal;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -31,9 +32,11 @@ public class HitoController {
     private final HitoService service;
 
     private Long getUsuarioId(Authentication auth) {
-        // En el filtro guardamos el sub (userId) como principal (String)
-        String sub = (String) auth.getPrincipal();
-        return Long.valueOf(sub);
+        Object principal = auth.getPrincipal();
+        if (principal instanceof UserPrincipal user) {
+            return user.getId();
+        }
+        return Long.valueOf(String.valueOf(principal));
     }
 
     @Operation(summary = "Crear hito")
