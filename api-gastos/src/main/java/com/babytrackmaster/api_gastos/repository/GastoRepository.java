@@ -39,4 +39,9 @@ public interface GastoRepository extends JpaRepository<Gasto, Long> {
     List<Object[]> sumPorCategoriaDelMes(@Param("usuarioId") Long usuarioId,
                                          @Param("desde") LocalDate desde,
                                          @Param("hasta") LocalDate hasta);
+    
+    Page<Gasto> findByUsuarioIdAndFechaBetweenOrderByFechaDesc(Long usuarioId,
+            LocalDate desde,
+            LocalDate hasta,
+            Pageable pageable);
 }

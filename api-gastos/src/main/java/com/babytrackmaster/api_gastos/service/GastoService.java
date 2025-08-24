@@ -9,7 +9,7 @@ import com.babytrackmaster.api_gastos.dto.GastoUpdateRequest;
 import com.babytrackmaster.api_gastos.dto.ResumenMensualResponse;
 
 public interface GastoService {
-    GastoResponse crear(Long usuarioIdDelToken, GastoCreateRequest req);
+	GastoResponse crear(Long usuarioIdDelToken, GastoCreateRequest req);
     GastoResponse actualizar(Long usuarioIdDelToken, Long id, GastoUpdateRequest req);
     void eliminar(Long usuarioIdDelToken, Long id);
     GastoResponse obtener(Long usuarioIdDelToken, Long id);
