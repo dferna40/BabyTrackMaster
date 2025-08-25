@@ -6,9 +6,8 @@ import com.babytrackmaster.api_hitos.entity.Hito;
 
 public class HitoMapper {
 
-    public static Hito toEntity(HitoRequest req, Long usuarioId) {
+	public static Hito toEntity(HitoRequest req) {
         Hito h = new Hito();
-        h.setUsuarioId(usuarioId);
         h.setBebeId(req.getBebeId());
         h.setTitulo(req.getTitulo());
         h.setFecha(req.getFecha());

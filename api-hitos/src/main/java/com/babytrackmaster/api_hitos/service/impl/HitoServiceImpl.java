@@ -6,12 +6,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.antlr.v4.runtime.tree.xpath.XPathRuleElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.babytrackmaster.api_hitos.dto.HitoRequest;
 import com.babytrackmaster.api_hitos.dto.HitoResponse;
 import com.babytrackmaster.api_hitos.entity.Hito;
+import com.babytrackmaster.api_hitos.exception.NotFoundException;
 import com.babytrackmaster.api_hitos.exception.ResourceNotFoundException;
 import com.babytrackmaster.api_hitos.mapper.HitoMapper;
 import com.babytrackmaster.api_hitos.repository.HitoRepository;
@@ -23,20 +27,47 @@ import lombok.AllArgsConstructor;
 @Transactional
 @AllArgsConstructor
 public class HitoServiceImpl implements HitoService {
+	
+	private static final Logger log = LoggerFactory.getLogger(HitoServiceImpl.class);
 
     private final HitoRepository repository;
 
     public HitoResponse crear(Long usuarioId, HitoRequest request) {
-        Hito entity = HitoMapper.toEntity(request, usuarioId);
+    	if (usuarioId == null) {
+            throw new IllegalArgumentException("usuarioId no puede ser null");
+        }
+        // Usa el mapper y SETEA explícitamente el usuarioId
+        Hito entity = HitoMapper.toEntity(request);
+        entity.setUsuarioId(usuarioId);
+
         Hito saved = repository.save(entity);
         return HitoMapper.toResponse(saved);
     }
 
-    public HitoResponse actualizar(Long usuarioId, Long id, HitoRequest request) {
-        Hito h = getOwned(usuarioId, id);
-        HitoMapper.updateEntity(h, request);
-        Hito saved = repository.save(h);
-        return HitoMapper.toResponse(saved);
+    public HitoResponse actualizar(Long usuarioId, Long id, HitoRequest req) {
+        Hito h = repository.findFirstByIdAndUsuarioId(id, usuarioId);
+        if (h == null) {
+            throw new NotFoundException("Hito no encontrado");
+        }
+
+        if (req.getBebeId() != null) {
+            h.setBebeId(req.getBebeId());
+        }
+        if (req.getFecha() != null) {
+            h.setFecha(req.getFecha());
+        }
+        if (req.getDescripcion() != null) {
+            h.setDescripcion(req.getDescripcion());
+        }
+        if (req.getImagenUrl() != null) {
+            h.setImagenUrl(req.getImagenUrl());
+        }
+        if (req.getTitulo() != null) {
+            h.setTitulo(req.getTitulo());
+        }
+
+        h = repository.save(h);
+        return HitoMapper.toResponse(h);
     }
 
     public void eliminar(Long usuarioId, Long id) {
@@ -79,9 +110,10 @@ public class HitoServiceImpl implements HitoService {
     // --- helpers ---
 
     private Hito getOwned(Long usuarioId, Long id) {
-        Hito h = repository.findById(id).orElse(null);
-        if (h == null || !h.getUsuarioId().equals(usuarioId)) {
-            throw new ResourceNotFoundException("Hito no encontrado para el usuario actual");
+        Hito h = repository.findFirstByIdAndUsuarioId(id, usuarioId);
+        if (h == null) {
+            log.debug("Hito no encontrado o no pertenece al usuario. id={}, usuarioId={}", id, usuarioId);
+            throw new NotFoundException("Hito no encontrado");
         }
         return h;
     }
