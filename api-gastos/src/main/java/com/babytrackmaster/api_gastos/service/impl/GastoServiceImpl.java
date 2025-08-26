@@ -6,8 +6,6 @@ import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import com.babytrackmaster.api_gastos.exception.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -20,11 +18,11 @@ import com.babytrackmaster.api_gastos.dto.GastoUpdateRequest;
 import com.babytrackmaster.api_gastos.dto.ResumenMensualResponse;
 import com.babytrackmaster.api_gastos.entity.CategoriaGasto;
 import com.babytrackmaster.api_gastos.entity.Gasto;
+import com.babytrackmaster.api_gastos.exception.NotFoundException;
 import com.babytrackmaster.api_gastos.mapper.GastoMapper;
 import com.babytrackmaster.api_gastos.repository.CategoriaGastoRepository;
 import com.babytrackmaster.api_gastos.repository.GastoRepository;
 import com.babytrackmaster.api_gastos.service.GastoService;
-
 
 import lombok.RequiredArgsConstructor;
 
