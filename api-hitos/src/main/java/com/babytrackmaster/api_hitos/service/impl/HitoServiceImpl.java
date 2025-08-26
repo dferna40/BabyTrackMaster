@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.antlr.v4.runtime.tree.xpath.XPathRuleElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import com.babytrackmaster.api_hitos.dto.HitoRequest;
 import com.babytrackmaster.api_hitos.dto.HitoResponse;
 import com.babytrackmaster.api_hitos.entity.Hito;
 import com.babytrackmaster.api_hitos.exception.NotFoundException;
-import com.babytrackmaster.api_hitos.exception.ResourceNotFoundException;
 import com.babytrackmaster.api_hitos.mapper.HitoMapper;
 import com.babytrackmaster.api_hitos.repository.HitoRepository;
 import com.babytrackmaster.api_hitos.service.HitoService;
@@ -71,13 +69,19 @@ public class HitoServiceImpl implements HitoService {
     }
 
     public void eliminar(Long usuarioId, Long id) {
-        Hito h = getOwned(usuarioId, id);
+    	Hito h = repository.findOneByIdAndUsuario(id, usuarioId);
+        if (h == null) {
+            throw new NotFoundException("Hito no encontrado");
+        }
         repository.delete(h);
     }
 
     @Transactional(readOnly = true)
     public HitoResponse obtener(Long usuarioId, Long id) {
-        Hito h = getOwned(usuarioId, id);
+        Hito h = repository.findOneByIdAndUsuario(id, usuarioId);
+        if (h == null) {
+            throw new NotFoundException("Hito no encontrado");
+        }
         return HitoMapper.toResponse(h);
     }
 

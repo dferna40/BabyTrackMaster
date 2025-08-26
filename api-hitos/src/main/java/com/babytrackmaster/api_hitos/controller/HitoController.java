@@ -1,9 +1,5 @@
 package com.babytrackmaster.api_hitos.controller;
 
-import java.time.YearMonth;
-import java.util.List;
-
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,13 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.babytrackmaster.api_hitos.dto.HitoRequest;
 import com.babytrackmaster.api_hitos.dto.HitoResponse;
 import com.babytrackmaster.api_hitos.security.JwtService;
-import com.babytrackmaster.api_hitos.security.UserPrincipal;
 import com.babytrackmaster.api_hitos.service.HitoService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -55,20 +49,27 @@ public class HitoController {
         HitoResponse resp = service.actualizar(userId, id, request);
         return ResponseEntity.ok(resp);
     }
-//    
 
-//
-//    @Operation(summary = "Eliminar hito")
-//    @DeleteMapping("/{id}")
-//    public void eliminar(Authentication auth, @PathVariable Long id) {
-//        service.eliminar(getUsuarioId(auth), id);
-//    }
-//
-//    @Operation(summary = "Obtener hito por id")
-//    @GetMapping("/{id}")
-//    public HitoResponse obtener(Authentication auth, @PathVariable Long id) {
-//        return service.obtener(getUsuarioId(auth), id);
-//    }
+    @Operation(summary = "Eliminar un hito")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        Long userId = jwtService.resolveUserId();
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        service.eliminar(userId, id);
+        return ResponseEntity.noContent().build();
+    }
+    
+    @Operation(summary = "Obtener un hito")
+    @GetMapping("/{id}")
+    public ResponseEntity<HitoResponse> obtener(@PathVariable Long id) {
+        Long userId = jwtService.resolveUserId();
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(service.obtener(userId, id));
+    }
 //
 //    @Operation(summary = "Listar todos los hitos del usuario")
 //    @GetMapping
