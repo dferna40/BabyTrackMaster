@@ -70,13 +70,13 @@ public class HitoController {
         }
         return ResponseEntity.ok(service.obtener(userId, id));
     }
-//
+
 //    @Operation(summary = "Listar todos los hitos del usuario")
 //    @GetMapping
 //    public List<HitoResponse> listar(Authentication auth) {
 //        return service.listar(getUsuarioId(auth));
 //    }
-//
+
 //    @Operation(summary = "Listar por bebé")
 //    @GetMapping("/bebe/{bebeId}")
 //    public List<HitoResponse> listarPorBebe(Authentication auth, @PathVariable Long bebeId) {
