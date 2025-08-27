@@ -78,7 +78,7 @@ BabyTrackMaster/
 
 ## 📦 Estado del Proyecto
 
-✅ Estructura inicial creada de todos los microservicios
+### ✅ Estructura inicial creada de todos los microservicios
 Microservicios creados:
 	✅ Microservicio `config-server`
 	✅ Microservicio `api-usuarios`
