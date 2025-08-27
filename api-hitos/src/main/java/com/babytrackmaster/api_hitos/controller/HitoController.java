@@ -77,19 +77,19 @@ public class HitoController {
 //        return service.listar(getUsuarioId(auth));
 //    }
 
-//    @Operation(summary = "Listar por bebé")
+//    @Operation(summary = "Listar del usuario por bebé")
 //    @GetMapping("/bebe/{bebeId}")
 //    public List<HitoResponse> listarPorBebe(Authentication auth, @PathVariable Long bebeId) {
 //        return service.listarPorBebe(getUsuarioId(auth), bebeId);
 //    }
 //
-//    @Operation(summary = "Listar por mes (YYYY-MM)")
+//    @Operation(summary = "Listar todos los hitos del usuario por mes (YYYY-MM)")
 //    @GetMapping("/mes/{yyyyMM}")
 //    public List<HitoResponse> listarPorMes(Authentication auth, @PathVariable("yyyyMM") @DateTimeFormat(pattern = "yyyy-MM") YearMonth mes) {
 //        return service.listarPorMes(getUsuarioId(auth), mes);
 //    }
 //
-//    @Operation(summary = "Buscar por título (contiene)")
+//    @Operation(summary = "Buscar el hito del usuario por título (contiene)")
 //    @GetMapping("/buscar")
 //    public List<HitoResponse> buscarPorTitulo(Authentication auth, @RequestParam("q") String q) {
 //        return service.buscarPorTitulo(getUsuarioId(auth), q);

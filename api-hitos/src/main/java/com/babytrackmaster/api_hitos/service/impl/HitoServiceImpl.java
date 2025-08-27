@@ -86,25 +86,6 @@ public class HitoServiceImpl implements HitoService {
         return HitoMapper.toResponse(h);
     }
 
-//    @Transactional(readOnly = true)
-//    public HitoResponse obtener(Long usuarioId, Long id) {
-//        Hito h = repository.findOneByIdAndUsuario(id, usuarioId);
-//        if (h == null) {
-//            throw new NotFoundException("Hito no encontrado");
-//        }
-//        return HitoMapper.toResponse(h);
-//    }
-    
-    
-//    public HitoResponse obtener(Long id, Long usuarioId) {
-//        log.debug("[HITOS] Buscar id={}, usuarioId={}", id, usuarioId);
-//        Hito hito = repository.findByIdAndUsuarioId(id, usuarioId);
-//        if (hito == null) {
-//            throw new NotFoundException("Hito no encontrado");
-//        }
-//        return HitoMapper.toResponse(hito);
-//    } 
-
     @Transactional(readOnly = true)
     public List<HitoResponse> listar(Long usuarioId) {
         List<Hito> lista = repository.findByUsuarioIdOrderByFechaDesc(usuarioId);
