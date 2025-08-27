@@ -68,22 +68,42 @@ public class HitoServiceImpl implements HitoService {
         return HitoMapper.toResponse(h);
     }
 
+//    public void eliminar(Long usuarioId, Long id) {
+//    	Hito h = repository.findOneByIdAndUsuario(id, usuarioId);
+//        if (h == null) {
+//            throw new NotFoundException("Hito no encontrado");
+//        }
+//        repository.delete(h);
+//    }
     public void eliminar(Long usuarioId, Long id) {
-    	Hito h = repository.findOneByIdAndUsuario(id, usuarioId);
-        if (h == null) {
-            throw new NotFoundException("Hito no encontrado");
-        }
+    	Hito h = getOwned(usuarioId, id);
         repository.delete(h);
     }
-
+    
     @Transactional(readOnly = true)
     public HitoResponse obtener(Long usuarioId, Long id) {
-        Hito h = repository.findOneByIdAndUsuario(id, usuarioId);
-        if (h == null) {
-            throw new NotFoundException("Hito no encontrado");
-        }
+    	Hito h = getOwned(usuarioId, id);
         return HitoMapper.toResponse(h);
     }
+
+//    @Transactional(readOnly = true)
+//    public HitoResponse obtener(Long usuarioId, Long id) {
+//        Hito h = repository.findOneByIdAndUsuario(id, usuarioId);
+//        if (h == null) {
+//            throw new NotFoundException("Hito no encontrado");
+//        }
+//        return HitoMapper.toResponse(h);
+//    }
+    
+    
+//    public HitoResponse obtener(Long id, Long usuarioId) {
+//        log.debug("[HITOS] Buscar id={}, usuarioId={}", id, usuarioId);
+//        Hito hito = repository.findByIdAndUsuarioId(id, usuarioId);
+//        if (hito == null) {
+//            throw new NotFoundException("Hito no encontrado");
+//        }
+//        return HitoMapper.toResponse(hito);
+//    } 
 
     @Transactional(readOnly = true)
     public List<HitoResponse> listar(Long usuarioId) {
@@ -113,13 +133,20 @@ public class HitoServiceImpl implements HitoService {
 
     // --- helpers ---
 
+//    private Hito getOwned(Long usuarioId, Long id) {
+//        Hito h = repository.findFirstByIdAndUsuarioId(id, usuarioId);
+//        if (h == null) {
+//            log.debug("Hito no encontrado o no pertenece al usuario. id={}, usuarioId={}", id, usuarioId);
+//            throw new NotFoundException("Hito no encontrado");
+//        }
+//        return h;
+//    }
+    
     private Hito getOwned(Long usuarioId, Long id) {
-        Hito h = repository.findFirstByIdAndUsuarioId(id, usuarioId);
-        if (h == null) {
+    	return repository.findByIdAndUsuarioId(id, usuarioId).orElseThrow(() -> {
             log.debug("Hito no encontrado o no pertenece al usuario. id={}, usuarioId={}", id, usuarioId);
-            throw new NotFoundException("Hito no encontrado");
-        }
-        return h;
+            return new NotFoundException("Hito no encontrado");
+        });
     }
 
     private List<HitoResponse> mapList(List<Hito> lista) {
