@@ -1,9 +1,11 @@
 package com.babytrackmaster.api_rutinas.dto;
 
 import lombok.Data;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 
 @Data
+@Schema(name = "RutinaCreateDTO", description = "Datos para registrar una rutina")
 public class RutinaCreateDTO {
 
     @NotBlank

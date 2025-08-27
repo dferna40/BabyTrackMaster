@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
+@Schema(name = "RutinaDTO", description = "Datos de una rutina")
 public class RutinaDTO {
     private Long id;
     @Schema(example = "Paseo de la mañana")
