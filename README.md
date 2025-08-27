@@ -91,6 +91,7 @@ BabyTrackMaster/
 - 🧱 Microservicio `api-diario`
 - 🧱 Microservicio `api-bff`
 - 🧱 Microservicio `api-gateway`
+- 🧱 Frontend
 ---
 
 ## 🔐 Seguridad
