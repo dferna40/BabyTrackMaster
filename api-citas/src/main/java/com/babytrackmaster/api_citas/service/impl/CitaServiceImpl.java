@@ -1,0 +1,104 @@
+package com.babytrackmaster.api_citas.service.impl;
+
+import com.babytrackmaster.api_citas.dto.*;
+import com.babytrackmaster.api_citas.entity.Cita;
+import com.babytrackmaster.api_citas.enums.*;
+import com.babytrackmaster.api_citas.exception.NotFoundException;
+import com.babytrackmaster.api_citas.mapper.CitaMapper;
+import com.babytrackmaster.api_citas.repository.CitaRepository;
+import com.babytrackmaster.api_citas.service.CitaService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
+import org.springframework.stereotype.Service;
+
+import java.time.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class CitaServiceImpl implements CitaService {
+
+    private final CitaRepository repo;
+
+    public CitaResponseDTO crear(CitaCreateDTO dto, Long usuarioId) {
+        Cita c = CitaMapper.toEntity(dto, usuarioId);
+        c = repo.save(c);
+        return CitaMapper.toDTO(c);
+    }
+
+    public CitaResponseDTO actualizar(Long id, Long usuarioId, CitaUpdateDTO dto) {
+        Cita c = repo.findOneByIdAndUsuario(id, usuarioId);
+        if (c == null) {
+            throw new NotFoundException("Cita no encontrada");
+        }
+        CitaMapper.applyUpdate(c, dto);
+        c = repo.save(c);
+        return CitaMapper.toDTO(c);
+    }
+
+    public void eliminar(Long id, Long usuarioId) {
+        Cita c = repo.findOneByIdAndUsuario(id, usuarioId);
+        if (c == null) {
+            throw new NotFoundException("Cita no encontrada");
+        }
+        c.setEliminado(Boolean.TRUE);
+        repo.save(c);
+    }
+
+    public CitaResponseDTO obtener(Long id, Long usuarioId) {
+        Cita c = repo.findOneByIdAndUsuario(id, usuarioId);
+        if (c == null) {
+            throw new NotFoundException("Cita no encontrada");
+        }
+        return CitaMapper.toDTO(c);
+    }
+
+    public Page<CitaResponseDTO> listarRango(Long usuarioId, String desde, String hasta, int page, int size) {
+        LocalDate d1 = LocalDate.parse(desde);
+        LocalDate d2 = LocalDate.parse(hasta);
+        Pageable p = PageRequest.of(page, size);
+        Page<Cita> res = repo.listarPorRango(usuarioId, d1, d2, p);
+        List<CitaResponseDTO> list = new ArrayList<CitaResponseDTO>();
+        int i;
+        for (i = 0; i < res.getContent().size(); i++) {
+            list.add(CitaMapper.toDTO(res.getContent().get(i)));
+        }
+        return new PageImpl<CitaResponseDTO>(list, p, res.getTotalElements());
+    }
+
+    public Page<CitaResponseDTO> listarPorEstado(Long usuarioId, String estado, int page, int size) {
+        EstadoCita e = EstadoCita.valueOf(estado);
+        Pageable p = PageRequest.of(page, size);
+        Page<Cita> res = repo.listarPorEstado(usuarioId, e, p);
+        List<CitaResponseDTO> list = new ArrayList<CitaResponseDTO>();
+        int i;
+        for (i = 0; i < res.getContent().size(); i++) {
+            list.add(CitaMapper.toDTO(res.getContent().get(i)));
+        }
+        return new PageImpl<CitaResponseDTO>(list, p, res.getTotalElements());
+    }
+
+    public Page<CitaResponseDTO> listarPorTipo(Long usuarioId, String tipo, int page, int size) {
+        TipoCita t = TipoCita.valueOf(tipo);
+        Pageable p = PageRequest.of(page, size);
+        Page<Cita> res = repo.listarPorTipo(usuarioId, t, p);
+        List<CitaResponseDTO> list = new ArrayList<CitaResponseDTO>();
+        int i;
+        for (i = 0; i < res.getContent().size(); i++) {
+            list.add(CitaMapper.toDTO(res.getContent().get(i)));
+        }
+        return new PageImpl<CitaResponseDTO>(list, p, res.getTotalElements());
+    }
+
+    public Page<CitaResponseDTO> listarPorMedico(Long usuarioId, String medico, int page, int size) {
+        Pageable p = PageRequest.of(page, size);
+        Page<Cita> res = repo.listarPorMedico(usuarioId, medico, p);
+        List<CitaResponseDTO> list = new ArrayList<CitaResponseDTO>();
+        int i;
+        for (i = 0; i < res.getContent().size(); i++) {
+            list.add(CitaMapper.toDTO(res.getContent().get(i)));
+        }
+        return new PageImpl<CitaResponseDTO>(list, p, res.getTotalElements());
+    }
+}
