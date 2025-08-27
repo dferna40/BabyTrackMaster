@@ -30,7 +30,7 @@ BabyTrackMaster/
 
 ## 🧰 Tecnologías Utilizadas
 
-### 🔹 Backend
+### 🔹🛠️ Backend
 - Java 8
 - Spring Boot 3.4.2
 - Spring Security
@@ -41,7 +41,7 @@ BabyTrackMaster/
 - JWT (JSON Web Tokens)
 - Swagger / OpenAPI
 
-### 🔹 Frontend
+### 🔹🖥️ Frontend
 - React
 - Material UI
 - Axios
@@ -49,10 +49,10 @@ BabyTrackMaster/
 - JWT-decode
 
 ### 🔹 Sistema de control de versiones
-- 😺 Git 
+- Git 
 
 ### 🔹 Herramienta de gestión y automatización de proyectos
-- Ⓜ️ Maven
+- Maven
 
 ### 🔹🛢 Base de Datos
 - MySQL
@@ -80,18 +80,29 @@ BabyTrackMaster/
 
 ### ✅ Estructura inicial creada de todos los microservicios
 🔹Microservicios creados:
-- ✅ Microservicio `config-server`
-- ✅ Microservicio `api-usuarios`
-- ✅ Microservicio `api-gastos`
-- ✅ Microservicio `api-hitos`
-- ✅ Microservicio `api-cuidados`
+
+	✅ Microservicio `config-server`
+
+	✅ Microservicio `api-usuarios`
+
+	✅ Microservicio `api-gastos`
+
+	✅ Microservicio `api-hitos`
+
+	✅ Microservicio `api-cuidados`
+
   
 🔹🔜 En Desarrollo:
-- 🧱 Microservicio `api-rutinas`
-- 🧱 Microservicio `api-diario`
-- 🧱 Microservicio `api-bff`
-- 🧱 Microservicio `api-gateway`
-- 🧱 Frontend
+
+	🧱 Microservicio `api-rutinas`
+
+	🧱 Microservicio `api-diario`
+
+	🧱 Microservicio `api-bff`
+
+	🧱 Microservicio `api-gateway`
+
+	🧱 Frontend
 ---
 
 ## 🔐 Seguridad
@@ -103,4 +114,5 @@ Todos los endpoints están protegidos con JWT y Spring Security. Se utilizan rol
 ## 📝 Licencia
 
 Este proyecto es de uso personal y educativo. Todos los derechos reservados.
+
 ©️ Desarrollado por **David Fernández Ramírez**
