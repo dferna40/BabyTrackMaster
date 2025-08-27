@@ -1,12 +1,15 @@
 package com.babytrackmaster.api_cuidados.dto;
 
+import java.util.Date;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
+@Schema(name = "CuidadoRequest", description = "Datos para crear/actualizar un cuidado")
 public class CuidadoRequest {
+	@Schema(example = "1", description = "ID del bebé al que pertenece el cuidado")
     @NotNull private Long bebeId;
     @NotNull private Long usuarioId;
     @NotNull private TipoCuidado tipo;

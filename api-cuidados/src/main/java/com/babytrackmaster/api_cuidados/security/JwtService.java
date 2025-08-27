@@ -1,4 +1,4 @@
-package com.babytrackmaster.api_cuidados.service;
+package com.babytrackmaster.api_cuidados.security;
 
 import java.security.Key;
 import java.util.Collection;
