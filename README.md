@@ -77,12 +77,10 @@ BabyTrackMaster/
 
 ## 📦 Estado del Proyecto
 
-�?Estructura inicial creada de todos los microservicios
-�?Microservicio `config-server`
-�?Microservicio `api-usuarios`
-�?Microservicio `api-gastos`
-�?Microservicio `api-hitos`
-�?Microservicio `api-cuidados`
+✅ Estructura inicial creada de todos los microservicios
+✅ Microservicio `config-server`
+✅ Microservicio `api-usuarios`
+🔜 Desarrollo del `config-server` y microservicio `api-usuarios`  
 
 ---
 
@@ -95,4 +93,4 @@ Todos los endpoints están protegidos con JWT y Spring Security. Se utilizan rol
 ## 📝 Licencia
 
 Este proyecto es de uso personal y educativo. Todos los derechos reservados.
-©�?Desarrollado por **David Fernández Ramírez**
+©️ Desarrollado por **David Fernández Ramírez**
