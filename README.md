@@ -49,12 +49,12 @@ BabyTrackMaster/
 - JWT-decode
 
 ### 🔹 Sistema de control de versiones
-- Git
+- 😺 Git 
 
 ### 🔹 Herramienta de gestión y automatización de proyectos
-- Maven
+- Ⓜ️ Maven
 
-### 🔹 Base de Datos
+### 🔹🛢 Base de Datos
 - MySQL
 	- api_usuario_db
 	- api_rutinas_db
@@ -65,14 +65,14 @@ BabyTrackMaster/
 	- api_citas_db
 
 ### 🔹 Infraestructura y DevOps
-- Docker & Docker Compose
-- Jenkins (CI/CD)
-- Prometheus + Grafana (monitorización)
+- 🐋 Docker & Docker Compose
+- 🤵🏻‍♂️ Jenkins (CI/CD)
+- 🔥 Prometheus + Grafana (monitorización)
 - ELK Stack (Elasticsearch, Logstash, Kibana) para logs
 
 ### 🔹 Otros Servicios
-- Mailtrap / SMTP (envío de correos)
-- Amazon S3 o Cloudinary (almacenamiento de imágenes)
+- 📨 Mailtrap / SMTP (envío de correos)
+- 📦Amazon S3 o Cloudinary (almacenamiento de imágenes)
 
 ---
 
