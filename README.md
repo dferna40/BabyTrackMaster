@@ -20,6 +20,7 @@ BabyTrackMaster/
 ├── api-citas/           # Citas médicas y recordatorios						#Puerto: 8084
 ├── api-diario/          # Diario emocional y personal							#Puerto: 8085
 ├── api-rutinas/         # Planificación de rutinas del bebé					#Puerto: 8086
+├── api-bff/         	 # Agrega y transforma datos de microservicios			#Puerto: 8087
 ├── api-gateway/         # Puerta de entrada y routing de peticiones			#Puerto: 8090
 ├── frontend/            # Aplicación React con Material UI						
 └── documentacion/       # Documentación funcional, técnica y wireframes		
@@ -78,10 +79,17 @@ BabyTrackMaster/
 ## 📦 Estado del Proyecto
 
 ✅ Estructura inicial creada de todos los microservicios
-✅ Microservicio `config-server`
-✅ Microservicio `api-usuarios`
-🔜 Desarrollo del `config-server` y microservicio `api-usuarios`  
-
+Microservicios creados:
+	✅ Microservicio `config-server`
+	✅ Microservicio `api-usuarios`
+	✅ Microservicio `api-gastos`
+	✅ Microservicio `api-hitos`
+	✅ Microservicio `api-cuidados`
+🔜 En Desarrollo:
+	🧱 Microservicio `api-rutinas`
+ 	🧱 Microservicio `api-diario`
+  	🧱 Microservicio `api-bff`
+    🧱 Microservicio `api-gateway`
 ---
 
 ## 🔐 Seguridad
