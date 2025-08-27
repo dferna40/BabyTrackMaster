@@ -68,13 +68,6 @@ public class HitoServiceImpl implements HitoService {
         return HitoMapper.toResponse(h);
     }
 
-//    public void eliminar(Long usuarioId, Long id) {
-//    	Hito h = repository.findOneByIdAndUsuario(id, usuarioId);
-//        if (h == null) {
-//            throw new NotFoundException("Hito no encontrado");
-//        }
-//        repository.delete(h);
-//    }
     public void eliminar(Long usuarioId, Long id) {
     	Hito h = getOwned(usuarioId, id);
         repository.delete(h);

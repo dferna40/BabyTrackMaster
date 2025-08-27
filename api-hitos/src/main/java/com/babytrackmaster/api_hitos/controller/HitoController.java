@@ -1,5 +1,9 @@
 package com.babytrackmaster.api_hitos.controller;
 
+import java.time.YearMonth;
+import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.babytrackmaster.api_hitos.dto.HitoRequest;
@@ -71,27 +76,27 @@ public class HitoController {
         return ResponseEntity.ok(service.obtener(userId, id));
     }
 
-//    @Operation(summary = "Listar todos los hitos del usuario")
-//    @GetMapping
-//    public List<HitoResponse> listar(Authentication auth) {
-//        return service.listar(getUsuarioId(auth));
-//    }
+    @Operation(summary = "Listar todos los hitos del usuario")
+    @GetMapping
+    public List<HitoResponse> listar(Authentication auth) {
+        return service.listar(jwtService.resolveUserId());
+    }
 
-//    @Operation(summary = "Listar del usuario por bebé")
-//    @GetMapping("/bebe/{bebeId}")
-//    public List<HitoResponse> listarPorBebe(Authentication auth, @PathVariable Long bebeId) {
-//        return service.listarPorBebe(getUsuarioId(auth), bebeId);
-//    }
-//
-//    @Operation(summary = "Listar todos los hitos del usuario por mes (YYYY-MM)")
-//    @GetMapping("/mes/{yyyyMM}")
-//    public List<HitoResponse> listarPorMes(Authentication auth, @PathVariable("yyyyMM") @DateTimeFormat(pattern = "yyyy-MM") YearMonth mes) {
-//        return service.listarPorMes(getUsuarioId(auth), mes);
-//    }
-//
-//    @Operation(summary = "Buscar el hito del usuario por título (contiene)")
-//    @GetMapping("/buscar")
-//    public List<HitoResponse> buscarPorTitulo(Authentication auth, @RequestParam("q") String q) {
-//        return service.buscarPorTitulo(getUsuarioId(auth), q);
-//    }
+    @Operation(summary = "Listar del usuario por bebé")
+    @GetMapping("/bebe/{bebeId}")
+    public List<HitoResponse> listarPorBebe(Authentication auth, @PathVariable Long bebeId) {
+        return service.listarPorBebe(jwtService.resolveUserId(), bebeId);
+    }
+
+    @Operation(summary = "Listar todos los hitos del usuario por mes (YYYY-MM)")
+    @GetMapping("/mes/{yyyyMM}")
+    public List<HitoResponse> listarPorMes(Authentication auth, @PathVariable("yyyyMM") @DateTimeFormat(pattern = "yyyy-MM") YearMonth mes) {
+        return service.listarPorMes(jwtService.resolveUserId(), mes);
+    }
+
+    @Operation(summary = "Buscar el hito del usuario por título (contiene)")
+    @GetMapping("/buscar")
+    public List<HitoResponse> buscarPorTitulo(Authentication auth, @RequestParam("q") String q) {
+        return service.buscarPorTitulo(jwtService.resolveUserId(), q);
+    }
 }
