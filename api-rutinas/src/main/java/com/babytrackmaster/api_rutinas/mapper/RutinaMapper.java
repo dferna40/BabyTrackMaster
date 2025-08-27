@@ -7,6 +7,14 @@ import com.babytrackmaster.api_rutinas.dto.RutinaDTO;
 import com.babytrackmaster.api_rutinas.entity.Rutina;
 
 public class RutinaMapper {
+	
+	private static LocalTime parseHora(String valor) {
+        try {
+            return LocalTime.parse(valor);
+        } catch (RuntimeException ex) {
+            throw new IllegalArgumentException("horaProgramada inválida. Usa HH:mm o HH:mm:ss");
+        }
+    }
 
     public static Rutina toEntity(RutinaCreateDTO dto, Long usuarioId) {
         Rutina r = new Rutina();

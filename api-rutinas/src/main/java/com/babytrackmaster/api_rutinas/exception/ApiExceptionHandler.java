@@ -17,4 +17,14 @@ public class ApiExceptionHandler {
     public ResponseEntity<String> handleBadRequest(IllegalArgumentException ex){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
+    
+    @ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleValidation(org.springframework.web.bind.MethodArgumentNotValidException ex) {
+        String msg = "Datos inválidos";
+        if (ex.getBindingResult() != null && ex.getBindingResult().getFieldError() != null) {
+            msg = ex.getBindingResult().getFieldError().getField() + ": " +
+                  ex.getBindingResult().getFieldError().getDefaultMessage();
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(msg);
+    }
 }

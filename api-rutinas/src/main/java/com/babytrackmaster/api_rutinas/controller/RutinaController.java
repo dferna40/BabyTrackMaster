@@ -26,93 +26,158 @@ import com.babytrackmaster.api_rutinas.dto.RutinaEjecucionDTO;
 import com.babytrackmaster.api_rutinas.security.JwtService;
 import com.babytrackmaster.api_rutinas.service.RutinaService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/rutinas")
+@Tag(name = "Rutinas", description = "Gestión de rutinas y su historial de ejecuciones")
 public class RutinaController {
 
-    @Autowired
-    private RutinaService rutinaService;
-    
-    @Autowired
-    private JwtService jwtService;
+	@Autowired
+	private RutinaService rutinaService;
 
-    // TODO: reemplaza por tu servicio real de JWT/seguridad
-    private Long getUsuarioIdDesdeToken() {
-        // En tu proyecto real: extraer del SecurityContext/claims.
-        // Aquí dejamos un “stub” que debe ser reemplazado.
-        return jwtService.resolveUserId(); 
-    }
+	@Autowired
+	private JwtService jwtService;
 
-    @PostMapping
-    public ResponseEntity<RutinaDTO> crear(@Valid @RequestBody RutinaCreateDTO dto) {
-        Long usuarioId = getUsuarioIdDesdeToken();
-        RutinaDTO res = rutinaService.crear(usuarioId, dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(res);
-    }
+	// TODO: reemplaza por tu servicio real de JWT/seguridad
+	private Long getUsuarioIdDesdeToken() {
+		// En tu proyecto real: extraer del SecurityContext/claims.
+		// Aquí dejamos un “stub” que debe ser reemplazado.
+		return jwtService.resolveUserId();
+	}
 
-    @GetMapping("/{id}")
-    public ResponseEntity<RutinaDTO> obtener(@PathVariable Long id) {
-        Long usuarioId = getUsuarioIdDesdeToken();
-        return ResponseEntity.ok(rutinaService.obtener(usuarioId, id));
-    }
+	// -------------------------------------------------------------------------
+	// Crear
+	// -------------------------------------------------------------------------
+	@Operation(summary = "Crear una rutina", description = "Crea una nueva rutina para el usuario autenticado")
+	@PostMapping
+	public ResponseEntity<RutinaDTO> crear(
+			@Valid @org.springframework.web.bind.annotation.RequestBody RutinaCreateDTO dto) {
+		Long usuarioId = getUsuarioIdDesdeToken();
+		RutinaDTO res = rutinaService.crear(usuarioId, dto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(res);
+	}
 
-    @PutMapping("/{id}")
-    public ResponseEntity<RutinaDTO> actualizar(@PathVariable Long id, @Valid @RequestBody RutinaCreateDTO dto) {
-        Long usuarioId = getUsuarioIdDesdeToken();
-        return ResponseEntity.ok(rutinaService.actualizar(usuarioId, id, dto));
-    }
+	// -------------------------------------------------------------------------
+	// Obtener por id
+	// -------------------------------------------------------------------------
+	@Operation(summary = "Obtener una rutina", description = "Devuelve una rutina por su identificador si pertenece al usuario.")
+	@GetMapping("/{id}")
+	public ResponseEntity<RutinaDTO> obtener(
+			@Parameter(description = "ID de la rutina", example = "1") @PathVariable Long id) {
+		Long usuarioId = getUsuarioIdDesdeToken();
+		return ResponseEntity.ok(rutinaService.obtener(usuarioId, id));
+	}
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        Long usuarioId = getUsuarioIdDesdeToken();
-        rutinaService.eliminar(usuarioId, id);
-        return ResponseEntity.noContent().build();
-    }
+	// -------------------------------------------------------------------------
+	// Actualizar
+	// -------------------------------------------------------------------------
+	@Operation(summary = "Actualizar una rutina", description = "Actualiza los datos de una rutina propia.")
+	@PutMapping("/{id}")
+	public ResponseEntity<RutinaDTO> actualizar(
+			@Parameter(description = "ID de la rutina", example = "1") @PathVariable Long id,
+			@Valid @org.springframework.web.bind.annotation.RequestBody RutinaCreateDTO dto) {
+		Long usuarioId = getUsuarioIdDesdeToken();
+		return ResponseEntity.ok(rutinaService.actualizar(usuarioId, id, dto));
+	}
 
+	// -------------------------------------------------------------------------
+	// Eliminar
+	// -------------------------------------------------------------------------
+	@Operation(summary = "Eliminar una rutina", description = "Elimina una rutina propia.")
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> eliminar(
+			@Parameter(description = "ID de la rutina", example = "1") @PathVariable Long id) {
+		Long usuarioId = getUsuarioIdDesdeToken();
+		rutinaService.eliminar(usuarioId, id);
+		return ResponseEntity.noContent().build();
+	}
+
+	// -------------------------------------------------------------------------
+    // Listar (con filtros y paginación)
+    // -------------------------------------------------------------------------
+    @Operation(
+        summary = "Listar rutinas",
+        description = "Lista las rutinas propias con filtros opcionales por activo y día, y con paginación/ordenación."
+    )
     @GetMapping
     public ResponseEntity<Page<RutinaDTO>> listar(
+            @Parameter(description = "Filtra por estado activo/inactivo", example = "true")
             @RequestParam(required = false) Boolean activo,
-            @RequestParam(required = false) String dia, // "L" o "1"
+            @Parameter(description = "Filtra por día. Puede ser letra (L,M,X,J,V,S,D) o número (1..7)", example = "L")
+            @RequestParam(required = false) String dia,
+            @Parameter(description = "Página (0-based)", example = "0")
             @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "Tamaño de página", example = "10")
             @RequestParam(defaultValue = "10") int size,
+            @Parameter(description = "Orden (campo,dir). Ej: id,desc o nombre,asc", example = "id,desc")
             @RequestParam(defaultValue = "id,desc") String sort
     ) {
-        Long usuarioId = getUsuarioIdDesdeToken();
-        String[] parts = sort.split(",");
-        Sort.Direction dir = parts.length > 1 && "asc".equalsIgnoreCase(parts[1]) ? Sort.Direction.ASC : Sort.Direction.DESC;
-        Pageable pageable = PageRequest.of(page, size, Sort.by(new Sort.Order(dir, parts[0])));
-        Page<RutinaDTO> res = rutinaService.listar(usuarioId, activo, dia, pageable);
-        return ResponseEntity.ok(res);
-    }
+		Long usuarioId = getUsuarioIdDesdeToken();
+		String[] parts = sort.split(",");
+		Sort.Direction dir = parts.length > 1 && "asc".equalsIgnoreCase(parts[1]) ? Sort.Direction.ASC
+				: Sort.Direction.DESC;
+		Pageable pageable = PageRequest.of(page, size, Sort.by(new Sort.Order(dir, parts[0])));
+		Page<RutinaDTO> res = rutinaService.listar(usuarioId, activo, dia, pageable);
+		return ResponseEntity.ok(res);
+	}
 
+ // -------------------------------------------------------------------------
+    // Activar / Desactivar
+    // -------------------------------------------------------------------------
+    @Operation(summary = "Activar rutina", description = "Marca una rutina como activa.")
     @PostMapping("/{id}/activar")
-    public ResponseEntity<RutinaDTO> activar(@PathVariable Long id) {
-        Long usuarioId = getUsuarioIdDesdeToken();
-        return ResponseEntity.ok(rutinaService.activar(usuarioId, id));
-    }
+    public ResponseEntity<RutinaDTO> activar(
+            @Parameter(description = "ID de la rutina", example = "1")
+            @PathVariable Long id) {
+		Long usuarioId = getUsuarioIdDesdeToken();
+		return ResponseEntity.ok(rutinaService.activar(usuarioId, id));
+	}
 
+    @Operation(summary = "Desactivar rutina", description = "Marca una rutina como inactiva.")
     @PostMapping("/{id}/desactivar")
-    public ResponseEntity<RutinaDTO> desactivar(@PathVariable Long id) {
-        Long usuarioId = getUsuarioIdDesdeToken();
-        return ResponseEntity.ok(rutinaService.desactivar(usuarioId, id));
-    }
+    public ResponseEntity<RutinaDTO> desactivar(
+            @Parameter(description = "ID de la rutina", example = "1")
+            @PathVariable Long id) {
+		Long usuarioId = getUsuarioIdDesdeToken();
+		return ResponseEntity.ok(rutinaService.desactivar(usuarioId, id));
+	}
 
+ // -------------------------------------------------------------------------
+    // Registrar ejecución
+    // -------------------------------------------------------------------------
+    @Operation(summary = "Registrar ejecución", description = "Registra una ejecución para la rutina indicada.")
     @PostMapping("/{id}/ejecuciones")
-    public ResponseEntity<RutinaEjecucionDTO> registrarEjecucion(@PathVariable Long id,
-                                                                 @Valid @RequestBody RutinaEjecucionCreateDTO dto) {
-        Long usuarioId = getUsuarioIdDesdeToken();
-        return ResponseEntity.status(HttpStatus.CREATED).body(rutinaService.registrarEjecucion(usuarioId, id, dto));
-    }
+    public ResponseEntity<RutinaEjecucionDTO> registrarEjecucion(
+            @Parameter(description = "ID de la rutina", example = "1")
+            @PathVariable Long id,
+            @Valid
+            @org.springframework.web.bind.annotation.RequestBody RutinaEjecucionCreateDTO dto) {
+		Long usuarioId = getUsuarioIdDesdeToken();
+		return ResponseEntity.status(HttpStatus.CREATED).body(rutinaService.registrarEjecucion(usuarioId, id, dto));
+	}
 
+ // -------------------------------------------------------------------------
+    // Historial
+    // -------------------------------------------------------------------------
+    @Operation(summary = "Historial de ejecuciones", description = "Devuelve el historial de ejecuciones de una rutina en un rango de fechas (opcional).")
     @GetMapping("/{id}/ejecuciones")
-    public ResponseEntity<java.util.List<RutinaEjecucionDTO>> historial(@PathVariable Long id,
-                                                                        @RequestParam(required=false) String desde,
-                                                                        @RequestParam(required=false) String hasta) {
-        Long usuarioId = getUsuarioIdDesdeToken();
-        LocalDate d = (desde != null && desde.length() > 0) ? LocalDate.parse(desde) : null;
-        LocalDate h = (hasta != null && hasta.length() > 0) ? LocalDate.parse(hasta) : null;
-        return ResponseEntity.ok(rutinaService.historial(usuarioId, id, d, h));
-    }
+    public ResponseEntity<java.util.List<RutinaEjecucionDTO>> historial(
+            @Parameter(description = "ID de la rutina", example = "1")
+            @PathVariable Long id,
+            @Parameter(description = "Fecha desde (incluida) en formato YYYY-MM-DD", example = "2025-08-01")
+            @RequestParam(required = false) String desde,
+            @Parameter(description = "Fecha hasta (incluida) en formato YYYY-MM-DD", example = "2025-08-31")
+            @RequestParam(required = false) String hasta) {
+		Long usuarioId = getUsuarioIdDesdeToken();
+		LocalDate d = (desde != null && desde.length() > 0) ? LocalDate.parse(desde) : null;
+		LocalDate h = (hasta != null && hasta.length() > 0) ? LocalDate.parse(hasta) : null;
+		return ResponseEntity.ok(rutinaService.historial(usuarioId, id, d, h));
+	}
 }
