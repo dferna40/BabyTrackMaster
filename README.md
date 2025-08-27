@@ -80,16 +80,16 @@ BabyTrackMaster/
 
 ### ✅ Estructura inicial creada de todos los microservicios
 🔹Microservicios creados:
-	### ✅ Microservicio `config-server`
-	✅ Microservicio `api-usuarios`
-	✅ Microservicio `api-gastos`
-	✅ Microservicio `api-hitos`
-	✅ Microservicio `api-cuidados`
-🔜 En Desarrollo:
-	🧱 Microservicio `api-rutinas`
- 	🧱 Microservicio `api-diario`
-  	🧱 Microservicio `api-bff`
-    🧱 Microservicio `api-gateway`
+- ✅ Microservicio `config-server`
+- ✅ Microservicio `api-usuarios`
+- ✅ Microservicio `api-gastos`
+- ✅ Microservicio `api-hitos`
+- ✅ Microservicio `api-cuidados`
+🔹🔜 En Desarrollo:
+- 🧱 Microservicio `api-rutinas`
+- 🧱 Microservicio `api-diario`
+- 🧱 Microservicio `api-bff`
+- 🧱 Microservicio `api-gateway`
 ---
 
 ## 🔐 Seguridad
