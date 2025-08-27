@@ -85,7 +85,8 @@ BabyTrackMaster/
 - ✅ Microservicio `api-gastos`
 - ✅ Microservicio `api-hitos`
 - ✅ Microservicio `api-cuidados`
-###🔹🔜 En Desarrollo:
+  
+🔹🔜 En Desarrollo:
 - 🧱 Microservicio `api-rutinas`
 - 🧱 Microservicio `api-diario`
 - 🧱 Microservicio `api-bff`
