@@ -24,9 +24,9 @@ public class GastosBffController {
   private final ServiceClient client;
 
   @PostMapping
-  public ResponseEntity<GastoDTO> crear(HttpServletRequest req, @RequestBody GastoDTO body) {
+  public ResponseEntity<GastoDTO> crear(HttpServletRequest req, @RequestBody GastoDTO gasto) {
     String url = client.gastosUrl("gastos");
-    return client.post(req, url, body, GastoDTO.class);
+    return client.post(req, url, gasto, GastoDTO.class);
   }
 
   @GetMapping("/mes")
