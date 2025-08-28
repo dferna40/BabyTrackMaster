@@ -2,14 +2,15 @@ package com.babytrackmaster.api_citas.mapper;
 
 import com.babytrackmaster.api_citas.dto.*;
 import com.babytrackmaster.api_citas.entity.Cita;
-import com.babytrackmaster.api_citas.enums.*;
+import com.babytrackmaster.api_citas.entity.TipoCita;
+import com.babytrackmaster.api_citas.enums.EstadoCita;
 import java.time.*;
 
 public class CitaMapper {
 
     private CitaMapper() {}
 
-    public static Cita toEntity(CitaCreateDTO dto, Long usuarioId) {
+    public static Cita toEntity(CitaCreateDTO dto, Long usuarioId, TipoCita tipo) {
         Cita c = new Cita();
         c.setUsuarioId(usuarioId);
         c.setTitulo(dto.getTitulo());
@@ -18,21 +19,21 @@ public class CitaMapper {
         c.setHora(LocalTime.parse(dto.getHora()));
         c.setUbicacion(dto.getUbicacion());
         c.setMedico(dto.getMedico());
-        c.setTipo(dto.getTipo());
+        c.setTipo(tipo);
         c.setRecordatorioMinutos(dto.getRecordatorioMinutos());
         c.setEstado(EstadoCita.PENDIENTE);
         c.setEliminado(Boolean.FALSE);
         return c;
     }
 
-    public static void applyUpdate(Cita c, CitaUpdateDTO dto) {
+    public static void applyUpdate(Cita c, CitaUpdateDTO dto, TipoCita tipo) {
         if (dto.getTitulo() != null) c.setTitulo(dto.getTitulo());
         if (dto.getDescripcion() != null) c.setDescripcion(dto.getDescripcion());
         if (dto.getFecha() != null) c.setFecha(LocalDate.parse(dto.getFecha()));
         if (dto.getHora() != null) c.setHora(LocalTime.parse(dto.getHora()));
         if (dto.getUbicacion() != null) c.setUbicacion(dto.getUbicacion());
         if (dto.getMedico() != null) c.setMedico(dto.getMedico());
-        if (dto.getTipo() != null) c.setTipo(dto.getTipo());
+        if (tipo != null) c.setTipo(tipo);
         if (dto.getRecordatorioMinutos() != null) c.setRecordatorioMinutos(dto.getRecordatorioMinutos());
         if (dto.getEstado() != null) c.setEstado(dto.getEstado());
     }
@@ -47,7 +48,12 @@ public class CitaMapper {
         b.hora(c.getHora() != null ? c.getHora().toString() : null);
         b.ubicacion(c.getUbicacion());
         b.medico(c.getMedico());
-        b.tipo(c.getTipo());
+        if (c.getTipo() != null) {
+            b.tipo(TipoCitaDTO.builder()
+                    .id(c.getTipo().getId())
+                    .nombre(c.getTipo().getNombre())
+                    .build());
+        }
         b.estado(c.getEstado());
         b.recordatorioMinutos(c.getRecordatorioMinutos());
         return b.build();

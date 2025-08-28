@@ -2,10 +2,12 @@ package com.babytrackmaster.api_citas.service.impl;
 
 import com.babytrackmaster.api_citas.dto.*;
 import com.babytrackmaster.api_citas.entity.Cita;
-import com.babytrackmaster.api_citas.enums.*;
+import com.babytrackmaster.api_citas.entity.TipoCita;
+import com.babytrackmaster.api_citas.enums.EstadoCita;
 import com.babytrackmaster.api_citas.exception.NotFoundException;
 import com.babytrackmaster.api_citas.mapper.CitaMapper;
 import com.babytrackmaster.api_citas.repository.CitaRepository;
+import com.babytrackmaster.api_citas.repository.TipoCitaRepository;
 import com.babytrackmaster.api_citas.service.CitaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -20,9 +22,12 @@ import java.util.List;
 public class CitaServiceImpl implements CitaService {
 
     private final CitaRepository repo;
+    private final TipoCitaRepository tipoRepo;
 
     public CitaResponseDTO crear(CitaCreateDTO dto, Long usuarioId) {
-        Cita c = CitaMapper.toEntity(dto, usuarioId);
+        TipoCita tipo = tipoRepo.findById(dto.getTipoId())
+                .orElseThrow(() -> new NotFoundException("Tipo de cita no encontrado"));
+        Cita c = CitaMapper.toEntity(dto, usuarioId, tipo);
         c = repo.save(c);
         return CitaMapper.toDTO(c);
     }
@@ -32,7 +37,12 @@ public class CitaServiceImpl implements CitaService {
         if (c == null) {
             throw new NotFoundException("Cita no encontrada");
         }
-        CitaMapper.applyUpdate(c, dto);
+        TipoCita tipo = null;
+        if (dto.getTipoId() != null) {
+            tipo = tipoRepo.findById(dto.getTipoId())
+                    .orElseThrow(() -> new NotFoundException("Tipo de cita no encontrado"));
+        }
+        CitaMapper.applyUpdate(c, dto, tipo);
         c = repo.save(c);
         return CitaMapper.toDTO(c);
     }
@@ -79,10 +89,9 @@ public class CitaServiceImpl implements CitaService {
         return new PageImpl<CitaResponseDTO>(list, p, res.getTotalElements());
     }
 
-    public Page<CitaResponseDTO> listarPorTipo(Long usuarioId, String tipo, int page, int size) {
-        TipoCita t = TipoCita.valueOf(tipo);
+    public Page<CitaResponseDTO> listarPorTipo(Long usuarioId, Long tipoId, int page, int size) {
         Pageable p = PageRequest.of(page, size);
-        Page<Cita> res = repo.listarPorTipo(usuarioId, t, p);
+        Page<Cita> res = repo.listarPorTipo(usuarioId, tipoId, p);
         List<CitaResponseDTO> list = new ArrayList<CitaResponseDTO>();
         int i;
         for (i = 0; i < res.getContent().size(); i++) {

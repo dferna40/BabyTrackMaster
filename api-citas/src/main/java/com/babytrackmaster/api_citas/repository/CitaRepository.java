@@ -2,7 +2,6 @@ package com.babytrackmaster.api_citas.repository;
 
 import com.babytrackmaster.api_citas.entity.Cita;
 import com.babytrackmaster.api_citas.enums.EstadoCita;
-import com.babytrackmaster.api_citas.enums.TipoCita;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
@@ -30,10 +29,10 @@ public interface CitaRepository extends JpaRepository<Cita, Long> {
                                @Param("estado") EstadoCita estado,
                                Pageable pageable);
 
-    @Query("select c from Cita c where c.usuarioId = :usuarioId and c.eliminado = false and c.tipo = :tipo " +
+    @Query("select c from Cita c where c.usuarioId = :usuarioId and c.eliminado = false and c.tipo.id = :tipoId " +
            "order by c.fecha asc, c.hora asc")
     Page<Cita> listarPorTipo(@Param("usuarioId") Long usuarioId,
-                             @Param("tipo") TipoCita tipo,
+                             @Param("tipoId") Long tipoId,
                              Pageable pageable);
 
     @Query("select c from Cita c where c.usuarioId = :usuarioId and c.eliminado = false and c.medico = :medico " +

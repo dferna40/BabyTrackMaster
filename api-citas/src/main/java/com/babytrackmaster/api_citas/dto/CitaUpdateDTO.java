@@ -1,7 +1,6 @@
 package com.babytrackmaster.api_citas.dto;
 
 import com.babytrackmaster.api_citas.enums.EstadoCita;
-import com.babytrackmaster.api_citas.enums.TipoCita;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ public class CitaUpdateDTO {
     @Size(max = 120)
     private String medico;
 
-    private TipoCita tipo;
+    private Long tipoId;
 
     private Integer recordatorioMinutos;
 

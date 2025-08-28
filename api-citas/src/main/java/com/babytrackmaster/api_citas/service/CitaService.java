@@ -10,6 +10,6 @@ public interface CitaService {
     CitaResponseDTO obtener(Long id, Long usuarioId);
     Page<CitaResponseDTO> listarRango(Long usuarioId, String desde, String hasta, int page, int size);
     Page<CitaResponseDTO> listarPorEstado(Long usuarioId, String estado, int page, int size);
-    Page<CitaResponseDTO> listarPorTipo(Long usuarioId, String tipo, int page, int size);
+    Page<CitaResponseDTO> listarPorTipo(Long usuarioId, Long tipoId, int page, int size);
     Page<CitaResponseDTO> listarPorMedico(Long usuarioId, String medico, int page, int size);
 }

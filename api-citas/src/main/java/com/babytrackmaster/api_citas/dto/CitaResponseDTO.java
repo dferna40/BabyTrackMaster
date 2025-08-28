@@ -1,6 +1,6 @@
 package com.babytrackmaster.api_citas.dto;
 
-import com.babytrackmaster.api_citas.enums.*;
+import com.babytrackmaster.api_citas.enums.EstadoCita;
 import lombok.*;
 
 @Getter @Setter @Builder
@@ -13,7 +13,7 @@ public class CitaResponseDTO {
     private String hora;  // HH:mm
     private String ubicacion;
     private String medico;
-    private TipoCita tipo;
+    private TipoCitaDTO tipo;
     private EstadoCita estado;
     private Integer recordatorioMinutos;
     private String creadoEn;

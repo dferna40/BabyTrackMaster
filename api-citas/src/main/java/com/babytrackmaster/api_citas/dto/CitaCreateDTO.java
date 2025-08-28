@@ -1,6 +1,5 @@
 package com.babytrackmaster.api_citas.dto;
 
-import com.babytrackmaster.api_citas.enums.TipoCita;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -37,9 +36,9 @@ public class CitaCreateDTO {
     @Size(max = 120)
     private String medico;
 
-    @Schema(example = "PEDIATRIA")
+    @Schema(example = "1")
     @NotNull
-    private TipoCita tipo;
+    private Long tipoId;
 
     @Schema(example = "30")
     private Integer recordatorioMinutos;
