@@ -34,6 +34,9 @@ public class Rutina {
     @Column(nullable=false)
     private Boolean activa;
 
+    @Column(nullable=false)
+    private Boolean eliminado = Boolean.FALSE;
+
     @Column(name="created_at")
     private LocalDateTime createdAt;
 
@@ -45,6 +48,7 @@ public class Rutina {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = this.createdAt;
         if (this.activa == null) this.activa = Boolean.TRUE;
+        if (this.eliminado == null) this.eliminado = Boolean.FALSE;
     }
 
     @PreUpdate

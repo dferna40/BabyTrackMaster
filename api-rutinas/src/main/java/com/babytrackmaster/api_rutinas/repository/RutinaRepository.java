@@ -10,10 +10,10 @@ import com.babytrackmaster.api_rutinas.entity.Rutina;
 
 public interface RutinaRepository extends JpaRepository<Rutina, Long> {
 
-    @Query("select r from Rutina r where r.id = :id and r.usuarioId = :usuarioId")
+    @Query("select r from Rutina r where r.id = :id and r.usuarioId = :usuarioId and r.eliminado = false")
     Rutina findOneByIdAndUsuario(@Param("id") Long id, @Param("usuarioId") Long usuarioId);
 
-    @Query("select r from Rutina r where r.usuarioId = :usuarioId" +
+    @Query("select r from Rutina r where r.usuarioId = :usuarioId and r.eliminado = false" +
            " and (:activo is null or r.activa = :activo)" +
            " and (:dia is null or r.diasSemana like concat('%', :dia, '%'))")
     Page<Rutina> findAllByUsuarioAndFilters(@Param("usuarioId") Long usuarioId,

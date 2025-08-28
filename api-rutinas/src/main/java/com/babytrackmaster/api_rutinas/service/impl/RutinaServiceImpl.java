@@ -41,13 +41,13 @@ public class RutinaServiceImpl implements RutinaService {
 
     public RutinaDTO obtener(Long usuarioId, Long id) {
         Rutina r = rutinaRepository.findOneByIdAndUsuario(id, usuarioId);
-        if (r == null) throw new NotFoundException("Rutina no encontrada");
+        if (r == null || Boolean.TRUE.equals(r.getEliminado())) throw new NotFoundException("Rutina no encontrada");
         return RutinaMapper.toDTO(r);
     }
 
     public RutinaDTO actualizar(Long usuarioId, Long id, RutinaCreateDTO dto) {
         Rutina r = rutinaRepository.findOneByIdAndUsuario(id, usuarioId);
-        if (r == null) throw new NotFoundException("Rutina no encontrada");
+        if (r == null || Boolean.TRUE.equals(r.getEliminado())) throw new NotFoundException("Rutina no encontrada");
         RutinaMapper.updateEntity(r, dto);
         r = rutinaRepository.save(r);
         return RutinaMapper.toDTO(r);
@@ -55,8 +55,9 @@ public class RutinaServiceImpl implements RutinaService {
 
     public void eliminar(Long usuarioId, Long id) {
         Rutina r = rutinaRepository.findOneByIdAndUsuario(id, usuarioId);
-        if (r == null) throw new NotFoundException("Rutina no encontrada");
-        rutinaRepository.delete(r);
+        if (r == null || Boolean.TRUE.equals(r.getEliminado())) throw new NotFoundException("Rutina no encontrada");
+        r.setEliminado(Boolean.TRUE);
+        rutinaRepository.save(r);
     }
 
     public Page<RutinaDTO> listar(Long usuarioId, Boolean activo, String dia, Pageable pageable) {
@@ -70,7 +71,7 @@ public class RutinaServiceImpl implements RutinaService {
 
     public RutinaDTO activar(Long usuarioId, Long id) {
         Rutina r = rutinaRepository.findOneByIdAndUsuario(id, usuarioId);
-        if (r == null) throw new NotFoundException("Rutina no encontrada");
+        if (r == null || Boolean.TRUE.equals(r.getEliminado())) throw new NotFoundException("Rutina no encontrada");
         r.setActiva(Boolean.TRUE);
         r = rutinaRepository.save(r);
         return RutinaMapper.toDTO(r);
@@ -78,7 +79,7 @@ public class RutinaServiceImpl implements RutinaService {
 
     public RutinaDTO desactivar(Long usuarioId, Long id) {
         Rutina r = rutinaRepository.findOneByIdAndUsuario(id, usuarioId);
-        if (r == null) throw new NotFoundException("Rutina no encontrada");
+        if (r == null || Boolean.TRUE.equals(r.getEliminado())) throw new NotFoundException("Rutina no encontrada");
         r.setActiva(Boolean.FALSE);
         r = rutinaRepository.save(r);
         return RutinaMapper.toDTO(r);
@@ -86,7 +87,7 @@ public class RutinaServiceImpl implements RutinaService {
 
     public RutinaEjecucionDTO registrarEjecucion(Long usuarioId, Long rutinaId, RutinaEjecucionCreateDTO dto) {
         Rutina r = rutinaRepository.findOneByIdAndUsuario(rutinaId, usuarioId);
-        if (r == null) throw new NotFoundException("Rutina no encontrada");
+        if (r == null || Boolean.TRUE.equals(r.getEliminado())) throw new NotFoundException("Rutina no encontrada");
         RutinaEjecucion e = RutinaEjecucionMapper.toEntity(dto, r);
         e = ejecucionRepository.save(e);
         return RutinaEjecucionMapper.toDTO(e);
@@ -94,7 +95,7 @@ public class RutinaServiceImpl implements RutinaService {
 
     public List<RutinaEjecucionDTO> historial(Long usuarioId, Long rutinaId, LocalDate desde, LocalDate hasta) {
         Rutina r = rutinaRepository.findOneByIdAndUsuario(rutinaId, usuarioId);
-        if (r == null) throw new NotFoundException("Rutina no encontrada");
+        if (r == null || Boolean.TRUE.equals(r.getEliminado())) throw new NotFoundException("Rutina no encontrada");
         LocalDateTime d = desde != null ? desde.atStartOfDay() : null;
         LocalDateTime h = hasta != null ? hasta.atTime(23,59,59) : null;
         List<RutinaEjecucion> lista = ejecucionRepository.buscarHistorial(rutinaId, usuarioId, d, h);
