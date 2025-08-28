@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-import com.babytrackmaster.api_citas.enums.EstadoCita;
+import com.babytrackmaster.api_citas.entity.EstadoCita;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,8 +17,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -63,8 +61,8 @@ public class Cita {
     @JoinColumn(name = "tipo", nullable = false)
     private TipoCita tipo;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @ManyToOne
+    @JoinColumn(name = "estado", nullable = false)
     private EstadoCita estado;
 
     // recordatorio en minutos antes de la cita (ej. 30, 60, 1440)

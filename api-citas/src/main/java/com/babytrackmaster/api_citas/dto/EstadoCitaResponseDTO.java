@@ -1,12 +1,13 @@
 package com.babytrackmaster.api_citas.dto;
 
-import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class EstadoCitaUpdateDTO {
-    @Size(max = 20)
+@Builder
+public class EstadoCitaResponseDTO {
+    private Long id;
     private String nombre;
 }
