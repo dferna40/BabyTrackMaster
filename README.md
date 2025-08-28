@@ -96,10 +96,10 @@ BabyTrackMaster/
   	✅ Microservicio `api-citas`
 
    	✅ Microservicio `api-diario`
+
+ 	✅ Microservicio `api-bff`
   
 🔹🔜 En Desarrollo:
-
-	🧱 Microservicio `api-bff`
 
 	🧱 Microservicio `api-gateway`
 
