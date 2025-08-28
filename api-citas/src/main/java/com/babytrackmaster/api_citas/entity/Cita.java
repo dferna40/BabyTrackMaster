@@ -5,19 +5,20 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import com.babytrackmaster.api_citas.enums.EstadoCita;
-import com.babytrackmaster.api_citas.enums.TipoCita;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -58,8 +59,8 @@ public class Cita {
     @Column(length = 120)
     private String medico;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @ManyToOne
+    @JoinColumn(name = "tipo", nullable = false)
     private TipoCita tipo;
 
     @Enumerated(EnumType.STRING)
