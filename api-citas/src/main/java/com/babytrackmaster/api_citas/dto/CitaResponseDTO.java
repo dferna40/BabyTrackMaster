@@ -13,7 +13,7 @@ public class CitaResponseDTO {
     private String hora;  // HH:mm
     private String ubicacion;
     private String medico;
-    private TipoCitaDTO tipo;
+    private TipoCitaResponseDTO tipo;
     private EstadoCita estado;
     private Integer recordatorioMinutos;
     private String creadoEn;

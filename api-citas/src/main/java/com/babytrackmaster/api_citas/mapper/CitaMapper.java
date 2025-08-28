@@ -49,10 +49,7 @@ public class CitaMapper {
         b.ubicacion(c.getUbicacion());
         b.medico(c.getMedico());
         if (c.getTipo() != null) {
-            b.tipo(TipoCitaDTO.builder()
-                    .id(c.getTipo().getId())
-                    .nombre(c.getTipo().getNombre())
-                    .build());
+            b.tipo(TipoCitaMapper.toDTO(c.getTipo()));
         }
         b.estado(c.getEstado());
         b.recordatorioMinutos(c.getRecordatorioMinutos());

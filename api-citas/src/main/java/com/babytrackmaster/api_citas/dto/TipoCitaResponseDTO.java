@@ -1,14 +1,13 @@
 package com.babytrackmaster.api_citas.dto;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class TipoCitaDTO {
+public class TipoCitaResponseDTO {
     private Long id;
     private String nombre;
 }
-
