@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.babytrackmaster.api_bff.dto.ResumenHomeDTO;
 import com.babytrackmaster.api_bff.service.HomeService;
 import com.babytrackmaster.api_bff.util.Dates;
+import com.babytrackmaster.api_bff.security.JwtService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,14 +23,15 @@ import lombok.RequiredArgsConstructor;
 public class HomeBffController {
 
   private final HomeService homeService;
+  private final JwtService jwtService;
 
   @Operation(summary = "Resumen para dashboard del frontend")
   @GetMapping("/resumen")
   public ResponseEntity<ResumenHomeDTO> resumen(
       HttpServletRequest request,
-      @RequestParam Long usuarioId,
       @RequestParam(required = false) String mes // formato yyyy-MM
   ) {
+	Long usuarioId = jwtService.resolveUserId();
     String mesAnio = mes != null ? mes : Dates.mesActual();
     ResumenHomeDTO dto = homeService.getResumenHome(request, usuarioId, mesAnio);
     return ResponseEntity.ok(dto);
