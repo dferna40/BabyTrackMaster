@@ -1,5 +1,7 @@
 package com.babytrackmaster.api_gastos.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +46,39 @@ public class CategoriaController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         CategoriaResponse resp = categoriaService.actualizar(id, req);
+        return ResponseEntity.ok(resp);
+    }
+    
+    @Operation(summary = "Eliminar una categoría", description = "Elimina una categoría de gasto")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        Long userId = jwtService.resolveUserId();
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        categoriaService.eliminar(id);
+        return ResponseEntity.noContent().build();
+    }
+    
+    @Operation(summary = "Obtener una categoría", description = "Devuelve una categoría de gasto por su ID")
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoriaResponse> obtener(@PathVariable Long id) {
+        Long userId = jwtService.resolveUserId();
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        CategoriaResponse resp = categoriaService.obtener(id);
+        return ResponseEntity.ok(resp);
+    }
+    
+    @Operation(summary = "Listar categorías", description = "Obtiene la lista de categorías ordenadas por nombre")
+    @GetMapping
+    public ResponseEntity<List<CategoriaResponse>> listar() {
+        Long userId = jwtService.resolveUserId();
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        List<CategoriaResponse> resp = categoriaService.listar();
         return ResponseEntity.ok(resp);
     }
 }
