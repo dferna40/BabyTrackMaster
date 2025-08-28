@@ -43,7 +43,7 @@ public class HitoServiceImpl implements HitoService {
     }
 
     public HitoResponse actualizar(Long usuarioId, Long id, HitoRequest req) {
-        Hito h = repository.findFirstByIdAndUsuarioId(id, usuarioId);
+        Hito h = repository.findFirstByIdAndUsuarioIdAndEliminadoFalse(id, usuarioId);
         if (h == null) {
             throw new NotFoundException("Hito no encontrado");
         }
@@ -69,8 +69,9 @@ public class HitoServiceImpl implements HitoService {
     }
 
     public void eliminar(Long usuarioId, Long id) {
-    	Hito h = getOwned(usuarioId, id);
-        repository.delete(h);
+        Hito h = getOwned(usuarioId, id);
+        h.setEliminado(true);
+        repository.save(h);
     }
     
     @Transactional(readOnly = true)
@@ -81,13 +82,13 @@ public class HitoServiceImpl implements HitoService {
 
     @Transactional(readOnly = true)
     public List<HitoResponse> listar(Long usuarioId) {
-        List<Hito> lista = repository.findByUsuarioIdOrderByFechaDesc(usuarioId);
+        List<Hito> lista = repository.findByUsuarioIdAndEliminadoFalseOrderByFechaDesc(usuarioId);
         return mapList(lista);
     }
 
     @Transactional(readOnly = true)
     public List<HitoResponse> listarPorBebe(Long usuarioId, Long bebeId) {
-        List<Hito> lista = repository.findByUsuarioIdAndBebeIdOrderByFechaDesc(usuarioId, bebeId);
+        List<Hito> lista = repository.findByUsuarioIdAndBebeIdAndEliminadoFalseOrderByFechaDesc(usuarioId, bebeId);
         return mapList(lista);
     }
 
@@ -95,13 +96,13 @@ public class HitoServiceImpl implements HitoService {
     public List<HitoResponse> listarPorMes(Long usuarioId, YearMonth mes) {
         LocalDate inicio = mes.atDay(1);
         LocalDate fin = mes.atEndOfMonth();
-        List<Hito> lista = repository.findByUsuarioIdAndFechaBetweenOrderByFechaDesc(usuarioId, inicio, fin);
+        List<Hito> lista = repository.findByUsuarioIdAndFechaBetweenAndEliminadoFalseOrderByFechaDesc(usuarioId, inicio, fin);
         return mapList(lista);
     }
 
     @Transactional(readOnly = true)
     public List<HitoResponse> buscarPorTitulo(Long usuarioId, String texto) {
-        List<Hito> lista = repository.findByUsuarioIdAndTituloContainingIgnoreCaseOrderByFechaDesc(usuarioId, texto);
+        List<Hito> lista = repository.findByUsuarioIdAndTituloContainingIgnoreCaseAndEliminadoFalseOrderByFechaDesc(usuarioId, texto);
         return mapList(lista);
     }
 
@@ -117,7 +118,7 @@ public class HitoServiceImpl implements HitoService {
 //    }
     
     private Hito getOwned(Long usuarioId, Long id) {
-    	return repository.findByIdAndUsuarioId(id, usuarioId).orElseThrow(() -> {
+        return repository.findByIdAndUsuarioIdAndEliminadoFalse(id, usuarioId).orElseThrow(() -> {
             log.debug("Hito no encontrado o no pertenece al usuario. id={}, usuarioId={}", id, usuarioId);
             return new NotFoundException("Hito no encontrado");
         });

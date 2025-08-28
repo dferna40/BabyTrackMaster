@@ -17,17 +17,17 @@ public interface HitoRepository extends JpaRepository<Hito, Long> {
 //	
 //	Hito findByIdAndUsuarioId(Long id, Long usuarioId);
 	
-	Optional<Hito> findByIdAndUsuarioId(Long id, Long usuarioId);
+        Optional<Hito> findByIdAndUsuarioIdAndEliminadoFalse(Long id, Long usuarioId);
 
-    Hito findFirstByIdAndUsuarioId(Long id, Long usuarioId);
+    Hito findFirstByIdAndUsuarioIdAndEliminadoFalse(Long id, Long usuarioId);
 
-    boolean existsByIdAndUsuarioId(Long id, Long usuarioId);
+    boolean existsByIdAndUsuarioIdAndEliminadoFalse(Long id, Long usuarioId);
 
-    List<Hito> findByUsuarioIdOrderByFechaDesc(Long usuarioId);
+    List<Hito> findByUsuarioIdAndEliminadoFalseOrderByFechaDesc(Long usuarioId);
 
-    List<Hito> findByUsuarioIdAndBebeIdOrderByFechaDesc(Long usuarioId, Long bebeId);
+    List<Hito> findByUsuarioIdAndBebeIdAndEliminadoFalseOrderByFechaDesc(Long usuarioId, Long bebeId);
 
-    List<Hito> findByUsuarioIdAndFechaBetweenOrderByFechaDesc(Long usuarioId, LocalDate inicio, LocalDate fin);
+    List<Hito> findByUsuarioIdAndFechaBetweenAndEliminadoFalseOrderByFechaDesc(Long usuarioId, LocalDate inicio, LocalDate fin);
 
-    List<Hito> findByUsuarioIdAndTituloContainingIgnoreCaseOrderByFechaDesc(Long usuarioId, String titulo);
+    List<Hito> findByUsuarioIdAndTituloContainingIgnoreCaseAndEliminadoFalseOrderByFechaDesc(Long usuarioId, String titulo);
 }
