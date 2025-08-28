@@ -12,6 +12,7 @@ import com.babytrackmaster.api_gastos.dto.CategoriaResponse;
 import com.babytrackmaster.api_gastos.entity.CategoriaGasto;
 import com.babytrackmaster.api_gastos.repository.CategoriaGastoRepository;
 import com.babytrackmaster.api_gastos.service.impl.CategoriaServiceImpl;
+import com.babytrackmaster.api_gastos.exception.NotFoundException;
 
 class CategoriaServiceTest {
 
@@ -40,5 +41,28 @@ class CategoriaServiceTest {
         assertEquals(10L, resp.getId());
         assertEquals("Lactancia", resp.getNombre());
         verify(categoriaRepository).save(any(CategoriaGasto.class));
+    }
+
+    @Test
+    void obtenerExistenteDevuelveDTO() {
+        CategoriaGasto categoria = new CategoriaGasto();
+        categoria.setId(5L);
+        categoria.setNombre("Ropa");
+        when(categoriaRepository.findOneById(5L)).thenReturn(categoria);
+
+        CategoriaResponse resp = categoriaService.obtener(5L);
+
+        assertNotNull(resp);
+        assertEquals(5L, resp.getId());
+        assertEquals("Ropa", resp.getNombre());
+        verify(categoriaRepository).findOneById(5L);
+    }
+
+    @Test
+    void obtenerNoExistenteLanzaNotFound() {
+        when(categoriaRepository.findOneById(99L)).thenReturn(null);
+
+        assertThrows(NotFoundException.class, () -> categoriaService.obtener(99L));
+        verify(categoriaRepository).findOneById(99L);
     }
 }

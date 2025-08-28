@@ -5,4 +5,5 @@ import com.babytrackmaster.api_gastos.dto.CategoriaResponse;
 
 public interface CategoriaService {
     CategoriaResponse crear(CategoriaCreateRequest req);
+    CategoriaResponse obtener(Long id);
 }

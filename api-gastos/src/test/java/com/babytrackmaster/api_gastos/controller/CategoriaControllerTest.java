@@ -1,6 +1,6 @@
 package com.babytrackmaster.api_gastos.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.jupiter.api.Test;
@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.babytrackmaster.api_gastos.dto.CategoriaResponse;
+import com.babytrackmaster.api_gastos.exception.NotFoundException;
 import com.babytrackmaster.api_gastos.security.JwtService;
 import com.babytrackmaster.api_gastos.service.CategoriaService;
 
@@ -41,5 +42,28 @@ class CategoriaControllerTest {
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.id").value(1L))
             .andExpect(jsonPath("$.nombre").value("Ropa"));
+    }
+
+    @Test
+    void obtenerRetornaOk() throws Exception {
+        CategoriaResponse resp = new CategoriaResponse();
+        resp.setId(1L);
+        resp.setNombre("Ropa");
+        Mockito.when(jwtService.resolveUserId()).thenReturn(1L);
+        Mockito.when(categoriaService.obtener(1L)).thenReturn(resp);
+
+        mockMvc.perform(get("/api/v1/categorias/1"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value(1L))
+            .andExpect(jsonPath("$.nombre").value("Ropa"));
+    }
+
+    @Test
+    void obtenerNoExistenteRetornaNotFound() throws Exception {
+        Mockito.when(jwtService.resolveUserId()).thenReturn(1L);
+        Mockito.when(categoriaService.obtener(1L)).thenThrow(new NotFoundException("Categoría no encontrada"));
+
+        mockMvc.perform(get("/api/v1/categorias/1"))
+            .andExpect(status().isNotFound());
     }
 }

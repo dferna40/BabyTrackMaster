@@ -2,10 +2,7 @@ package com.babytrackmaster.api_gastos.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.babytrackmaster.api_gastos.dto.CategoriaCreateRequest;
 import com.babytrackmaster.api_gastos.dto.CategoriaResponse;
@@ -35,5 +32,16 @@ public class CategoriaController {
         }
         CategoriaResponse resp = categoriaService.crear(req);
         return new ResponseEntity<CategoriaResponse>(resp, HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Obtener una categoría", description = "Devuelve una categoría de gasto por su ID")
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoriaResponse> obtener(@PathVariable Long id) {
+        Long userId = jwtService.resolveUserId();
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        CategoriaResponse resp = categoriaService.obtener(id);
+        return ResponseEntity.ok(resp);
     }
 }
