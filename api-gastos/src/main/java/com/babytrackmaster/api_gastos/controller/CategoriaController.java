@@ -1,7 +1,10 @@
 package com.babytrackmaster.api_gastos.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +28,17 @@ public class CategoriaController {
 
     private final CategoriaService categoriaService;
     private final JwtService jwtService;
+
+    @Operation(summary = "Listar categorías", description = "Obtiene la lista de categorías ordenadas por nombre")
+    @GetMapping
+    public ResponseEntity<List<CategoriaResponse>> listar() {
+        Long userId = jwtService.resolveUserId();
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        List<CategoriaResponse> resp = categoriaService.listar();
+        return ResponseEntity.ok(resp);
+    }
 
     @Operation(summary = "Crear una categoría", description = "Crea una nueva categoría de gasto")
     @PostMapping
