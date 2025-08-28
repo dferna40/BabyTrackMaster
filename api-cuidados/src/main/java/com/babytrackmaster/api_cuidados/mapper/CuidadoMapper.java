@@ -24,6 +24,7 @@ public class CuidadoMapper {
         Date now = new Date();
         c.setCreatedAt(now);
         c.setUpdatedAt(now);
+        c.setEliminado(false);
         return c;
     }
 
