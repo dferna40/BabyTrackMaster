@@ -9,10 +9,11 @@ import lombok.Data;
 @Data
 @Schema(name = "CuidadoRequest", description = "Datos para crear/actualizar un cuidado")
 public class CuidadoRequest {
-	@Schema(example = "1", description = "ID del bebé al que pertenece el cuidado")
+        @Schema(example = "1", description = "ID del bebé al que pertenece el cuidado")
     @NotNull private Long bebeId;
     @NotNull private Long usuarioId;
-    @NotNull private TipoCuidado tipo;
+    @Schema(example = "1", description = "ID del tipo de cuidado")
+    @NotNull private Long tipoId;
     @NotNull private Date inicio;
 
     private Date fin;

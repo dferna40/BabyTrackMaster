@@ -8,13 +8,14 @@ import lombok.Data;
 @Data
 @Schema(name = "CuidadoResponse", description = "Representación de un cuidado")
 public class CuidadoResponse {
-	@Schema(example = "101")
+        @Schema(example = "101")
     private Long id;
-	@Schema(example = "1")
+        @Schema(example = "1")
     private Long bebeId;
     private Long usuarioId;
-    @Schema(implementation = com.babytrackmaster.api_cuidados.dto.TipoCuidado.class, example = "ALIMENTACION")
-    private String tipo;
+    @Schema(example = "1")
+    private Long tipoId;
+    private String tipoNombre;
     private Date inicio;
     private Date fin;
     @Schema(example = "120")

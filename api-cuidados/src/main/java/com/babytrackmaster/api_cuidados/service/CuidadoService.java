@@ -12,6 +12,6 @@ public interface CuidadoService {
     void eliminar(Long id);
     CuidadoResponse obtener(Long id);
     List<CuidadoResponse> listarPorBebe(Long bebeId);
-    List<CuidadoResponse> listarPorBebeYTipo(Long bebeId, String tipo);
+    List<CuidadoResponse> listarPorBebeYTipo(Long bebeId, Long tipoId);
     List<CuidadoResponse> listarPorRango(Long bebeId, Date desde, Date hasta);
 }
