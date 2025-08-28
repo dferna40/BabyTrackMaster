@@ -50,6 +50,9 @@ public class Cuidado {
     @Column(length=500)
     private String observaciones;
 
+    @Column(nullable = false)
+    private Boolean eliminado = false;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="created_at", nullable=false)
     private Date createdAt;
