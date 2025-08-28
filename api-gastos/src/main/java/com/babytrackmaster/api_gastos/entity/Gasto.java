@@ -40,9 +40,15 @@ public class Gasto {
     @Column(name="actualizado_en")
     private LocalDateTime actualizadoEn;
 
+    @Column(nullable = false)
+    private Boolean eliminado = Boolean.FALSE;
+
     @PrePersist
     public void prePersist() {
         this.creadoEn = LocalDateTime.now();
+        if (this.eliminado == null) {
+            this.eliminado = Boolean.FALSE;
+        }
     }
 
     @PreUpdate

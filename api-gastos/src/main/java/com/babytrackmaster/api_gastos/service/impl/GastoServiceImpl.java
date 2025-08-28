@@ -88,7 +88,8 @@ public class GastoServiceImpl implements GastoService {
         if (g == null) {
             throw new NotFoundException("Gasto no encontrado");
         }
-        gastoRepository.delete(g);
+        g.setEliminado(true);
+        gastoRepository.save(g);
     }
 
     @Transactional(readOnly = true)
@@ -106,7 +107,7 @@ public class GastoServiceImpl implements GastoService {
         LocalDate desde = ym.atDay(1);
         LocalDate hasta = ym.atEndOfMonth();
 
-        Page<Gasto> page = gastoRepository.findByUsuarioIdAndFechaBetweenOrderByFechaDesc(
+        Page<Gasto> page = gastoRepository.findByUsuarioIdAndFechaBetweenAndEliminadoFalseOrderByFechaDesc(
                 usuarioId, desde, hasta, pageable
         );
 
@@ -122,7 +123,7 @@ public class GastoServiceImpl implements GastoService {
 
     @Transactional(readOnly = true)
     public Page<GastoResponse> listarPorCategoria(Long usuarioId, Long categoriaId, Pageable pageable) {
-        Page<Gasto> page = gastoRepository.findByUsuarioIdAndFechaBetweenOrderByFechaDesc(usuarioId, null, null, pageable);
+        Page<Gasto> page = gastoRepository.findByUsuarioAndCategoria(usuarioId, categoriaId, pageable);
 
         List<GastoResponse> dtos = new ArrayList<GastoResponse>();
         List<Gasto> content = page.getContent();
