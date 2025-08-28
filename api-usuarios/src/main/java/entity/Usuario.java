@@ -44,4 +44,7 @@ public class Usuario {
 
     @Column(nullable = false)
     private LocalDateTime fechaAlta;
+
+    @Column(name = "fecha_baja")
+    private LocalDateTime fechaBaja;
 }

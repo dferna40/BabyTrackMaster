@@ -54,4 +54,13 @@ public class UsuarioService {
     public Usuario buscarPorEmail(String email) {
         return usuarioRepository.findByEmail(email);
     }
+
+    @Transactional
+    public void eliminarLogicamente(Long id) {
+        Usuario u = usuarioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado: " + id));
+        u.setHabilitado(false);
+        u.setFechaBaja(LocalDateTime.now());
+        usuarioRepository.save(u);
+    }
 }

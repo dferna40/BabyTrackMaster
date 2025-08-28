@@ -1,10 +1,9 @@
 package controller;
 
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import entity.Usuario;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,5 +24,11 @@ public class UserController {
     public Usuario me(Authentication auth) {
         // auth.getName() = email (por UserDetailsService)
         return usuarioService.buscarPorEmail(auth.getName());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        usuarioService.eliminarLogicamente(id);
+        return ResponseEntity.noContent().build();
     }
 }

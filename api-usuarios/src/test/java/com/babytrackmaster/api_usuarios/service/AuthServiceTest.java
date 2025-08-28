@@ -43,7 +43,7 @@ public class AuthServiceTest {
 	}
 
 	@Test
-	public void login_correcto_invocaJwtServiceYDevuelveToken() {
+        public void login_correcto_invocaJwtServiceYDevuelveToken() {
 		LoginDTO dto = new LoginDTO();
 		dto.setEmail("david@test.com");
 		dto.setPassword("12345678");
@@ -63,6 +63,21 @@ public class AuthServiceTest {
 
 		Mockito.verify(usuarioRepository).findByEmail("david@test.com");
 		Mockito.verify(passwordEncoder, Mockito.atLeastOnce()).matches(Mockito.anyString(), Mockito.anyString());
-		Mockito.verify(jwtService).generarToken("david@test.com");
-	}
+                Mockito.verify(jwtService).generarToken("david@test.com");
+        }
+
+        @Test
+        public void login_usuarioDeshabilitado_lanzaExcepcion() {
+                LoginDTO dto = new LoginDTO();
+                dto.setEmail("david@test.com");
+                dto.setPassword("12345678");
+
+                usuario.setHabilitado(false);
+                Mockito.when(usuarioRepository.findByEmail("david@test.com")).thenReturn(usuario);
+
+                org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class,
+                        () -> authService.login(dto));
+
+                Mockito.verify(usuarioRepository).findByEmail("david@test.com");
+        }
 }
