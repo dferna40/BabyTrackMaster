@@ -5,14 +5,18 @@ import java.util.Date;
 import com.babytrackmaster.api_cuidados.dto.CuidadoRequest;
 import com.babytrackmaster.api_cuidados.dto.CuidadoResponse;
 import com.babytrackmaster.api_cuidados.entity.Cuidado;
+import com.babytrackmaster.api_cuidados.entity.TipoCuidado;
+import com.babytrackmaster.api_cuidados.repository.TipoCuidadoRepository;
 
 public class CuidadoMapper {
 
-	public static Cuidado toEntity(CuidadoRequest req) {
+        public static Cuidado toEntity(CuidadoRequest req, TipoCuidadoRepository tipoRepo) {
         Cuidado c = new Cuidado();
         c.setBebeId(req.getBebeId());
         c.setUsuarioId(req.getUsuarioId());
-        c.setTipo(req.getTipo().name());
+        TipoCuidado tipo = tipoRepo.findById(req.getTipoId())
+                .orElseThrow(() -> new IllegalArgumentException("Tipo de cuidado no encontrado: " + req.getTipoId()));
+        c.setTipo(tipo);
         c.setInicio(req.getInicio());
         c.setFin(req.getFin());
         c.setCantidadMl(req.getCantidadMl());
@@ -28,10 +32,12 @@ public class CuidadoMapper {
         return c;
     }
 
-    public static void copyToEntity(CuidadoRequest req, Cuidado c) {
+    public static void copyToEntity(CuidadoRequest req, Cuidado c, TipoCuidadoRepository tipoRepo) {
         c.setBebeId(req.getBebeId());
         c.setUsuarioId(req.getUsuarioId());
-        c.setTipo(req.getTipo().name());
+        TipoCuidado tipo = tipoRepo.findById(req.getTipoId())
+                .orElseThrow(() -> new IllegalArgumentException("Tipo de cuidado no encontrado: " + req.getTipoId()));
+        c.setTipo(tipo);
         c.setInicio(req.getInicio());
         c.setFin(req.getFin());
         c.setCantidadMl(req.getCantidadMl());
@@ -48,7 +54,10 @@ public class CuidadoMapper {
         r.setId(c.getId());
         r.setBebeId(c.getBebeId());
         r.setUsuarioId(c.getUsuarioId());
-        r.setTipo(c.getTipo());
+        if (c.getTipo() != null) {
+            r.setTipoId(c.getTipo().getId());
+            r.setTipoNombre(c.getTipo().getNombre());
+        }
         r.setInicio(c.getInicio());
         r.setFin(c.getFin());
         r.setCantidadMl(c.getCantidadMl());

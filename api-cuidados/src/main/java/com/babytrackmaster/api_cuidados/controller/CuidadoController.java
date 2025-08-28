@@ -86,11 +86,11 @@ public class CuidadoController {
 	}
 
 	@Operation(summary = "Listar cuidados por bebé y tipo")
-	@GetMapping("/bebe/{bebeId}/tipo/{tipo}")
-	public ResponseEntity<List<CuidadoResponse>> listarPorBebeYTipo(@PathVariable Long bebeId,
-			@PathVariable String tipo) {
-		return ResponseEntity.ok(service.listarPorBebeYTipo(bebeId, tipo));
-	}
+        @GetMapping("/bebe/{bebeId}/tipo/{tipoId}")
+        public ResponseEntity<List<CuidadoResponse>> listarPorBebeYTipo(@PathVariable Long bebeId,
+                        @PathVariable Long tipoId) {
+                return ResponseEntity.ok(service.listarPorBebeYTipo(bebeId, tipoId));
+        }
 
 	@Operation(summary = "Listar cuidados por rango de fechas")
 	@GetMapping("/bebe/{bebeId}/rango")

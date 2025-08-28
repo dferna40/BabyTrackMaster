@@ -22,8 +22,9 @@ public class Cuidado {
     @Column(name="usuario_id", nullable=false)
     private Long usuarioId;
 
-    @Column(nullable=false, length=30)
-    private String tipo; // Enum en DTO, string en DB
+    @ManyToOne
+    @JoinColumn(name = "tipo", nullable = false)
+    private TipoCuidado tipo;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable=false)

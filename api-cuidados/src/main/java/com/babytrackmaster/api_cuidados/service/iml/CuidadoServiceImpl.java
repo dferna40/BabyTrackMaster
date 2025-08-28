@@ -11,6 +11,7 @@ import com.babytrackmaster.api_cuidados.dto.CuidadoResponse;
 import com.babytrackmaster.api_cuidados.entity.Cuidado;
 import com.babytrackmaster.api_cuidados.mapper.CuidadoMapper;
 import com.babytrackmaster.api_cuidados.repository.CuidadoRepository;
+import com.babytrackmaster.api_cuidados.repository.TipoCuidadoRepository;
 import com.babytrackmaster.api_cuidados.service.CuidadoService;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -20,13 +21,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class CuidadoServiceImpl implements CuidadoService {
 
     private final CuidadoRepository repo;
+    private final TipoCuidadoRepository tipoRepo;
 
-    public CuidadoServiceImpl(CuidadoRepository repo) {
+    public CuidadoServiceImpl(CuidadoRepository repo, TipoCuidadoRepository tipoRepo) {
         this.repo = repo;
+        this.tipoRepo = tipoRepo;
     }
 
     public CuidadoResponse crear(CuidadoRequest request) {
-        Cuidado c = CuidadoMapper.toEntity(request);
+        Cuidado c = CuidadoMapper.toEntity(request, tipoRepo);
         c = repo.save(c);
         return CuidadoMapper.toResponse(c);
     }
@@ -36,7 +39,7 @@ public class CuidadoServiceImpl implements CuidadoService {
         if (c == null) {
             throw new IllegalArgumentException("Cuidado no encontrado: " + id);
         }
-        CuidadoMapper.copyToEntity(request, c);
+        CuidadoMapper.copyToEntity(request, c, tipoRepo);
         c = repo.save(c);
         return CuidadoMapper.toResponse(c);
     }
@@ -71,8 +74,8 @@ public class CuidadoServiceImpl implements CuidadoService {
     }
 
     @Transactional(readOnly = true)
-    public List<CuidadoResponse> listarPorBebeYTipo(Long bebeId, String tipo) {
-        List<Cuidado> list = repo.findByBebeIdAndTipoAndEliminadoFalseOrderByInicioDesc(bebeId, tipo);
+    public List<CuidadoResponse> listarPorBebeYTipo(Long bebeId, Long tipoId) {
+        List<Cuidado> list = repo.findByBebeIdAndTipo_IdAndEliminadoFalseOrderByInicioDesc(bebeId, tipoId);
         List<CuidadoResponse> resp = new ArrayList<CuidadoResponse>();
         for (int i = 0; i < list.size(); i++) {
             resp.add(CuidadoMapper.toResponse(list.get(i)));
