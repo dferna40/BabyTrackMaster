@@ -39,6 +39,9 @@ public class Hito {
 
     @Column(name="imagen_url", length = 500)
     private String imagenUrl;
+
+    @Column(nullable = false)
+    private Boolean eliminado = false;
     
     @Column(name="creado_en", nullable = false)
     private LocalDateTime creadoEn;
