@@ -1,6 +1,5 @@
 package com.babytrackmaster.api_citas.dto;
 
-import com.babytrackmaster.api_citas.enums.EstadoCita;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
@@ -32,5 +31,5 @@ public class CitaUpdateDTO {
 
     private Integer recordatorioMinutos;
 
-    private EstadoCita estado;
+    private Long estadoId;
 }

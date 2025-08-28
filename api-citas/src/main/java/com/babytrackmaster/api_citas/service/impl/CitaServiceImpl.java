@@ -3,11 +3,12 @@ package com.babytrackmaster.api_citas.service.impl;
 import com.babytrackmaster.api_citas.dto.*;
 import com.babytrackmaster.api_citas.entity.Cita;
 import com.babytrackmaster.api_citas.entity.TipoCita;
-import com.babytrackmaster.api_citas.enums.EstadoCita;
+import com.babytrackmaster.api_citas.entity.EstadoCita;
 import com.babytrackmaster.api_citas.exception.NotFoundException;
 import com.babytrackmaster.api_citas.mapper.CitaMapper;
 import com.babytrackmaster.api_citas.repository.CitaRepository;
 import com.babytrackmaster.api_citas.repository.TipoCitaRepository;
+import com.babytrackmaster.api_citas.repository.EstadoCitaRepository;
 import com.babytrackmaster.api_citas.service.CitaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -23,11 +24,14 @@ public class CitaServiceImpl implements CitaService {
 
     private final CitaRepository repo;
     private final TipoCitaRepository tipoRepo;
+    private final EstadoCitaRepository estadoRepo;
 
     public CitaResponseDTO crear(CitaCreateDTO dto, Long usuarioId) {
         TipoCita tipo = tipoRepo.findById(dto.getTipoId())
                 .orElseThrow(() -> new NotFoundException("Tipo de cita no encontrado"));
-        Cita c = CitaMapper.toEntity(dto, usuarioId, tipo);
+        EstadoCita estado = estadoRepo.findByNombreIgnoreCase("PENDIENTE")
+                .orElseThrow(() -> new NotFoundException("Estado de cita por defecto no encontrado"));
+        Cita c = CitaMapper.toEntity(dto, usuarioId, tipo, estado);
         c = repo.save(c);
         return CitaMapper.toDTO(c);
     }
@@ -42,7 +46,12 @@ public class CitaServiceImpl implements CitaService {
             tipo = tipoRepo.findById(dto.getTipoId())
                     .orElseThrow(() -> new NotFoundException("Tipo de cita no encontrado"));
         }
-        CitaMapper.applyUpdate(c, dto, tipo);
+        EstadoCita estado = null;
+        if (dto.getEstadoId() != null) {
+            estado = estadoRepo.findById(dto.getEstadoId())
+                    .orElseThrow(() -> new NotFoundException("Estado de cita no encontrado"));
+        }
+        CitaMapper.applyUpdate(c, dto, tipo, estado);
         c = repo.save(c);
         return CitaMapper.toDTO(c);
     }
@@ -77,10 +86,9 @@ public class CitaServiceImpl implements CitaService {
         return new PageImpl<CitaResponseDTO>(list, p, res.getTotalElements());
     }
 
-    public Page<CitaResponseDTO> listarPorEstado(Long usuarioId, String estado, int page, int size) {
-        EstadoCita e = EstadoCita.valueOf(estado);
+    public Page<CitaResponseDTO> listarPorEstado(Long usuarioId, Long estadoId, int page, int size) {
         Pageable p = PageRequest.of(page, size);
-        Page<Cita> res = repo.listarPorEstado(usuarioId, e, p);
+        Page<Cita> res = repo.listarPorEstado(usuarioId, estadoId, p);
         List<CitaResponseDTO> list = new ArrayList<CitaResponseDTO>();
         int i;
         for (i = 0; i < res.getContent().size(); i++) {

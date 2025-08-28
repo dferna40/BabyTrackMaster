@@ -3,14 +3,15 @@ package com.babytrackmaster.api_citas.mapper;
 import com.babytrackmaster.api_citas.dto.*;
 import com.babytrackmaster.api_citas.entity.Cita;
 import com.babytrackmaster.api_citas.entity.TipoCita;
-import com.babytrackmaster.api_citas.enums.EstadoCita;
+import com.babytrackmaster.api_citas.entity.EstadoCita;
+import com.babytrackmaster.api_citas.mapper.EstadoCitaMapper;
 import java.time.*;
 
 public class CitaMapper {
 
     private CitaMapper() {}
 
-    public static Cita toEntity(CitaCreateDTO dto, Long usuarioId, TipoCita tipo) {
+    public static Cita toEntity(CitaCreateDTO dto, Long usuarioId, TipoCita tipo, EstadoCita estado) {
         Cita c = new Cita();
         c.setUsuarioId(usuarioId);
         c.setTitulo(dto.getTitulo());
@@ -21,12 +22,12 @@ public class CitaMapper {
         c.setMedico(dto.getMedico());
         c.setTipo(tipo);
         c.setRecordatorioMinutos(dto.getRecordatorioMinutos());
-        c.setEstado(EstadoCita.PENDIENTE);
+        c.setEstado(estado);
         c.setEliminado(Boolean.FALSE);
         return c;
     }
 
-    public static void applyUpdate(Cita c, CitaUpdateDTO dto, TipoCita tipo) {
+    public static void applyUpdate(Cita c, CitaUpdateDTO dto, TipoCita tipo, EstadoCita estado) {
         if (dto.getTitulo() != null) c.setTitulo(dto.getTitulo());
         if (dto.getDescripcion() != null) c.setDescripcion(dto.getDescripcion());
         if (dto.getFecha() != null) c.setFecha(LocalDate.parse(dto.getFecha()));
@@ -35,7 +36,7 @@ public class CitaMapper {
         if (dto.getMedico() != null) c.setMedico(dto.getMedico());
         if (tipo != null) c.setTipo(tipo);
         if (dto.getRecordatorioMinutos() != null) c.setRecordatorioMinutos(dto.getRecordatorioMinutos());
-        if (dto.getEstado() != null) c.setEstado(dto.getEstado());
+        if (estado != null) c.setEstado(estado);
     }
 
     public static CitaResponseDTO toDTO(Cita c) {
@@ -51,7 +52,9 @@ public class CitaMapper {
         if (c.getTipo() != null) {
             b.tipo(TipoCitaMapper.toDTO(c.getTipo()));
         }
-        b.estado(c.getEstado());
+        if (c.getEstado() != null) {
+            b.estado(EstadoCitaMapper.toDTO(c.getEstado()));
+        }
         b.recordatorioMinutos(c.getRecordatorioMinutos());
         return b.build();
     }
