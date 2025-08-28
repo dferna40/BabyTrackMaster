@@ -9,6 +9,7 @@ import com.babytrackmaster.api_gastos.entity.CategoriaGasto;
 import com.babytrackmaster.api_gastos.mapper.CategoriaMapper;
 import com.babytrackmaster.api_gastos.repository.CategoriaGastoRepository;
 import com.babytrackmaster.api_gastos.service.CategoriaService;
+import com.babytrackmaster.api_gastos.exception.NotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,5 +26,14 @@ public class CategoriaServiceImpl implements CategoriaService {
         c.setNombre(req.getNombre());
         c = categoriaRepository.save(c);
         return CategoriaMapper.toResponse(c);
+    }
+
+    @Override
+    public void eliminar(Long id) {
+        CategoriaGasto categoria = categoriaRepository.findOneById(id);
+        if (categoria == null) {
+            throw new NotFoundException("Categoría no encontrada");
+        }
+        categoriaRepository.delete(categoria);
     }
 }
