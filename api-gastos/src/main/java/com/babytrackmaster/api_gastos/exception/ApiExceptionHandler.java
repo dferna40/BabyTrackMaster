@@ -1,12 +1,15 @@
 package com.babytrackmaster.api_gastos.exception;
 
 import org.springframework.http.*;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
@@ -21,13 +24,19 @@ public class ApiExceptionHandler {
         return new ResponseEntity<Object>(body, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleGeneric(Exception ex, WebRequest req) {
-        Map<String, Object> body = new LinkedHashMap<String, Object>();
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleValidation(MethodArgumentNotValidException ex, WebRequest req) {
+        Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now().toString());
-        body.put("status", 500);
-        body.put("error", "Internal Server Error");
-        body.put("message", ex.getMessage());
-        return new ResponseEntity<Object>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+        body.put("status", HttpStatus.BAD_REQUEST.value());
+        body.put("error", "Bad Request");
+
+        Map<String, String> fieldErrors = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
+
+        body.put("message", fieldErrors);
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 }
