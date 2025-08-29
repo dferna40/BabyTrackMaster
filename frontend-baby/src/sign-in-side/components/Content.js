@@ -7,32 +7,33 @@ import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
 import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
 import ThumbUpAltRoundedIcon from '@mui/icons-material/ThumbUpAltRounded';
 import BabyChangingStationIcon from '@mui/icons-material/BabyChangingStation';
+import ChildCareIcon from '@mui/icons-material/ChildCare';
 import { SitemarkIcon } from './CustomIcons';
 
 const items = [
   {
-    icon: <BabyChangingStationIcon sx={{ color: 'text.secondary' }} />,
-    title: 'Adaptable performance',
+    icon: <ChildCareIcon sx={{ color: 'text.secondary' }} />,
+    title: 'BabyTrackMaster',
     description:
       'Organiza y acompaña cada momento de tu bebé.',
   },
   {
-    icon: <ConstructionRoundedIcon sx={{ color: 'text.secondary' }} />,
-    title: 'Built to last',
+    icon: <BabyChangingStationIcon sx={{ color: 'text.secondary' }} />,
+    title: 'Experimenta una gestión integral de tu bebé',
     description:
-      'Experience unmatched durability that goes above and beyond with lasting investment.',
+      'Desde el seguimiento de la alimentación y el sueño hasta el control del crecimiento y desarrollo, todo en una sola aplicación.',
   },
   {
     icon: <ThumbUpAltRoundedIcon sx={{ color: 'text.secondary' }} />,
-    title: 'Great user experience',
+    title: 'Gran experiencia de usuario',
     description:
-      'Integrate our product into your routine with an intuitive and easy-to-use interface.',
+      'Disfruta de una interfaz intuitiva y atractiva que hace que el seguimiento del desarrollo de tu bebé sea sencillo y agradable.',
   },
   {
     icon: <AutoFixHighRoundedIcon sx={{ color: 'text.secondary' }} />,
-    title: 'Innovative functionality',
+    title: 'Funcionalidad innovadora',
     description:
-      'Stay ahead with features that set new standards, addressing your evolving needs better than the rest.',
+      'Aprovecha las últimas tecnologías para ofrecerte herramientas avanzadas que facilitan la gestión y el seguimiento del bienestar de tu bebé.',
   },
 ];
 

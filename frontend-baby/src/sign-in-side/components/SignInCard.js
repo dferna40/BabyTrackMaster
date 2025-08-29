@@ -88,7 +88,7 @@ export default function SignInCard() {
 
     if (!password.value || password.value.length < 6) {
       setPasswordError(true);
-      setPasswordErrorMessage('La contraseña debe contener como minimo 8 caracteres.');
+      setPasswordErrorMessage('La contraseña debe contener como mínimo 8 caracteres.');
       isValid = false;
     } else {
       setPasswordError(false);
@@ -183,7 +183,7 @@ export default function SignInCard() {
         <Button
           fullWidth
           variant="outlined"
-          onClick={() => alert('Sign in with Google')}
+          onClick={() => alert('Acceder con Google')}
           startIcon={<GoogleIcon />}
         >
           Acceder con Google
@@ -191,7 +191,7 @@ export default function SignInCard() {
         <Button
           fullWidth
           variant="outlined"
-          onClick={() => alert('Sign in with Facebook')}
+          onClick={() => alert('Acceder con Facebook')}
           startIcon={<FacebookIcon />}
         >
           Acceder con Facebook
