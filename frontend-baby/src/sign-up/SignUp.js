@@ -13,9 +13,11 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
+import axios from 'axios';
 import AppTheme from '../shared-theme/AppTheme';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
+import API_BASE_URL from '../config';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../sign-up/components/CustomIcons';
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -67,6 +69,8 @@ export default function SignUp(props) {
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [nameError, setNameError] = React.useState(false);
   const [nameErrorMessage, setNameErrorMessage] = React.useState('');
+  const [apiErrorMessage, setApiErrorMessage] = React.useState('');
+  const navigate = useNavigate();
 
   const validateInputs = () => {
     const email = document.getElementById('email');
@@ -105,18 +109,26 @@ export default function SignUp(props) {
     return isValid;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     if (nameError || emailError || passwordError) {
-      event.preventDefault();
       return;
     }
+    setApiErrorMessage('');
     const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get('name'),
-      lastName: data.get('lastName'),
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    try {
+      await axios.post(`${API_BASE_URL}/api/v1/auth/register`, {
+        nombre: data.get('name'),
+        apellidos: data.get('aplellidos'),
+        email: data.get('email'),
+        password: data.get('password'),
+      });
+      alert('Registro realizado con éxito');
+      navigate('/signin');
+    } catch (error) {
+      const message = error.response?.data?.message || 'Error al registrarse';
+      setApiErrorMessage(message);
+    }
   };
 
   return (
@@ -138,6 +150,9 @@ export default function SignUp(props) {
             onSubmit={handleSubmit}
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
           >
+            {apiErrorMessage && (
+              <Typography color="error">{apiErrorMessage}</Typography>
+            )}
             <FormControl>
               <FormLabel htmlFor="name">Nombre</FormLabel>
               <TextField
