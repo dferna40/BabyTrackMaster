@@ -14,6 +14,7 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import AppTheme from '../shared-theme/AppTheme';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../sign-up/components/CustomIcons';
 
@@ -76,7 +77,7 @@ export default function SignUp(props) {
 
     if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
       setEmailError(true);
-      setEmailErrorMessage('Please enter a valid email address.');
+      setEmailErrorMessage('Por favor introduce un email valido.');
       isValid = false;
     } else {
       setEmailError(false);
@@ -85,7 +86,7 @@ export default function SignUp(props) {
 
     if (!password.value || password.value.length < 6) {
       setPasswordError(true);
-      setPasswordErrorMessage('Password must be at least 6 characters long.');
+      setPasswordErrorMessage('La contraseña debe tener como minimo 8 caracteres.');
       isValid = false;
     } else {
       setPasswordError(false);
@@ -94,7 +95,7 @@ export default function SignUp(props) {
 
     if (!name.value || name.value.length < 1) {
       setNameError(true);
-      setNameErrorMessage('Name is required.');
+      setNameErrorMessage('El nombre es obligatorio.');
       isValid = false;
     } else {
       setNameError(false);
@@ -130,7 +131,7 @@ export default function SignUp(props) {
             variant="h4"
             sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
           >
-            Sign up
+            Registro
           </Typography>
           <Box
             component="form"
@@ -138,14 +139,28 @@ export default function SignUp(props) {
             sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
           >
             <FormControl>
-              <FormLabel htmlFor="name">Full name</FormLabel>
+              <FormLabel htmlFor="name">Nombre</FormLabel>
               <TextField
                 autoComplete="name"
                 name="name"
                 required
                 fullWidth
                 id="name"
-                placeholder="Jon Snow"
+                placeholder="David"
+                error={nameError}
+                helperText={nameErrorMessage}
+                color={nameError ? 'error' : 'primary'}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="name">Apellidos</FormLabel>
+              <TextField
+                autoComplete="aplellidos"
+                name="aplellidos"
+                required
+                fullWidth
+                id="aplellidos"
+                placeholder="Fernández Ramírez"
                 error={nameError}
                 helperText={nameErrorMessage}
                 color={nameError ? 'error' : 'primary'}
@@ -157,7 +172,7 @@ export default function SignUp(props) {
                 required
                 fullWidth
                 id="email"
-                placeholder="your@email.com"
+                placeholder="tuEmail@email.com"
                 name="email"
                 autoComplete="email"
                 variant="outlined"
@@ -167,7 +182,7 @@ export default function SignUp(props) {
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
+              <FormLabel htmlFor="password">Contraseña</FormLabel>
               <TextField
                 required
                 fullWidth
@@ -182,21 +197,18 @@ export default function SignUp(props) {
                 color={passwordError ? 'error' : 'primary'}
               />
             </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="allowExtraEmails" color="primary" />}
-              label="I want to receive updates via email."
-            />
+            
             <Button
               type="submit"
               fullWidth
               variant="contained"
               onClick={validateInputs}
             >
-              Sign up
+              Registrarse
             </Button>
           </Box>
           <Divider>
-            <Typography sx={{ color: 'text.secondary' }}>or</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>o</Typography>
           </Divider>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Button
@@ -205,7 +217,7 @@ export default function SignUp(props) {
               onClick={() => alert('Sign up with Google')}
               startIcon={<GoogleIcon />}
             >
-              Sign up with Google
+              Acceder con Google
             </Button>
             <Button
               fullWidth
@@ -213,16 +225,12 @@ export default function SignUp(props) {
               onClick={() => alert('Sign up with Facebook')}
               startIcon={<FacebookIcon />}
             >
-              Sign up with Facebook
+              Acceder con Facebook
             </Button>
             <Typography sx={{ textAlign: 'center' }}>
-              Already have an account?{' '}
-              <Link
-                href="/material-ui/getting-started/templates/sign-in/"
-                variant="body2"
-                sx={{ alignSelf: 'center' }}
-              >
-                Sign in
+              ¿Ya tienes cuenta?{' '}
+              <Link component={RouterLink} to="/signin" variant="body2" sx={{ alignSelf: 'center' }}>
+                Iniciar sesión
               </Link>
             </Typography>
           </Box>

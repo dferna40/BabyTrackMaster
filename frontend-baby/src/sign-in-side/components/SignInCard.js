@@ -124,7 +124,7 @@ export default function SignInCard() {
             id="email"
             type="email"
             name="email"
-            placeholder="your@email.com"
+            placeholder="tuEmail@email.com"
             autoComplete="email"
             autoFocus
             required
