@@ -1,5 +1,6 @@
 import * as React from 'react';
 import SvgIcon from '@mui/material/SvgIcon';
+import BabyLogo from '../../assets/baby-logo.png';
 
 export function SitemarkIcon() {
   return (
