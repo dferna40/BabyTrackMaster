@@ -178,7 +178,7 @@ export default function SignInCard() {
           onClick={() => alert('Sign in with Google')}
           startIcon={<GoogleIcon />}
         >
-          Sign in with Google
+          Acceder con Google
         </Button>
         <Button
           fullWidth
@@ -186,7 +186,7 @@ export default function SignInCard() {
           onClick={() => alert('Sign in with Facebook')}
           startIcon={<FacebookIcon />}
         >
-          Sign in with Facebook
+          Acceder con Facebook
         </Button>
       </Box>
     </Card>
