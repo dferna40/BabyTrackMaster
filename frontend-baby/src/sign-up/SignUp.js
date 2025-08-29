@@ -119,7 +119,7 @@ export default function SignUp(props) {
     try {
       await axios.post(`${API_BASE_URL}/api/v1/auth/register`, {
         nombre: data.get('name'),
-        apellidos: data.get('aplellidos'),
+        apellidos: data.get('apellidos'),
         email: data.get('email'),
         password: data.get('password'),
       });
@@ -168,13 +168,13 @@ export default function SignUp(props) {
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="name">Apellidos</FormLabel>
+              <FormLabel htmlFor="apellidos">Apellidos</FormLabel>
               <TextField
-                autoComplete="aplellidos"
-                name="aplellidos"
+                autoComplete="apellidos"
+                name="apellidos"
                 required
                 fullWidth
-                id="aplellidos"
+                id="apellidos"
                 placeholder="Fernández Ramírez"
                 error={nameError}
                 helperText={nameErrorMessage}
