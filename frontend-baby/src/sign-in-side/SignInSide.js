@@ -11,16 +11,15 @@ export default function SignInSide(props) {
     <AppTheme {...props}>
       <CssBaseline enableColorScheme />
       <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
-      <Stack
-        direction="column"
-        component="main"
-        sx={[
-          {
-            justifyContent: 'center',
-            height: 'calc((1 - var(--template-frame-height, 0)) * 100%)',
-            marginTop: 'max(40px - var(--template-frame-height, 0px), 0px)',
-            minHeight: '100%',
-          },
+        <Stack
+          direction="column"
+          component="main"
+          sx={[
+            {
+              justifyContent: 'center',
+              position: 'relative',
+              minHeight: '100vh',
+            },
           (theme) => ({
             '&::before': {
               content: '""',
