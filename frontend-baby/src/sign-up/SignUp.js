@@ -88,7 +88,7 @@ export default function SignUp(props) {
       setEmailErrorMessage('');
     }
 
-    if (!password.value || password.value.length < 6) {
+    if (!password.value || password.value.length < 8) {
       setPasswordError(true);
       setPasswordErrorMessage('La contraseña debe tener como minimo 8 caracteres.');
       isValid = false;
