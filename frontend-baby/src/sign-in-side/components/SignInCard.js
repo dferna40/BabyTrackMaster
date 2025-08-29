@@ -11,6 +11,9 @@ import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 import ForgotPassword from './ForgotPassword';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
 
@@ -38,6 +41,8 @@ export default function SignInCard() {
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
+  const { login } = React.useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -47,16 +52,23 @@ export default function SignInCard() {
     setOpen(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     if (emailError || passwordError) {
-      event.preventDefault();
       return;
     }
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    try {
+      const response = await axios.post('http://localhost:8080/api/v1/auth/login', {
+        email: data.get('email'),
+        password: data.get('password'),
+      });
+      const token = response.data.token;
+      login(token);
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Login failed', error);
+    }
   };
 
   const validateInputs = () => {
