@@ -1,6 +1,10 @@
-html, body, #root { height: 100%; }
+html, body, #root {
+  height: 100%;
+  min-height: 100vh;
+}
 body {
   margin: 0;
   font-family: Inter, Roboto, -apple-system, Segoe UI, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Arial, sans-serif;
-  background: radial-gradient(1000px 600px at 20% 10%, #ff7aa8 0%, #c5456f 35%, #9b2a4f 65%, #641d37 100%) fixed;
+  background: radial-gradient(circle at 20% 10%, #ff7aa8 0%, #c5456f 35%, #9b2a4f 65%, #641d37 100%);
+  background-size: cover;
 }
