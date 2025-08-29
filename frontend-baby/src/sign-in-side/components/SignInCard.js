@@ -12,7 +12,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import ForgotPassword from './ForgotPassword';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
@@ -172,11 +172,7 @@ export default function SignInCard() {
         <Typography sx={{ textAlign: 'center' }}>
           ¿No tienes cuenta?{' '}
           <span>
-            <Link
-              href="/material-ui/getting-started/templates/sign-in/"
-              variant="body2"
-              sx={{ alignSelf: 'center' }}
-            >
+            <Link component={RouterLink} to="/signup" variant="body2" sx={{ alignSelf: 'center' }}>
               Registrate
             </Link>
           </span>
