@@ -13,14 +13,10 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import ForgotPassword from './components/ForgotPassword';
-// import AppTheme from '../shared-theme/AppTheme';
-// Update the path below to the correct location of AppTheme if needed:
+import ForgotPassword from '../components/ForgotPassword';
 import AppTheme from '../theme/AppTheme';
-import ColorModeSelect from '../shared-theme/ColorModeSelect';
-// Update the import path if the file exists elsewhere, for example:
+import ColorModeSelect from '../theme/ColorModeSelect';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../components/CustomIcons';
-// Or create './components/CustomIcons.tsx' and export the icons if missing.
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
