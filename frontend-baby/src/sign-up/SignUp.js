@@ -40,6 +40,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 const SignUpContainer = styled(Stack)(({ theme }) => ({
+  position: 'relative',
   minHeight: '100vh',
   overflowY: 'auto',
   padding: theme.spacing(2),
