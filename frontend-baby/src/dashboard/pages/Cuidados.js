@@ -24,18 +24,26 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
 import { BarChart } from '@mui/x-charts/BarChart';
-import { listarPorBebe } from '../../services/cuidadosService';
+import {
+  listarPorBebe,
+  crearCuidado,
+  actualizarCuidado,
+  eliminarCuidado,
+} from '../../services/cuidadosService';
+import CuidadoForm from '../components/CuidadoForm';
 
 export default function Cuidados() {
   const [tab, setTab] = useState(0);
   const [cuidados, setCuidados] = useState([]);
+  const [openForm, setOpenForm] = useState(false);
+  const [selectedCuidado, setSelectedCuidado] = useState(null);
   const bebeId = 1;
 
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
   };
 
-  useEffect(() => {
+  const fetchCuidados = () => {
     listarPorBebe(bebeId)
       .then((response) => {
         setCuidados(response.data);
@@ -43,7 +51,48 @@ export default function Cuidados() {
       .catch((error) => {
         console.error('Error fetching cuidados:', error);
       });
+  };
+
+  useEffect(() => {
+    fetchCuidados();
   }, [bebeId]);
+
+  const handleAdd = () => {
+    setSelectedCuidado(null);
+    setOpenForm(true);
+  };
+
+  const handleEdit = (cuidado) => {
+    setSelectedCuidado(cuidado);
+    setOpenForm(true);
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm('¿Eliminar cuidado?')) {
+      eliminarCuidado(id)
+        .then(() => fetchCuidados())
+        .catch((error) => {
+          console.error('Error deleting cuidado:', error);
+        });
+    }
+  };
+
+  const handleFormSubmit = (data) => {
+    const payload = { ...data, bebeId, usuarioId: 1 };
+    const request = selectedCuidado
+      ? actualizarCuidado(selectedCuidado.id, payload)
+      : crearCuidado(payload);
+
+    request
+      .then(() => {
+        setOpenForm(false);
+        setSelectedCuidado(null);
+        fetchCuidados();
+      })
+      .catch((error) => {
+        console.error('Error saving cuidado:', error);
+      });
+  };
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -54,7 +103,12 @@ export default function Cuidados() {
         spacing={2}
         mb={2}
       >
-        <Button variant="contained" startIcon={<AddIcon />} sx={{ alignSelf: 'flex-start' }}>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          sx={{ alignSelf: 'flex-start' }}
+          onClick={handleAdd}
+        >
           Añadir nuevo cuidado
         </Button>
         <Stack direction="row" spacing={2} flexWrap="wrap">
@@ -109,10 +163,18 @@ export default function Cuidados() {
                 <TableCell>{cuidado.cantidadMl ?? '-'}</TableCell>
                 <TableCell>{cuidado.observaciones}</TableCell>
                 <TableCell align="center">
-                  <IconButton size="small" aria-label="edit">
+                  <IconButton
+                    size="small"
+                    aria-label="edit"
+                    onClick={() => handleEdit(cuidado)}
+                  >
                     <EditIcon fontSize="small" />
                   </IconButton>
-                  <IconButton size="small" aria-label="delete">
+                  <IconButton
+                    size="small"
+                    aria-label="delete"
+                    onClick={() => handleDelete(cuidado.id)}
+                  >
                     <DeleteIcon fontSize="small" />
                   </IconButton>
                 </TableCell>
@@ -136,6 +198,12 @@ export default function Cuidados() {
           />
         </CardContent>
       </Card>
+      <CuidadoForm
+        open={openForm}
+        onClose={() => setOpenForm(false)}
+        onSubmit={handleFormSubmit}
+        initialData={selectedCuidado}
+      />
     </Box>
   );
 }
