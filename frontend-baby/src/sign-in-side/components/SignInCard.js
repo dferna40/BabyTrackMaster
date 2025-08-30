@@ -15,8 +15,9 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import ForgotPassword from './ForgotPassword';
 import Button from '@mui/material/Button';
-import { FacebookIcon, SitemarkIcon } from './CustomIcons';
+import { SitemarkIcon } from './CustomIcons';
 import { GoogleLogin } from '@react-oauth/google';
+import FacebookLogin from '@greatsumini/react-facebook-login';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -196,14 +197,22 @@ export default function SignInCard() {
           }}
           onError={() => console.error('Google login failed')}
         />
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={() => alert('Acceder con Facebook')}
-          startIcon={<FacebookIcon />}
-        >
-          Acceder con Facebook
-        </Button>
+        <FacebookLogin
+          appId={process.env.REACT_APP_FACEBOOK_APP_ID}
+          onSuccess={async (response) => {
+            try {
+              const res = await axios.post('http://localhost:8080/api/v1/auth/facebook', {
+                token: response.accessToken,
+              });
+              const token = res.data.token;
+              login(token);
+              navigate('/dashboard');
+            } catch (error) {
+              console.error('Facebook login failed', error);
+            }
+          }}
+          onFail={(error) => console.error('Facebook login failed', error)}
+        />
       </Box>
     </Card>
   );
