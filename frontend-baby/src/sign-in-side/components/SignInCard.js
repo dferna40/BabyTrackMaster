@@ -15,8 +15,8 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import ForgotPassword from './ForgotPassword';
 import Button from '@mui/material/Button';
-import { SitemarkIcon } from './CustomIcons';
-import { GoogleLogin } from '@react-oauth/google';
+import { SitemarkIcon, GoogleIcon, FacebookIcon } from './CustomIcons';
+import { useGoogleLogin } from '@react-oauth/google';
 import FacebookLogin from '@greatsumini/react-facebook-login';
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -45,6 +45,22 @@ export default function SignInCard() {
   const [open, setOpen] = React.useState(false);
   const { login } = React.useContext(AuthContext);
   const navigate = useNavigate();
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const response = await axios.post('http://localhost:8080/api/v1/auth/google', {
+          token: tokenResponse.access_token,
+        });
+        const token = response.data.token;
+        login(token);
+        navigate('/dashboard');
+      } catch (error) {
+        console.error('Google login failed', error);
+      }
+    },
+    onError: () => console.error('Google login failed'),
+  });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -182,21 +198,25 @@ export default function SignInCard() {
       </Box>
       <Divider>o</Divider>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <GoogleLogin
-          onSuccess={async (credentialResponse) => {
-            try {
-              const response = await axios.post('http://localhost:8080/api/v1/auth/google', {
-                token: credentialResponse.credential,
-              });
-              const token = response.data.token;
-              login(token);
-              navigate('/dashboard');
-            } catch (error) {
-              console.error('Google login failed', error);
-            }
+        <Button
+          fullWidth
+          variant="outlined"
+          startIcon={<GoogleIcon />}
+          onClick={() => googleLogin()}
+          sx={{
+            justifyContent: 'flex-start',
+            textTransform: 'none',
+            bgcolor: 'grey.900',
+            color: 'grey.50',
+            borderColor: 'grey.700',
+            '&:hover': {
+              bgcolor: 'grey.800',
+              borderColor: 'grey.600',
+            },
           }}
-          onError={() => console.error('Google login failed')}
-        />
+        >
+          Acceder con Google
+        </Button>
         <FacebookLogin
           appId={process.env.REACT_APP_FACEBOOK_APP_ID}
           onSuccess={async (response) => {
@@ -212,6 +232,27 @@ export default function SignInCard() {
             }
           }}
           onFail={(error) => console.error('Facebook login failed', error)}
+          render={(renderProps) => (
+            <Button
+              fullWidth
+              variant="outlined"
+              startIcon={<FacebookIcon />}
+              onClick={renderProps.onClick}
+              sx={{
+                justifyContent: 'flex-start',
+                textTransform: 'none',
+                bgcolor: 'grey.900',
+                color: 'grey.50',
+                borderColor: 'grey.700',
+                '&:hover': {
+                  bgcolor: 'grey.800',
+                  borderColor: 'grey.600',
+                },
+              }}
+            >
+              Acceder con Facebook
+            </Button>
+          )}
         />
       </Box>
     </Card>
