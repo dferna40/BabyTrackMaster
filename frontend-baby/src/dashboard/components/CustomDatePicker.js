@@ -1,5 +1,6 @@
 import * as React from 'react';
 import dayjs from 'dayjs';
+import 'dayjs/locale/es';
 import { useForkRef } from '@mui/material/utils';
 import Button from '@mui/material/Button';
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded';
@@ -39,12 +40,13 @@ function ButtonField(props) {
 
 export default function CustomDatePicker() {
   const [value, setValue] = React.useState(dayjs('2023-04-17'));
+  dayjs.locale('es');
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
       <DatePicker
         value={value}
-        label={value == null ? null : value.format('MMM DD, YYYY')}
+        label={value == null ? null : value.format('DD MMM YYYY')}
         onChange={(newValue) => setValue(newValue)}
         slots={{ field: ButtonField }}
         slotProps={{

@@ -59,7 +59,7 @@ function SideMenuMobile({ open, toggleDrawer }) {
         <CardAlert />
         <Stack sx={{ p: 2 }}>
           <Button variant="outlined" fullWidth startIcon={<LogoutRoundedIcon />}>
-            Logout
+            Cerrar sesión
           </Button>
         </Stack>
       </Stack>

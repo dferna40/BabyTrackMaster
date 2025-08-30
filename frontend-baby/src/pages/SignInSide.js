@@ -60,14 +60,14 @@ export default function SignInSide(props) {
         >
           <SignInCard component="form" onSubmit={handleSubmit}>
             <Typography component="h1" variant="h5">
-              Sign in
+              Iniciar sesión
             </Typography>
             <TextField
               margin="normal"
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Correo electrónico"
               name="email"
               autoComplete="email"
               autoFocus
@@ -77,27 +77,27 @@ export default function SignInSide(props) {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Contraseña"
               type="password"
               id="password"
               autoComplete="current-password"
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label="Recordarme"
             />
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-              Sign In
+              Iniciar sesión
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                  ¿Olvidaste tu contraseña?
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {"¿No tienes una cuenta? Regístrate"}
                 </Link>
               </Grid>
             </Grid>

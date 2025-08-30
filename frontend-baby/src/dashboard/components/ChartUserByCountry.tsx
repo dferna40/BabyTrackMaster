@@ -18,9 +18,9 @@ import {
 
 const data = [
   { label: 'India', value: 50000 },
-  { label: 'USA', value: 35000 },
-  { label: 'Brazil', value: 10000 },
-  { label: 'Other', value: 5000 },
+  { label: 'EE.UU.', value: 35000 },
+  { label: 'Brasil', value: 10000 },
+  { label: 'Otros', value: 5000 },
 ];
 
 const countries = [
@@ -31,19 +31,19 @@ const countries = [
     color: 'hsl(220, 25%, 65%)',
   },
   {
-    name: 'USA',
+    name: 'EE.UU.',
     value: 35,
     flag: <UsaFlag />,
     color: 'hsl(220, 25%, 45%)',
   },
   {
-    name: 'Brazil',
+    name: 'Brasil',
     value: 10,
     flag: <BrazilFlag />,
     color: 'hsl(220, 25%, 30%)',
   },
   {
-    name: 'Other',
+    name: 'Otros',
     value: 5,
     flag: <GlobeFlag />,
     color: 'hsl(220, 25%, 20%)',
@@ -129,7 +129,7 @@ export default function ChartUserByCountry() {
     >
       <CardContent>
         <Typography component="h2" variant="subtitle2">
-          Users by country
+          Usuarios por país
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <PieChart
@@ -181,7 +181,7 @@ export default function ChartUserByCountry() {
               </Stack>
               <LinearProgress
                 variant="determinate"
-                aria-label="Number of users by country"
+                aria-label="Número de usuarios por país"
                 value={country.value}
                 sx={{
                   [`& .${linearProgressClasses.bar}`]: {

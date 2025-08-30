@@ -12,7 +12,7 @@ import { areaElementClasses } from '@mui/x-charts/LineChart';
 
 function getDaysInMonth(month, year) {
   const date = new Date(year, month, 0);
-  const monthName = date.toLocaleDateString('en-US', {
+  const monthName = date.toLocaleDateString('es-ES', {
     month: 'short',
   });
   const daysInMonth = date.getDate();

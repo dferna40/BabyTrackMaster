@@ -31,43 +31,43 @@ type ExtendedTreeItemProps = {
 const ITEMS: TreeViewBaseItem<ExtendedTreeItemProps>[] = [
   {
     id: '1',
-    label: 'Website',
+    label: 'Sitio web',
     children: [
-      { id: '1.1', label: 'Home', color: 'green' },
-      { id: '1.2', label: 'Pricing', color: 'green' },
-      { id: '1.3', label: 'About us', color: 'green' },
+      { id: '1.1', label: 'Inicio', color: 'green' },
+      { id: '1.2', label: 'Precios', color: 'green' },
+      { id: '1.3', label: 'Sobre nosotros', color: 'green' },
       {
         id: '1.4',
         label: 'Blog',
         children: [
-          { id: '1.1.1', label: 'Announcements', color: 'blue' },
-          { id: '1.1.2', label: 'April lookahead', color: 'blue' },
-          { id: '1.1.3', label: "What's new", color: 'blue' },
-          { id: '1.1.4', label: 'Meet the team', color: 'blue' },
+          { id: '1.1.1', label: 'Anuncios', color: 'blue' },
+          { id: '1.1.2', label: 'Avance de abril', color: 'blue' },
+          { id: '1.1.3', label: 'Novedades', color: 'blue' },
+          { id: '1.1.4', label: 'Conoce al equipo', color: 'blue' },
         ],
       },
     ],
   },
   {
     id: '2',
-    label: 'Store',
+    label: 'Tienda',
     children: [
-      { id: '2.1', label: 'All products', color: 'green' },
+      { id: '2.1', label: 'Todos los productos', color: 'green' },
       {
         id: '2.2',
-        label: 'Categories',
+        label: 'Categorías',
         children: [
-          { id: '2.2.1', label: 'Gadgets', color: 'blue' },
-          { id: '2.2.2', label: 'Phones', color: 'blue' },
-          { id: '2.2.3', label: 'Wearables', color: 'blue' },
+          { id: '2.2.1', label: 'Dispositivos', color: 'blue' },
+          { id: '2.2.2', label: 'Teléfonos', color: 'blue' },
+          { id: '2.2.3', label: 'Dispositivos portátiles', color: 'blue' },
         ],
       },
-      { id: '2.3', label: 'Bestsellers', color: 'green' },
-      { id: '2.4', label: 'Sales', color: 'green' },
+      { id: '2.3', label: 'Más vendidos', color: 'green' },
+      { id: '2.4', label: 'Ventas', color: 'green' },
     ],
   },
-  { id: '4', label: 'Contact', color: 'blue' },
-  { id: '5', label: 'Help', color: 'blue' },
+  { id: '4', label: 'Contacto', color: 'blue' },
+  { id: '5', label: 'Ayuda', color: 'blue' },
 ];
 
 function DotIcon({ color }: { color: string }) {

@@ -40,7 +40,7 @@ export default function SelectContent() {
       value={company}
       onChange={handleChange}
       displayEmpty
-      inputProps={{ 'aria-label': 'Select company' }}
+      inputProps={{ 'aria-label': 'Seleccionar empresa' }}
       fullWidth
       sx={{
         maxHeight: 56,
@@ -56,14 +56,14 @@ export default function SelectContent() {
         },
       }}
     >
-      <ListSubheader sx={{ pt: 0 }}>Production</ListSubheader>
+      <ListSubheader sx={{ pt: 0 }}>Producción</ListSubheader>
       <MenuItem value="">
         <ListItemAvatar>
           <Avatar alt="Sitemark web">
             <DevicesRoundedIcon sx={{ fontSize: '1rem' }} />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Sitemark-web" secondary="Web app" />
+        <ListItemText primary="Sitemark-web" secondary="Aplicación web" />
       </MenuItem>
       <MenuItem value={10}>
         <ListItemAvatar>
@@ -71,7 +71,7 @@ export default function SelectContent() {
             <SmartphoneRoundedIcon sx={{ fontSize: '1rem' }} />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Sitemark-app" secondary="Mobile application" />
+        <ListItemText primary="Sitemark-app" secondary="Aplicación móvil" />
       </MenuItem>
       <MenuItem value={20}>
         <ListItemAvatar>
@@ -79,23 +79,23 @@ export default function SelectContent() {
             <DevicesRoundedIcon sx={{ fontSize: '1rem' }} />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Sitemark-Store" secondary="Web app" />
+        <ListItemText primary="Sitemark-Store" secondary="Aplicación web" />
       </MenuItem>
-      <ListSubheader>Development</ListSubheader>
+      <ListSubheader>Desarrollo</ListSubheader>
       <MenuItem value={30}>
         <ListItemAvatar>
           <Avatar alt="Sitemark Store">
             <ConstructionRoundedIcon sx={{ fontSize: '1rem' }} />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Sitemark-Admin" secondary="Web app" />
+        <ListItemText primary="Sitemark-Admin" secondary="Aplicación web" />
       </MenuItem>
       <Divider sx={{ mx: -1 }} />
       <MenuItem value={40}>
         <ListItemIcon>
           <AddRoundedIcon />
         </ListItemIcon>
-        <ListItemText primary="Add product" secondary="Web app" />
+        <ListItemText primary="Agregar producto" secondary="Aplicación web" />
       </MenuItem>
     </Select>
   );

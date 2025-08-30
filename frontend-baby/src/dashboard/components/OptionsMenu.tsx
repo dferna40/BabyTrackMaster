@@ -27,7 +27,7 @@ export default function OptionsMenu() {
   return (
     <React.Fragment>
       <MenuButton
-        aria-label="Open menu"
+        aria-label="Abrir menú"
         onClick={handleClick}
         sx={{ borderColor: 'transparent' }}
       >
@@ -53,11 +53,11 @@ export default function OptionsMenu() {
           },
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleClose}>Perfil</MenuItem>
+        <MenuItem onClick={handleClose}>Mi cuenta</MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>Add another account</MenuItem>
-        <MenuItem onClick={handleClose}>Settings</MenuItem>
+        <MenuItem onClick={handleClose}>Agregar otra cuenta</MenuItem>
+        <MenuItem onClick={handleClose}>Configuración</MenuItem>
         <Divider />
         <MenuItem
           onClick={handleClose}
@@ -68,7 +68,7 @@ export default function OptionsMenu() {
             },
           }}
         >
-          <ListItemText>Logout</ListItemText>
+          <ListItemText>Cerrar sesión</ListItemText>
           <ListItemIcon>
             <LogoutRoundedIcon fontSize="small" />
           </ListItemIcon>

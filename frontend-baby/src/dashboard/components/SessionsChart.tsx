@@ -20,7 +20,7 @@ function AreaGradient({ color, id }: { color: string; id: string }) {
 
 function getDaysInMonth(month: number, year: number) {
   const date = new Date(year, month, 0);
-  const monthName = date.toLocaleDateString('en-US', {
+  const monthName = date.toLocaleDateString('es-ES', {
     month: 'short',
   });
   const daysInMonth = date.getDate();
@@ -47,7 +47,7 @@ export default function SessionsChart() {
     <Card variant="outlined" sx={{ width: '100%' }}>
       <CardContent>
         <Typography component="h2" variant="subtitle2" gutterBottom>
-          Sessions
+          Sesiones
         </Typography>
         <Stack sx={{ justifyContent: 'space-between' }}>
           <Stack
@@ -64,7 +64,7 @@ export default function SessionsChart() {
             <Chip size="small" color="success" label="+35%" />
           </Stack>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-            Sessions per day for the last 30 days
+            Sesiones por día de los últimos 30 días
           </Typography>
         </Stack>
         <LineChart
@@ -81,7 +81,7 @@ export default function SessionsChart() {
           series={[
             {
               id: 'direct',
-              label: 'Direct',
+              label: 'Directo',
               showMark: false,
               curve: 'linear',
               stack: 'total',
@@ -95,7 +95,7 @@ export default function SessionsChart() {
             },
             {
               id: 'referral',
-              label: 'Referral',
+              label: 'Referidos',
               showMark: false,
               curve: 'linear',
               stack: 'total',
@@ -109,7 +109,7 @@ export default function SessionsChart() {
             },
             {
               id: 'organic',
-              label: 'Organic',
+              label: 'Orgánico',
               showMark: false,
               curve: 'linear',
               stack: 'total',
