@@ -27,7 +27,7 @@ export default function Dashboard(props) {
   return (
     <AppTheme {...props} themeComponents={xThemeComponents}>
       <CssBaseline enableColorScheme />
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', minHeight: '100vh' }}>
         <SideMenu />
         <AppNavbar />
         {/* Main content */}
@@ -35,6 +35,7 @@ export default function Dashboard(props) {
           component="main"
           sx={(theme) => ({
             flexGrow: 1,
+            minHeight: '100vh',
             backgroundColor: theme.vars
               ? `rgba(${theme.vars.palette.background.defaultChannel} / 1)`
               : alpha(theme.palette.background.default, 1),
