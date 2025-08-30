@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { NavLink } from 'react-router-dom';
 import SelectContent from './SelectContent';
 import MenuContent from './MenuContent';
 import CardAlert from './CardAlert';
@@ -66,19 +67,32 @@ export default function SideMenu() {
           borderColor: 'divider',
         }}
       >
-        <Avatar
-          sizes="small"
-          alt="Riley Carter"
-          src="/static/images/avatar/7.jpg"
-          sx={{ width: 36, height: 36 }}
-        />
-        <Box sx={{ mr: 'auto' }}>
-          <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: '16px' }}>
-            Riley Carter
-          </Typography>
-          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-            riley@email.com
-          </Typography>
+        <Box
+          component={NavLink}
+          to="/dashboard/profile"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1,
+            textDecoration: 'none',
+            color: 'inherit',
+            mr: 'auto',
+          }}
+        >
+          <Avatar
+            sizes="small"
+            alt="Riley Carter"
+            src="/static/images/avatar/7.jpg"
+            sx={{ width: 36, height: 36 }}
+          />
+          <Box>
+            <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: '16px' }}>
+              Riley Carter
+            </Typography>
+            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+              riley@email.com
+            </Typography>
+          </Box>
         </Box>
         <OptionsMenu />
       </Stack>
