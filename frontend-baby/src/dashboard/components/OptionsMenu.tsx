@@ -53,7 +53,6 @@ export default function OptionsMenu() {
           },
         }}
       >
-        <MenuItem onClick={handleClose}>Perfil</MenuItem>
         <MenuItem onClick={handleClose}>Mi cuenta</MenuItem>
         <Divider />
         <MenuItem onClick={handleClose}>Agregar otra cuenta</MenuItem>

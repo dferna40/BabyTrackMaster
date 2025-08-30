@@ -12,7 +12,6 @@ import MonetizationOnRoundedIcon from '@mui/icons-material/MonetizationOnRounded
 import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
 import EventRoundedIcon from '@mui/icons-material/EventRounded';
 import ScheduleRoundedIcon from '@mui/icons-material/ScheduleRounded';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import HelpRoundedIcon from '@mui/icons-material/HelpRounded';
@@ -27,7 +26,6 @@ const mainListItems = [
 ];
 
 const secondaryListItems = [
-  { text: 'Perfil', icon: <AccountCircleIcon />, to: '/dashboard/profile' },
   { text: 'Configuración', icon: <SettingsRoundedIcon />, to: '/dashboard/configuracion' },
   { text: 'Acerca de', icon: <InfoRoundedIcon />, to: '/dashboard/acerca' },
   { text: 'Ayuda', icon: <HelpRoundedIcon />, to: '/dashboard/ayuda' },

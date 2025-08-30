@@ -174,7 +174,7 @@ export const rows: GridRowsProp = [
   },
   {
     id: 4,
-    pageTitle: 'User Profile Dashboard',
+    pageTitle: 'User Dashboard',
     status: 'Online',
     eventCount: 112543,
     users: 96240,
@@ -503,7 +503,7 @@ export const rows: GridRowsProp = [
   },
   {
     id: 27,
-    pageTitle: 'Profiles - Team Members',
+    pageTitle: 'Team Members',
     status: 'Offline',
     eventCount: 5634,
     users: 23423,
