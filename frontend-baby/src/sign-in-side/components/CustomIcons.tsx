@@ -8,7 +8,7 @@ export function SitemarkIcon() {
       component="img"
       src="/baby-logo.png"
       alt="Baby logo"
-      sx={{ height: 48, width: 48, alignSelf: 'center' }}
+      sx={{ height: 120, width: 120, alignSelf: 'center' }}
     />
   );
 }
