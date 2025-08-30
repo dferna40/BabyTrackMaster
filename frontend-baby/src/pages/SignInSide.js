@@ -11,7 +11,6 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import AppTheme from '../theme/AppTheme';
-import ColorModeSelect from '../theme/ColorModeSelect';
 
 const SignInCard = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -59,7 +58,6 @@ export default function SignInSide(props) {
           square
           sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
-          <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
           <SignInCard component="form" onSubmit={handleSubmit}>
             <Typography component="h1" variant="h5">
               Sign in
