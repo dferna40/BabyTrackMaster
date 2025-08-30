@@ -13,3 +13,11 @@ Pantallas de autenticación, dashboard, cuidados, gastos, hitos, diario, citas, 
 - **jwt-decode**
 - Gestión de estado con Context / useReducer
 - Herramientas: Create React App (o Vite), ESLint/Prettier (opcional)
+
+## Configuración
+
+Crea un archivo `.env` en `frontend-baby/` con tu Client ID de Google OAuth:
+
+```
+REACT_APP_GOOGLE_CLIENT_ID=<tu client ID de Google OAuth>
+```
