@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import MuiCard from '@mui/material/Card';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
@@ -15,7 +14,9 @@ import axios from 'axios';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import ForgotPassword from './ForgotPassword';
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
+import Button from '@mui/material/Button';
+import { FacebookIcon, SitemarkIcon } from './CustomIcons';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -180,14 +181,21 @@ export default function SignInCard() {
       </Box>
       <Divider>o</Divider>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={() => alert('Acceder con Google')}
-          startIcon={<GoogleIcon />}
-        >
-          Acceder con Google
-        </Button>
+        <GoogleLogin
+          onSuccess={async (credentialResponse) => {
+            try {
+              const response = await axios.post('http://localhost:8080/api/v1/auth/google', {
+                token: credentialResponse.credential,
+              });
+              const token = response.data.token;
+              login(token);
+              navigate('/dashboard');
+            } catch (error) {
+              console.error('Google login failed', error);
+            }
+          }}
+          onError={() => console.error('Google login failed')}
+        />
         <Button
           fullWidth
           variant="outlined"

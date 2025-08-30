@@ -93,7 +93,7 @@ public class SecurityConfig {
             	    .requestMatchers("/error").permitAll()
             	    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             	    // Auth públicas
-            	    .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/register").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/auth/google").permitAll()
             	    // (si mantienes el login bajo /usuarios, déjalo también)
             	    .requestMatchers(HttpMethod.POST, "/api/v1/usuarios/login").permitAll()
             	    // Resto protegido
