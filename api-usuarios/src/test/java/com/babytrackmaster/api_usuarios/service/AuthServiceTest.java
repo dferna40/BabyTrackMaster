@@ -11,17 +11,19 @@ import dto.LoginDTO;
 import entity.Rol;
 import entity.Usuario;
 import repository.UsuarioRepository;
+import repository.RolRepository;
 import service.AuthService;
 import service.JwtService;
 
 public class AuthServiceTest {
 
-	private UsuarioRepository usuarioRepository;
-	private PasswordEncoder passwordEncoder;
-	private JwtService jwtService;
-	private AuthService authService;
+        private UsuarioRepository usuarioRepository;
+        private PasswordEncoder passwordEncoder;
+        private JwtService jwtService;
+        private RolRepository rolRepository;
+        private AuthService authService;
 
-	private Usuario usuario;
+        private Usuario usuario;
 
 	@BeforeEach
 	public void setUp() {
@@ -29,7 +31,8 @@ public class AuthServiceTest {
 		passwordEncoder = Mockito.mock(PasswordEncoder.class);
 		jwtService = Mockito.mock(JwtService.class);
 
-		authService = new AuthService(usuarioRepository, passwordEncoder, jwtService);
+                rolRepository = Mockito.mock(RolRepository.class);
+                authService = new AuthService(usuarioRepository, passwordEncoder, jwtService, rolRepository);
 
 		usuario = new Usuario();
 		usuario.setId(1L);

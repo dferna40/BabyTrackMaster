@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dto.LoginDTO;
+import dto.GoogleTokenDTO;
 import dto.RegistroUsuarioDTO;
 import dto.TokenResponseDTO;
 import entity.Usuario;
@@ -40,6 +41,14 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDTO> login(@Valid @RequestBody LoginDTO dto) {
         String token = authService.login(dto);
+        TokenResponseDTO body = new TokenResponseDTO(token, "Bearer");
+        return ResponseEntity.ok().body(body);
+    }
+
+    @Operation(summary = "Login con Google y emisión de JWT")
+    @PostMapping("/google")
+    public ResponseEntity<TokenResponseDTO> loginGoogle(@Valid @RequestBody GoogleTokenDTO dto) {
+        String token = authService.loginWithGoogle(dto.getToken());
         TokenResponseDTO body = new TokenResponseDTO(token, "Bearer");
         return ResponseEntity.ok().body(body);
     }

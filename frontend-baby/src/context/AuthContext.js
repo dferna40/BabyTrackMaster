@@ -20,6 +20,10 @@ export function AuthProvider({ children }) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
   };
 
+  const loginWithGoogle = (newToken) => {
+    login(newToken);
+  };
+
   const logout = () => {
     setToken(null);
     localStorage.removeItem('jwt');
@@ -27,7 +31,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ token, login, logout }}>
+    <AuthContext.Provider value={{ token, login, loginWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );

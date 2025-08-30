@@ -110,6 +110,16 @@ BabyTrackMaster/
 
 Todos los endpoints están protegidos con JWT y Spring Security. Se utilizan roles y filtros personalizados para restringir accesos según el perfil del usuario.
 
+### 🔑 Autenticación con Google
+
+El frontend integra `@react-oauth/google` para el inicio de sesión con Google y el backend ofrece el endpoint `POST /api/v1/auth/google` que valida el token de Google y devuelve un JWT propio.
+
+1. Genera un **OAuth Client ID** en Google Cloud y obtén tu `clientId`.
+2. Configura las credenciales:
+   - En `frontend-baby/.env` define `REACT_APP_GOOGLE_CLIENT_ID`.
+   - En `api-usuarios` expón la variable `GOOGLE_CLIENT_ID`.
+3. Inicia sesión desde el frontend con Google para obtener acceso al resto de microservicios.
+
 ---
 
 ## 📝 Licencia
