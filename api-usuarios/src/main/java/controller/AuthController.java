@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dto.LoginDTO;
 import dto.GoogleTokenDTO;
+import dto.FacebookTokenDTO;
 import dto.RegistroUsuarioDTO;
 import dto.TokenResponseDTO;
 import entity.Usuario;
@@ -49,6 +50,14 @@ public class AuthController {
     @PostMapping("/google")
     public ResponseEntity<TokenResponseDTO> loginGoogle(@Valid @RequestBody GoogleTokenDTO dto) {
         String token = authService.loginWithGoogle(dto.getToken());
+        TokenResponseDTO body = new TokenResponseDTO(token, "Bearer");
+        return ResponseEntity.ok().body(body);
+    }
+
+    @Operation(summary = "Login con Facebook y emisión de JWT")
+    @PostMapping("/facebook")
+    public ResponseEntity<TokenResponseDTO> loginFacebook(@Valid @RequestBody FacebookTokenDTO dto) {
+        String token = authService.loginWithFacebook(dto.getToken());
         TokenResponseDTO body = new TokenResponseDTO(token, "Bearer");
         return ResponseEntity.ok().body(body);
     }

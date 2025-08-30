@@ -92,8 +92,8 @@ public class SecurityConfig {
             	    // Error y preflight
             	    .requestMatchers("/error").permitAll()
             	    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-            	    // Auth públicas
-                    .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/auth/google").permitAll()
+                    // Auth públicas
+                    .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/auth/google", "/api/v1/auth/facebook").permitAll()
             	    // (si mantienes el login bajo /usuarios, déjalo también)
             	    .requestMatchers(HttpMethod.POST, "/api/v1/usuarios/login").permitAll()
             	    // Resto protegido
