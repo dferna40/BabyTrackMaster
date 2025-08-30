@@ -15,3 +15,7 @@ spring:
       enabled: true
 server:
   port: 0
+
+facebook:
+  client-id: test-facebook-client-id
+  client-secret: test-facebook-client-secret

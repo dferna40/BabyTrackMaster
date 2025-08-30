@@ -10,6 +10,13 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
+import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
+import com.restfb.Parameter;
+import com.restfb.Version;
+import com.restfb.types.User;
+import com.restfb.types.DebugTokenInfo;
+
 import dto.LoginDTO;
 import entity.Rol;
 import entity.Usuario;
@@ -30,6 +37,12 @@ public class AuthService {
 
     @Value("${google.client-id:}")
     private String googleClientId;
+
+    @Value("${facebook.client-id:}")
+    private String facebookClientId;
+
+    @Value("${facebook.client-secret:}")
+    private String facebookClientSecret;
 
     public AuthService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, JwtService jwtService, RolRepository rolRepository) {
         this.usuarioRepository = usuarioRepository;
@@ -81,6 +94,41 @@ public class AuthService {
             return jwtService.generarToken(u.getEmail());
         } catch (Exception e) {
             throw new IllegalArgumentException("Token de Google inválido", e);
+        }
+    }
+
+    public String loginWithFacebook(String accessToken) {
+        try {
+            FacebookClient userClient = new DefaultFacebookClient(accessToken, Version.LATEST);
+            FacebookClient appClient = new DefaultFacebookClient(facebookClientId + "|" + facebookClientSecret, Version.LATEST);
+            DebugTokenInfo info = appClient.debugToken(accessToken);
+            if (info == null || !info.isValid() || !facebookClientId.equals(info.getAppId())) {
+                throw new IllegalArgumentException("Token de Facebook inválido");
+            }
+            User fbUser = userClient.fetchObject("me", User.class,
+                    Parameter.with("fields", "email,first_name,last_name"));
+            String email = fbUser.getEmail();
+            Usuario u = usuarioRepository.findByEmail(email);
+            if (u == null) {
+                Rol rolUser = rolRepository.findByNombre("USER");
+                if (rolUser == null) {
+                    rolUser = new Rol();
+                    rolUser.setNombre("USER");
+                    rolUser = rolRepository.save(rolUser);
+                }
+                u = new Usuario();
+                u.setNombre(fbUser.getFirstName());
+                u.setApellidos(fbUser.getLastName());
+                u.setEmail(email);
+                u.setPasswordHash(passwordEncoder.encode(UUID.randomUUID().toString()));
+                u.setRol(rolUser);
+                u.setHabilitado(true);
+                u.setFechaAlta(LocalDateTime.now());
+                usuarioRepository.save(u);
+            }
+            return jwtService.generarToken(u.getEmail());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Token de Facebook inválido", e);
         }
     }
 }

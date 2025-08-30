@@ -10,3 +10,7 @@ spring:
       label: main               # rama del repo (main/master/lo que uses)
       # (opcional) si prefieres el estilo antiguo:
       # uri: http://localhost:8888
+
+facebook:
+  client-id: ${FACEBOOK_CLIENT_ID:}
+  client-secret: ${FACEBOOK_CLIENT_SECRET:}
