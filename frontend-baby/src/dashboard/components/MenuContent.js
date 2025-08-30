@@ -39,6 +39,7 @@ export default function MenuContent() {
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
             <NavLink
               to={item.to}
+              {...(item.to === '/dashboard' ? { end: true } : {})}
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
               {({ isActive }) => (
@@ -56,6 +57,7 @@ export default function MenuContent() {
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
             <NavLink
               to={item.to}
+              {...(item.to === '/dashboard' ? { end: true } : {})}
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
               {({ isActive }) => (
