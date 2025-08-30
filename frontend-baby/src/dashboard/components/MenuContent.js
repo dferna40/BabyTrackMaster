@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -39,20 +39,34 @@ export default function MenuContent() {
       <List dense>
         {mainListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-            <ListItemButton component={Link} to={item.to} selected={index === 0}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
+            <NavLink
+              to={item.to}
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              {({ isActive }) => (
+                <ListItemButton selected={isActive}>
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.text} />
+                </ListItemButton>
+              )}
+            </NavLink>
           </ListItem>
         ))}
       </List>
       <List dense>
         {secondaryListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-            <ListItemButton component={Link} to={item.to}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
+            <NavLink
+              to={item.to}
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              {({ isActive }) => (
+                <ListItemButton selected={isActive}>
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.text} />
+                </ListItemButton>
+              )}
+            </NavLink>
           </ListItem>
         ))}
       </List>
