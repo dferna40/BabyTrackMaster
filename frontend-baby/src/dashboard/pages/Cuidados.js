@@ -19,6 +19,8 @@ import TableRow from '@mui/material/TableRow';
 import Tabs from '@mui/material/Tabs';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import dayjs from 'dayjs';
+import 'dayjs/locale/es';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -158,7 +160,9 @@ export default function Cuidados() {
           <TableBody>
             {cuidados.map((cuidado) => (
               <TableRow key={cuidado.id}>
-                <TableCell>{cuidado.inicio}</TableCell>
+                <TableCell>
+                  {dayjs(cuidado.inicio).locale('es').format('DD/MM/YYYY HH:mm')}
+                </TableCell>
                 <TableCell>{cuidado.tipoNombre}</TableCell>
                 <TableCell>{cuidado.cantidadMl ?? '-'}</TableCell>
                 <TableCell>{cuidado.observaciones}</TableCell>
