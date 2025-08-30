@@ -9,7 +9,6 @@ import Gastos from "./dashboard/pages/Gastos";
 import Diario from "./dashboard/pages/Diario";
 import Citas from "./dashboard/pages/Citas";
 import Rutinas from "./dashboard/pages/Rutinas";
-import Profile from "./pages/Profile";
 import Configuracion from "./dashboard/pages/Configuracion";
 import Acerca from "./dashboard/pages/Acerca";
 import Ayuda from "./dashboard/pages/Ayuda";
@@ -38,7 +37,6 @@ function App() {
             <Route path="diario" element={<Diario />} />
             <Route path="citas" element={<Citas />} />
             <Route path="rutinas" element={<Rutinas />} />
-            <Route path="profile" element={<Profile />} />
             <Route path="configuracion" element={<Configuracion />} />
             <Route path="acerca" element={<Acerca />} />
             <Route path="ayuda" element={<Ayuda />} />
