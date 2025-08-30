@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -24,21 +24,26 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
 import { BarChart } from '@mui/x-charts/BarChart';
-
-const rows = [
-  { time: '07:15', type: 'Biberón', qty: '120 ml', note: 'Comió bien' },
-  { time: '09:05', type: 'Pañal', qty: 'Sucio', note: 'Parece tener hambre' },
-  { time: '12:30', type: 'Biberón', qty: '150 ml', note: 'Un poco intranquilo' },
-  { time: '15:00', type: 'Sueño', qty: '1 h 30 m', note: 'Durmió profundamente' },
-  { time: '19:15', type: 'Baño', qty: '-', note: 'Parecía relajado' },
-];
+import { listarPorBebe } from '../../services/cuidadosService';
 
 export default function Cuidados() {
-  const [tab, setTab] = React.useState(0);
+  const [tab, setTab] = useState(0);
+  const [cuidados, setCuidados] = useState([]);
+  const bebeId = 1;
 
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
   };
+
+  useEffect(() => {
+    listarPorBebe(bebeId)
+      .then((response) => {
+        setCuidados(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching cuidados:', error);
+      });
+  }, [bebeId]);
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -97,12 +102,12 @@ export default function Cuidados() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell>{row.time}</TableCell>
-                <TableCell>{row.type}</TableCell>
-                <TableCell>{row.qty}</TableCell>
-                <TableCell>{row.note}</TableCell>
+            {cuidados.map((cuidado) => (
+              <TableRow key={cuidado.id}>
+                <TableCell>{cuidado.inicio}</TableCell>
+                <TableCell>{cuidado.tipoNombre}</TableCell>
+                <TableCell>{cuidado.cantidadMl ?? '-'}</TableCell>
+                <TableCell>{cuidado.observaciones}</TableCell>
                 <TableCell align="center">
                   <IconButton size="small" aria-label="edit">
                     <EditIcon fontSize="small" />
