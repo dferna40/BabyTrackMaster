@@ -13,13 +13,13 @@ export default function TopBar() {
         BabyTrackMaster
       </Typography>
       <Stack direction="row" spacing={1} sx={{ ml: 2 }}>
-        <MenuButton showBadge aria-label="Open notifications">
+        <MenuButton showBadge aria-label="Abrir notificaciones">
           <NotificationsRoundedIcon />
         </MenuButton>
-        <MenuButton aria-label="Open settings">
+        <MenuButton aria-label="Abrir configuración">
           <SettingsRoundedIcon />
         </MenuButton>
-        <MenuButton aria-label="Open profile">
+        <MenuButton aria-label="Abrir perfil">
           <PersonRoundedIcon />
         </MenuButton>
       </Stack>
