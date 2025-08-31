@@ -56,7 +56,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
             name="inicio"
             value={formData.inicio}
             onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
+            InputLabelProps={{ shrink: true, sx: { mb: 1 } }}
           />
           <TextField
             select
@@ -64,7 +64,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
             name="tipoId"
             value={formData.tipoId}
             onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
+            InputLabelProps={{ shrink: true, sx: { mb: 1 } }}
           >
             {tipoOptions.map((option) => (
               <MenuItem key={option.id} value={option.id}>
@@ -78,7 +78,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
             name="cantidadMl"
             value={formData.cantidadMl}
             onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
+            InputLabelProps={{ shrink: true, sx: { mb: 1 } }}
           />
           <TextField
             label="Observaciones"
@@ -87,7 +87,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
             name="observaciones"
             value={formData.observaciones}
             onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
+            InputLabelProps={{ shrink: true, sx: { mb: 1 } }}
           />
         </Stack>
       </DialogContent>
