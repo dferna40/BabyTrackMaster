@@ -67,7 +67,7 @@ const ITEMS: TreeViewBaseItem<ExtendedTreeItemProps>[] = [
     ],
   },
   { id: '4', label: 'Contacto', color: 'blue' },
-  { id: '5', label: 'Ayuda', color: 'blue' },
+  { id: '5', label: 'Acerca de', color: 'blue' },
 ];
 
 function DotIcon({ color }: { color: string }) {

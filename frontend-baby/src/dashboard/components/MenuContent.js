@@ -14,7 +14,7 @@ import EventRoundedIcon from '@mui/icons-material/EventRounded';
 import ScheduleRoundedIcon from '@mui/icons-material/ScheduleRounded';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
-import HelpRoundedIcon from '@mui/icons-material/HelpRounded';
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 
 const mainListItems = [
   { text: 'Inicio', icon: <HomeRoundedIcon />, to: '/dashboard' },
@@ -28,7 +28,7 @@ const mainListItems = [
 const secondaryListItems = [
   { text: 'Añadir bebe', icon: <AddCircleRoundedIcon />, to: '/dashboard/anadir-bebe' },
   { text: 'Configuración bebe', icon: <SettingsRoundedIcon />, to: '/dashboard/configuracion-bebe' },
-  { text: 'Ayuda', icon: <HelpRoundedIcon />, to: '/dashboard/ayuda' },
+  { text: 'Acerca de', icon: <InfoRoundedIcon />, to: '/dashboard/acerca' },
 ];
 
 export default function MenuContent() {
