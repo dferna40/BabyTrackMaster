@@ -2,6 +2,7 @@ import axios from 'axios';
 import API_BASE_URL from '../config';
 
 const API_GASTOS_URL = `${API_BASE_URL}/api/v1/gastos`;
+const API_CATEGORIAS_URL = `${API_BASE_URL}/api/v1/categorias`;
 
 export const listarPorBebe = (bebeId, page, size) => {
   const params = {};
@@ -26,5 +27,9 @@ export const actualizarGasto = (id, data) => {
 
 export const eliminarGasto = (id) => {
   return axios.delete(`${API_GASTOS_URL}/${id}`);
+};
+
+export const listarCategorias = () => {
+  return axios.get(API_CATEGORIAS_URL);
 };
 

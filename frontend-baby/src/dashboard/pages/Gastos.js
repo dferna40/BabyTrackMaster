@@ -28,15 +28,9 @@ import {
   crearGasto,
   actualizarGasto,
   eliminarGasto,
+  listarCategorias,
 } from '../../services/gastosService';
 import GastoForm from '../components/GastoForm';
-
-const categoriaOptions = [
-  { id: 1, label: 'Alimentación' },
-  { id: 2, label: 'Ropa' },
-  { id: 3, label: 'Juguetes' },
-  { id: 4, label: 'Otros' },
-];
 
 export default function Gastos() {
   const [gastos, setGastos] = useState([]);
@@ -45,6 +39,7 @@ export default function Gastos() {
   const [openForm, setOpenForm] = useState(false);
   const [selectedGasto, setSelectedGasto] = useState(null);
   const [categoryFilter, setCategoryFilter] = useState('');
+  const [categorias, setCategorias] = useState([]);
   const [monthFilter, setMonthFilter] = useState(dayjs().format('YYYY-MM'));
   const [weeklyStats, setWeeklyStats] = useState(Array(7).fill(0));
   const bebeId = 1;
@@ -61,6 +56,13 @@ export default function Gastos() {
 
   useEffect(() => {
     fetchGastos();
+    listarCategorias()
+      .then((response) => {
+        setCategorias(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching categorias:', error);
+      });
   }, [bebeId]);
 
   const filteredGastos = useMemo(
@@ -167,9 +169,9 @@ export default function Gastos() {
           InputLabelProps={{ shrink: true }}
         >
           <MenuItem value="">Todas</MenuItem>
-          {categoriaOptions.map((option) => (
+          {categorias.map((option) => (
             <MenuItem key={option.id} value={option.id}>
-              {option.label}
+              {option.nombre}
             </MenuItem>
           ))}
         </TextField>
@@ -211,9 +213,9 @@ export default function Gastos() {
                   </TableCell>
                   <TableCell>
                     {gasto.categoriaNombre ||
-                      categoriaOptions.find(
+                      categorias.find(
                         (c) => Number(c.id) === Number(gasto.categoriaId)
-                      )?.label}
+                      )?.nombre}
                   </TableCell>
                   <TableCell>{gasto.descripcion}</TableCell>
                   <TableCell>{Number(gasto.cantidad).toFixed(2)}</TableCell>
