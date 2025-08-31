@@ -5,6 +5,8 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
@@ -160,29 +162,29 @@ export default function Gastos() {
         >
           Añadir gasto
         </Button>
-        <TextField
-          select
-          label="Categoría"
-          value={categoryFilter}
-          onChange={(e) => setCategoryFilter(e.target.value)}
-          sx={{ minWidth: 150 }}
-          InputLabelProps={{ shrink: true }}
-        >
-          <MenuItem value="">Todas</MenuItem>
-          {categorias.map((option) => (
-            <MenuItem key={option.id} value={option.id}>
-              {option.nombre}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          label="Mes"
-          type="month"
-          value={monthFilter}
-          onChange={(e) => setMonthFilter(e.target.value)}
-          sx={{ minWidth: 150 }}
-          InputLabelProps={{ shrink: true }}
-        />
+        <FormControl sx={{ minWidth: 150 }}>
+          <FormLabel sx={{ mb: 1 }}>Categoría</FormLabel>
+          <TextField
+            select
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+          >
+            <MenuItem value="">Todas</MenuItem>
+            {categorias.map((option) => (
+              <MenuItem key={option.id} value={option.id}>
+                {option.nombre}
+              </MenuItem>
+            ))}
+          </TextField>
+        </FormControl>
+        <FormControl sx={{ minWidth: 150 }}>
+          <FormLabel sx={{ mb: 1 }}>Mes</FormLabel>
+          <TextField
+            type="month"
+            value={monthFilter}
+            onChange={(e) => setMonthFilter(e.target.value)}
+          />
+        </FormControl>
       </Stack>
 
       <Typography variant="h4" gutterBottom>
