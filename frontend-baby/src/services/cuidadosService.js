@@ -3,8 +3,11 @@ import API_BASE_URL from '../config';
 
 const API_CUIDADOS_URL = `${API_BASE_URL}/api/v1/cuidados`;
 
-export const listarPorBebe = (bebeId) => {
-  return axios.get(`${API_CUIDADOS_URL}/bebe/${bebeId}`);
+export const listarPorBebe = (bebeId, page, size) => {
+  const params = {};
+  if (page !== undefined) params.page = page;
+  if (size !== undefined) params.size = size;
+  return axios.get(`${API_CUIDADOS_URL}/bebe/${bebeId}`, { params });
 };
 
 export const listarRecientes = (bebeId, limit = 5) => {

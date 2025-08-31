@@ -16,6 +16,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import TablePagination from '@mui/material/TablePagination';
 import Tabs from '@mui/material/Tabs';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -37,6 +38,8 @@ import CuidadoForm from '../components/CuidadoForm';
 export default function Cuidados() {
   const [tab, setTab] = useState(0);
   const [cuidados, setCuidados] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [openForm, setOpenForm] = useState(false);
   const [selectedCuidado, setSelectedCuidado] = useState(null);
   const bebeId = 1;
@@ -94,6 +97,15 @@ export default function Cuidados() {
       .catch((error) => {
         console.error('Error saving cuidado:', error);
       });
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
   return (
@@ -158,7 +170,9 @@ export default function Cuidados() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {cuidados.map((cuidado) => (
+            {cuidados
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((cuidado) => (
               <TableRow key={cuidado.id}>
                 <TableCell>
                   {dayjs(cuidado.inicio).locale('es').format('DD/MM/YYYY HH:mm')}
@@ -183,9 +197,17 @@ export default function Cuidados() {
                   </IconButton>
                 </TableCell>
               </TableRow>
-            ))}
+              ))}
           </TableBody>
         </Table>
+        <TablePagination
+          component="div"
+          count={cuidados.length}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </TableContainer>
 
       <Card variant="outlined">
