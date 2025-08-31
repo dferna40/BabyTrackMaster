@@ -4,6 +4,8 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -37,6 +39,20 @@ export default function AnadirBebe() {
     emoji: '😊',
     foto: null,
   });
+
+  const [emojiAnchorEl, setEmojiAnchorEl] = useState(null);
+  const emojiOptions = ['😊', '😀', '😍', '😎', '😢', '😡', '😴', '🤗', '🥳', '👶'];
+
+  const handleEmojiClick = (event) => {    setEmojiAnchorEl(event.currentTarget);  };
+
+  const handleEmojiSelect = (emoji) => {
+    setFormData((prev) => ({ ...prev, emoji }));
+    setEmojiAnchorEl(null);
+  };
+
+  const handleEmojiClose = () => {
+    setEmojiAnchorEl(null);
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -190,6 +206,7 @@ export default function AnadirBebe() {
                     name="colorEmoji"
                     checked={formData.colorEmoji}
                     onChange={handleChange}
+                    InputLabelProps={{ shrink: true }}
                   />
                   {formData.colorEmoji && (
                     <>
@@ -205,10 +222,21 @@ export default function AnadirBebe() {
                         variant="standard"
                         name="emoji"
                         value={formData.emoji}
-                        onChange={handleChange}
-                        inputProps={{ maxLength: 2, style: { fontSize: '1.5rem', textAlign: 'center' } }}
+                        onClick={handleEmojiClick}
+                        inputProps={{ readOnly: true, maxLength: 2, style: { fontSize: '1.5rem', textAlign: 'center', cursor: 'pointer' } }}
                         sx={{ width: 48 }}
                       />
+                      <Menu
+                        anchorEl={emojiAnchorEl}
+                        open={Boolean(emojiAnchorEl)}
+                        onClose={handleEmojiClose}
+                         >
+                          {emojiOptions.map((em) => (
+                           <MenuItem key={em} onClick={() => handleEmojiSelect(em)}>
+                            {em}
+                            </MenuItem>
+                            ))}
+                         </Menu>
                     </>
                   )}
                 </Stack>
