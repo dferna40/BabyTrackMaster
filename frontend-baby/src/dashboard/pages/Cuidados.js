@@ -4,10 +4,7 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
-import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import Tab from '@mui/material/Tab';
 import Table from '@mui/material/Table';
@@ -18,14 +15,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Tabs from '@mui/material/Tabs';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import SearchIcon from '@mui/icons-material/Search';
 import { BarChart } from '@mui/x-charts/BarChart';
 import {
   listarPorBebe,
@@ -130,7 +125,7 @@ export default function Cuidados() {
     <Box sx={{ width: '100%' }}>
       <Stack
         direction={{ xs: 'column', sm: 'row' }}
-        justifyContent="space-between"
+        justifyContent="flex-start"
         alignItems={{ xs: 'stretch', sm: 'center' }}
         spacing={2}
         mb={2}
@@ -143,27 +138,6 @@ export default function Cuidados() {
         >
           Añadir nuevo cuidado
         </Button>
-        <Stack direction="row" spacing={2} flexWrap="wrap">
-          <TextField
-            size="small"
-            placeholder="Buscar"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon fontSize="small" />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <Select size="small" defaultValue="Todos">
-            <MenuItem value="Todos">Todos</MenuItem>
-            <MenuItem value="Biberón">Biberón</MenuItem>
-            <MenuItem value="Pañal">Pañal</MenuItem>
-            <MenuItem value="Sueño">Sueño</MenuItem>
-            <MenuItem value="Baño">Baño</MenuItem>
-          </Select>
-          <TextField type="date" size="small" />
-        </Stack>
       </Stack>
 
       <Typography variant="h4" gutterBottom>
