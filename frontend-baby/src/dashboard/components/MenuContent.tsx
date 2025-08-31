@@ -9,8 +9,8 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import AnalyticsRoundedIcon from '@mui/icons-material/AnalyticsRounded';
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
+import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
-import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import HelpRoundedIcon from '@mui/icons-material/HelpRounded';
 
 const mainListItems = [
@@ -21,8 +21,8 @@ const mainListItems = [
 ];
 
 const secondaryListItems = [
-  { text: 'Configuración', icon: <SettingsRoundedIcon /> },
-  { text: 'Acerca de', icon: <InfoRoundedIcon /> },
+  { text: 'Añadir bebe', icon: <AddCircleRoundedIcon /> },
+  { text: 'Configuración bebe', icon: <SettingsRoundedIcon /> },
   { text: 'Comentarios', icon: <HelpRoundedIcon /> },
 ];
 
