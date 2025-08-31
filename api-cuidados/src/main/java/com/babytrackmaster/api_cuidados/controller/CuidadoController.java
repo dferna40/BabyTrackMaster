@@ -79,11 +79,12 @@ public class CuidadoController {
 	// Listar por bebé
 	// ---------------------------------------------------------------------
 	@Operation(summary = "Listar cuidados de un bebé", description = "Lista todos los cuidados de un bebé del usuario autenticado")
-	@GetMapping("/bebe/{bebeId}")
-	public ResponseEntity<List<CuidadoResponse>> listarPorBebe(
-			@Parameter(description = "ID del bebé", example = "1") @PathVariable Long bebeId) {
-		return ResponseEntity.ok(service.listarPorBebe(bebeId));
-	}
+        @GetMapping("/bebe/{bebeId}")
+        public ResponseEntity<List<CuidadoResponse>> listarPorBebe(
+                        @Parameter(description = "ID del bebé", example = "1") @PathVariable Long bebeId,
+                        @RequestParam(value = "limit", required = false) Integer limit) {
+                return ResponseEntity.ok(service.listarPorBebe(bebeId, limit));
+        }
 
 	@Operation(summary = "Listar cuidados por bebé y tipo")
         @GetMapping("/bebe/{bebeId}/tipo/{tipoId}")
