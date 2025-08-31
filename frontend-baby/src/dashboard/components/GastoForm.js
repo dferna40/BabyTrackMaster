@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
 import { listarCategorias } from '../../services/gastosService';
 
@@ -55,46 +57,50 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>{initialData && initialData.id ? 'Editar gasto' : 'Añadir nuevo gasto'}</DialogTitle>
       <DialogContent>
-        <Stack spacing={2} sx={{ mt: 1 }}>
-          <TextField
-            label="Fecha"
-            type="date"
-            name="fecha"
-            value={formData.fecha}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-          />
-          <TextField
-            select
-            label="Categoría"
-            name="categoriaId"
-            value={formData.categoriaId}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-          >
-            {categorias.map((option) => (
-              <MenuItem key={option.id} value={option.id}>
-                {option.nombre}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            label="Descripción"
-            multiline
-            rows={3}
-            name="descripcion"
-            value={formData.descripcion}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-          />
-          <TextField
-            label="Cantidad"
-            type="number"
-            name="cantidad"
-            value={formData.cantidad}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-          />
+        <Stack sx={{ mt: 1 }}>
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <FormLabel sx={{ mb: 1 }}>Fecha</FormLabel>
+            <TextField
+              type="date"
+              name="fecha"
+              value={formData.fecha}
+              onChange={handleChange}
+            />
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <FormLabel sx={{ mb: 1 }}>Categoría</FormLabel>
+            <TextField
+              select
+              name="categoriaId"
+              value={formData.categoriaId}
+              onChange={handleChange}
+            >
+              {categorias.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.nombre}
+                </MenuItem>
+              ))}
+            </TextField>
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <FormLabel sx={{ mb: 1 }}>Descripción</FormLabel>
+            <TextField
+              multiline
+              rows={3}
+              name="descripcion"
+              value={formData.descripcion}
+              onChange={handleChange}
+            />
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <FormLabel sx={{ mb: 1 }}>Cantidad</FormLabel>
+            <TextField
+              type="number"
+              name="cantidad"
+              value={formData.cantidad}
+              onChange={handleChange}
+            />
+          </FormControl>
         </Stack>
       </DialogContent>
       <DialogActions>
