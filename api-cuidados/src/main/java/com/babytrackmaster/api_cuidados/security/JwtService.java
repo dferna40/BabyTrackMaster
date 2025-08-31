@@ -12,14 +12,20 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class JwtService {
@@ -78,6 +84,130 @@ public class JwtService {
                 .build()
                 .parseClaimsJws(compact)
                 .getBody();
+    }
+
+    // Intenta resolver el usuarioId desde el contexto de seguridad o el JWT
+    public Long resolveUserId() {
+        // 1) Revisar el SecurityContext
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            // principal.getId()
+            Object principal = auth.getPrincipal();
+            if (principal != null) {
+                try {
+                    java.lang.reflect.Method m = principal.getClass().getMethod("getId");
+                    Object val = m.invoke(principal);
+                    if (val != null) {
+                        try { return Long.valueOf(String.valueOf(val)); }
+                        catch (NumberFormatException ignore) { }
+                    }
+                } catch (Exception ignore) { }
+            }
+            // details["userId"]
+            Object details = auth.getDetails();
+            if (details instanceof Map<?,?> map) {
+                Object v = map.get("userId");
+                if (v != null) {
+                    try { return Long.valueOf(String.valueOf(v)); }
+                    catch (NumberFormatException ignore) { }
+                }
+            }
+            // auth.getName()
+            String name = auth.getName();
+            if (name != null) {
+                try { return Long.valueOf(name); }
+                catch (NumberFormatException ignore) { }
+            }
+        }
+
+        // 2) Fallback: leer Authorization: Bearer ...
+        try {
+            ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            if (attrs != null) {
+                HttpServletRequest req = attrs.getRequest();
+                if (req != null) {
+                    String header = req.getHeader("Authorization");
+                    if (header != null && header.startsWith("Bearer ")) {
+                        String token = header.substring(7);
+                        if (isTokenValid(token)) {
+                            Claims claims = extractAllClaims(token);
+                            Long id = extractUserIdFromClaims(claims);
+                            if (id != null) {
+                                return id;
+                            }
+                            String sub = claims.getSubject();
+                            if (sub != null) {
+                                try { return Long.valueOf(sub); }
+                                catch (NumberFormatException ignore) { }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception ignore) { }
+
+        return null;
+    }
+
+    // Busca userId en las claims del token
+    private Long extractUserIdFromClaims(Claims claims) {
+        if (claims == null || claims.isEmpty()) return null;
+
+        String[] keys = { "userId", "usuarioId", "id", "uid", "user_id", "usuario_id" };
+        for (String k : keys) {
+            Object v = claims.get(k);
+            Long parsed = tryParseLong(v);
+            if (parsed != null) return parsed;
+        }
+
+        return deepScanForId(claims);
+    }
+
+    private Long tryParseLong(Object v) {
+        if (v == null) return null;
+        if (v instanceof Number n) {
+            return n.longValue();
+        }
+        String s = String.valueOf(v);
+        if (s == null) return null;
+        s = s.trim();
+        if (s.isEmpty()) return null;
+        try { return Long.valueOf(s); }
+        catch (NumberFormatException e) { return null; }
+    }
+
+    private Long deepScanForId(Object obj) {
+        if (obj == null) return null;
+
+        if (obj instanceof Map<?,?> map) {
+            // primero claves que contengan "id"
+            for (Map.Entry<?,?> e : map.entrySet()) {
+                Object k = e.getKey();
+                if (k != null) {
+                    String ks = String.valueOf(k).toLowerCase();
+                    if (ks.contains("id")) {
+                        Long parsed = tryParseLong(e.getValue());
+                        if (parsed != null) return parsed;
+                    }
+                }
+            }
+            // luego escanear valores
+            for (Map.Entry<?,?> e : map.entrySet()) {
+                Long found = deepScanForId(e.getValue());
+                if (found != null) return found;
+            }
+            return null;
+        }
+
+        if (obj instanceof Collection<?> col) {
+            for (Object v : col) {
+                Long found = deepScanForId(v);
+                if (found != null) return found;
+            }
+            return null;
+        }
+
+        return tryParseLong(obj);
     }
 
     /* ========== (Opcional) Generación para pruebas locales ========== */

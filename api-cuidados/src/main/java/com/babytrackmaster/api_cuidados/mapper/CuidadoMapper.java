@@ -10,10 +10,10 @@ import com.babytrackmaster.api_cuidados.repository.TipoCuidadoRepository;
 
 public class CuidadoMapper {
 
-        public static Cuidado toEntity(CuidadoRequest req, TipoCuidadoRepository tipoRepo) {
+    public static Cuidado toEntity(CuidadoRequest req, Long usuarioId, TipoCuidadoRepository tipoRepo) {
         Cuidado c = new Cuidado();
         c.setBebeId(req.getBebeId());
-        c.setUsuarioId(req.getUsuarioId());
+        c.setUsuarioId(usuarioId);
         TipoCuidado tipo = tipoRepo.findById(req.getTipoId())
                 .orElseThrow(() -> new IllegalArgumentException("Tipo de cuidado no encontrado: " + req.getTipoId()));
         c.setTipo(tipo);
@@ -32,9 +32,9 @@ public class CuidadoMapper {
         return c;
     }
 
-    public static void copyToEntity(CuidadoRequest req, Cuidado c, TipoCuidadoRepository tipoRepo) {
+    public static void copyToEntity(CuidadoRequest req, Cuidado c, Long usuarioId, TipoCuidadoRepository tipoRepo) {
         c.setBebeId(req.getBebeId());
-        c.setUsuarioId(req.getUsuarioId());
+        c.setUsuarioId(usuarioId);
         TipoCuidado tipo = tipoRepo.findById(req.getTipoId())
                 .orElseThrow(() -> new IllegalArgumentException("Tipo de cuidado no encontrado: " + req.getTipoId()));
         c.setTipo(tipo);

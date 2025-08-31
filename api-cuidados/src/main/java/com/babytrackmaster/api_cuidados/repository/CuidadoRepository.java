@@ -10,9 +10,9 @@ import org.springframework.data.domain.Pageable;
 import com.babytrackmaster.api_cuidados.entity.Cuidado;
 
 public interface CuidadoRepository extends JpaRepository<Cuidado, Long> {
-    Optional<Cuidado> findByIdAndEliminadoFalse(Long id);
-    List<Cuidado> findByBebeIdAndEliminadoFalseOrderByInicioDesc(Long bebeId);
-    List<Cuidado> findByBebeIdAndEliminadoFalse(Long bebeId, Pageable pageable);
-    List<Cuidado> findByBebeIdAndTipo_IdAndEliminadoFalseOrderByInicioDesc(Long bebeId, Long tipoId);
-    List<Cuidado> findByBebeIdAndInicioBetweenAndEliminadoFalseOrderByInicioDesc(Long bebeId, Date desde, Date hasta);
+    Optional<Cuidado> findByIdAndUsuarioIdAndEliminadoFalse(Long id, Long usuarioId);
+    List<Cuidado> findByBebeIdAndUsuarioIdAndEliminadoFalseOrderByInicioDesc(Long bebeId, Long usuarioId);
+    List<Cuidado> findByBebeIdAndUsuarioIdAndEliminadoFalse(Long bebeId, Long usuarioId, Pageable pageable);
+    List<Cuidado> findByBebeIdAndTipo_IdAndUsuarioIdAndEliminadoFalseOrderByInicioDesc(Long bebeId, Long tipoId, Long usuarioId);
+    List<Cuidado> findByBebeIdAndUsuarioIdAndInicioBetweenAndEliminadoFalseOrderByInicioDesc(Long bebeId, Long usuarioId, Date desde, Date hasta);
 }
