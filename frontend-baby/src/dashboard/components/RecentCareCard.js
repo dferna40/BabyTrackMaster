@@ -26,7 +26,7 @@ export default function RecentCareCard() {
           Cuidados Recientes
         </Typography>
         <List>
-          {recentCare.map((item) => (
+          {recentCare.slice(0, 5).map((item) => (
             <ListItem key={item.id} disableGutters>
               <ListItemText
                 primary={item.tipoNombre}

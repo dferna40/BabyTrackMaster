@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.babytrackmaster.api_cuidados.dto.CuidadoRequest;
@@ -64,8 +66,14 @@ public class CuidadoServiceImpl implements CuidadoService {
     }
 
     @Transactional(readOnly = true)
-    public List<CuidadoResponse> listarPorBebe(Long bebeId) {
-        List<Cuidado> list = repo.findByBebeIdAndEliminadoFalseOrderByInicioDesc(bebeId);
+    public List<CuidadoResponse> listarPorBebe(Long bebeId, Integer limit) {
+        List<Cuidado> list;
+        if (limit != null) {
+            list = repo.findByBebeIdAndEliminadoFalse(bebeId,
+                    PageRequest.of(0, limit, Sort.by("inicio").descending()));
+        } else {
+            list = repo.findByBebeIdAndEliminadoFalseOrderByInicioDesc(bebeId);
+        }
         List<CuidadoResponse> resp = new ArrayList<CuidadoResponse>();
         for (int i = 0; i < list.size(); i++) {
             resp.add(CuidadoMapper.toResponse(list.get(i)));

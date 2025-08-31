@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Pageable;
 
 import com.babytrackmaster.api_cuidados.entity.Cuidado;
 
 public interface CuidadoRepository extends JpaRepository<Cuidado, Long> {
     Optional<Cuidado> findByIdAndEliminadoFalse(Long id);
     List<Cuidado> findByBebeIdAndEliminadoFalseOrderByInicioDesc(Long bebeId);
+    List<Cuidado> findByBebeIdAndEliminadoFalse(Long bebeId, Pageable pageable);
     List<Cuidado> findByBebeIdAndTipo_IdAndEliminadoFalseOrderByInicioDesc(Long bebeId, Long tipoId);
     List<Cuidado> findByBebeIdAndInicioBetweenAndEliminadoFalseOrderByInicioDesc(Long bebeId, Date desde, Date hasta);
 }
