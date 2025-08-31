@@ -214,6 +214,9 @@ export default function AnadirBebe() {
                 </Stack>
               </Stack>
             </Box>
+            <Button variant="outlined" sx={{ mb: 2 }}>
+              Datos adicionales
+            </Button>
           </Grid>
 
           <Grid item xs={12} md={4}>
