@@ -45,10 +45,21 @@ export default function Cuidados() {
   const [openForm, setOpenForm] = useState(false);
   const [selectedCuidado, setSelectedCuidado] = useState(null);
   const bebeId = 1;
+  const [weeklyStats, setWeeklyStats] = useState(Array(7).fill(0));
 
   const filteredCuidados = cuidados.filter(
     (c) => c.tipoNombre === tipos[tab]
   );
+
+  useEffect(() => {
+    const stats = Array(7).fill(0);
+    filteredCuidados.forEach((cuidado) => {
+      const dayIndex = dayjs(cuidado.inicio).day();
+      const index = (dayIndex + 6) % 7;
+      stats[index] += 1;
+    });
+    setWeeklyStats(stats);
+  }, [filteredCuidados]);
 
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
@@ -225,7 +236,7 @@ export default function Cuidados() {
           <BarChart
             height={250}
             xAxis={[{ scaleType: 'band', data: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'] }]}
-            series={[{ data: [4, 3, 3, 2, 4, 2, 1] }]}
+            series={[{ data: weeklyStats }]}
             margin={{ left: 30, right: 10, top: 20, bottom: 20 }}
             grid={{ horizontal: true }}
           />
