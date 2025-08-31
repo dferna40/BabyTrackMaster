@@ -45,9 +45,9 @@ export default function Gastos() {
   const bebeId = 1;
 
   const fetchGastos = () => {
-    listarPorBebe(bebeId)
+    listarPorBebe(bebeId, page, rowsPerPage)
       .then((response) => {
-        setGastos(response.data);
+        setGastos(response.data.content ?? response.data);
       })
       .catch((error) => {
         console.error('Error fetching gastos:', error);

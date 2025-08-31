@@ -96,17 +96,30 @@ public class GastoController {
 	}
 
 	@Operation(summary = "Listar gastos por categoría", description = "Lista paginada de gastos del usuario filtrando por categoría, ordenada por fecha descendente.")
-	@GetMapping("/categoria/{categoriaId}")
-	public ResponseEntity<Page<GastoResponse>> listarPorCategoria(@PathVariable Long categoriaId,
-			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-		Long userId = jwtService.resolveUserId();
-		if (userId == null) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		}
-		Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("fecha")));
-		Page<GastoResponse> resp = gastoService.listarPorCategoria(userId, categoriaId, pageable);
-		return ResponseEntity.ok(resp);
-	}
+        @GetMapping("/categoria/{categoriaId}")
+        public ResponseEntity<Page<GastoResponse>> listarPorCategoria(@PathVariable Long categoriaId,
+                        @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+                Long userId = jwtService.resolveUserId();
+                if (userId == null) {
+                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                }
+                Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("fecha")));
+                Page<GastoResponse> resp = gastoService.listarPorCategoria(userId, categoriaId, pageable);
+                return ResponseEntity.ok(resp);
+        }
+
+        @Operation(summary = "Listar gastos por bebé", description = "Lista paginada de gastos del usuario filtrando por bebé, ordenada por fecha descendente.")
+        @GetMapping("/bebe/{bebeId}")
+        public ResponseEntity<Page<GastoResponse>> listarPorBebe(@PathVariable Long bebeId,
+                        @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+                Long userId = jwtService.resolveUserId();
+                if (userId == null) {
+                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                }
+                Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("fecha")));
+                Page<GastoResponse> resp = gastoService.listarPorBebe(userId, bebeId, pageable);
+                return ResponseEntity.ok(resp);
+        }
 
 	@Operation(
 	        summary = "Obtener resumen mensual",
