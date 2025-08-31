@@ -16,11 +16,10 @@ export default function Copyright(props) {
       ]}
     >
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Sitemark
+      <Link color="inherit" href="https://babytrackmaster.com/">
+        BabyTrackMaster
       </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+      {'2025.'}
     </Typography>
   );
 }
