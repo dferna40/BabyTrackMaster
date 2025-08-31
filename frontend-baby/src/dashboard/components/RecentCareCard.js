@@ -5,6 +5,8 @@ import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import dayjs from 'dayjs';
+import 'dayjs/locale/es';
 import { listarRecientes } from '../../services/cuidadosService';
 
 export default function RecentCareCard() {
@@ -28,7 +30,7 @@ export default function RecentCareCard() {
             <ListItem key={item.id} disableGutters>
               <ListItemText
                 primary={item.tipoNombre}
-                secondary={item.inicio}
+                secondary={dayjs(item.inicio).locale('es').format('DD/MM/YYYY HH:mm')}
                 primaryTypographyProps={{ variant: 'body2' }}
                 secondaryTypographyProps={{ variant: 'caption', color: 'text.secondary' }}
               />
