@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -47,19 +47,19 @@ export default function Cuidados() {
   const bebeId = 1;
   const [weeklyStats, setWeeklyStats] = useState(Array(7).fill(0));
 
-  const filteredCuidados = cuidados.filter(
-    (c) => c.tipoNombre === tipos[tab]
-  );
+  const filteredCuidados = useMemo(
+  () => cuidados.filter(c => c.tipoNombre === tipos[tab]),
+  [cuidados, tab]
+);
 
   useEffect(() => {
-    const stats = Array(7).fill(0);
-    filteredCuidados.forEach((cuidado) => {
-      const dayIndex = dayjs(cuidado.inicio).day();
-      const index = (dayIndex + 6) % 7;
-      stats[index] += 1;
-    });
-    setWeeklyStats(stats);
-  }, [filteredCuidados]);
+  const stats = Array(7).fill(0);
+  filteredCuidados.forEach(cuidado => {
+    const dayIndex = dayjs(cuidado.inicio).day();
+    stats[(dayIndex + 6) % 7] += 1;
+  });
+  setWeeklyStats(stats);
+}, [filteredCuidados]);
 
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
