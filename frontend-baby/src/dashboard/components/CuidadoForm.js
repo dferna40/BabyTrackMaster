@@ -73,7 +73,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
             ))}
           </TextField>
           <TextField
-            label="Cantidad (ml)"
+            label="Cantidad"
             type="number"
             name="cantidadMl"
             value={formData.cantidadMl}
