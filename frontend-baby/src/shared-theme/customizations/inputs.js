@@ -399,6 +399,12 @@ export const inputsCustomizations = {
             borderColor: gray[500],
           },
         }),
+        '&.MuiOutlinedInput-multiline': {
+          padding: 0,
+          '& textarea': {
+            padding: '8px 12px',
+          },
+        },
         variants: [
           {
             props: {
