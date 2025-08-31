@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
 const tipoOptions = [
   { id: 1, label: 'Biberón' },
@@ -49,46 +51,50 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>{initialData && initialData.id ? 'Editar cuidado' : 'Añadir nuevo cuidado'}</DialogTitle>
       <DialogContent>
-        <Stack spacing={2} sx={{ mt: 1 }}>
-          <TextField
-            label="Inicio"
-            type="datetime-local"
-            name="inicio"
-            value={formData.inicio}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true, sx: { mb: 1 } }}
-          />
-          <TextField
-            select
-            label="Tipo"
-            name="tipoId"
-            value={formData.tipoId}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true, sx: { mb: 1 } }}
-          >
-            {tipoOptions.map((option) => (
-              <MenuItem key={option.id} value={option.id}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            label="Cantidad"
-            type="number"
-            name="cantidadMl"
-            value={formData.cantidadMl}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true, sx: { mb: 1 } }}
-          />
-          <TextField
-            label="Observaciones"
-            multiline
-            rows={3}
-            name="observaciones"
-            value={formData.observaciones}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true, sx: { mb: 1 } }}
-          />
+        <Stack sx={{ mt: 1 }}>
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <FormLabel sx={{ mb: 1 }}>Inicio</FormLabel>
+            <TextField
+              type="datetime-local"
+              name="inicio"
+              value={formData.inicio}
+              onChange={handleChange}
+            />
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <FormLabel sx={{ mb: 1 }}>Tipo</FormLabel>
+            <TextField
+              select
+              name="tipoId"
+              value={formData.tipoId}
+              onChange={handleChange}
+            >
+              {tipoOptions.map((option) => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <FormLabel sx={{ mb: 1 }}>Cantidad</FormLabel>
+            <TextField
+              type="number"
+              name="cantidadMl"
+              value={formData.cantidadMl}
+              onChange={handleChange}
+            />
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 2 }}>
+            <FormLabel sx={{ mb: 1 }}>Observaciones</FormLabel>
+            <TextField
+              multiline
+              rows={3}
+              name="observaciones"
+              value={formData.observaciones}
+              onChange={handleChange}
+            />
+          </FormControl>
         </Stack>
       </DialogContent>
       <DialogActions>
