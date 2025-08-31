@@ -32,8 +32,9 @@ export default function AnadirBebe() {
     pesoNacimiento: '',
     tallaNacimiento: '',
     semanasGestacion: '',
-    color: '#000000',
-    emoji: '',
+    colorEmoji: false,
+    color: '#9c27b0',
+    emoji: '😊',
     foto: null,
   });
 
@@ -61,6 +62,8 @@ export default function AnadirBebe() {
     e.preventDefault();
     const payload = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
+      if (key === 'colorEmoji') return;
+      if ((key === 'color' || key === 'emoji') && !formData.colorEmoji) return;
       if (value !== null && value !== '') {
         if (dayjs.isDayjs(value)) {
           payload.append(key, value.format('YYYY-MM-DD'));
@@ -176,33 +179,44 @@ export default function AnadirBebe() {
               </Grid>
             </Box>
 
-            <Box component={Paper} sx={{ p: 2 }}>
+            <Box component={Paper} sx={{ p: 2, mb: 2 }}>
               <Typography variant="h6" gutterBottom>
                 Preferencias
               </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Color"
-                    name="color"
-                    type="color"
-                    fullWidth
-                    value={formData.color}
-                    onChange={handleChange}
-                    InputLabelProps={{ shrink: true }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Emoji"
-                    name="emoji"
-                    fullWidth
-                    value={formData.emoji}
+              <Stack direction="row" alignItems="center" spacing={2} justifyContent="space-between">
+                <Typography>Color/emoji identificador</Typography>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Switch
+                    name="colorEmoji"
+                    checked={formData.colorEmoji}
                     onChange={handleChange}
                   />
-                </Grid>
-              </Grid>
+                  {formData.colorEmoji && (
+                    <>
+                      <Box
+                        component="input"
+                        type="color"
+                        name="color"
+                        value={formData.color}
+                        onChange={handleChange}
+                        sx={{ width: 40, height: 40, p: 0, border: 'none', bgcolor: 'transparent' }}
+                      />
+                      <TextField
+                        variant="standard"
+                        name="emoji"
+                        value={formData.emoji}
+                        onChange={handleChange}
+                        inputProps={{ maxLength: 2, style: { fontSize: '1.5rem', textAlign: 'center' } }}
+                        sx={{ width: 48 }}
+                      />
+                    </>
+                  )}
+                </Stack>
+              </Stack>
             </Box>
+            <Button variant="outlined" sx={{ mb: 2 }}>
+              Datos adicionales
+            </Button>
           </Grid>
 
           <Grid item xs={12} md={4}>
@@ -228,16 +242,14 @@ export default function AnadirBebe() {
               </Stack>
             </Box>
           </Grid>
-
-          <Grid item xs={12}>
-            <Stack direction="row" spacing={2} justifyContent="flex-end">
-              <Button onClick={() => navigate(-1)}>Cancelar</Button>
-              <Button type="submit" variant="contained">
-                Guardar
-              </Button>
-            </Stack>
-          </Grid>
         </Grid>
+
+        <Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ mt: 2 }}>
+          <Button onClick={() => navigate(-1)}>Cancelar</Button>
+          <Button type="submit" variant="contained">
+            Guardar
+          </Button>
+        </Stack>
       </Box>
     </LocalizationProvider>
   );
