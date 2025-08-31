@@ -35,6 +35,8 @@ import {
 } from '../../services/cuidadosService';
 import CuidadoForm from '../components/CuidadoForm';
 
+const tipos = ['Biberón', 'Pañal', 'Sueño', 'Baño'];
+
 export default function Cuidados() {
   const [tab, setTab] = useState(0);
   const [cuidados, setCuidados] = useState([]);
@@ -44,8 +46,13 @@ export default function Cuidados() {
   const [selectedCuidado, setSelectedCuidado] = useState(null);
   const bebeId = 1;
 
+  const filteredCuidados = cuidados.filter(
+    (c) => c.tipoNombre === tipos[tab]
+  );
+
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
+    setPage(0);
   };
 
   const fetchCuidados = () => {
@@ -170,7 +177,7 @@ export default function Cuidados() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {cuidados
+            {filteredCuidados
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((cuidado) => (
               <TableRow key={cuidado.id}>
@@ -202,7 +209,7 @@ export default function Cuidados() {
         </Table>
         <TablePagination
           component="div"
-          count={cuidados.length}
+          count={filteredCuidados.length}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
