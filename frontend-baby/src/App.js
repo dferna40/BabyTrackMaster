@@ -11,7 +11,6 @@ import Citas from "./dashboard/pages/Citas";
 import Rutinas from "./dashboard/pages/Rutinas";
 import Configuracion from "./dashboard/pages/Configuracion";
 import Acerca from "./dashboard/pages/Acerca";
-import Ayuda from "./dashboard/pages/Ayuda";
 import AnadirBebe from "./dashboard/pages/AnadirBebe";
 import ConfiguracionBebe from "./dashboard/pages/ConfiguracionBebe";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -43,7 +42,6 @@ function App() {
             <Route path="configuracion-bebe" element={<ConfiguracionBebe />} />
             <Route path="configuracion" element={<Configuracion />} />
             <Route path="acerca" element={<Acerca />} />
-            <Route path="ayuda" element={<Ayuda />} />
           </Route>
         </Routes>
       </Router>
