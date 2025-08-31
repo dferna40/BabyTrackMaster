@@ -21,6 +21,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { crearBebe } from '../../services/bebesService';
+import DatosAdicionalesForm from '../components/DatosAdicionalesForm';
 
 export default function AnadirBebe() {
   const navigate = useNavigate();
@@ -38,9 +39,18 @@ export default function AnadirBebe() {
     color: '#9c27b0',
     emoji: '😊',
     foto: null,
+    numeroSS: '',
+    grupoSanguineo: '',
+    medicaciones: '',
+    alergias: '',
+    pediatra: '',
+    centroMedico: '',
+    telefonoCentroMedico: '',
+    observaciones: '',
   });
 
   const [emojiAnchorEl, setEmojiAnchorEl] = useState(null);
+  const [openDatos, setOpenDatos] = useState(false);
   const emojiOptions = ['😊', '😀', '😍', '😎', '😢', '😡', '😴', '🤗', '🥳', '👶'];
 
   const handleEmojiClick = (event) => {    setEmojiAnchorEl(event.currentTarget);  };
@@ -52,6 +62,14 @@ export default function AnadirBebe() {
 
   const handleEmojiClose = () => {
     setEmojiAnchorEl(null);
+  };
+
+  const handleOpenDatos = () => {
+    setOpenDatos(true);
+  };
+
+  const handleCloseDatos = () => {
+    setOpenDatos(false);
   };
 
   const handleChange = (e) => {
@@ -242,9 +260,9 @@ export default function AnadirBebe() {
                 </Stack>
               </Stack>
             </Box>
-            <Button variant="outlined" sx={{ mb: 2 }}>
-              Datos adicionales
-            </Button>
+              <Button variant="outlined" sx={{ mb: 2 }} onClick={handleOpenDatos}>
+                Datos adicionales
+              </Button>
           </Grid>
 
           <Grid item xs={12} md={4}>
@@ -279,6 +297,12 @@ export default function AnadirBebe() {
           </Button>
         </Stack>
       </Box>
+      <DatosAdicionalesForm
+        open={openDatos}
+        onClose={handleCloseDatos}
+        formData={formData}
+        onChange={handleChange}
+      />
     </LocalizationProvider>
   );
 }
