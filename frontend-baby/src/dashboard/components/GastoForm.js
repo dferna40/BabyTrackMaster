@@ -8,12 +8,7 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 
-const categoriaOptions = [
-  { id: 1, label: 'Alimentación' },
-  { id: 2, label: 'Ropa' },
-  { id: 3, label: 'Juguetes' },
-  { id: 4, label: 'Otros' },
-];
+import { listarCategorias } from '../../services/gastosService';
 
 export default function GastoForm({ open, onClose, onSubmit, initialData }) {
   const [formData, setFormData] = useState({
@@ -22,6 +17,7 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
     descripcion: '',
     cantidad: '',
   });
+  const [categorias, setCategorias] = useState([]);
 
   useEffect(() => {
     if (initialData) {
@@ -35,6 +31,16 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
       setFormData({ fecha: '', categoriaId: '', descripcion: '', cantidad: '' });
     }
   }, [initialData, open]);
+
+  useEffect(() => {
+    listarCategorias()
+      .then((response) => {
+        setCategorias(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching categorias:', error);
+      });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,9 +72,9 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
             onChange={handleChange}
             InputLabelProps={{ shrink: true }}
           >
-            {categoriaOptions.map((option) => (
+            {categorias.map((option) => (
               <MenuItem key={option.id} value={option.id}>
-                {option.label}
+                {option.nombre}
               </MenuItem>
             ))}
           </TextField>
