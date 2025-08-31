@@ -156,7 +156,7 @@ export default function Gastos() {
           sx={{ alignSelf: 'flex-start' }}
           onClick={handleAdd}
         >
-          + Añadir gasto
+          Añadir gasto
         </Button>
         <TextField
           select
