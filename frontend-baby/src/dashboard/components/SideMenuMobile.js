@@ -14,7 +14,7 @@ import MenuButton from './MenuButton';
 import MenuContent from './MenuContent';
 
 function SideMenuMobile({ open, toggleDrawer }) {
-  const { logout } = useContext(AuthContext);
+  const { logout, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleLogout = () => {
     logout();
@@ -47,12 +47,12 @@ function SideMenuMobile({ open, toggleDrawer }) {
           >
             <Avatar
               sizes="small"
-              alt="Riley Carter"
+              alt={user?.nombreCompleto || ''}
               src="/static/images/avatar/7.jpg"
               sx={{ width: 24, height: 24 }}
             />
             <Typography component="p" variant="h6">
-              Riley Carter
+              {user?.nombreCompleto || ''}
             </Typography>
           </Stack>
           <MenuButton showBadge>
