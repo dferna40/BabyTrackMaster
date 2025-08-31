@@ -4,15 +4,15 @@ import axios from 'axios';
 export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(() => localStorage.getItem('jwt'));
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('jwt');
-    if (storedToken) {
-      setToken(storedToken);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
-  }, []);
+    setLoading(false);
+  }, [token]);
 
   const login = (newToken) => {
     setToken(newToken);
@@ -31,7 +31,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ token, login, loginWithGoogle, logout }}>
+    <AuthContext.Provider value={{ token, loading, login, loginWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );
