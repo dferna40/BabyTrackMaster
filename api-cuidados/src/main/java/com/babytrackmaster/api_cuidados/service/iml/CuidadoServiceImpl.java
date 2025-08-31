@@ -30,24 +30,24 @@ public class CuidadoServiceImpl implements CuidadoService {
         this.tipoRepo = tipoRepo;
     }
 
-    public CuidadoResponse crear(CuidadoRequest request) {
-        Cuidado c = CuidadoMapper.toEntity(request, tipoRepo);
+    public CuidadoResponse crear(Long usuarioId, CuidadoRequest request) {
+        Cuidado c = CuidadoMapper.toEntity(request, usuarioId, tipoRepo);
         c = repo.save(c);
         return CuidadoMapper.toResponse(c);
     }
 
-    public CuidadoResponse actualizar(Long id, CuidadoRequest request) {
-        Cuidado c = repo.findByIdAndEliminadoFalse(id).orElse(null);
+    public CuidadoResponse actualizar(Long usuarioId, Long id, CuidadoRequest request) {
+        Cuidado c = repo.findByIdAndUsuarioIdAndEliminadoFalse(id, usuarioId).orElse(null);
         if (c == null) {
             throw new IllegalArgumentException("Cuidado no encontrado: " + id);
         }
-        CuidadoMapper.copyToEntity(request, c, tipoRepo);
+        CuidadoMapper.copyToEntity(request, c, usuarioId, tipoRepo);
         c = repo.save(c);
         return CuidadoMapper.toResponse(c);
     }
 
-    public void eliminar(Long id) {
-        Cuidado c = repo.findByIdAndEliminadoFalse(id).orElse(null);
+    public void eliminar(Long usuarioId, Long id) {
+        Cuidado c = repo.findByIdAndUsuarioIdAndEliminadoFalse(id, usuarioId).orElse(null);
         if (c == null) {
             throw new IllegalArgumentException("Cuidado no encontrado: " + id);
         }
@@ -57,8 +57,8 @@ public class CuidadoServiceImpl implements CuidadoService {
     }
 
     @Transactional(readOnly = true)
-    public CuidadoResponse obtener(Long id) {
-        Cuidado c = repo.findByIdAndEliminadoFalse(id).orElse(null);
+    public CuidadoResponse obtener(Long usuarioId, Long id) {
+        Cuidado c = repo.findByIdAndUsuarioIdAndEliminadoFalse(id, usuarioId).orElse(null);
         if (c == null) {
             throw new IllegalArgumentException("Cuidado no encontrado: " + id);
         }
@@ -66,13 +66,13 @@ public class CuidadoServiceImpl implements CuidadoService {
     }
 
     @Transactional(readOnly = true)
-    public List<CuidadoResponse> listarPorBebe(Long bebeId, Integer limit) {
+    public List<CuidadoResponse> listarPorBebe(Long usuarioId, Long bebeId, Integer limit) {
         List<Cuidado> list;
         if (limit != null) {
-            list = repo.findByBebeIdAndEliminadoFalse(bebeId,
+            list = repo.findByBebeIdAndUsuarioIdAndEliminadoFalse(bebeId, usuarioId,
                     PageRequest.of(0, limit, Sort.by("inicio").descending()));
         } else {
-            list = repo.findByBebeIdAndEliminadoFalseOrderByInicioDesc(bebeId);
+            list = repo.findByBebeIdAndUsuarioIdAndEliminadoFalseOrderByInicioDesc(bebeId, usuarioId);
         }
         List<CuidadoResponse> resp = new ArrayList<CuidadoResponse>();
         for (int i = 0; i < list.size(); i++) {
@@ -82,8 +82,8 @@ public class CuidadoServiceImpl implements CuidadoService {
     }
 
     @Transactional(readOnly = true)
-    public List<CuidadoResponse> listarPorBebeYTipo(Long bebeId, Long tipoId) {
-        List<Cuidado> list = repo.findByBebeIdAndTipo_IdAndEliminadoFalseOrderByInicioDesc(bebeId, tipoId);
+    public List<CuidadoResponse> listarPorBebeYTipo(Long usuarioId, Long bebeId, Long tipoId) {
+        List<Cuidado> list = repo.findByBebeIdAndTipo_IdAndUsuarioIdAndEliminadoFalseOrderByInicioDesc(bebeId, tipoId, usuarioId);
         List<CuidadoResponse> resp = new ArrayList<CuidadoResponse>();
         for (int i = 0; i < list.size(); i++) {
             resp.add(CuidadoMapper.toResponse(list.get(i)));
@@ -92,8 +92,8 @@ public class CuidadoServiceImpl implements CuidadoService {
     }
 
     @Transactional(readOnly = true)
-    public List<CuidadoResponse> listarPorRango(Long bebeId, Date desde, Date hasta) {
-        List<Cuidado> list = repo.findByBebeIdAndInicioBetweenAndEliminadoFalseOrderByInicioDesc(bebeId, desde, hasta);
+    public List<CuidadoResponse> listarPorRango(Long usuarioId, Long bebeId, Date desde, Date hasta) {
+        List<Cuidado> list = repo.findByBebeIdAndUsuarioIdAndInicioBetweenAndEliminadoFalseOrderByInicioDesc(bebeId, usuarioId, desde, hasta);
         List<CuidadoResponse> resp = new ArrayList<CuidadoResponse>();
         for (int i = 0; i < list.size(); i++) {
             resp.add(CuidadoMapper.toResponse(list.get(i)));
