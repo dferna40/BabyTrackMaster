@@ -377,9 +377,12 @@ export const inputsCustomizations = {
   },
   MuiOutlinedInput: {
     styleOverrides: {
-      input: ({ ownerState }) => ({
-        padding: ownerState.multiline ? '8px 12px' : 0,
-      }),
+      input: {
+        padding: 0,
+      },
+      inputMultiline: {
+        padding: '8px 12px',
+      },
       root: ({ theme, ownerState }) => ({
         padding: ownerState.multiline ? 0 : '8px 12px',
         color: (theme.vars || theme).palette.text.primary,
@@ -399,12 +402,6 @@ export const inputsCustomizations = {
             borderColor: gray[500],
           },
         }),
-        '&.MuiOutlinedInput-multiline': {
-          padding: 0,
-          '& textarea': {
-            padding: '8px 12px',
-          },
-        },
         variants: [
           {
             props: {
