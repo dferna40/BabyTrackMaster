@@ -18,7 +18,7 @@ interface SideMenuMobileProps {
 }
 
 export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobileProps) {
-  const { logout } = useContext(AuthContext as any);
+  const { logout, user } = useContext(AuthContext as any);
   const navigate = useNavigate();
   const handleLogout = () => {
     logout();
@@ -51,12 +51,12 @@ export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobilePro
           >
             <Avatar
               sizes="small"
-              alt="Riley Carter"
+              alt={user?.nombreCompleto || ''}
               src="/static/images/avatar/7.jpg"
               sx={{ width: 24, height: 24 }}
             />
             <Typography component="p" variant="h6">
-              Riley Carter
+              {user?.nombreCompleto || ''}
             </Typography>
           </Stack>
           <MenuButton showBadge>
