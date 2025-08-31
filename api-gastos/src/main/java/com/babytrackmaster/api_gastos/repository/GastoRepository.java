@@ -44,4 +44,8 @@ public interface GastoRepository extends JpaRepository<Gasto, Long> {
             LocalDate desde,
             LocalDate hasta,
             Pageable pageable);
+
+    Page<Gasto> findByUsuarioIdAndBebeIdAndEliminadoFalse(Long usuarioId,
+            Long bebeId,
+            Pageable pageable);
 }

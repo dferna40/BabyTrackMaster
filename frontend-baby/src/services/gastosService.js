@@ -4,11 +4,10 @@ import { API_GASTOS_URL } from '../config';
 const API_GASTOS_ENDPOINT = `${API_GASTOS_URL}/api/v1/gastos`;
 const API_CATEGORIAS_ENDPOINT = `${API_GASTOS_URL}/api/v1/categorias`;
 
-export const listarPorBebe = (bebeId, page, size) => {
-  const params = {};
-  if (page !== undefined) params.page = page;
-  if (size !== undefined) params.size = size;
-  return axios.get(`${API_GASTOS_ENDPOINT}/bebe/${bebeId}`, { params });
+export const listarPorBebe = (bebeId, page = 0, size = 10) => {
+  return axios.get(`${API_GASTOS_ENDPOINT}/bebe/${bebeId}`, {
+    params: { page, size },
+  });
 };
 
 export const listarRecientes = (bebeId, limit = 5) => {

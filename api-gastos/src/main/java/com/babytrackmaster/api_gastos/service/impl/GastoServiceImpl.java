@@ -122,6 +122,20 @@ public class GastoServiceImpl implements GastoService {
     }
 
     @Transactional(readOnly = true)
+    public Page<GastoResponse> listarPorBebe(Long usuarioId, Long bebeId, Pageable pageable) {
+        Page<Gasto> page = gastoRepository.findByUsuarioIdAndBebeIdAndEliminadoFalse(usuarioId, bebeId, pageable);
+
+        List<GastoResponse> dtos = new ArrayList<GastoResponse>();
+        List<Gasto> content = page.getContent();
+        int i = 0;
+        while (i < content.size()) {
+            dtos.add(GastoMapper.toResponse(content.get(i)));
+            i++;
+        }
+        return new PageImpl<GastoResponse>(dtos, pageable, page.getTotalElements());
+    }
+
+    @Transactional(readOnly = true)
     public Page<GastoResponse> listarPorCategoria(Long usuarioId, Long categoriaId, Pageable pageable) {
         Page<Gasto> page = gastoRepository.findByUsuarioAndCategoria(usuarioId, categoriaId, pageable);
 

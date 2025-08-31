@@ -16,6 +16,7 @@ public interface GastoService {
 
     Page<GastoResponse> listarPorMes(Long usuarioIdDelToken, int anio, int mes, Pageable pageable);
     Page<GastoResponse> listarPorCategoria(Long usuarioIdDelToken, Long categoriaId, Pageable pageable);
+    Page<GastoResponse> listarPorBebe(Long usuarioIdDelToken, Long bebeId, Pageable pageable);
 
     ResumenMensualResponse resumenMensual(Long usuarioIdDelToken, int anio, int mes);
 }
