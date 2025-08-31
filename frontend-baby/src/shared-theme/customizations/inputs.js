@@ -377,11 +377,11 @@ export const inputsCustomizations = {
   },
   MuiOutlinedInput: {
     styleOverrides: {
-      input: {
-        padding: 0,
-      },
-      root: ({ theme }) => ({
-        padding: '8px 12px',
+      input: ({ ownerState }) => ({
+        padding: ownerState.multiline ? '8px 12px' : 0,
+      }),
+      root: ({ theme, ownerState }) => ({
+        padding: ownerState.multiline ? 0 : '8px 12px',
         color: (theme.vars || theme).palette.text.primary,
         borderRadius: (theme.vars || theme).shape.borderRadius,
         border: `1px solid ${(theme.vars || theme).palette.divider}`,
