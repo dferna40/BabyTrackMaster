@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -20,12 +20,14 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { crearBebe } from '../../services/bebesService';
+import { BabyContext } from '../../context/BabyContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
 export default function AnadirBebe() {
   const navigate = useNavigate();
+  const { addBaby } = useContext(BabyContext);
   const fileInputRef = useRef(null);
   const [preview, setPreview] = useState(null);
   const [formData, setFormData] = useState({
@@ -108,7 +110,8 @@ export default function AnadirBebe() {
 
     setLoading(true);
     try {
-      await crearBebe(payload);
+      const response = await crearBebe(payload);
+      addBaby(response.data);
       setOpenSnackbar(true);
     } catch (error) {
       console.error('Error creating baby:', error);
