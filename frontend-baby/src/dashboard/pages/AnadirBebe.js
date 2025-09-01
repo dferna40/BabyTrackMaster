@@ -31,15 +31,15 @@ export default function AnadirBebe() {
     nombre: '',
     fechaNacimiento: null,
     sexo: 'ND',
-    activo: true,
-    pesoNacimiento: '',
-    tallaNacimiento: '',
+    bebeActivo: true,
+    pesoNacer: '',
+    tallaNacer: '',
     semanasGestacion: '',
     colorEmoji: false,
     color: '#9c27b0',
     emoji: '😊',
-    foto: null,
-    numeroSS: '',
+    imagenBebe: null,
+    numeroSs: '',
     grupoSanguineo: '',
     medicaciones: '',
     alergias: '',
@@ -87,25 +87,37 @@ export default function AnadirBebe() {
   const handlePhotoChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      setFormData((prev) => ({ ...prev, foto: file }));
+      setFormData((prev) => ({ ...prev, imagenBebe: file }));
       setPreview(URL.createObjectURL(file));
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const payload = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      if (key === 'colorEmoji') return;
-      if ((key === 'color' || key === 'emoji') && !formData.colorEmoji) return;
-      if (value !== null && value !== '') {
-        if (dayjs.isDayjs(value)) {
-          payload.append(key, value.format('YYYY-MM-DD'));
-        } else {
-          payload.append(key, value);
-        }
-      }
+  const toBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = (error) => reject(error);
     });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const payload = {};
+    await Promise.all(
+      Object.entries(formData).map(async ([key, value]) => {
+        if (key === 'colorEmoji') return;
+        if ((key === 'color' || key === 'emoji') && !formData.colorEmoji) return;
+        if (value !== null && value !== '') {
+          if (dayjs.isDayjs(value)) {
+            payload[key] = value.format('YYYY-MM-DD');
+          } else if (key === 'imagenBebe' && value instanceof File) {
+            payload[key] = await toBase64(value);
+          } else {
+            payload[key] = value;
+          }
+        }
+      })
+    );
 
     crearBebe(payload)
       .then(() => navigate(-1))
@@ -164,9 +176,9 @@ export default function AnadirBebe() {
                   <FormControlLabel
                     control={
                       <Switch
-                        checked={formData.activo}
+                        checked={formData.bebeActivo}
                         onChange={handleChange}
-                        name="activo"
+                        name="bebeActivo"
                       />
                     }
                     label="Bebé activo"
@@ -183,20 +195,20 @@ export default function AnadirBebe() {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     label="Peso al nacer (kg)"
-                    name="pesoNacimiento"
+                    name="pesoNacer"
                     type="number"
                     fullWidth
-                    value={formData.pesoNacimiento}
+                    value={formData.pesoNacer}
                     onChange={handleChange}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     label="Talla al nacer (cm)"
-                    name="tallaNacimiento"
+                    name="tallaNacer"
                     type="number"
                     fullWidth
-                    value={formData.tallaNacimiento}
+                    value={formData.tallaNacer}
                     onChange={handleChange}
                   />
                 </Grid>
