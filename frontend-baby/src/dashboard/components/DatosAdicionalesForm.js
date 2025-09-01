@@ -31,8 +31,8 @@ export default function DatosAdicionalesForm({ open, onClose, formData, onChange
           <FormControl fullWidth sx={{ mb: 2 }}>
             <FormLabel sx={{ mb: 1 }}>Número SS</FormLabel>
             <TextField
-              name="numeroSS"
-              value={formData.numeroSS || ''}
+              name="numeroSs"
+              value={formData.numeroSs || ''}
               onChange={onChange}
             />
           </FormControl>
