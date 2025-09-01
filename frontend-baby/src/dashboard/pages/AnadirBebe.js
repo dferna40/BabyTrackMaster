@@ -21,6 +21,8 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { crearBebe } from '../../services/bebesService';
 import CircularProgress from '@mui/material/CircularProgress';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 export default function AnadirBebe() {
   const navigate = useNavigate();
@@ -46,6 +48,15 @@ export default function AnadirBebe() {
     observaciones: '',
   });
   const [loading, setLoading] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const handleCloseSnackbar = (_, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+    navigate(-1);
+  };
 
   const gruposSanguineos = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'];
   const alergiasOptions = ['Ninguna', 'Gluten', 'Lactosa', 'Frutos secos', 'Polen', 'Ácaros', 'Medicamentos'];
@@ -98,7 +109,7 @@ export default function AnadirBebe() {
     setLoading(true);
     try {
       await crearBebe(payload);
-      navigate(-1);
+      setOpenSnackbar(true);
     } catch (error) {
       console.error('Error creating baby:', error);
     } finally {
@@ -374,6 +385,19 @@ export default function AnadirBebe() {
           </Button>
         </Stack>
       </Box>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="success"
+          sx={{ width: '100%' }}
+        >
+          Bebé guardado correctamente
+        </Alert>
+      </Snackbar>
     </LocalizationProvider>
   );
 }
