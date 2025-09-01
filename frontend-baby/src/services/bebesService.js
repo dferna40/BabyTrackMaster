@@ -26,3 +26,7 @@ export const actualizarBebe = (id, payload, headers = {}) => {
     headers: { 'Content-Type': 'application/json', ...headers },
   });
 };
+
+export const eliminarBebe = (id) => {
+  return axios.delete(`${API_BEBES_ENDPOINT}/${id}`);
+};

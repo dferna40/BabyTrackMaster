@@ -18,7 +18,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
-import { actualizarBebe } from '../../services/bebesService';
+import { actualizarBebe, eliminarBebe } from '../../services/bebesService';
 import { BabyContext } from '../../context/BabyContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '@mui/material/Snackbar';
@@ -150,7 +150,7 @@ export default function EditarBebe() {
     if (!activeBaby?.id) return;
     setLoading(true);
     try {
-      await actualizarBebe(activeBaby.id, { bebeActivo: false });
+      await eliminarBebe(activeBaby.id);
       removeBaby(activeBaby.id);
       navigate(-1);
     } catch (error) {
