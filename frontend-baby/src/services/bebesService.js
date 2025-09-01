@@ -14,7 +14,7 @@ export const getBebes = () => {
 };
 
 export const getBebesByUsuario = (usuarioId) => {
-  return axios.get(`${API_BEBES_ENDPOINT}?usuarioId=${usuarioId}&activo=true`);
+  return axios.get(`${API_BEBES_ENDPOINT}?usuarioId=${usuarioId}`);
 };
 
 export const getBebeById = (id) => {

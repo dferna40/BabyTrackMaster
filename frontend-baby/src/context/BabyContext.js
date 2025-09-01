@@ -16,7 +16,8 @@ export function BabyProvider({ children }) {
         const response = await getBebesByUsuario(user.id);
         const data = response.data || [];
         setBabies(data);
-        setActiveBaby(data[0] || null);
+        const firstActive = data.find((baby) => baby.activo);
+        setActiveBaby(firstActive || null);
       } catch (error) {
         console.error('Error fetching babies', error);
       }
@@ -34,7 +35,8 @@ export function BabyProvider({ children }) {
     setBabies((prev) => {
       const updatedBabies = prev.filter((baby) => baby.id !== id);
       if (activeBaby && activeBaby.id === id) {
-        setActiveBaby(updatedBabies[0] || null);
+        const firstActive = updatedBabies.find((baby) => baby.activo);
+        setActiveBaby(firstActive || null);
       }
       return updatedBabies;
     });
