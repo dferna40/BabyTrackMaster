@@ -12,3 +12,7 @@ export const crearBebe = (payload, headers = {}) => {
 export const getBebes = () => {
   return axios.get(API_BEBES_ENDPOINT);
 };
+
+export const getBebesByUsuario = (usuarioId) => {
+  return axios.get(`${API_BEBES_ENDPOINT}?usuarioId=${usuarioId}&activo=true`);
+};
