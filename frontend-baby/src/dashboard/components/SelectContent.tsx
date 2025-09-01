@@ -3,15 +3,15 @@ import MuiAvatar from '@mui/material/Avatar';
 import MuiListItemAvatar from '@mui/material/ListItemAvatar';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListSubheader from '@mui/material/ListSubheader';
 import Select, { SelectChangeEvent, selectClasses } from '@mui/material/Select';
-import Divider from '@mui/material/Divider';
 import { styled } from '@mui/material/styles';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded';
-import SmartphoneRoundedIcon from '@mui/icons-material/SmartphoneRounded';
-import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
+import { BabyContext } from '../../context/BabyContext';
+
+interface Baby {
+  id: number;
+  nombre: string;
+  fechaNacimiento: string;
+}
 
 const Avatar = styled(MuiAvatar)(({ theme }) => ({
   width: 28,
@@ -27,20 +27,28 @@ const ListItemAvatar = styled(MuiListItemAvatar)({
 });
 
 export default function SelectContent() {
-  const [company, setCompany] = React.useState('');
+  const { babies, activeBaby, setActiveBaby } = React.useContext(BabyContext) as {
+    babies: Baby[];
+    activeBaby: Baby;
+    setActiveBaby: (baby: Baby) => void;
+  };
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setCompany(event.target.value as string);
+  const handleChange = (event: SelectChangeEvent<string>) => {
+    const selectedId = parseInt(event.target.value, 10);
+    const baby = babies.find((b) => b.id === selectedId);
+    if (baby) {
+      setActiveBaby(baby);
+    }
   };
 
   return (
     <Select
-      labelId="company-select"
-      id="company-simple-select"
-      value={company}
+      labelId="baby-select"
+      id="baby-select"
+      value={activeBaby?.id.toString() || ''}
       onChange={handleChange}
       displayEmpty
-      inputProps={{ 'aria-label': 'Seleccionar empresa' }}
+      inputProps={{ 'aria-label': 'Seleccionar bebé' }}
       fullWidth
       sx={{
         maxHeight: 56,
@@ -55,48 +63,22 @@ export default function SelectContent() {
           pl: 1,
         },
       }}
+      renderValue={(selected) => {
+        const baby = babies.find((b) => b.id.toString() === selected);
+        return baby ? baby.nombre : 'Seleccionar bebé';
+      }}
     >
-      <ListSubheader sx={{ pt: 0 }}>Producción</ListSubheader>
-      <MenuItem value="">
-        <ListItemAvatar>
-          <Avatar alt="Sitemark web">
-            <DevicesRoundedIcon sx={{ fontSize: '1rem' }} />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="Sitemark-web" secondary="Aplicación web" />
-      </MenuItem>
-      <MenuItem value={10}>
-        <ListItemAvatar>
-          <Avatar alt="Sitemark App">
-            <SmartphoneRoundedIcon sx={{ fontSize: '1rem' }} />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="Sitemark-app" secondary="Aplicación móvil" />
-      </MenuItem>
-      <MenuItem value={20}>
-        <ListItemAvatar>
-          <Avatar alt="Sitemark Store">
-            <DevicesRoundedIcon sx={{ fontSize: '1rem' }} />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="Sitemark-Store" secondary="Aplicación web" />
-      </MenuItem>
-      <ListSubheader>Desarrollo</ListSubheader>
-      <MenuItem value={30}>
-        <ListItemAvatar>
-          <Avatar alt="Sitemark Store">
-            <ConstructionRoundedIcon sx={{ fontSize: '1rem' }} />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary="Sitemark-Admin" secondary="Aplicación web" />
-      </MenuItem>
-      <Divider sx={{ mx: -1 }} />
-      <MenuItem value={40}>
-        <ListItemIcon>
-          <AddRoundedIcon />
-        </ListItemIcon>
-        <ListItemText primary="Agregar producto" secondary="Aplicación web" />
-      </MenuItem>
+      {babies.map((baby) => (
+        <MenuItem key={baby.id} value={baby.id.toString()}>
+          <ListItemAvatar>
+            <Avatar alt={baby.nombre}>{baby.nombre.charAt(0)}</Avatar>
+          </ListItemAvatar>
+          <ListItemText
+            primary={baby.nombre}
+            secondary={`Nacimiento: ${baby.fechaNacimiento}`}
+          />
+        </MenuItem>
+      ))}
     </Select>
   );
 }
