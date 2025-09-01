@@ -127,7 +127,7 @@ export default function Gastos() {
 
   const handleFormSubmit = (data) => {
     if (!bebeId) return;
-    const payload = { ...data, bebeId, usuarioId: 1 };
+    const payload = { ...data, bebeId };
     const request = selectedGasto
       ? actualizarGasto(selectedGasto.id, payload)
       : crearGasto(payload);
