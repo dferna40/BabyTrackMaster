@@ -1,18 +1,34 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
+import { getBebes } from '../services/bebesService';
 
 export const BabyContext = createContext(null);
 
 export function BabyProvider({ children }) {
-  const initialBabies = [
-    { id: 1, nombre: 'Carlos', fechaNacimiento: '2023-01-01' },
-    { id: 2, nombre: 'Lucía', fechaNacimiento: '2022-09-15' },
-  ];
+  const [babies, setBabies] = useState([]);
+  const [activeBaby, setActiveBaby] = useState(null);
 
-  const [babies] = useState(initialBabies);
-  const [activeBaby, setActiveBaby] = useState(initialBabies[0]);
+  useEffect(() => {
+    const fetchBabies = async () => {
+      try {
+        const response = await getBebes();
+        const data = response.data || [];
+        setBabies(data);
+        setActiveBaby(data[0] || null);
+      } catch (error) {
+        console.error('Error fetching babies', error);
+      }
+    };
+
+    fetchBabies();
+  }, []);
+
+  const addBaby = (baby) => {
+    setBabies((prev) => [...prev, baby]);
+    setActiveBaby(baby);
+  };
 
   return (
-    <BabyContext.Provider value={{ babies, activeBaby, setActiveBaby }}>
+    <BabyContext.Provider value={{ babies, activeBaby, setActiveBaby, addBaby }}>
       {children}
     </BabyContext.Provider>
   );

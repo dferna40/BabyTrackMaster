@@ -8,3 +8,7 @@ export const crearBebe = (payload, headers = {}) => {
     headers: { 'Content-Type': 'application/json', ...headers },
   });
 };
+
+export const getBebes = () => {
+  return axios.get(API_BEBES_ENDPOINT);
+};
