@@ -10,6 +10,19 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
 export default function DatosAdicionalesForm({ open, onClose, formData, onChange }) {
+  const handleSave = () => {
+    const hasEmptyFields = Object.values(formData).some(
+      (value) => value === undefined || value === null || String(value).trim() === ''
+    );
+
+    if (hasEmptyFields) {
+      alert('Por favor, completa todos los campos.');
+      return;
+    }
+
+    onClose();
+  };
+
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>Datos adicionales</DialogTitle>
@@ -89,7 +102,7 @@ export default function DatosAdicionalesForm({ open, onClose, formData, onChange
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancelar</Button>
-        <Button onClick={onClose} variant="contained">Guardar</Button>
+        <Button onClick={handleSave} variant="contained">Guardar</Button>
       </DialogActions>
     </Dialog>
   );
