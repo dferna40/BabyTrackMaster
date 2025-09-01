@@ -5,7 +5,6 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -21,7 +20,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { crearBebe } from '../../services/bebesService';
-import DatosAdicionalesForm from '../components/DatosAdicionalesForm';
 
 export default function AnadirBebe() {
   const navigate = useNavigate();
@@ -34,10 +32,8 @@ export default function AnadirBebe() {
     bebeActivo: true,
     pesoNacer: '',
     tallaNacer: '',
+    perimetroCranealNacer: '',
     semanasGestacion: '',
-    colorEmoji: false,
-    color: '#9c27b0',
-    emoji: '😊',
     imagenBebe: null,
     numeroSs: '',
     grupoSanguineo: '',
@@ -49,28 +45,8 @@ export default function AnadirBebe() {
     observaciones: '',
   });
 
-  const [emojiAnchorEl, setEmojiAnchorEl] = useState(null);
-  const [openDatos, setOpenDatos] = useState(false);
-  const emojiOptions = ['😊', '😀', '😍', '😎', '😢', '😡', '😴', '🤗', '🥳', '👶'];
-
-  const handleEmojiClick = (event) => {    setEmojiAnchorEl(event.currentTarget);  };
-
-  const handleEmojiSelect = (emoji) => {
-    setFormData((prev) => ({ ...prev, emoji }));
-    setEmojiAnchorEl(null);
-  };
-
-  const handleEmojiClose = () => {
-    setEmojiAnchorEl(null);
-  };
-
-  const handleOpenDatos = () => {
-    setOpenDatos(true);
-  };
-
-  const handleCloseDatos = () => {
-    setOpenDatos(false);
-  };
+  const gruposSanguineos = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'];
+  const alergiasOptions = ['Ninguna', 'Gluten', 'Lactosa', 'Frutos secos', 'Polen', 'Ácaros', 'Medicamentos'];
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -105,8 +81,6 @@ export default function AnadirBebe() {
     const payload = {};
     await Promise.all(
       Object.entries(formData).map(async ([key, value]) => {
-        if (key === 'colorEmoji') return;
-        if ((key === 'color' || key === 'emoji') && !formData.colorEmoji) return;
         if (value !== null && value !== '') {
           if (dayjs.isDayjs(value)) {
             payload[key] = value.format('YYYY-MM-DD');
@@ -214,6 +188,16 @@ export default function AnadirBebe() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    label="Perímetro craneal al nacer (cm)"
+                    name="perimetroCranealNacer"
+                    type="number"
+                    fullWidth
+                    value={formData.perimetroCranealNacer}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
                     label="Semanas de gestación"
                     name="semanasGestacion"
                     type="number"
@@ -227,54 +211,110 @@ export default function AnadirBebe() {
 
             <Box component={Paper} sx={{ p: 2, mb: 2 }}>
               <Typography variant="h6" gutterBottom>
-                Preferencias
+                Salud
               </Typography>
-              <Stack direction="row" alignItems="center" spacing={2} justifyContent="space-between">
-                <Typography>Color/emoji identificador</Typography>
-                <Stack direction="row" spacing={1} alignItems="center">
-                  <Switch
-                    name="colorEmoji"
-                    checked={formData.colorEmoji}
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    select
+                    label="Grupo sanguíneo"
+                    name="grupoSanguineo"
+                    fullWidth
+                    value={formData.grupoSanguineo}
                     onChange={handleChange}
-                    InputLabelProps={{ shrink: true }}
+                  >
+                    {gruposSanguineos.map((grupo) => (
+                      <MenuItem key={grupo} value={grupo}>
+                        {grupo}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    select
+                    label="Alergias"
+                    name="alergias"
+                    fullWidth
+                    value={formData.alergias}
+                    onChange={handleChange}
+                  >
+                    {alergiasOptions.map((alergia) => (
+                      <MenuItem key={alergia} value={alergia}>
+                        {alergia}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    label="Medicaciones"
+                    name="medicaciones"
+                    fullWidth
+                    value={formData.medicaciones}
+                    onChange={handleChange}
                   />
-                  {formData.colorEmoji && (
-                    <>
-                      <Box
-                        component="input"
-                        type="color"
-                        name="color"
-                        value={formData.color}
-                        onChange={handleChange}
-                        sx={{ width: 40, height: 40, p: 0, border: 'none', bgcolor: 'transparent' }}
-                      />
-                      <TextField
-                        variant="standard"
-                        name="emoji"
-                        value={formData.emoji}
-                        onClick={handleEmojiClick}
-                        inputProps={{ readOnly: true, maxLength: 2, style: { fontSize: '1.5rem', textAlign: 'center', cursor: 'pointer' } }}
-                        sx={{ width: 48 }}
-                      />
-                      <Menu
-                        anchorEl={emojiAnchorEl}
-                        open={Boolean(emojiAnchorEl)}
-                        onClose={handleEmojiClose}
-                         >
-                          {emojiOptions.map((em) => (
-                           <MenuItem key={em} onClick={() => handleEmojiSelect(em)}>
-                            {em}
-                            </MenuItem>
-                            ))}
-                         </Menu>
-                    </>
-                  )}
-                </Stack>
-              </Stack>
+                </Grid>
+              </Grid>
             </Box>
-              <Button variant="outlined" sx={{ mb: 2 }} onClick={handleOpenDatos}>
-                Datos adicionales
-              </Button>
+
+            <Box component={Paper} sx={{ p: 2, mb: 2 }}>
+              <Typography variant="h6" gutterBottom>
+                Datos clínicos
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Número SS"
+                    name="numeroSs"
+                    fullWidth
+                    value={formData.numeroSs}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Pediatra"
+                    name="pediatra"
+                    fullWidth
+                    value={formData.pediatra}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Centro médico"
+                    name="centroMedico"
+                    fullWidth
+                    value={formData.centroMedico}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Número centro médico"
+                    name="telefonoCentroMedico"
+                    fullWidth
+                    value={formData.telefonoCentroMedico}
+                    onChange={handleChange}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+
+            <Box component={Paper} sx={{ p: 2, mb: 2 }}>
+              <Typography variant="h6" gutterBottom>
+                Observaciones
+              </Typography>
+              <TextField
+                multiline
+                rows={4}
+                name="observaciones"
+                fullWidth
+                value={formData.observaciones}
+                onChange={handleChange}
+              />
+            </Box>
           </Grid>
 
           <Grid item xs={12} md={4}>
@@ -309,12 +349,6 @@ export default function AnadirBebe() {
           </Button>
         </Stack>
       </Box>
-      <DatosAdicionalesForm
-        open={openDatos}
-        onClose={handleCloseDatos}
-        formData={formData}
-        onChange={handleChange}
-      />
     </LocalizationProvider>
   );
 }
