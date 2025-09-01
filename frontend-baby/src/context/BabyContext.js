@@ -30,8 +30,18 @@ export function BabyProvider({ children }) {
     setActiveBaby(baby);
   };
 
+  const removeBaby = (id) => {
+    setBabies((prev) => {
+      const updatedBabies = prev.filter((baby) => baby.id !== id);
+      if (activeBaby && activeBaby.id === id) {
+        setActiveBaby(updatedBabies[0] || null);
+      }
+      return updatedBabies;
+    });
+  };
+
   return (
-    <BabyContext.Provider value={{ babies, activeBaby, setActiveBaby, addBaby }}>
+    <BabyContext.Provider value={{ babies, activeBaby, setActiveBaby, addBaby, removeBaby }}>
       {children}
     </BabyContext.Provider>
   );
