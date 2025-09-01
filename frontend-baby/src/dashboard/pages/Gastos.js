@@ -34,6 +34,7 @@ import {
 } from '../../services/gastosService';
 import GastoForm from '../components/GastoForm';
 import { BabyContext } from '../../context/BabyContext';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function Gastos() {
   const [gastos, setGastos] = useState([]);
@@ -46,11 +47,13 @@ export default function Gastos() {
   const [monthFilter, setMonthFilter] = useState(dayjs().format('YYYY-MM'));
   const [weeklyStats, setWeeklyStats] = useState(Array(7).fill(0));
   const { activeBaby } = React.useContext(BabyContext);
+  const { user } = React.useContext(AuthContext);
+  const usuarioId = user?.id;
   const bebeId = activeBaby?.id;
 
   const fetchGastos = () => {
-    if (!bebeId) return;
-    listarPorBebe(bebeId, page, rowsPerPage)
+    if (!bebeId || !usuarioId) return;
+    listarPorBebe(usuarioId, bebeId, page, rowsPerPage)
       .then((response) => {
         setGastos(response.data.content ?? response.data);
       })
@@ -115,9 +118,9 @@ export default function Gastos() {
   };
 
   const handleDelete = (id) => {
-    if (!bebeId) return;
+    if (!bebeId || !usuarioId) return;
     if (window.confirm('¿Eliminar gasto?')) {
-      eliminarGasto(id)
+      eliminarGasto(usuarioId, id)
         .then(() => fetchGastos())
         .catch((error) => {
           console.error('Error deleting gasto:', error);
@@ -126,11 +129,11 @@ export default function Gastos() {
   };
 
   const handleFormSubmit = (data) => {
-    if (!bebeId) return;
+    if (!bebeId || !usuarioId) return;
     const payload = { ...data, bebeId };
     const request = selectedGasto
-      ? actualizarGasto(selectedGasto.id, payload)
-      : crearGasto(payload);
+      ? actualizarGasto(usuarioId, selectedGasto.id, payload)
+      : crearGasto(usuarioId, payload);
 
     request
       .then(() => {

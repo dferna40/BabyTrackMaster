@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BabyContext } from '../../context/BabyContext';
+import { AuthContext } from '../../context/AuthContext';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -13,15 +14,17 @@ import { listarRecientes } from '../../services/cuidadosService';
 export default function RecentCareCard() {
   const [recentCare, setRecentCare] = useState([]);
   const { activeBaby } = React.useContext(BabyContext);
+  const { user } = React.useContext(AuthContext);
+  const usuarioId = user?.id;
   const bebeId = activeBaby?.id;
 
   useEffect(() => {
-    if (bebeId) {
-      listarRecientes(bebeId)
+    if (bebeId && usuarioId) {
+      listarRecientes(usuarioId, bebeId)
         .then((response) => setRecentCare(response.data))
         .catch((error) => console.error('Error fetching recent care:', error));
     }
-  }, [bebeId]);
+  }, [bebeId, usuarioId]);
 
   return (
     <Card variant="outlined" sx={{ height: '100%' }}>

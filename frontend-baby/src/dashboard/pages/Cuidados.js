@@ -30,6 +30,7 @@ import {
 } from '../../services/cuidadosService';
 import CuidadoForm from '../components/CuidadoForm';
 import { BabyContext } from '../../context/BabyContext';
+import { AuthContext } from '../../context/AuthContext';
 
 const tipos = ['Biberón', 'Pañal', 'Sueño', 'Baño'];
 
@@ -41,6 +42,8 @@ export default function Cuidados() {
   const [openForm, setOpenForm] = useState(false);
   const [selectedCuidado, setSelectedCuidado] = useState(null);
   const { activeBaby } = React.useContext(BabyContext);
+  const { user } = React.useContext(AuthContext);
+  const usuarioId = user?.id;
   const bebeId = activeBaby?.id;
   const [weeklyStats, setWeeklyStats] = useState(Array(7).fill(0));
 
@@ -64,8 +67,8 @@ export default function Cuidados() {
   };
 
   const fetchCuidados = () => {
-    if (!bebeId) return;
-    listarPorBebe(bebeId)
+    if (!bebeId || !usuarioId) return;
+    listarPorBebe(usuarioId, bebeId)
       .then((response) => {
         setCuidados(response.data);
       })
@@ -91,9 +94,9 @@ export default function Cuidados() {
   };
 
   const handleDelete = (id) => {
-    if (!bebeId) return;
+    if (!bebeId || !usuarioId) return;
     if (window.confirm('¿Eliminar cuidado?')) {
-      eliminarCuidado(id)
+      eliminarCuidado(usuarioId, id)
         .then(() => fetchCuidados())
         .catch((error) => {
           console.error('Error deleting cuidado:', error);
@@ -102,11 +105,11 @@ export default function Cuidados() {
   };
 
   const handleFormSubmit = (data) => {
-    if (!bebeId) return;
+    if (!bebeId || !usuarioId) return;
     const payload = { ...data, bebeId };
     const request = selectedCuidado
-      ? actualizarCuidado(selectedCuidado.id, payload)
-      : crearCuidado(payload);
+      ? actualizarCuidado(usuarioId, selectedCuidado.id, payload)
+      : crearCuidado(usuarioId, payload);
 
     request
       .then(() => {
