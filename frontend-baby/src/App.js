@@ -12,7 +12,7 @@ import Rutinas from "./dashboard/pages/Rutinas";
 import Configuracion from "./dashboard/pages/Configuracion";
 import Acerca from "./dashboard/pages/Acerca";
 import AnadirBebe from "./dashboard/pages/AnadirBebe";
-import ConfiguracionBebe from "./dashboard/pages/ConfiguracionBebe";
+import EditarBebe from "./dashboard/pages/EditarBebe";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 
@@ -39,7 +39,7 @@ function App() {
             <Route path="citas" element={<Citas />} />
             <Route path="rutinas" element={<Rutinas />} />
             <Route path="anadir-bebe" element={<AnadirBebe />} />
-            <Route path="configuracion-bebe" element={<ConfiguracionBebe />} />
+            <Route path="editar-bebe" element={<EditarBebe />} />
             <Route path="configuracion" element={<Configuracion />} />
             <Route path="acerca" element={<Acerca />} />
           </Route>

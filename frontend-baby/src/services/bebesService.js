@@ -16,3 +16,13 @@ export const getBebes = () => {
 export const getBebesByUsuario = (usuarioId) => {
   return axios.get(`${API_BEBES_ENDPOINT}?usuarioId=${usuarioId}&activo=true`);
 };
+
+export const getBebeById = (id) => {
+  return axios.get(`${API_BEBES_ENDPOINT}/${id}`);
+};
+
+export const actualizarBebe = (id, payload, headers = {}) => {
+  return axios.put(`${API_BEBES_ENDPOINT}/${id}`, payload, {
+    headers: { 'Content-Type': 'application/json', ...headers },
+  });
+};

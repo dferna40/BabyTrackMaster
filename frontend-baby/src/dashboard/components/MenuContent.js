@@ -27,7 +27,7 @@ const mainListItems = [
 
 const secondaryListItems = [
   { text: 'Añadir bebe', icon: <AddCircleRoundedIcon />, to: '/dashboard/anadir-bebe' },
-  { text: 'Configuración bebe', icon: <SettingsRoundedIcon />, to: '/dashboard/configuracion-bebe' },
+  { text: 'Editar bebé', icon: <SettingsRoundedIcon />, to: '/dashboard/editar-bebe' },
   { text: 'Acerca de', icon: <InfoRoundedIcon />, to: '/dashboard/acerca' },
 ];
 
