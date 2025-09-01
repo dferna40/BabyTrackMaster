@@ -1,26 +1,29 @@
-import React, { createContext, useEffect, useState } from 'react';
-import { getBebes } from '../services/bebesService';
+import React, { createContext, useEffect, useState, useContext } from 'react';
+import { getBebesByUsuario } from '../services/bebesService';
+import { AuthContext } from './AuthContext';
 
 export const BabyContext = createContext(null);
 
 export function BabyProvider({ children }) {
   const [babies, setBabies] = useState([]);
   const [activeBaby, setActiveBaby] = useState(null);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchBabies = async () => {
+      if (!user?.id) return;
       try {
-        const response = await getBebes();
-        const activos = (response.data || []).filter(b => b.bebeActivo);
-        setBabies(activos);
-        setActiveBaby(activos[0] || null);
+        const response = await getBebesByUsuario(user.id);
+        const data = response.data || [];
+        setBabies(data);
+        setActiveBaby(data[0] || null);
       } catch (error) {
         console.error('Error fetching babies', error);
       }
     };
 
     fetchBabies();
-  }, []);
+  }, [user]);
 
   const addBaby = (baby) => {
     setBabies((prev) => [...prev, baby]);
