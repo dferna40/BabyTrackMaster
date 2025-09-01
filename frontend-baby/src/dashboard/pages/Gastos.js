@@ -33,6 +33,7 @@ import {
   listarCategorias,
 } from '../../services/gastosService';
 import GastoForm from '../components/GastoForm';
+import { BabyContext } from '../../context/BabyContext';
 
 export default function Gastos() {
   const [gastos, setGastos] = useState([]);
@@ -44,9 +45,11 @@ export default function Gastos() {
   const [categorias, setCategorias] = useState([]);
   const [monthFilter, setMonthFilter] = useState(dayjs().format('YYYY-MM'));
   const [weeklyStats, setWeeklyStats] = useState(Array(7).fill(0));
-  const bebeId = 1;
+  const { activeBaby } = React.useContext(BabyContext);
+  const bebeId = activeBaby?.id;
 
   const fetchGastos = () => {
+    if (!bebeId) return;
     listarPorBebe(bebeId, page, rowsPerPage)
       .then((response) => {
         setGastos(response.data.content ?? response.data);
@@ -57,14 +60,16 @@ export default function Gastos() {
   };
 
   useEffect(() => {
-    fetchGastos();
-    listarCategorias()
-      .then((response) => {
-        setCategorias(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching categorias:', error);
-      });
+    if (bebeId) {
+      fetchGastos();
+      listarCategorias()
+        .then((response) => {
+          setCategorias(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching categorias:', error);
+        });
+    }
   }, [bebeId]);
 
   const filteredGastos = useMemo(
@@ -110,6 +115,7 @@ export default function Gastos() {
   };
 
   const handleDelete = (id) => {
+    if (!bebeId) return;
     if (window.confirm('¿Eliminar gasto?')) {
       eliminarGasto(id)
         .then(() => fetchGastos())
@@ -120,6 +126,7 @@ export default function Gastos() {
   };
 
   const handleFormSubmit = (data) => {
+    if (!bebeId) return;
     const payload = { ...data, bebeId, usuarioId: 1 };
     const request = selectedGasto
       ? actualizarGasto(selectedGasto.id, payload)
