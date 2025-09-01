@@ -44,6 +44,51 @@ public class BebeServiceImpl implements BebeService {
         if (request.getSexo() != null) {
             bebe.setSexo(request.getSexo());
         }
+        if (request.getPesoNacer() != null) {
+            bebe.setPesoNacer(request.getPesoNacer());
+        }
+        if (request.getTallaNacer() != null) {
+            bebe.setTallaNacer(request.getTallaNacer());
+        }
+        if (request.getSemanasGestacion() != null) {
+            bebe.setSemanasGestacion(request.getSemanasGestacion());
+        }
+        if (request.getPesoActual() != null) {
+            bebe.setPesoActual(request.getPesoActual());
+        }
+        if (request.getTallaActual() != null) {
+            bebe.setTallaActual(request.getTallaActual());
+        }
+        if (request.getBebeActivo() != null) {
+            bebe.setBebeActivo(request.getBebeActivo());
+        }
+        if (request.getNumeroSs() != null) {
+            bebe.setNumeroSs(request.getNumeroSs());
+        }
+        if (request.getGrupoSanguineo() != null) {
+            bebe.setGrupoSanguineo(request.getGrupoSanguineo());
+        }
+        if (request.getMedicaciones() != null) {
+            bebe.setMedicaciones(request.getMedicaciones());
+        }
+        if (request.getAlergias() != null) {
+            bebe.setAlergias(request.getAlergias());
+        }
+        if (request.getPediatra() != null) {
+            bebe.setPediatra(request.getPediatra());
+        }
+        if (request.getCentroMedico() != null) {
+            bebe.setCentroMedico(request.getCentroMedico());
+        }
+        if (request.getTelefonoCentroMedico() != null) {
+            bebe.setTelefonoCentroMedico(request.getTelefonoCentroMedico());
+        }
+        if (request.getObservaciones() != null) {
+            bebe.setObservaciones(request.getObservaciones());
+        }
+        if (request.getImagenBebe() != null) {
+            bebe.setImagenBebe(request.getImagenBebe());
+        }
         Bebe saved = repository.save(bebe);
         return BebeMapper.toResponse(saved);
     }

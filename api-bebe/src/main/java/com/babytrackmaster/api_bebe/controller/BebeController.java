@@ -32,14 +32,14 @@ public class BebeController {
     private final BebeService service;
     private final JwtService jwtService;
 
-    @Operation(summary = "Crear bebé")
+    @Operation(summary = "Crear bebé", description = "La imagen debe enviarse como Base64 en el campo imagenBebe")
     @PostMapping
     public ResponseEntity<BebeResponse> crear(@Valid @RequestBody BebeRequest req) {
         Long usuarioId = jwtService.resolveUserId();
         return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(usuarioId, req));
     }
 
-    @Operation(summary = "Actualizar bebé")
+    @Operation(summary = "Actualizar bebé", description = "La imagen debe enviarse como Base64 en el campo imagenBebe")
     @PutMapping("/{id}")
     public ResponseEntity<BebeResponse> actualizar(@PathVariable Long id, @Valid @RequestBody BebeRequest req) {
         Long usuarioId = jwtService.resolveUserId();
