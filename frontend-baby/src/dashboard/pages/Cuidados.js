@@ -29,6 +29,7 @@ import {
   eliminarCuidado,
 } from '../../services/cuidadosService';
 import CuidadoForm from '../components/CuidadoForm';
+import { BabyContext } from '../../context/BabyContext';
 
 const tipos = ['Biberón', 'Pañal', 'Sueño', 'Baño'];
 
@@ -39,7 +40,8 @@ export default function Cuidados() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [openForm, setOpenForm] = useState(false);
   const [selectedCuidado, setSelectedCuidado] = useState(null);
-  const bebeId = 1;
+  const { activeBaby } = React.useContext(BabyContext);
+  const bebeId = activeBaby?.id;
   const [weeklyStats, setWeeklyStats] = useState(Array(7).fill(0));
 
   const filteredCuidados = useMemo(
@@ -62,6 +64,7 @@ export default function Cuidados() {
   };
 
   const fetchCuidados = () => {
+    if (!bebeId) return;
     listarPorBebe(bebeId)
       .then((response) => {
         setCuidados(response.data);
@@ -72,7 +75,9 @@ export default function Cuidados() {
   };
 
   useEffect(() => {
-    fetchCuidados();
+    if (bebeId) {
+      fetchCuidados();
+    }
   }, [bebeId]);
 
   const handleAdd = () => {
@@ -86,6 +91,7 @@ export default function Cuidados() {
   };
 
   const handleDelete = (id) => {
+    if (!bebeId) return;
     if (window.confirm('¿Eliminar cuidado?')) {
       eliminarCuidado(id)
         .then(() => fetchCuidados())
@@ -96,6 +102,7 @@ export default function Cuidados() {
   };
 
   const handleFormSubmit = (data) => {
+    if (!bebeId) return;
     const payload = { ...data, bebeId, usuarioId: 1 };
     const request = selectedCuidado
       ? actualizarCuidado(selectedCuidado.id, payload)

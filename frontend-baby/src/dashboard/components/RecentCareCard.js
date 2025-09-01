@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { BabyContext } from '../../context/BabyContext';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -11,12 +12,15 @@ import { listarRecientes } from '../../services/cuidadosService';
 
 export default function RecentCareCard() {
   const [recentCare, setRecentCare] = useState([]);
-  const bebeId = 1;
+  const { activeBaby } = React.useContext(BabyContext);
+  const bebeId = activeBaby?.id;
 
   useEffect(() => {
-    listarRecientes(bebeId)
-      .then((response) => setRecentCare(response.data))
-      .catch((error) => console.error('Error fetching recent care:', error));
+    if (bebeId) {
+      listarRecientes(bebeId)
+        .then((response) => setRecentCare(response.data))
+        .catch((error) => console.error('Error fetching recent care:', error));
+    }
   }, [bebeId]);
 
   return (
