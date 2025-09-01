@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -10,16 +10,52 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
 export default function DatosAdicionalesForm({ open, onClose, formData, onChange }) {
-  const handleSave = () => {
-    const hasEmptyFields = Object.values(formData).some(
-      (value) => value === undefined || value === null || String(value).trim() === ''
-    );
+  const [localData, setLocalData] = useState({});
+  const [initialData, setInitialData] = useState({});
+  const [errors, setErrors] = useState({});
 
-    if (hasEmptyFields) {
-      alert('Por favor, completa todos los campos.');
-      return;
+  useEffect(() => {
+    if (open) {
+      const current = {
+        numeroSs: formData.numeroSs || '',
+        grupoSanguineo: formData.grupoSanguineo || '',
+        medicaciones: formData.medicaciones || '',
+        alergias: formData.alergias || '',
+        pediatra: formData.pediatra || '',
+        centroMedico: formData.centroMedico || '',
+        telefonoCentroMedico: formData.telefonoCentroMedico || '',
+        observaciones: formData.observaciones || '',
+      };
+      setLocalData(current);
+      setInitialData(current);
+      setErrors({});
     }
+  }, [open, formData]);
 
+  const handleFieldChange = (e) => {
+    const { name, value } = e.target;
+    setLocalData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = () => {
+    const newErrors = {};
+    if (localData.numeroSs && !/^\d+$/.test(localData.numeroSs)) {
+      newErrors.numeroSs = 'Debe contener solo números';
+    }
+    if (
+      localData.telefonoCentroMedico &&
+      !/^\d+$/.test(localData.telefonoCentroMedico)
+    ) {
+      newErrors.telefonoCentroMedico = 'Debe contener solo números';
+    }
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return;
+
+    Object.keys(localData).forEach((key) => {
+      if (localData[key] !== initialData[key]) {
+        onChange({ target: { name: key, value: localData[key] } });
+      }
+    });
     onClose();
   };
 
@@ -32,16 +68,18 @@ export default function DatosAdicionalesForm({ open, onClose, formData, onChange
             <FormLabel sx={{ mb: 1 }}>Número SS</FormLabel>
             <TextField
               name="numeroSs"
-              value={formData.numeroSs || ''}
-              onChange={onChange}
+              value={localData.numeroSs || ''}
+              onChange={handleFieldChange}
+              error={Boolean(errors.numeroSs)}
+              helperText={errors.numeroSs}
             />
           </FormControl>
           <FormControl fullWidth sx={{ mb: 2 }}>
             <FormLabel sx={{ mb: 1 }}>Grupo sanguíneo</FormLabel>
             <TextField
               name="grupoSanguineo"
-              value={formData.grupoSanguineo || ''}
-              onChange={onChange}
+              value={localData.grupoSanguineo || ''}
+              onChange={handleFieldChange}
             />
           </FormControl>
           <FormControl fullWidth sx={{ mb: 2 }}>
@@ -50,8 +88,8 @@ export default function DatosAdicionalesForm({ open, onClose, formData, onChange
               multiline
               rows={3}
               name="medicaciones"
-              value={formData.medicaciones || ''}
-              onChange={onChange}
+              value={localData.medicaciones || ''}
+              onChange={handleFieldChange}
             />
           </FormControl>
           <FormControl fullWidth sx={{ mb: 2 }}>
@@ -60,32 +98,34 @@ export default function DatosAdicionalesForm({ open, onClose, formData, onChange
               multiline
               rows={3}
               name="alergias"
-              value={formData.alergias || ''}
-              onChange={onChange}
+              value={localData.alergias || ''}
+              onChange={handleFieldChange}
             />
           </FormControl>
           <FormControl fullWidth sx={{ mb: 2 }}>
             <FormLabel sx={{ mb: 1 }}>Pediatra</FormLabel>
             <TextField
               name="pediatra"
-              value={formData.pediatra || ''}
-              onChange={onChange}
+              value={localData.pediatra || ''}
+              onChange={handleFieldChange}
             />
           </FormControl>
           <FormControl fullWidth sx={{ mb: 2 }}>
             <FormLabel sx={{ mb: 1 }}>Centro médico</FormLabel>
             <TextField
               name="centroMedico"
-              value={formData.centroMedico || ''}
-              onChange={onChange}
+              value={localData.centroMedico || ''}
+              onChange={handleFieldChange}
             />
           </FormControl>
           <FormControl fullWidth sx={{ mb: 2 }}>
             <FormLabel sx={{ mb: 1 }}>Teléfono centro médico</FormLabel>
             <TextField
               name="telefonoCentroMedico"
-              value={formData.telefonoCentroMedico || ''}
-              onChange={onChange}
+              value={localData.telefonoCentroMedico || ''}
+              onChange={handleFieldChange}
+              error={Boolean(errors.telefonoCentroMedico)}
+              helperText={errors.telefonoCentroMedico}
             />
           </FormControl>
           <FormControl fullWidth sx={{ mb: 2 }}>
@@ -94,8 +134,8 @@ export default function DatosAdicionalesForm({ open, onClose, formData, onChange
               multiline
               rows={3}
               name="observaciones"
-              value={formData.observaciones || ''}
-              onChange={onChange}
+              value={localData.observaciones || ''}
+              onChange={handleFieldChange}
             />
           </FormControl>
         </Stack>
