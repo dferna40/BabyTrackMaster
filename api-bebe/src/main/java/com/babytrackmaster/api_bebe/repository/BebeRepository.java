@@ -10,4 +10,5 @@ import com.babytrackmaster.api_bebe.entity.Bebe;
 public interface BebeRepository extends JpaRepository<Bebe, Long> {
     Optional<Bebe> findByIdAndUsuarioIdAndEliminadoFalse(Long id, Long usuarioId);
     List<Bebe> findByUsuarioIdAndEliminadoFalseOrderByFechaNacimientoAsc(Long usuarioId);
+    List<Bebe> findByUsuarioIdAndBebeActivoTrueAndEliminadoFalseOrderByFechaNacimientoAsc(Long usuarioId);
 }
