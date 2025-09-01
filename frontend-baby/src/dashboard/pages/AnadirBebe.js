@@ -15,6 +15,8 @@ import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -25,6 +27,8 @@ export default function AnadirBebe() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const [preview, setPreview] = useState(null);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
   const [formData, setFormData] = useState({
     nombre: '',
     fechaNacimiento: null,
@@ -94,9 +98,13 @@ export default function AnadirBebe() {
     );
 
     crearBebe(payload)
-      .then(() => navigate(-1))
+      .then(() => {
+        setSuccess(true);
+        navigate(-1);
+      })
       .catch((error) => {
         console.error('Error creating baby:', error);
+        setError(true);
       });
   };
 
@@ -349,6 +357,32 @@ export default function AnadirBebe() {
           </Button>
         </Stack>
       </Box>
+      <Snackbar
+        open={success}
+        autoHideDuration={6000}
+        onClose={() => setSuccess(false)}
+      >
+        <Alert
+          onClose={() => setSuccess(false)}
+          severity="success"
+          sx={{ width: '100%' }}
+        >
+          Bebé creado correctamente
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={error}
+        autoHideDuration={6000}
+        onClose={() => setError(false)}
+      >
+        <Alert
+          onClose={() => setError(false)}
+          severity="error"
+          sx={{ width: '100%' }}
+        >
+          Error al crear el bebé
+        </Alert>
+      </Snackbar>
     </LocalizationProvider>
   );
 }
