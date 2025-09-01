@@ -13,7 +13,7 @@ export function BabyProvider({ children }) {
     const fetchBabies = async () => {
       if (!user?.id) return;
       try {
-        const response = await getBebesByUsuario(user.id);
+        const response = await getBebesByUsuario(user.id, true);
         const data = response.data || [];
         setBabies(data);
         setActiveBaby(data[0] || null);
