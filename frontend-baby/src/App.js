@@ -13,6 +13,7 @@ import Configuracion from "./dashboard/pages/Configuracion";
 import Acerca from "./dashboard/pages/Acerca";
 import AnadirBebe from "./dashboard/pages/AnadirBebe";
 import EditarBebe from "./dashboard/pages/EditarBebe";
+import InicioSinBebe from "./dashboard/pages/InicioSinBebe";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 
@@ -42,6 +43,7 @@ function App() {
             <Route path="editar-bebe" element={<EditarBebe />} />
             <Route path="configuracion" element={<Configuracion />} />
             <Route path="acerca" element={<Acerca />} />
+            <Route path="inicio" element={<InicioSinBebe />} />
           </Route>
         </Routes>
       </Router>
