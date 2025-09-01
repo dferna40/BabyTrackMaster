@@ -20,6 +20,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { crearBebe } from '../../services/bebesService';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function AnadirBebe() {
   const navigate = useNavigate();
@@ -44,6 +45,7 @@ export default function AnadirBebe() {
     telefonoCentroMedico: '',
     observaciones: '',
   });
+  const [loading, setLoading] = useState(false);
 
   const gruposSanguineos = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'];
   const alergiasOptions = ['Ninguna', 'Gluten', 'Lactosa', 'Frutos secos', 'Polen', 'Ácaros', 'Medicamentos'];
@@ -93,11 +95,15 @@ export default function AnadirBebe() {
       })
     );
 
-    crearBebe(payload)
-      .then(() => navigate(-1))
-      .catch((error) => {
-        console.error('Error creating baby:', error);
-      });
+    setLoading(true);
+    try {
+      await crearBebe(payload);
+      navigate(-1);
+    } catch (error) {
+      console.error('Error creating baby:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -121,6 +127,7 @@ export default function AnadirBebe() {
                     fullWidth
                     value={formData.nombre}
                     onChange={handleChange}
+                    disabled={loading}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -128,7 +135,8 @@ export default function AnadirBebe() {
                     label="Fecha de nacimiento"
                     value={formData.fechaNacimiento}
                     onChange={handleDateChange}
-                    slotProps={{ textField: { fullWidth: true } }}
+                    disabled={loading}
+                    slotProps={{ textField: { fullWidth: true, disabled: loading } }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -140,9 +148,9 @@ export default function AnadirBebe() {
                       value={formData.sexo}
                       onChange={handleChange}
                     >
-                      <FormControlLabel value="M" control={<Radio />} label="M" />
-                      <FormControlLabel value="F" control={<Radio />} label="F" />
-                      <FormControlLabel value="ND" control={<Radio />} label="ND" />
+                      <FormControlLabel value="M" control={<Radio />} label="M" disabled={loading} />
+                      <FormControlLabel value="F" control={<Radio />} label="F" disabled={loading} />
+                      <FormControlLabel value="ND" control={<Radio />} label="ND" disabled={loading} />
                     </RadioGroup>
                   </FormControl>
                 </Grid>
@@ -153,6 +161,7 @@ export default function AnadirBebe() {
                         checked={formData.bebeActivo}
                         onChange={handleChange}
                         name="bebeActivo"
+                        disabled={loading}
                       />
                     }
                     label="Bebé activo"
@@ -174,6 +183,7 @@ export default function AnadirBebe() {
                     fullWidth
                     value={formData.pesoNacer}
                     onChange={handleChange}
+                    disabled={loading}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -184,6 +194,7 @@ export default function AnadirBebe() {
                     fullWidth
                     value={formData.tallaNacer}
                     onChange={handleChange}
+                    disabled={loading}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -194,6 +205,7 @@ export default function AnadirBebe() {
                     fullWidth
                     value={formData.perimetroCranealNacer}
                     onChange={handleChange}
+                    disabled={loading}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -204,6 +216,7 @@ export default function AnadirBebe() {
                     fullWidth
                     value={formData.semanasGestacion}
                     onChange={handleChange}
+                    disabled={loading}
                   />
                 </Grid>
               </Grid>
@@ -222,6 +235,7 @@ export default function AnadirBebe() {
                     fullWidth
                     value={formData.grupoSanguineo}
                     onChange={handleChange}
+                    disabled={loading}
                   >
                     {gruposSanguineos.map((grupo) => (
                       <MenuItem key={grupo} value={grupo}>
@@ -238,6 +252,7 @@ export default function AnadirBebe() {
                     fullWidth
                     value={formData.alergias}
                     onChange={handleChange}
+                    disabled={loading}
                   >
                     {alergiasOptions.map((alergia) => (
                       <MenuItem key={alergia} value={alergia}>
@@ -253,6 +268,7 @@ export default function AnadirBebe() {
                     fullWidth
                     value={formData.medicaciones}
                     onChange={handleChange}
+                    disabled={loading}
                   />
                 </Grid>
               </Grid>
@@ -270,6 +286,7 @@ export default function AnadirBebe() {
                     fullWidth
                     value={formData.numeroSs}
                     onChange={handleChange}
+                    disabled={loading}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -279,6 +296,7 @@ export default function AnadirBebe() {
                     fullWidth
                     value={formData.pediatra}
                     onChange={handleChange}
+                    disabled={loading}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -288,6 +306,7 @@ export default function AnadirBebe() {
                     fullWidth
                     value={formData.centroMedico}
                     onChange={handleChange}
+                    disabled={loading}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -297,6 +316,7 @@ export default function AnadirBebe() {
                     fullWidth
                     value={formData.telefonoCentroMedico}
                     onChange={handleChange}
+                    disabled={loading}
                   />
                 </Grid>
               </Grid>
@@ -313,6 +333,7 @@ export default function AnadirBebe() {
                 fullWidth
                 value={formData.observaciones}
                 onChange={handleChange}
+                disabled={loading}
               />
             </Box>
           </Grid>
@@ -330,10 +351,12 @@ export default function AnadirBebe() {
                   ref={fileInputRef}
                   style={{ display: 'none' }}
                   onChange={handlePhotoChange}
+                  disabled={loading}
                 />
                 <Button
                   variant="contained"
                   onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                  disabled={loading}
                 >
                   Subir foto
                 </Button>
@@ -343,9 +366,11 @@ export default function AnadirBebe() {
         </Grid>
 
         <Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ mt: 2 }}>
-          <Button onClick={() => navigate(-1)}>Cancelar</Button>
-          <Button type="submit" variant="contained">
-            Guardar
+          <Button onClick={() => navigate(-1)} disabled={loading}>
+            Cancelar
+          </Button>
+          <Button type="submit" variant="contained" disabled={loading}>
+            {loading ? <CircularProgress size={24} /> : 'Guardar'}
           </Button>
         </Stack>
       </Box>
