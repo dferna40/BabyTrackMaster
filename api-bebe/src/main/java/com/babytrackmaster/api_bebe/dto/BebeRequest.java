@@ -29,6 +29,9 @@ public class BebeRequest {
     private Integer semanasGestacion;
 
     @PositiveOrZero
+    private Double perimetroCranealNacer;
+
+    @PositiveOrZero
     private Double pesoActual;
 
     @PositiveOrZero
@@ -39,14 +42,14 @@ public class BebeRequest {
     @Size(max = 50)
     private String numeroSs;
 
-    @Size(max = 10)
-    private String grupoSanguineo;
-
     @Size(max = 500)
     private String medicaciones;
 
-    @Size(max = 500)
-    private String alergias;
+    private Long tipoLactanciaId;
+
+    private Long tipoAlergiaId;
+
+    private Long tipoGrupoSanguineoId;
 
     @Size(max = 100)
     private String pediatra;

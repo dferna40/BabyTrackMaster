@@ -15,15 +15,14 @@ public class BebeMapper {
         b.setPesoNacer(req.getPesoNacer());
         b.setTallaNacer(req.getTallaNacer());
         b.setSemanasGestacion(req.getSemanasGestacion());
+        b.setPerimetroCranealNacer(req.getPerimetroCranealNacer());
         b.setPesoActual(req.getPesoActual());
         b.setTallaActual(req.getTallaActual());
         if (req.getBebeActivo() != null) {
             b.setBebeActivo(req.getBebeActivo());
         }
         b.setNumeroSs(req.getNumeroSs());
-        b.setGrupoSanguineo(req.getGrupoSanguineo());
         b.setMedicaciones(req.getMedicaciones());
-        b.setAlergias(req.getAlergias());
         b.setPediatra(req.getPediatra());
         b.setCentroMedico(req.getCentroMedico());
         b.setTelefonoCentroMedico(req.getTelefonoCentroMedico());
@@ -42,13 +41,24 @@ public class BebeMapper {
         resp.setPesoNacer(entity.getPesoNacer());
         resp.setTallaNacer(entity.getTallaNacer());
         resp.setSemanasGestacion(entity.getSemanasGestacion());
+        resp.setPerimetroCranealNacer(entity.getPerimetroCranealNacer());
         resp.setPesoActual(entity.getPesoActual());
         resp.setTallaActual(entity.getTallaActual());
         resp.setBebeActivo(entity.getBebeActivo());
         resp.setNumeroSs(entity.getNumeroSs());
-        resp.setGrupoSanguineo(entity.getGrupoSanguineo());
         resp.setMedicaciones(entity.getMedicaciones());
-        resp.setAlergias(entity.getAlergias());
+        if (entity.getTipoLactancia() != null) {
+            resp.setTipoLactanciaId(entity.getTipoLactancia().getId());
+            resp.setTipoLactanciaNombre(entity.getTipoLactancia().getNombre());
+        }
+        if (entity.getTipoAlergia() != null) {
+            resp.setTipoAlergiaId(entity.getTipoAlergia().getId());
+            resp.setTipoAlergiaNombre(entity.getTipoAlergia().getNombre());
+        }
+        if (entity.getTipoGrupoSanguineo() != null) {
+            resp.setTipoGrupoSanguineoId(entity.getTipoGrupoSanguineo().getId());
+            resp.setTipoGrupoSanguineoNombre(entity.getTipoGrupoSanguineo().getNombre());
+        }
         resp.setPediatra(entity.getPediatra());
         resp.setCentroMedico(entity.getCentroMedico());
         resp.setTelefonoCentroMedico(entity.getTelefonoCentroMedico());
