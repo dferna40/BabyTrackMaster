@@ -19,51 +19,82 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import { crearBebe } from '../../services/bebesService';
 
 export default function AnadirBebe() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const [preview, setPreview] = useState(null);
-  const [formData, setFormData] = useState({
-    nombre: '',
-    fechaNacimiento: null,
-    sexo: 'ND',
-    bebeActivo: true,
-    pesoNacer: '',
-    tallaNacer: '',
-    perimetroCranealNacer: '',
-    semanasGestacion: '',
-    imagenBebe: null,
-    numeroSs: '',
-    grupoSanguineo: '',
-    medicaciones: '',
-    alergias: '',
-    pediatra: '',
-    centroMedico: '',
-    telefonoCentroMedico: '',
-    observaciones: '',
+
+  const positiveNumber = Yup.number()
+    .nullable()
+    .transform((value, originalValue) => (originalValue === '' ? null : value))
+    .typeError('Debe ser un número válido')
+    .min(0, 'Debe ser mayor o igual a 0');
+
+  const formik = useFormik({
+    initialValues: {
+      nombre: '',
+      fechaNacimiento: null,
+      sexo: 'ND',
+      bebeActivo: true,
+      pesoNacer: '',
+      tallaNacer: '',
+      perimetroCranealNacer: '',
+      semanasGestacion: '',
+      imagenBebe: null,
+      numeroSs: '',
+      grupoSanguineo: '',
+      medicaciones: '',
+      alergias: '',
+      pediatra: '',
+      centroMedico: '',
+      telefonoCentroMedico: '',
+      observaciones: '',
+    },
+    validationSchema: Yup.object({
+      nombre: Yup.string().required('El nombre es obligatorio'),
+      fechaNacimiento: Yup.mixed()
+        .required('La fecha de nacimiento es obligatoria')
+        .test('is-valid', 'Fecha inválida', (value) => dayjs.isDayjs(value)),
+      pesoNacer: positiveNumber,
+      tallaNacer: positiveNumber,
+      perimetroCranealNacer: positiveNumber,
+      semanasGestacion: positiveNumber,
+    }),
+    onSubmit: async (values) => {
+      const payload = {};
+      await Promise.all(
+        Object.entries(values).map(async ([key, value]) => {
+          if (value !== null && value !== '') {
+            if (dayjs.isDayjs(value)) {
+              payload[key] = value.format('YYYY-MM-DD');
+            } else if (key === 'imagenBebe' && value instanceof File) {
+              payload[key] = await toBase64(value);
+            } else {
+              payload[key] = value;
+            }
+          }
+        })
+      );
+
+      crearBebe(payload)
+        .then(() => navigate(-1))
+        .catch((error) => {
+          console.error('Error creating baby:', error);
+        });
+    },
   });
 
   const gruposSanguineos = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'];
   const alergiasOptions = ['Ninguna', 'Gluten', 'Lactosa', 'Frutos secos', 'Polen', 'Ácaros', 'Medicamentos'];
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
-
-  const handleDateChange = (newValue) => {
-    setFormData((prev) => ({ ...prev, fechaNacimiento: newValue }));
-  };
-
   const handlePhotoChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      setFormData((prev) => ({ ...prev, imagenBebe: file }));
+      formik.setFieldValue('imagenBebe', file);
       setPreview(URL.createObjectURL(file));
     }
   };
@@ -76,33 +107,9 @@ export default function AnadirBebe() {
       reader.onerror = (error) => reject(error);
     });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const payload = {};
-    await Promise.all(
-      Object.entries(formData).map(async ([key, value]) => {
-        if (value !== null && value !== '') {
-          if (dayjs.isDayjs(value)) {
-            payload[key] = value.format('YYYY-MM-DD');
-          } else if (key === 'imagenBebe' && value instanceof File) {
-            payload[key] = await toBase64(value);
-          } else {
-            payload[key] = value;
-          }
-        }
-      })
-    );
-
-    crearBebe(payload)
-      .then(() => navigate(-1))
-      .catch((error) => {
-        console.error('Error creating baby:', error);
-      });
-  };
-
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Box component="form" onSubmit={handleSubmit} sx={{ flexGrow: 1 }}>
+      <Box component="form" onSubmit={formik.handleSubmit} sx={{ flexGrow: 1 }}>
         <Typography variant="h4" sx={{ mb: 2 }}>
           Añadir bebé
         </Typography>
@@ -115,20 +122,34 @@ export default function AnadirBebe() {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    required
                     label="Nombre del bebé"
                     name="nombre"
                     fullWidth
-                    value={formData.nombre}
-                    onChange={handleChange}
+                    value={formik.values.nombre}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.nombre && Boolean(formik.errors.nombre)}
+                    helperText={formik.touched.nombre && formik.errors.nombre}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <DatePicker
                     label="Fecha de nacimiento"
-                    value={formData.fechaNacimiento}
-                    onChange={handleDateChange}
-                    slotProps={{ textField: { fullWidth: true } }}
+                    value={formik.values.fechaNacimiento}
+                    onChange={(newValue) => formik.setFieldValue('fechaNacimiento', newValue)}
+                    slotProps={{
+                      textField: {
+                        fullWidth: true,
+                        name: 'fechaNacimiento',
+                        onBlur: formik.handleBlur,
+                        error:
+                          formik.touched.fechaNacimiento &&
+                          Boolean(formik.errors.fechaNacimiento),
+                        helperText:
+                          formik.touched.fechaNacimiento &&
+                          formik.errors.fechaNacimiento,
+                      },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -137,8 +158,8 @@ export default function AnadirBebe() {
                     <RadioGroup
                       row
                       name="sexo"
-                      value={formData.sexo}
-                      onChange={handleChange}
+                      value={formik.values.sexo}
+                      onChange={formik.handleChange}
                     >
                       <FormControlLabel value="M" control={<Radio />} label="M" />
                       <FormControlLabel value="F" control={<Radio />} label="F" />
@@ -150,8 +171,10 @@ export default function AnadirBebe() {
                   <FormControlLabel
                     control={
                       <Switch
-                        checked={formData.bebeActivo}
-                        onChange={handleChange}
+                        checked={formik.values.bebeActivo}
+                        onChange={(e) =>
+                          formik.setFieldValue('bebeActivo', e.target.checked)
+                        }
                         name="bebeActivo"
                       />
                     }
@@ -172,8 +195,11 @@ export default function AnadirBebe() {
                     name="pesoNacer"
                     type="number"
                     fullWidth
-                    value={formData.pesoNacer}
-                    onChange={handleChange}
+                    value={formik.values.pesoNacer}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.pesoNacer && Boolean(formik.errors.pesoNacer)}
+                    helperText={formik.touched.pesoNacer && formik.errors.pesoNacer}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -182,8 +208,11 @@ export default function AnadirBebe() {
                     name="tallaNacer"
                     type="number"
                     fullWidth
-                    value={formData.tallaNacer}
-                    onChange={handleChange}
+                    value={formik.values.tallaNacer}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.tallaNacer && Boolean(formik.errors.tallaNacer)}
+                    helperText={formik.touched.tallaNacer && formik.errors.tallaNacer}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -192,8 +221,17 @@ export default function AnadirBebe() {
                     name="perimetroCranealNacer"
                     type="number"
                     fullWidth
-                    value={formData.perimetroCranealNacer}
-                    onChange={handleChange}
+                    value={formik.values.perimetroCranealNacer}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.perimetroCranealNacer &&
+                      Boolean(formik.errors.perimetroCranealNacer)
+                    }
+                    helperText={
+                      formik.touched.perimetroCranealNacer &&
+                      formik.errors.perimetroCranealNacer
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -202,8 +240,17 @@ export default function AnadirBebe() {
                     name="semanasGestacion"
                     type="number"
                     fullWidth
-                    value={formData.semanasGestacion}
-                    onChange={handleChange}
+                    value={formik.values.semanasGestacion}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.semanasGestacion &&
+                      Boolean(formik.errors.semanasGestacion)
+                    }
+                    helperText={
+                      formik.touched.semanasGestacion &&
+                      formik.errors.semanasGestacion
+                    }
                   />
                 </Grid>
               </Grid>
@@ -220,8 +267,17 @@ export default function AnadirBebe() {
                     label="Grupo sanguíneo"
                     name="grupoSanguineo"
                     fullWidth
-                    value={formData.grupoSanguineo}
-                    onChange={handleChange}
+                    value={formik.values.grupoSanguineo}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.grupoSanguineo &&
+                      Boolean(formik.errors.grupoSanguineo)
+                    }
+                    helperText={
+                      formik.touched.grupoSanguineo &&
+                      formik.errors.grupoSanguineo
+                    }
                   >
                     {gruposSanguineos.map((grupo) => (
                       <MenuItem key={grupo} value={grupo}>
@@ -236,8 +292,13 @@ export default function AnadirBebe() {
                     label="Alergias"
                     name="alergias"
                     fullWidth
-                    value={formData.alergias}
-                    onChange={handleChange}
+                    value={formik.values.alergias}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.alergias && Boolean(formik.errors.alergias)
+                    }
+                    helperText={formik.touched.alergias && formik.errors.alergias}
                   >
                     {alergiasOptions.map((alergia) => (
                       <MenuItem key={alergia} value={alergia}>
@@ -251,8 +312,17 @@ export default function AnadirBebe() {
                     label="Medicaciones"
                     name="medicaciones"
                     fullWidth
-                    value={formData.medicaciones}
-                    onChange={handleChange}
+                    value={formik.values.medicaciones}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.medicaciones &&
+                      Boolean(formik.errors.medicaciones)
+                    }
+                    helperText={
+                      formik.touched.medicaciones &&
+                      formik.errors.medicaciones
+                    }
                   />
                 </Grid>
               </Grid>
@@ -268,8 +338,11 @@ export default function AnadirBebe() {
                     label="Número SS"
                     name="numeroSs"
                     fullWidth
-                    value={formData.numeroSs}
-                    onChange={handleChange}
+                    value={formik.values.numeroSs}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.numeroSs && Boolean(formik.errors.numeroSs)}
+                    helperText={formik.touched.numeroSs && formik.errors.numeroSs}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -277,8 +350,11 @@ export default function AnadirBebe() {
                     label="Pediatra"
                     name="pediatra"
                     fullWidth
-                    value={formData.pediatra}
-                    onChange={handleChange}
+                    value={formik.values.pediatra}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.pediatra && Boolean(formik.errors.pediatra)}
+                    helperText={formik.touched.pediatra && formik.errors.pediatra}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -286,8 +362,17 @@ export default function AnadirBebe() {
                     label="Centro médico"
                     name="centroMedico"
                     fullWidth
-                    value={formData.centroMedico}
-                    onChange={handleChange}
+                    value={formik.values.centroMedico}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.centroMedico &&
+                      Boolean(formik.errors.centroMedico)
+                    }
+                    helperText={
+                      formik.touched.centroMedico &&
+                      formik.errors.centroMedico
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -295,8 +380,17 @@ export default function AnadirBebe() {
                     label="Número centro médico"
                     name="telefonoCentroMedico"
                     fullWidth
-                    value={formData.telefonoCentroMedico}
-                    onChange={handleChange}
+                    value={formik.values.telefonoCentroMedico}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.telefonoCentroMedico &&
+                      Boolean(formik.errors.telefonoCentroMedico)
+                    }
+                    helperText={
+                      formik.touched.telefonoCentroMedico &&
+                      formik.errors.telefonoCentroMedico
+                    }
                   />
                 </Grid>
               </Grid>
@@ -311,8 +405,16 @@ export default function AnadirBebe() {
                 rows={4}
                 name="observaciones"
                 fullWidth
-                value={formData.observaciones}
-                onChange={handleChange}
+                value={formik.values.observaciones}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.observaciones &&
+                  Boolean(formik.errors.observaciones)
+                }
+                helperText={
+                  formik.touched.observaciones && formik.errors.observaciones
+                }
               />
             </Box>
           </Grid>
