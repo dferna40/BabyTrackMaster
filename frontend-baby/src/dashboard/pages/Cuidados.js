@@ -103,7 +103,7 @@ export default function Cuidados() {
 
   const handleFormSubmit = (data) => {
     if (!bebeId) return;
-    const payload = { ...data, bebeId, usuarioId: 1 };
+    const payload = { ...data, bebeId };
     const request = selectedCuidado
       ? actualizarCuidado(selectedCuidado.id, payload)
       : crearCuidado(payload);
