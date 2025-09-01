@@ -148,7 +148,7 @@ public class BebeServiceImpl implements BebeService {
     @Override
     @Transactional(readOnly = true)
     public List<BebeResponse> listar(Long usuarioId) {
-        return repository.findByUsuarioIdAndEliminadoFalseOrderByFechaNacimientoAsc(usuarioId)
+        return repository.findByUsuarioIdAndBebeActivoTrueAndEliminadoFalseOrderByFechaNacimientoAsc(usuarioId)
             .stream().map(BebeMapper::toResponse).collect(Collectors.toList());
     }
 }
