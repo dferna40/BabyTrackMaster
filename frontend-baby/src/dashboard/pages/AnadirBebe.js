@@ -10,7 +10,6 @@ import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
-import Switch from '@mui/material/Switch';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
@@ -34,7 +33,6 @@ export default function AnadirBebe() {
     nombre: '',
     fechaNacimiento: null,
     sexo: 'ND',
-    bebeActivo: true,
     pesoNacer: '',
     tallaNacer: '',
     perimetroCranealNacer: '',
@@ -167,19 +165,6 @@ export default function AnadirBebe() {
                       <FormControlLabel value="ND" control={<Radio />} label="ND" disabled={loading} />
                     </RadioGroup>
                   </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={formData.bebeActivo}
-                        onChange={handleChange}
-                        name="bebeActivo"
-                        disabled={loading}
-                      />
-                    }
-                    label="Bebé activo"
-                  />
                 </Grid>
               </Grid>
             </Box>
