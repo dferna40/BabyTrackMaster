@@ -11,9 +11,9 @@ export function BabyProvider({ children }) {
     const fetchBabies = async () => {
       try {
         const response = await getBebes();
-        const data = response.data || [];
-        setBabies(data);
-        setActiveBaby(data[0] || null);
+        const activos = (response.data || []).filter(b => b.bebeActivo);
+        setBabies(activos);
+        setActiveBaby(activos[0] || null);
       } catch (error) {
         console.error('Error fetching babies', error);
       }
