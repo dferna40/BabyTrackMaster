@@ -10,7 +10,6 @@ import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
-import Switch from '@mui/material/Switch';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
@@ -34,7 +33,6 @@ export default function EditarBebe() {
     nombre: '',
     fechaNacimiento: null,
     sexo: 'ND',
-    bebeActivo: true,
     pesoNacer: '',
     tallaNacer: '',
     perimetroCranealNacer: '',
@@ -58,7 +56,6 @@ export default function EditarBebe() {
         nombre: activeBaby.nombre || '',
         fechaNacimiento: activeBaby.fechaNacimiento ? dayjs(activeBaby.fechaNacimiento) : null,
         sexo: activeBaby.sexo || 'ND',
-        bebeActivo: activeBaby.bebeActivo ?? true,
         pesoNacer: activeBaby.pesoNacer || '',
         tallaNacer: activeBaby.tallaNacer || '',
         perimetroCranealNacer: activeBaby.perimetroCranealNacer || '',
@@ -153,7 +150,7 @@ export default function EditarBebe() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box component="form" onSubmit={handleSubmit} sx={{ flexGrow: 1 }}>
         <Typography variant="h4" sx={{ mb: 2 }}>
-          Editar bebé
+          Editar/borrar bebé
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} md={8}>
@@ -196,19 +193,6 @@ export default function EditarBebe() {
                       <FormControlLabel value="ND" control={<Radio />} label="ND" disabled={loading} />
                     </RadioGroup>
                   </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={formData.bebeActivo}
-                        onChange={handleChange}
-                        name="bebeActivo"
-                        disabled={loading}
-                      />
-                    }
-                    label="Bebé activo"
-                  />
                 </Grid>
               </Grid>
             </Box>
