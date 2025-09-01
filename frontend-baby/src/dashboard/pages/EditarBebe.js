@@ -26,7 +26,7 @@ import Alert from '@mui/material/Alert';
 
 export default function EditarBebe() {
   const navigate = useNavigate();
-  const { activeBaby, setActiveBaby } = useContext(BabyContext);
+  const { activeBaby, setActiveBaby, removeBaby } = useContext(BabyContext);
   const fileInputRef = useRef(null);
   const [preview, setPreview] = useState(null);
   const [formData, setFormData] = useState({
@@ -141,6 +141,20 @@ export default function EditarBebe() {
       setOpenSnackbar(true);
     } catch (error) {
       console.error('Error updating baby:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!activeBaby?.id) return;
+    setLoading(true);
+    try {
+      await actualizarBebe(activeBaby.id, { bebeActivo: false });
+      removeBaby(activeBaby.id);
+      navigate(-1);
+    } catch (error) {
+      console.error('Error deleting baby:', error);
     } finally {
       setLoading(false);
     }
@@ -396,10 +410,13 @@ export default function EditarBebe() {
           <Button onClick={() => navigate(-1)} disabled={loading}>
             Cancelar
           </Button>
+          <Button color="error" onClick={handleDelete} disabled={loading}>
+            Eliminar bebé
+          </Button>
           <Button type="submit" variant="contained" disabled={loading}>
-          {loading ? <CircularProgress size={24} /> : 'Guardar'}
-        </Button>
-      </Stack>
+            {loading ? <CircularProgress size={24} /> : 'Guardar'}
+          </Button>
+        </Stack>
       </Box>
       <Snackbar
         open={openSnackbar}
