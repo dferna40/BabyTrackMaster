@@ -10,7 +10,6 @@ import SelectContent from './SelectContent';
 import MenuContent from './MenuContent';
 import OptionsMenu from './OptionsMenu';
 import { AuthContext } from '../../context/AuthContext';
-import { BabyContext } from '../../context/BabyContext';
 
 const drawerWidth = 240;
 
@@ -27,7 +26,6 @@ const Drawer = styled(MuiDrawer)({
 
 export default function SideMenu() {
   const { user } = React.useContext(AuthContext);
-  const { activeBaby } = React.useContext(BabyContext);
   return (
     <Drawer
       variant="permanent"
@@ -47,9 +45,6 @@ export default function SideMenu() {
       >
         <SelectContent />
       </Box>
-      <Typography variant="body2" sx={{ px: 2, pb: 1 }}>
-        {activeBaby?.nombre || ''}
-      </Typography>
       <Divider />
       <Box
         sx={{
