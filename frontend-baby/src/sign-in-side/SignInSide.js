@@ -25,9 +25,12 @@ export default function SignInSide(props) {
               position: 'absolute',
               zIndex: -1,
               inset: 0,
-              backgroundColor: '#000000',
+              backgroundImage:
+                'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
+              backgroundRepeat: 'no-repeat',
               ...theme.applyStyles('dark', {
-                backgroundColor: '#000000',
+                backgroundImage:
+                  'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
               }),
             },
           }),
