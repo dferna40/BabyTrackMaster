@@ -18,6 +18,8 @@ import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -131,6 +133,41 @@ export default function Cuidados() {
     setPage(0);
   };
 
+  const handleExportCsv = () => {
+    const headers = ['Hora', 'Tipo', 'Cantidad', 'Nota'];
+    const rows = filteredCuidados.map((cuidado) => [
+      dayjs(cuidado.inicio).locale('es').format('DD/MM/YYYY HH:mm'),
+      cuidado.tipoNombre,
+      cuidado.cantidadMl ?? '-',
+      cuidado.observaciones ?? '',
+    ]);
+    const csvContent = [headers, ...rows].map((e) => e.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `cuidados_${tipos[tab].toLowerCase()}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleExportPdf = () => {
+    const doc = new jsPDF();
+    const tableColumn = ['Hora', 'Tipo', 'Cantidad', 'Nota'];
+    const tableRows = filteredCuidados.map((cuidado) => [
+      dayjs(cuidado.inicio).locale('es').format('DD/MM/YYYY HH:mm'),
+      cuidado.tipoNombre,
+      cuidado.cantidadMl ?? '-',
+      cuidado.observaciones ?? '',
+    ]);
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+    });
+    doc.save(`cuidados_${tipos[tab].toLowerCase()}.pdf`);
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
       <Stack
@@ -211,6 +248,15 @@ export default function Cuidados() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </TableContainer>
+
+      <Box sx={{ mb: 4, display: 'flex', gap: 2 }}>
+        <Button variant="outlined" onClick={handleExportPdf}>
+          Exportar PDF
+        </Button>
+        <Button variant="outlined" onClick={handleExportCsv}>
+          Exportar CSV
+        </Button>
+      </Box>
 
       <Card variant="outlined">
         <CardContent>
