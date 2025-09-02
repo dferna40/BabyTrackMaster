@@ -24,6 +24,8 @@ import 'dayjs/locale/es';
 import { LocalizationProvider, DateCalendar, PickersDay } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
+dayjs.locale('es');
+
 import {
   listarPorBebe,
   crearCita,
@@ -216,11 +218,15 @@ export default function Citas() {
 
       {view === 'month' ? (
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
-          <DateCalendar
-            value={selectedDate}
-            onChange={setSelectedDate}
-            slots={{ day: renderDay }}
-          />
+          {selectedDate && (
+            <DateCalendar
+              value={selectedDate}
+              onChange={(newValue) =>
+                setSelectedDate(newValue ? dayjs(newValue) : dayjs())
+              }
+              slots={{ day: renderDay }}
+            />
+          )}
         </LocalizationProvider>
       ) : (
         <TableContainer component={Paper} sx={{ mb: 4 }}>
