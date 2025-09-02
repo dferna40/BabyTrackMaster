@@ -140,7 +140,7 @@ export default function Citas() {
     setPage(0);
   };
 
-  const renderDay = (day, _value, DayComponentProps) => {
+  const CustomDay = ({ day, ...props }) => {
     const citasDelDia = citas.filter((c) =>
       dayjs(c.fecha).isSame(day, 'day')
     );
@@ -151,7 +151,7 @@ export default function Citas() {
         color={citasDelDia.length > 0 ? 'primary' : undefined}
         variant={citasDelDia.length > 0 ? 'dot' : undefined}
       >
-        <PickersDay {...DayComponentProps} />
+        <PickersDay day={day} {...props} />
       </Badge>
     );
   };
@@ -223,7 +223,7 @@ export default function Citas() {
               onChange={(newValue) =>
                 setSelectedDate(newValue ? dayjs(newValue) : dayjs())
               }
-              slots={{ day: renderDay }}
+              slots={{ day: CustomDay }}
             />
           )}
         </LocalizationProvider>
