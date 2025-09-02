@@ -23,9 +23,6 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 import { LocalizationProvider, DateCalendar, PickersDay } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
-dayjs.locale('es');
-
 import {
   listarPorBebe,
   crearCita,
@@ -37,6 +34,8 @@ import {
 import CitaForm from '../components/CitaForm';
 import { BabyContext } from '../../context/BabyContext';
 import { AuthContext } from '../../context/AuthContext';
+
+dayjs.locale('es');
 
 export default function Citas() {
   const [citas, setCitas] = useState([]);
