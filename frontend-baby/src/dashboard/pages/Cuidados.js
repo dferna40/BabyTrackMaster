@@ -249,14 +249,16 @@ export default function Cuidados() {
         />
       </TableContainer>
 
-      <Box sx={{ mb: 4, display: 'flex', gap: 2 }}>
-        <Button variant="outlined" onClick={handleExportPdf}>
-          Exportar PDF
-        </Button>
-        <Button variant="outlined" onClick={handleExportCsv}>
-          Exportar CSV
-        </Button>
-      </Box>
+      {filteredCuidados.length > 0 && (
+        <Box sx={{ mb: 4, display: 'flex', gap: 2 }}>
+          <Button variant="outlined" onClick={handleExportPdf}>
+            Exportar PDF
+          </Button>
+          <Button variant="outlined" onClick={handleExportCsv}>
+            Exportar CSV
+          </Button>
+        </Box>
+      )}
 
       <Card variant="outlined">
         <CardContent>
