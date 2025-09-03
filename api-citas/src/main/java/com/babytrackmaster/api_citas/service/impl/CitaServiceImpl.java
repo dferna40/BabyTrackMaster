@@ -176,4 +176,17 @@ public class CitaServiceImpl implements CitaService {
         }
         return new PageImpl<CitaResponseDTO>(list, p, res.getTotalElements());
     }
+
+    @Override
+    public void enviarRecordatorio(Long id, Long usuarioId, Integer minutosAntelacion) {
+        Cita c = repo.findOneByIdAndUsuario(id, usuarioId);
+        if (c == null) {
+            throw new NotFoundException("Cita no encontrada");
+        }
+        // TODO: Integrar con servicio de notificaciones (correo, push, etc.)
+        System.out.printf(
+                "Recordatorio enviado para cita %d con %d minutos de antelación%n",
+                id,
+                minutosAntelacion);
+    }
 }

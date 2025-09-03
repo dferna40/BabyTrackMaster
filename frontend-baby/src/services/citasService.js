@@ -70,7 +70,9 @@ export const listarEstados = () => {
   return axios.get(`${API_ESTADOS_CITA_ENDPOINT}`);
 };
 
-export const enviarRecordatorio = (id) => {
-  return axios.post(`${API_CITAS_ENDPOINT}/${id}/recordatorio`);
+export const enviarRecordatorio = (id, minutosAntelacion) => {
+  return axios.post(`${API_CITAS_ENDPOINT}/${id}/recordatorio`, {
+    minutosAntelacion,
+  });
 };
 
