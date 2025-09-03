@@ -27,6 +27,9 @@ public class Diario {
     @Column(name="usuario_id", nullable=false)
     private Long usuarioId;
 
+    @Column(name="bebe_id", nullable=false)
+    private Long bebeId;
+
     @Column(nullable=false)
     private LocalDate fecha;
 
