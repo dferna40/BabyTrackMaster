@@ -40,7 +40,7 @@ public class Cita {
     private Long usuarioId;
 
     @Column(nullable = false, length = 150)
-    private String titulo;
+    private String motivo;
 
     @Column(length = 500)
     private String descripcion;
@@ -52,7 +52,7 @@ public class Cita {
     private LocalTime hora;
 
     @Column(length = 150)
-    private String ubicacion;
+    private String centroMedico;
 
     @Column(length = 120)
     private String medico;
