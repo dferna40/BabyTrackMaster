@@ -41,18 +41,20 @@ export default function Diario() {
   useEffect(() => {
     if (!activeBaby || !user) return;
     listarEntradas(user.id, activeBaby.id)
-      .then((res) => setEntradas(res.data))
+      .then((data) => setEntradas(data))
       .catch((err) => console.error('Error fetching diario:', err));
   }, [activeBaby, user]);
 
   const handleAdd = () => {
     if (!texto.trim() || !activeBaby || !user) return;
     const payload = {
-      texto,
-      emocion,
-      fecha,
-      etiquetas,
       bebeId: activeBaby.id,
+      fecha,
+      hora: dayjs().format('HH:mm'),
+      titulo: texto.substring(0, 120) || 'Entrada',
+      contenido: texto,
+      estadoAnimo: emocion,
+      etiquetas: etiquetas.join(','),
     };
     crearEntrada(user.id, payload)
       .then(() => {
@@ -60,8 +62,8 @@ export default function Diario() {
         setEmocion('neutral');
         setFecha(dayjs().format('YYYY-MM-DD'));
         setEtiquetas([]);
-        return listarEntradas(user.id, activeBaby.id).then((res) =>
-          setEntradas(res.data)
+        return listarEntradas(user.id, activeBaby.id).then((data) =>
+          setEntradas(data)
         );
       })
       .catch((err) => console.error('Error creating entrada:', err));
