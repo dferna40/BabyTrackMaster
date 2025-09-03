@@ -17,17 +17,18 @@ import com.babytrackmaster.api_cuidados.repository.TipoCuidadoRepository;
 public class DataInitializer {
 
     private final TipoCuidadoRepository tipoCuidadoRepository;
+   
 
     @Bean
     public CommandLineRunner loadInitialData() {
         return args -> {
             if (tipoCuidadoRepository.count() == 0) {
                 tipoCuidadoRepository.saveAll(List.of(
-                    createTipoCuidado("Higiene"),
-                    createTipoCuidado("Alimentación"),
+                    createTipoCuidado("Biberón"),
+                    createTipoCuidado("Pecho"),
+                    createTipoCuidado("Pañal"),
                     createTipoCuidado("Sueño"),
-                    createTipoCuidado("Salud"),
-                    createTipoCuidado("Recreación")
+                    createTipoCuidado("Baño")
                 ));
             }
         };

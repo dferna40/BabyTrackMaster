@@ -38,7 +38,7 @@ export default function QuickStatsCard() {
     <Card variant="outlined" sx={{ height: '100%' }}>
       <CardContent>
         <Typography variant="h6" component="h2" gutterBottom>
-          Estadísticas Rápidas
+          Estadísticas rápidas del día
         </Typography>
         <Grid container spacing={2}>
           {statsArray.map((stat, index) => (
