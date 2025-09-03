@@ -34,6 +34,7 @@ import {
   completarCita,
   marcarNoAsistida,
   listarTipos,
+  listarEstados,
   enviarRecordatorio,
 } from '../../services/citasService';
 import CitaForm from '../components/CitaForm';
@@ -45,12 +46,14 @@ dayjs.locale('es');
 export default function Citas() {
   const [citas, setCitas] = useState([]);
   const [tipos, setTipos] = useState([]);
+  const [estados, setEstados] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [openForm, setOpenForm] = useState(false);
   const [selectedCita, setSelectedCita] = useState(null);
   const [search, setSearch] = useState('');
   const [tipoFilter, setTipoFilter] = useState('');
+  const [estadoFilter, setEstadoFilter] = useState('');
   const [view, setView] = useState('month');
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [menuAnchor, setMenuAnchor] = useState(null);
@@ -84,6 +87,9 @@ export default function Citas() {
       listarTipos()
         .then((response) => setTipos(response.data))
         .catch((error) => console.error('Error fetching tipos cita:', error));
+      listarEstados()
+        .then((response) => setEstados(response.data))
+        .catch((error) => console.error('Error fetching estados cita:', error));
     }
   }, [bebeId]);
 
@@ -96,9 +102,12 @@ export default function Citas() {
         const matchTipo = tipoFilter
           ? String(c.tipoId) === String(tipoFilter)
           : true;
-        return matchSearch && matchTipo;
+        const matchEstado = estadoFilter
+          ? String(c.estadoId) === String(estadoFilter)
+          : true;
+        return matchSearch && matchTipo && matchEstado;
       }),
-    [citas, search, tipoFilter]
+    [citas, search, tipoFilter, estadoFilter]
   );
 
   const citasSemana = useMemo(
@@ -238,6 +247,21 @@ export default function Citas() {
           {tipos.map((t) => (
             <MenuItem key={t.id} value={t.id}>
               {t.nombre}
+            </MenuItem>
+          ))}
+        </TextField>
+        <TextField
+          size="small"
+          select
+          label="Estado"
+          value={estadoFilter}
+          onChange={(e) => setEstadoFilter(e.target.value)}
+          sx={{ minWidth: 150 }}
+        >
+          <MenuItem value="">Todos</MenuItem>
+          {estados.map((e) => (
+            <MenuItem key={e.id} value={e.id}>
+              {e.nombre}
             </MenuItem>
           ))}
         </TextField>
