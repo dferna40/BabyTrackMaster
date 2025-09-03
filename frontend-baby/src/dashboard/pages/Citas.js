@@ -62,6 +62,7 @@ export default function Citas() {
   const [estadoFilter, setEstadoFilter] = useState('');
   const [view, setView] = useState('month');
   const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [selectedDay, setSelectedDay] = useState(null);
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [menuCitaId, setMenuCitaId] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -135,6 +136,14 @@ export default function Citas() {
   const citasSemana = useMemo(
     () => filteredCitas.filter((c) => dayjs(c.fecha).isSame(selectedDate, 'week')),
     [filteredCitas, selectedDate]
+  );
+
+  const citasDelDia = useMemo(
+    () =>
+      selectedDay
+        ? filteredCitas.filter((c) => dayjs(c.fecha).isSame(selectedDay, 'day'))
+        : filteredCitas,
+    [filteredCitas, selectedDay]
   );
 
   const getEstadoColor = (estado) => {
@@ -326,17 +335,30 @@ export default function Citas() {
       </Stack>
 
       {view === 'month' ? (
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
-          {selectedDate && (
-            <DateCalendar
-              value={selectedDate}
-              onChange={(newValue) =>
-                setSelectedDate(newValue ? dayjs(newValue) : dayjs())
-              }
-              slots={{ day: CustomDay }}
-            />
+        <>
+          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
+            {selectedDate && (
+              <DateCalendar
+                value={selectedDate}
+                onChange={(newValue) => {
+                  const date = newValue ? dayjs(newValue) : dayjs();
+                  setSelectedDate(date);
+                  setSelectedDay(date);
+                }}
+                slots={{ day: CustomDay }}
+              />
+            )}
+          </LocalizationProvider>
+          {selectedDay && (
+            <Button
+              variant="outlined"
+              onClick={() => setSelectedDay(null)}
+              sx={{ mb: 2 }}
+            >
+              Ver todas las citas
+            </Button>
           )}
-        </LocalizationProvider>
+        </>
       ) : (
         <TableContainer component={Paper} sx={{ mb: 4 }}>
           <Table size="small">
@@ -415,7 +437,7 @@ export default function Citas() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredCitas
+            {citasDelDia
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((cita) => (
                 <TableRow key={cita.id}>
@@ -467,7 +489,7 @@ export default function Citas() {
         </Table>
       <TablePagination
           component="div"
-          count={filteredCitas.length}
+          count={citasDelDia.length}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
