@@ -9,13 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-
-const tipoOptions = [
-  { id: 1, label: 'Biberón' },
-  { id: 2, label: 'Pañal' },
-  { id: 3, label: 'Sueño' },
-  { id: 4, label: 'Baño' },
-];
+import { listarTipos } from '../../services/cuidadosService';
 
 export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
   const [formData, setFormData] = useState({
@@ -24,6 +18,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
     cantidadMl: '',
     observaciones: '',
   });
+  const [tipoOptions, setTipoOptions] = useState([]);
 
   useEffect(() => {
     if (initialData) {
@@ -37,6 +32,12 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
       setFormData({ inicio: '', tipoId: '', cantidadMl: '', observaciones: '' });
     }
   }, [initialData, open]);
+
+  useEffect(() => {
+    listarTipos()
+      .then((response) => setTipoOptions(response.data))
+      .catch((err) => console.error('Error fetching tipos cuidado:', err));
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,7 +72,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
             >
               {tipoOptions.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
-                  {option.label}
+                  {option.nombre}
                 </MenuItem>
               ))}
             </TextField>

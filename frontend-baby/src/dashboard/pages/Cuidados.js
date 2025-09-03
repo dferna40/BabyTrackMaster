@@ -29,12 +29,11 @@ import {
   crearCuidado,
   actualizarCuidado,
   eliminarCuidado,
+  listarTipos,
 } from '../../services/cuidadosService';
 import CuidadoForm from '../components/CuidadoForm';
 import { BabyContext } from '../../context/BabyContext';
 import { AuthContext } from '../../context/AuthContext';
-
-const tipos = ['Biberón', 'Pañal', 'Sueño', 'Baño'];
 
 export default function Cuidados() {
   const [tab, setTab] = useState(0);
@@ -43,6 +42,7 @@ export default function Cuidados() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [openForm, setOpenForm] = useState(false);
   const [selectedCuidado, setSelectedCuidado] = useState(null);
+  const [tipos, setTipos] = useState([]);
   const { activeBaby } = React.useContext(BabyContext);
   const { user } = React.useContext(AuthContext);
   const usuarioId = user?.id;
@@ -50,9 +50,14 @@ export default function Cuidados() {
   const [weeklyStats, setWeeklyStats] = useState(Array(7).fill(0));
 
   const filteredCuidados = useMemo(
-  () => cuidados.filter(c => c.tipoNombre === tipos[tab]),
-  [cuidados, tab]
-);
+    () =>
+      tipos[tab]
+        ? cuidados.filter(
+            (c) => Number(c.tipoId) === Number(tipos[tab].id)
+          )
+        : [],
+    [cuidados, tab, tipos]
+  );
 
   useEffect(() => {
   const stats = Array(7).fill(0);
@@ -82,6 +87,9 @@ export default function Cuidados() {
   useEffect(() => {
     if (bebeId) {
       fetchCuidados();
+      listarTipos()
+        .then((response) => setTipos(response.data))
+        .catch((error) => console.error('Error fetching tipos cuidado:', error));
     }
   }, [bebeId]);
 
@@ -146,7 +154,10 @@ export default function Cuidados() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', `cuidados_${tipos[tab].toLowerCase()}.csv`);
+    link.setAttribute(
+      'download',
+      `cuidados_${tipos[tab]?.nombre.toLowerCase()}.csv`
+    );
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -165,7 +176,7 @@ export default function Cuidados() {
       head: [tableColumn],
       body: tableRows,
     });
-    doc.save(`cuidados_${tipos[tab].toLowerCase()}.pdf`);
+    doc.save(`cuidados_${tipos[tab]?.nombre.toLowerCase()}.pdf`);
   };
 
   return (
@@ -191,10 +202,9 @@ export default function Cuidados() {
         Cuidados
       </Typography>
       <Tabs value={tab} onChange={handleTabChange} sx={{ mb: 2 }}>
-        <Tab label="Biberón" />
-        <Tab label="Pañal" />
-        <Tab label="Sueño" />
-        <Tab label="Baño" />
+        {tipos.map((t) => (
+          <Tab key={t.id} label={t.nombre} />
+        ))}
       </Tabs>
 
       <TableContainer component={Paper} sx={{ mb: 4 }}>
