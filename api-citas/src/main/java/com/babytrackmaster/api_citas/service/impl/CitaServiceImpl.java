@@ -118,4 +118,15 @@ public class CitaServiceImpl implements CitaService {
         }
         return new PageImpl<CitaResponseDTO>(list, p, res.getTotalElements());
     }
+
+    public Page<CitaResponseDTO> listarPorBebe(Long usuarioId, Long bebeId, int page, int size) {
+        Pageable p = PageRequest.of(page, size);
+        Page<Cita> res = repo.listarPorBebe(usuarioId, bebeId, p);
+        List<CitaResponseDTO> list = new ArrayList<CitaResponseDTO>();
+        int i;
+        for (i = 0; i < res.getContent().size(); i++) {
+            list.add(CitaMapper.toDTO(res.getContent().get(i)));
+        }
+        return new PageImpl<CitaResponseDTO>(list, p, res.getTotalElements());
+    }
 }

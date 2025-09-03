@@ -38,6 +38,10 @@ public class CitaCreateDTO {
 
     @Schema(example = "1")
     @NotNull
+    private Long bebeId;
+
+    @Schema(example = "1")
+    @NotNull
     private Long tipoId;
 
     @Schema(example = "30")

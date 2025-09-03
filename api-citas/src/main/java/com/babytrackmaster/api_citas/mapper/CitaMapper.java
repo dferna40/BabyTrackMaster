@@ -14,6 +14,7 @@ public class CitaMapper {
     public static Cita toEntity(CitaCreateDTO dto, Long usuarioId, TipoCita tipo, EstadoCita estado) {
         Cita c = new Cita();
         c.setUsuarioId(usuarioId);
+        c.setBebeId(dto.getBebeId());
         c.setMotivo(dto.getMotivo());
         c.setDescripcion(dto.getDescripcion());
         c.setFecha(LocalDate.parse(dto.getFecha()));
@@ -34,6 +35,7 @@ public class CitaMapper {
         if (dto.getHora() != null) c.setHora(LocalTime.parse(dto.getHora()));
         if (dto.getCentroMedico() != null) c.setCentroMedico(dto.getCentroMedico());
         if (dto.getMedico() != null) c.setMedico(dto.getMedico());
+        if (dto.getBebeId() != null) c.setBebeId(dto.getBebeId());
         if (tipo != null) c.setTipo(tipo);
         if (dto.getRecordatorioMinutos() != null) c.setRecordatorioMinutos(dto.getRecordatorioMinutos());
         if (estado != null) c.setEstado(estado);
@@ -43,6 +45,7 @@ public class CitaMapper {
         CitaResponseDTO.CitaResponseDTOBuilder b = CitaResponseDTO.builder();
         b.id(c.getId());
         b.usuarioId(c.getUsuarioId());
+        b.bebeId(c.getBebeId());
         b.motivo(c.getMotivo());
         b.descripcion(c.getDescripcion());
         b.fecha(c.getFecha() != null ? c.getFecha().toString() : null);

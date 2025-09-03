@@ -7,6 +7,7 @@ import lombok.*;
 public class CitaResponseDTO {
     private Long id;
     private Long usuarioId;
+    private Long bebeId;
     private String motivo;
     private String descripcion;
     private String fecha; // ISO

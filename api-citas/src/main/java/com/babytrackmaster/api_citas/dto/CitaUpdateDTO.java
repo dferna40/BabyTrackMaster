@@ -27,6 +27,8 @@ public class CitaUpdateDTO {
     @Size(max = 120)
     private String medico;
 
+    private Long bebeId;
+
     private Long tipoId;
 
     private Integer recordatorioMinutos;

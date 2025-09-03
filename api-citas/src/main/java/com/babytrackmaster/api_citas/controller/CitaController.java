@@ -73,11 +73,19 @@ public class CitaController {
                 return ResponseEntity.ok(service.listarPorTipo(usuarioId, tipoId, page, size));
         }
 
-	@Operation(summary = "Listar por médico")
-	@GetMapping("/medico")
-	public ResponseEntity<Page<CitaResponseDTO>> listarPorMedico(@RequestParam String nombre,
-			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-		Long usuarioId = jwtService.resolveUserId();
-		return ResponseEntity.ok(service.listarPorMedico(usuarioId, nombre, page, size));
-	}
+        @Operation(summary = "Listar por médico")
+        @GetMapping("/medico")
+        public ResponseEntity<Page<CitaResponseDTO>> listarPorMedico(@RequestParam String nombre,
+                        @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+                Long usuarioId = jwtService.resolveUserId();
+                return ResponseEntity.ok(service.listarPorMedico(usuarioId, nombre, page, size));
+        }
+
+        @Operation(summary = "Listar por bebé")
+        @GetMapping("/bebe/{bebeId}")
+        public ResponseEntity<Page<CitaResponseDTO>> listarPorBebe(@PathVariable Long bebeId,
+                        @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+                Long usuarioId = jwtService.resolveUserId();
+                return ResponseEntity.ok(service.listarPorBebe(usuarioId, bebeId, page, size));
+        }
 }

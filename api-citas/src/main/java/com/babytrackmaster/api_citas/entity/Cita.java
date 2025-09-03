@@ -28,7 +28,8 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "citas", indexes = {
-    @Index(name = "idx_usuario_fecha", columnList = "usuarioId,fecha,eliminado")
+    @Index(name = "idx_usuario_fecha", columnList = "usuarioId,fecha,eliminado"),
+    @Index(name = "idx_usuario_bebe", columnList = "usuarioId,bebeId,eliminado")
 })
 public class Cita {
 
@@ -38,6 +39,9 @@ public class Cita {
 
     @Column(nullable = false)
     private Long usuarioId;
+
+    @Column(nullable = false)
+    private Long bebeId;
 
     @Column(nullable = false, length = 150)
     private String motivo;
