@@ -6,6 +6,13 @@ El objetivo principal es ofrecer una experiencia práctica, segura y personaliza
 
 ---
 
+## 🖥️ Requisitos de Entorno
+
+- **Node.js**: versión **14** o superior para compilar y ejecutar el frontend.
+- **Navegadores**: versiones modernas que soporten ES2020 (Chrome 80+, Edge 80+, Firefox 79+, Safari 13.1+).
+
+---
+
 ## 🧱 Arquitectura del Proyecto
 
 El sistema está compuesto por varios microservicios independientes, un frontend en React y una infraestructura orquestada con Docker.
