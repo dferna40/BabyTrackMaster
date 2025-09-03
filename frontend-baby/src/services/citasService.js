@@ -3,6 +3,7 @@ import { API_CITAS_URL } from '../config';
 
 const API_CITAS_ENDPOINT = `${API_CITAS_URL}/api/v1/citas`;
 const API_TIPOS_CITA_ENDPOINT = `${API_CITAS_URL}/api/v1/tipos-cita`;
+const API_ESTADOS_CITA_ENDPOINT = `${API_CITAS_URL}/api/v1/estados-cita`;
 
 export const listar = (bebeId) => {
   return axios.get(`${API_CITAS_ENDPOINT}/bebe/${bebeId}`);
@@ -20,8 +21,28 @@ export const eliminarCita = (id) => {
   return axios.delete(`${API_CITAS_ENDPOINT}/${id}`);
 };
 
+export const confirmarCita = (id) => {
+  return axios.put(`${API_CITAS_ENDPOINT}/${id}/confirmar`);
+};
+
+export const cancelarCita = (id) => {
+  return axios.delete(`${API_CITAS_ENDPOINT}/${id}`);
+};
+
+export const completarCita = (id) => {
+  return axios.put(`${API_CITAS_ENDPOINT}/${id}/completar`);
+};
+
+export const marcarNoAsistida = (id) => {
+  return axios.put(`${API_CITAS_ENDPOINT}/${id}/no-asistida`);
+};
+
 export const listarTipos = () => {
   return axios.get(`${API_TIPOS_CITA_ENDPOINT}`);
+};
+
+export const listarEstados = () => {
+  return axios.get(`${API_ESTADOS_CITA_ENDPOINT}`);
 };
 
 export const enviarRecordatorio = (id) => {
