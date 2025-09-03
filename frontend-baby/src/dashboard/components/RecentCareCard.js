@@ -4,9 +4,11 @@ import { AuthContext } from '../../context/AuthContext';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 import { listarRecientes } from '../../services/cuidadosService';
@@ -32,20 +34,34 @@ export default function RecentCareCard() {
         <Typography variant="h6" component="h2" gutterBottom>
           Cuidados Recientes
         </Typography>
-        <List>
-          {recentCare.slice(0, 5).map((item) => (
-            <ListItem key={item.id} disableGutters>
-              <ListItemText
-                primary={item.tipoNombre}
-                secondary={`${dayjs(item.inicio)
-                  .locale('es')
-                  .format('DD/MM/YYYY HH:mm')} | ${item.cantidadMl ?? '-'} | ${item.observaciones ?? ''}`}
-                primaryTypographyProps={{ variant: 'body2' }}
-                secondaryTypographyProps={{ variant: 'caption', color: 'text.secondary' }}
-              />
-            </ListItem>
-          ))}
-        </List>
+        {recentCare.length > 0 ? (
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>Fecha</TableCell>
+                <TableCell>Hora</TableCell>
+                <TableCell>Tipo</TableCell>
+                <TableCell>Cantidad (ml)</TableCell>
+                <TableCell>Observaciones</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {recentCare.slice(0, 5).map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell>{dayjs(item.inicio).locale('es').format('DD/MM/YYYY')}</TableCell>
+                  <TableCell>{dayjs(item.inicio).locale('es').format('HH:mm')}</TableCell>
+                  <TableCell>{item.tipoNombre}</TableCell>
+                  <TableCell>{item.cantidadMl ?? '-'}</TableCell>
+                  <TableCell>{item.observaciones ?? ''}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        ) : (
+          <Typography variant="body2" color="text.secondary">
+            No hay cuidados recientes.
+          </Typography>
+        )}
       </CardContent>
     </Card>
   );
