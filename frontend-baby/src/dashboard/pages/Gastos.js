@@ -44,7 +44,7 @@ export default function Gastos() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [openForm, setOpenForm] = useState(false);
   const [selectedGasto, setSelectedGasto] = useState(null);
-  const [categoryFilter, setCategoryFilter] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('0');
   const [categorias, setCategorias] = useState([]);
   const [monthFilter, setMonthFilter] = useState(dayjs().format('YYYY-MM'));
   const [weeklyStats, setWeeklyStats] = useState(Array(7).fill(0));
@@ -80,9 +80,10 @@ export default function Gastos() {
   const filteredGastos = useMemo(
     () =>
       gastos.filter((g) => {
-        const matchCategory = categoryFilter
-          ? Number(g.categoriaId) === Number(categoryFilter)
-          : true;
+        const matchCategory =
+          categoryFilter !== '0'
+            ? Number(g.categoriaId) === Number(categoryFilter)
+            : true;
         const matchMonth = monthFilter
           ? dayjs(g.fecha).format('YYYY-MM') === monthFilter
           : true;
@@ -172,9 +173,10 @@ export default function Gastos() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    const categoriaNombre = categoryFilter
-      ? categorias.find((c) => Number(c.id) === Number(categoryFilter))?.nombre || 'general'
-      : 'general';
+    const categoriaNombre =
+      categoryFilter !== '0'
+        ? categorias.find((c) => Number(c.id) === Number(categoryFilter))?.nombre || 'general'
+        : 'general';
     link.setAttribute('download', `gastos_${categoriaNombre.toLowerCase()}.csv`);
     document.body.appendChild(link);
     link.click();
@@ -196,9 +198,10 @@ export default function Gastos() {
       head: [tableColumn],
       body: tableRows,
     });
-    const categoriaNombre = categoryFilter
-      ? categorias.find((c) => Number(c.id) === Number(categoryFilter))?.nombre || 'general'
-      : 'general';
+    const categoriaNombre =
+      categoryFilter !== '0'
+        ? categorias.find((c) => Number(c.id) === Number(categoryFilter))?.nombre || 'general'
+        : 'general';
     doc.save(`gastos_${categoriaNombre.toLowerCase()}.pdf`);
   };
 
@@ -226,7 +229,7 @@ export default function Gastos() {
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
           >
-            <MenuItem value="">Todas</MenuItem>
+            <MenuItem value="0">Todas</MenuItem>
             {categorias.map((option) => (
               <MenuItem key={option.id} value={option.id}>
                 {option.nombre}
