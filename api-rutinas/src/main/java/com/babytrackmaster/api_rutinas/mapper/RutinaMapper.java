@@ -16,9 +16,10 @@ public class RutinaMapper {
         }
     }
 
-    public static Rutina toEntity(RutinaCreateDTO dto, Long usuarioId) {
+    public static Rutina toEntity(RutinaCreateDTO dto, Long usuarioId, Long bebeId) {
         Rutina r = new Rutina();
         r.setUsuarioId(usuarioId);
+        r.setBebeId(bebeId);
         r.setNombre(dto.getNombre());
         r.setDescripcion(dto.getDescripcion());
         r.setHoraProgramada(LocalTime.parse(dto.getHoraProgramada()));
@@ -47,6 +48,7 @@ public class RutinaMapper {
         dto.setHoraProgramada(r.getHoraProgramada() != null ? r.getHoraProgramada().toString() : null);
         dto.setDiasSemana(r.getDiasSemana());
         dto.setActiva(r.getActiva());
+        dto.setBebeId(r.getBebeId());
         return dto;
     }
 }

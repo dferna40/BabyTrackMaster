@@ -24,4 +24,8 @@ public class RutinaCreateDTO {
     private String diasSemana; // "L,M,X,J,V" o "1,3,5"
 
     private Boolean activa;
+
+    @Schema(example = "1")
+    @NotNull
+    private Long bebeId;
 }
