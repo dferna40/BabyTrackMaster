@@ -124,8 +124,7 @@ public class CuidadoServiceImpl implements CuidadoService {
 
         double horasSueno = 0d;
         for (Cuidado c : suenos) {
-            Date finSueno = c.getFin() != null ? c.getFin() : new Date();
-            horasSueno += (finSueno.getTime() - c.getInicio().getTime()) / (1000d * 60d * 60d);
+            horasSueno += (c.getCantidadMl() != null) ? c.getCantidadMl() : 0;
         }
 
         QuickStatsResponse resp = new QuickStatsResponse();
