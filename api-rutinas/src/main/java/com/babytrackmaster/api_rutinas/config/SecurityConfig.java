@@ -1,7 +1,6 @@
 package com.babytrackmaster.api_rutinas.config;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -99,7 +98,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cfg = new CorsConfiguration();
         // En local puedes permitir todo; ajusta en producción
-        cfg.setAllowedOrigins(Collections.singletonList("http://localhost:8086"));
+        cfg.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:8086"));
         cfg.setAllowedMethods(Arrays.asList("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
         cfg.setAllowedHeaders(Arrays.asList("*"));
         //cfg.setExposedHeaders(Arrays.asList("Authorization","Content-Type"));
