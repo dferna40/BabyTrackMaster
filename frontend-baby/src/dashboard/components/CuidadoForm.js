@@ -17,6 +17,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
     tipoId: '',
     cantidadMl: '',
     observaciones: '',
+    pecho: '',
   });
   const [tipoOptions, setTipoOptions] = useState([]);
 
@@ -27,9 +28,10 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
         tipoId: initialData.tipoId || '',
         cantidadMl: initialData.cantidadMl || '',
         observaciones: initialData.observaciones || '',
+        pecho: initialData.pecho || '',
       });
     } else {
-      setFormData({ inicio: '', tipoId: '', cantidadMl: '', observaciones: '' });
+      setFormData({ inicio: '', tipoId: '', cantidadMl: '', observaciones: '', pecho: '' });
     }
   }, [initialData, open]);
 
@@ -41,11 +43,21 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === 'tipoId' &&
+      tipoOptions.find((option) => option.id == value)?.nombre !== 'Pecho'
+        ? { pecho: '' }
+        : {}),
+    }));
   };
 
+  const isPecho =
+    tipoOptions.find((option) => option.id == formData.tipoId)?.nombre === 'Pecho';
+
   const handleSubmit = () => {
-    onSubmit(formData);
+    onSubmit({ ...formData, pecho: formData.pecho });
   };
 
   return (
@@ -77,6 +89,20 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
               ))}
             </TextField>
           </FormControl>
+          {isPecho && (
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormLabel sx={{ mb: 1 }}>Pecho</FormLabel>
+              <TextField
+                select
+                name="pecho"
+                value={formData.pecho}
+                onChange={handleChange}
+              >
+                <MenuItem value="Izquierdo">Izquierdo</MenuItem>
+                <MenuItem value="Derecho">Derecho</MenuItem>
+              </TextField>
+            </FormControl>
+          )}
           <FormControl fullWidth sx={{ mb: 2 }}>
             <FormLabel sx={{ mb: 1 }}>Cantidad</FormLabel>
             <TextField
