@@ -24,7 +24,7 @@ import 'dayjs/locale/es';
 import { LocalizationProvider, DateCalendar, PickersDay } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import {
-  listarPorBebe,
+  listar,
   crearCita,
   actualizarCita,
   eliminarCita,
@@ -66,6 +66,8 @@ export default function Citas() {
           }))
         )
       )
+    listar()
+      .then((response) => setCitas(response.data))
       .catch((error) => console.error('Error fetching citas:', error));
   };
 
@@ -110,7 +112,7 @@ export default function Citas() {
   const handleDelete = (id) => {
     if (!bebeId || !usuarioId) return;
     if (window.confirm('¿Eliminar cita?')) {
-      eliminarCita(usuarioId, id)
+      eliminarCita(id)
         .then(() => fetchCitas())
         .catch((error) => console.error('Error deleting cita:', error));
     }
@@ -118,10 +120,9 @@ export default function Citas() {
 
   const handleFormSubmit = (data) => {
     if (!bebeId || !usuarioId) return;
-    const payload = { ...data, bebeId };
     const request = selectedCita
-      ? actualizarCita(usuarioId, selectedCita.id, payload)
-      : crearCita(usuarioId, payload);
+      ? actualizarCita(selectedCita.id, data)
+      : crearCita(data);
 
     request
       .then(() => {
@@ -134,7 +135,7 @@ export default function Citas() {
 
   const handleRecordatorio = (id) => {
     if (!usuarioId) return;
-    enviarRecordatorio(usuarioId, id).catch((error) =>
+    enviarRecordatorio(id).catch((error) =>
       console.error('Error sending reminder:', error)
     );
   };
