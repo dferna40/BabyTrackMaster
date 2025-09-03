@@ -26,7 +26,7 @@ export const confirmarCita = (id) => {
 };
 
 export const cancelarCita = (id) => {
-  return axios.delete(`${API_CITAS_ENDPOINT}/${id}`);
+  return axios.put(`${API_CITAS_ENDPOINT}/${id}/cancelar`);
 };
 
 export const completarCita = (id) => {
