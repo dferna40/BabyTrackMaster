@@ -9,24 +9,39 @@ import org.springframework.context.annotation.Configuration;
 import lombok.RequiredArgsConstructor;
 
 import com.babytrackmaster.api_citas.entity.TipoCita;
+import com.babytrackmaster.api_citas.entity.EstadoCita;
 import com.babytrackmaster.api_citas.repository.TipoCitaRepository;
+import com.babytrackmaster.api_citas.repository.EstadoCitaRepository;
 
 @Configuration
 @RequiredArgsConstructor
 public class DataInitializer {
 
     private final TipoCitaRepository tipoCitaRepository;
+    private final EstadoCitaRepository estadoCitaRepository;
 
     @Bean
     public CommandLineRunner loadInitialData() {
         return args -> {
             if (tipoCitaRepository.count() == 0) {
                 tipoCitaRepository.saveAll(List.of(
-                    createTipoCita("Consulta pediátrica"),
-                    createTipoCita("Vacunación"),
-                    createTipoCita("Revisión general"),
-                    createTipoCita("Emergencia"),
-                    createTipoCita("Seguimiento nutricional")
+                    createTipoCita("Vacuna"),
+                    createTipoCita("Revisión/Seguimiento"),
+                    createTipoCita("Pediatra"),
+                    createTipoCita("Niño sano"),
+                    createTipoCita("Urgencia"),
+                    createTipoCita("Odontopediatría"),
+                    createTipoCita("Especialista")
+                ));
+            }
+            if (estadoCitaRepository.count() == 0) {
+                estadoCitaRepository.saveAll(List.of(
+                    createEstadoCita("Programada"),
+                    createEstadoCita("Confirmada"),
+                    createEstadoCita("Cancelada"),
+                    createEstadoCita("Reprogramada"),
+                    createEstadoCita("Completada"),
+                    createEstadoCita("No asistida")
                 ));
             }
         };
@@ -36,6 +51,12 @@ public class DataInitializer {
         TipoCita tipo = new TipoCita();
         tipo.setNombre(nombre);
         return tipo;
+    }
+
+    private EstadoCita createEstadoCita(String nombre) {
+        EstadoCita estado = new EstadoCita();
+        estado.setNombre(nombre);
+        return estado;
     }
 }
 
