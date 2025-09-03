@@ -29,7 +29,7 @@ public class CitaServiceImpl implements CitaService {
     public CitaResponseDTO crear(CitaCreateDTO dto, Long usuarioId) {
         TipoCita tipo = tipoRepo.findById(dto.getTipoId())
                 .orElseThrow(() -> new NotFoundException("Tipo de cita no encontrado"));
-        EstadoCita estado = estadoRepo.findByNombreIgnoreCase("PENDIENTE")
+        EstadoCita estado = estadoRepo.findByNombreIgnoreCase("Programada")
                 .orElseThrow(() -> new NotFoundException("Estado de cita por defecto no encontrado"));
         Cita c = CitaMapper.toEntity(dto, usuarioId, tipo, estado);
         c = repo.save(c);
