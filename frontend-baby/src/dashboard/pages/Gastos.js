@@ -24,6 +24,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { BarChart } from '@mui/x-charts/BarChart';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 import {
   listarPorBebe,
@@ -155,6 +157,51 @@ export default function Gastos() {
     setPage(0);
   };
 
+  const handleExportCsv = () => {
+    const headers = ['Fecha', 'Categoría', 'Descripción', 'Cantidad'];
+    const rows = filteredGastos.map((gasto) => [
+      dayjs(gasto.fecha).locale('es').format('DD/MM/YYYY'),
+      gasto.categoriaNombre ||
+        categorias.find((c) => Number(c.id) === Number(gasto.categoriaId))?.nombre ||
+        '',
+      gasto.descripcion || '',
+      Number(gasto.cantidad).toFixed(2),
+    ]);
+    const csvContent = [headers, ...rows].map((e) => e.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    const categoriaNombre = categoryFilter
+      ? categorias.find((c) => Number(c.id) === Number(categoryFilter))?.nombre || 'general'
+      : 'general';
+    link.setAttribute('download', `gastos_${categoriaNombre.toLowerCase()}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleExportPdf = () => {
+    const doc = new jsPDF();
+    const tableColumn = ['Fecha', 'Categoría', 'Descripción', 'Cantidad'];
+    const tableRows = filteredGastos.map((gasto) => [
+      dayjs(gasto.fecha).locale('es').format('DD/MM/YYYY'),
+      gasto.categoriaNombre ||
+        categorias.find((c) => Number(c.id) === Number(gasto.categoriaId))?.nombre ||
+        '',
+      gasto.descripcion || '',
+      Number(gasto.cantidad).toFixed(2),
+    ]);
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+    });
+    const categoriaNombre = categoryFilter
+      ? categorias.find((c) => Number(c.id) === Number(categoryFilter))?.nombre || 'general'
+      : 'general';
+    doc.save(`gastos_${categoriaNombre.toLowerCase()}.pdf`);
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
       <Stack
@@ -260,6 +307,16 @@ export default function Gastos() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </TableContainer>
+      {filteredGastos.length > 0 && (
+        <Box sx={{ mb: 4, display: 'flex', gap: 2 }}>
+          <Button variant="outlined" onClick={handleExportPdf}>
+            Exportar PDF
+          </Button>
+          <Button variant="outlined" onClick={handleExportCsv}>
+            Exportar CSV
+          </Button>
+        </Box>
+      )}
 
       <Card variant="outlined">
         <CardContent>
