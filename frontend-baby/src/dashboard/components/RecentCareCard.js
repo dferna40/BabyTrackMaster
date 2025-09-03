@@ -37,7 +37,9 @@ export default function RecentCareCard() {
             <ListItem key={item.id} disableGutters>
               <ListItemText
                 primary={item.tipoNombre}
-                secondary={dayjs(item.inicio).locale('es').format('DD/MM/YYYY HH:mm')}
+                secondary={`${dayjs(item.inicio)
+                  .locale('es')
+                  .format('DD/MM/YYYY HH:mm')} | ${item.cantidadMl ?? '-'} | ${item.observaciones ?? ''}`}
                 primaryTypographyProps={{ variant: 'body2' }}
                 secondaryTypographyProps={{ variant: 'caption', color: 'text.secondary' }}
               />
