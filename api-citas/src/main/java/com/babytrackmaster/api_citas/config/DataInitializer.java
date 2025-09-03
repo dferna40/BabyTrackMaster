@@ -25,13 +25,14 @@ public class DataInitializer {
         return args -> {
             if (tipoCitaRepository.count() == 0) {
                 tipoCitaRepository.saveAll(List.of(
-                    createTipoCita("Vacuna"),
+                    createTipoCita("Vacunación"),
                     createTipoCita("Revisión/Seguimiento"),
-                    createTipoCita("Pediatra"),
-                    createTipoCita("Niño sano"),
+                    createTipoCita("Consulta pediátrica"),
+                    createTipoCita("Consulta niño sano"),
                     createTipoCita("Urgencia"),
                     createTipoCita("Odontopediatría"),
                     createTipoCita("Especialista")
+                    createTipoCita("Seguimiento nutricional")
                 ));
             }
             if (estadoCitaRepository.count() == 0) {
