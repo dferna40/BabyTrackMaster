@@ -76,6 +76,29 @@ public class CitaServiceImpl implements CitaService {
         return CitaMapper.toDTO(c);
     }
 
+    private CitaResponseDTO actualizarEstado(Long id, Long usuarioId, String estadoNombre) {
+        EstadoCita estado = estadoRepo.findByNombreIgnoreCase(estadoNombre)
+                .orElseThrow(() -> new NotFoundException("Estado de cita '" + estadoNombre + "' no encontrado"));
+        CitaUpdateDTO dto = new CitaUpdateDTO();
+        dto.setEstadoId(estado.getId());
+        return actualizar(id, usuarioId, dto);
+    }
+
+    @Override
+    public CitaResponseDTO confirmar(Long id, Long usuarioId) {
+        return actualizarEstado(id, usuarioId, "Confirmada");
+    }
+
+    @Override
+    public CitaResponseDTO completar(Long id, Long usuarioId) {
+        return actualizarEstado(id, usuarioId, "Completada");
+    }
+
+    @Override
+    public CitaResponseDTO noAsistida(Long id, Long usuarioId) {
+        return actualizarEstado(id, usuarioId, "No asistida");
+    }
+
     public void eliminar(Long id, Long usuarioId) {
         Cita c = repo.findOneByIdAndUsuario(id, usuarioId);
         if (c == null) {
