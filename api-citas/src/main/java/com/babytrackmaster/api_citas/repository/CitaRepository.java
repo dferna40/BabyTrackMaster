@@ -22,7 +22,8 @@ public interface CitaRepository extends JpaRepository<Cita, Long> {
                               @Param("hasta") LocalDate hasta,
                               Pageable pageable);
 
-    @Query("select c from Cita c where c.usuarioId = :usuarioId and c.eliminado = false and c.estado.id = :estadoId " +
+    @Query("select c from Cita c where c.usuarioId = :usuarioId and c.estado.id = :estadoId and " +
+           "(c.eliminado = false or c.estado.nombre = 'Cancelada') " +
            "order by c.fecha asc, c.hora asc")
     Page<Cita> listarPorEstado(@Param("usuarioId") Long usuarioId,
                                @Param("estadoId") Long estadoId,

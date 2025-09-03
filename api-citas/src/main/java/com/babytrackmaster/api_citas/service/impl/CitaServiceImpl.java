@@ -61,6 +61,10 @@ public class CitaServiceImpl implements CitaService {
         if (c == null) {
             throw new NotFoundException("Cita no encontrada");
         }
+        // Al eliminar una cita se marca como cancelada y se mantiene el registro
+        EstadoCita cancelada = estadoRepo.findByNombreIgnoreCase("Cancelada")
+                .orElseThrow(() -> new NotFoundException("Estado de cita 'Cancelada' no encontrado"));
+        c.setEstado(cancelada);
         c.setEliminado(Boolean.TRUE);
         repo.save(c);
     }
