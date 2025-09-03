@@ -56,7 +56,7 @@ export default function Citas() {
 
   const fetchCitas = () => {
     if (!bebeId || !usuarioId) return;
-    listarPorBebe(usuarioId, bebeId)
+    listar(bebeId)
       .then((response) =>
         setCitas(
           response.data.map((c) => ({
@@ -66,8 +66,6 @@ export default function Citas() {
           }))
         )
       )
-    listar()
-      .then((response) => setCitas(response.data))
       .catch((error) => console.error('Error fetching citas:', error));
   };
 
@@ -121,8 +119,8 @@ export default function Citas() {
   const handleFormSubmit = (data) => {
     if (!bebeId || !usuarioId) return;
     const request = selectedCita
-      ? actualizarCita(selectedCita.id, data)
-      : crearCita(data);
+      ? actualizarCita(selectedCita.id, { ...data, bebeId })
+      : crearCita({ ...data, bebeId });
 
     request
       .then(() => {

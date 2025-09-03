@@ -4,8 +4,8 @@ import { API_CITAS_URL } from '../config';
 const API_CITAS_ENDPOINT = `${API_CITAS_URL}/api/v1/citas`;
 const API_TIPOS_CITA_ENDPOINT = `${API_CITAS_URL}/api/v1/tipos-cita`;
 
-export const listar = () => {
-  return axios.get(`${API_CITAS_ENDPOINT}`);
+export const listar = (bebeId) => {
+  return axios.get(`${API_CITAS_ENDPOINT}/bebe/${bebeId}`);
 };
 
 export const crearCita = (data) => {
