@@ -9,7 +9,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import dayjs from 'dayjs';
 import { listarTipos } from '../../services/citasService';
 
 export default function CitaForm({ open, onClose, onSubmit, initialData }) {
@@ -25,8 +24,8 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
   useEffect(() => {
     if (initialData) {
       setFormData({
-        fecha: initialData.fecha ? dayjs(initialData.fecha).format('YYYY-MM-DD') : '',
-        hora: initialData.fecha ? dayjs(initialData.fecha).format('HH:mm') : '',
+        fecha: initialData.fecha || '',
+        hora: initialData.hora || '',
         motivo: initialData.motivo || '',
         tipoId: initialData.tipoId || '',
         centroMedico: initialData.centroMedico || '',
@@ -49,8 +48,7 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
 
   const handleSubmit = () => {
     const { fecha, hora, motivo, tipoId, centroMedico } = formData;
-    const fechaHora = fecha && hora ? `${fecha}T${hora}` : fecha;
-    onSubmit({ fecha: fechaHora, motivo, tipoId, centroMedico });
+    onSubmit({ fecha, hora, motivo, tipoId, centroMedico });
   };
 
   return (

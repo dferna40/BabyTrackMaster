@@ -57,7 +57,15 @@ export default function Citas() {
   const fetchCitas = () => {
     if (!bebeId || !usuarioId) return;
     listarPorBebe(usuarioId, bebeId)
-      .then((response) => setCitas(response.data))
+      .then((response) =>
+        setCitas(
+          response.data.map((c) => ({
+            ...c,
+            tipoId: c.tipo?.id ?? c.tipoId,
+            tipoNombre: c.tipo?.nombre ?? c.tipoNombre,
+          }))
+        )
+      )
       .catch((error) => console.error('Error fetching citas:', error));
   };
 
@@ -246,7 +254,7 @@ export default function Citas() {
                     {dayjs(cita.fecha).locale('es').format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
-                    {dayjs(cita.fecha).locale('es').format('HH:mm')}
+                    {dayjs(`${cita.fecha}T${cita.hora}`).locale('es').format('HH:mm')}
                   </TableCell>
                   <TableCell>{cita.motivo}</TableCell>
                   <TableCell>
@@ -304,7 +312,7 @@ export default function Citas() {
                     {dayjs(cita.fecha).locale('es').format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
-                    {dayjs(cita.fecha).locale('es').format('HH:mm')}
+                    {dayjs(`${cita.fecha}T${cita.hora}`).locale('es').format('HH:mm')}
                   </TableCell>
                   <TableCell>{cita.motivo}</TableCell>
                   <TableCell>
