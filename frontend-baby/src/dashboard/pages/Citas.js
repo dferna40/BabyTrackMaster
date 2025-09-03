@@ -19,6 +19,10 @@ import Chip from '@mui/material/Chip';
 import Badge from '@mui/material/Badge';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
@@ -61,6 +65,9 @@ export default function Citas() {
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [menuCitaId, setMenuCitaId] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [openRecordatorioDialog, setOpenRecordatorioDialog] = useState(false);
+  const [recordatorioId, setRecordatorioId] = useState(null);
+  const [minutosAntelacion, setMinutosAntelacion] = useState(30);
 
   const { activeBaby } = React.useContext(BabyContext);
   const { user } = React.useContext(AuthContext);
@@ -202,9 +209,21 @@ export default function Citas() {
 
   const handleRecordatorio = (id) => {
     if (!usuarioId) return;
-    enviarRecordatorio(id).catch((error) =>
-      console.error('Error sending reminder:', error)
-    );
+    setRecordatorioId(id);
+    setMinutosAntelacion(30);
+    setOpenRecordatorioDialog(true);
+  };
+
+  const handleRecordatorioClose = () => {
+    setOpenRecordatorioDialog(false);
+    setRecordatorioId(null);
+  };
+
+  const handleRecordatorioConfirm = () => {
+    if (!recordatorioId) return;
+    enviarRecordatorio(recordatorioId, minutosAntelacion)
+      .catch((error) => console.error('Error sending reminder:', error))
+      .finally(() => handleRecordatorioClose());
   };
 
   const handleChangePage = (event, newPage) => {
@@ -473,6 +492,26 @@ export default function Citas() {
           Cancelar
         </MenuItem>
       </Menu>
+
+      <Dialog open={openRecordatorioDialog} onClose={handleRecordatorioClose}>
+        <DialogTitle>Enviar recordatorio</DialogTitle>
+        <DialogContent>
+          <TextField
+            type="number"
+            label="Minutos de antelación"
+            value={minutosAntelacion}
+            onChange={(e) => setMinutosAntelacion(Number(e.target.value))}
+            fullWidth
+            sx={{ mt: 1 }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleRecordatorioClose}>Cancelar</Button>
+          <Button onClick={handleRecordatorioConfirm} variant="contained">
+            Enviar
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <CitaForm
         open={openForm}

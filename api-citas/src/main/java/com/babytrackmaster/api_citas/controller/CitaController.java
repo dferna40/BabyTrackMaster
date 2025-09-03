@@ -94,6 +94,15 @@ public class CitaController {
                 return ResponseEntity.ok(service.listarPorTipo(usuarioId, tipoId, page, size));
         }
 
+        @Operation(summary = "Enviar recordatorio de cita")
+        @PostMapping("/{id}/recordatorio")
+        public ResponseEntity<Void> enviarRecordatorio(@PathVariable Long id,
+                        @RequestBody RecordatorioDTO dto) {
+                Long usuarioId = jwtService.resolveUserId();
+                service.enviarRecordatorio(id, usuarioId, dto.getMinutosAntelacion());
+                return ResponseEntity.accepted().build();
+        }
+
         @Operation(summary = "Listar por médico")
         @GetMapping("/medico")
         public ResponseEntity<Page<CitaResponseDTO>> listarPorMedico(@RequestParam String nombre,
