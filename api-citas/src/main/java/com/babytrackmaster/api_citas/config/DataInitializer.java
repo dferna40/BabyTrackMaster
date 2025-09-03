@@ -31,7 +31,7 @@ public class DataInitializer {
                     createTipoCita("Consulta niño sano"),
                     createTipoCita("Urgencia"),
                     createTipoCita("Odontopediatría"),
-                    createTipoCita("Especialista")
+                    createTipoCita("Especialista"),
                     createTipoCita("Seguimiento nutricional")
                 ));
             }
