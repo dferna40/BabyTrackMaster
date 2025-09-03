@@ -59,6 +59,8 @@ export default function Cuidados() {
     [cuidados, tab, tipos]
   );
 
+  const esPecho = tipos[tab]?.nombre === 'Pecho';
+
   useEffect(() => {
   const stats = Array(7).fill(0);
   filteredCuidados.forEach(cuidado => {
@@ -142,11 +144,11 @@ export default function Cuidados() {
   };
 
   const handleExportCsv = () => {
-    const headers = ['Hora', 'Tipo', 'Cantidad', 'Nota'];
+    const headers = ['Hora', 'Tipo', esPecho ? 'Pecho' : 'Cantidad', 'Nota'];
     const rows = filteredCuidados.map((cuidado) => [
       dayjs(cuidado.inicio).locale('es').format('DD/MM/YYYY HH:mm'),
       cuidado.tipoNombre,
-      cuidado.cantidadMl ?? '-',
+      esPecho ? cuidado.pecho ?? '-' : cuidado.cantidadMl ?? '-',
       cuidado.observaciones ?? '',
     ]);
     const csvContent = [headers, ...rows].map((e) => e.join(',')).join('\n');
@@ -165,11 +167,11 @@ export default function Cuidados() {
 
   const handleExportPdf = () => {
     const doc = new jsPDF();
-    const tableColumn = ['Hora', 'Tipo', 'Cantidad', 'Nota'];
+    const tableColumn = ['Hora', 'Tipo', esPecho ? 'Pecho' : 'Cantidad', 'Nota'];
     const tableRows = filteredCuidados.map((cuidado) => [
       dayjs(cuidado.inicio).locale('es').format('DD/MM/YYYY HH:mm'),
       cuidado.tipoNombre,
-      cuidado.cantidadMl ?? '-',
+      esPecho ? cuidado.pecho ?? '-' : cuidado.cantidadMl ?? '-',
       cuidado.observaciones ?? '',
     ]);
     autoTable(doc, {
@@ -213,7 +215,7 @@ export default function Cuidados() {
             <TableRow>
               <TableCell>Hora</TableCell>
               <TableCell>Tipo</TableCell>
-              <TableCell>Cantidad</TableCell>
+              <TableCell>{esPecho ? 'Pecho' : 'Cantidad'}</TableCell>
               <TableCell>Nota</TableCell>
               <TableCell align="center">Acciones</TableCell>
             </TableRow>
@@ -227,7 +229,7 @@ export default function Cuidados() {
                   {dayjs(cuidado.inicio).locale('es').format('DD/MM/YYYY HH:mm')}
                 </TableCell>
                 <TableCell>{cuidado.tipoNombre}</TableCell>
-                <TableCell>{cuidado.cantidadMl ?? '-'}</TableCell>
+                <TableCell>{esPecho ? cuidado.pecho ?? '-' : cuidado.cantidadMl ?? '-'}</TableCell>
                 <TableCell>{cuidado.observaciones}</TableCell>
                 <TableCell align="center">
                   <IconButton
