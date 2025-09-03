@@ -17,6 +17,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import Chip from '@mui/material/Chip';
 import Badge from '@mui/material/Badge';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
@@ -58,6 +60,7 @@ export default function Citas() {
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [menuCitaId, setMenuCitaId] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const { activeBaby } = React.useContext(BabyContext);
   const { user } = React.useContext(AuthContext);
@@ -67,18 +70,27 @@ export default function Citas() {
   const fetchCitas = () => {
     if (!bebeId || !usuarioId) return;
     listar(bebeId)
-      .then((response) =>
-        setCitas(
-          response.data.map((c) => ({
-            ...c,
-            tipoId: c.tipo?.id ?? c.tipoId,
-            tipoNombre: c.tipo?.nombre ?? c.tipoNombre,
-            estadoId: c.estado?.id ?? c.estadoId,
-            estadoNombre: c.estado?.nombre ?? c.estadoNombre,
-          }))
-        )
-      )
-      .catch((error) => console.error('Error fetching citas:', error));
+      .then((response) => {
+        if (Array.isArray(response.data)) {
+          setCitas(
+            response.data.map((c) => ({
+              ...c,
+              tipoId: c.tipo?.id ?? c.tipoId,
+              tipoNombre: c.tipo?.nombre ?? c.tipoNombre,
+              estadoId: c.estado?.id ?? c.estadoId,
+              estadoNombre: c.estado?.nombre ?? c.estadoNombre,
+            }))
+          );
+        } else {
+          console.error('Invalid citas response:', response.data);
+          setCitas([]);
+          setOpenSnackbar(true);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching citas:', error);
+        setOpenSnackbar(true);
+      });
   };
 
   useEffect(() => {
@@ -138,6 +150,11 @@ export default function Citas() {
   const handleCloseEstadoMenu = () => {
     setMenuAnchor(null);
     setMenuCitaId(null);
+  };
+
+  const handleCloseSnackbar = (_, reason) => {
+    if (reason === 'clickaway') return;
+    setOpenSnackbar(false);
   };
 
   const handleEstadoChange = (accion) => {
@@ -460,6 +477,19 @@ export default function Citas() {
         onSubmit={handleFormSubmit}
         initialData={selectedCita}
       />
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="error"
+          sx={{ width: '100%' }}
+        >
+          Error al cargar citas
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
