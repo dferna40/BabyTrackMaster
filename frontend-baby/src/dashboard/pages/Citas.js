@@ -71,9 +71,12 @@ export default function Citas() {
     if (!bebeId || !usuarioId) return;
     listar(bebeId)
       .then((response) => {
-        if (Array.isArray(response.data)) {
+        const items = Array.isArray(response.data)
+          ? response.data
+          : response.data?.content;
+        if (Array.isArray(items)) {
           setCitas(
-            response.data.map((c) => ({
+            items.map((c) => ({
               ...c,
               tipoId: c.tipo?.id ?? c.tipoId,
               tipoNombre: c.tipo?.nombre ?? c.tipoNombre,
