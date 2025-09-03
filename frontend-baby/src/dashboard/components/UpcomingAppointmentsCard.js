@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 import { BabyContext } from '../../context/BabyContext';
-import { listar } from '../../services/citasService';
+import { listarProximas } from '../../services/citasService';
 
 export default function UpcomingAppointmentsCard() {
   const [appointments, setAppointments] = useState([]);
@@ -18,27 +18,9 @@ export default function UpcomingAppointmentsCard() {
 
   useEffect(() => {
     if (!activeBaby?.id) return;
-    listar(activeBaby.id, 0, 100)
-      .then((response) => {
-        const items = Array.isArray(response.data)
-          ? response.data
-          : response.data?.content;
-        if (Array.isArray(items)) {
-          const upcoming = items
-            .map((c) => ({
-              ...c,
-              tipoNombre: c.tipo?.nombre ?? c.tipoNombre,
-              estadoNombre: c.estado?.nombre ?? c.estadoNombre,
-            }))
-            .filter((c) => dayjs(`${c.fecha}T${c.hora}`) >= dayjs())
-            .sort((a, b) =>
-              dayjs(`${a.fecha}T${a.hora}`).diff(dayjs(`${b.fecha}T${b.hora}`))
-            )
-            .slice(0, 10);
-          setAppointments(upcoming);
-        } else {
-          setAppointments([]);
-        }
+    listarProximas(activeBaby.id)
+      .then((data) => {
+        setAppointments(data);
       })
       .catch((err) => {
         console.error('Error fetching citas:', err);

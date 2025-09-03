@@ -1,4 +1,5 @@
 import axios from 'axios';
+import dayjs from 'dayjs';
 import { API_CITAS_URL } from '../config';
 
 const API_CITAS_ENDPOINT = `${API_CITAS_URL}/api/v1/citas`;
@@ -10,6 +11,27 @@ export const listar = (bebeId, page, size) => {
   if (page !== undefined) params.page = page;
   if (size !== undefined) params.size = size;
   return axios.get(`${API_CITAS_ENDPOINT}/bebe/${bebeId}`, { params });
+};
+
+export const listarProximas = (bebeId, limite = 10) => {
+  return listar(bebeId, 0, 100).then((response) => {
+    const items = Array.isArray(response.data)
+      ? response.data
+      : response.data?.content;
+    if (!Array.isArray(items)) return [];
+    const now = dayjs();
+    return items
+      .map((c) => ({
+        ...c,
+        tipoNombre: c.tipo?.nombre ?? c.tipoNombre,
+        estadoNombre: c.estado?.nombre ?? c.estadoNombre,
+      }))
+      .filter((c) => dayjs(`${c.fecha}T${c.hora}`) >= now)
+      .sort((a, b) =>
+        dayjs(`${a.fecha}T${a.hora}`).diff(dayjs(`${b.fecha}T${b.hora}`))
+      )
+      .slice(0, limite);
+  });
 };
 
 export const crearCita = (data) => {
