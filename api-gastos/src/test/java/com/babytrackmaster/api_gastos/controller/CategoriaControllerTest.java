@@ -46,6 +46,16 @@ class CategoriaControllerTest {
     }
 
     @Test
+    void crearSinUsuarioRetorna401() throws Exception {
+        Mockito.when(jwtService.resolveUserId()).thenReturn(null);
+
+        mockMvc.perform(post("/api/v1/categorias")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"nombre\":\"Ropa\"}"))
+            .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     void actualizarRetornaOk() throws Exception {
         CategoriaResponse resp = new CategoriaResponse();
         resp.setId(2L);
