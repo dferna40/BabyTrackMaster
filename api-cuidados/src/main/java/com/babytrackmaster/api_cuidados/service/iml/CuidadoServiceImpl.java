@@ -124,7 +124,9 @@ public class CuidadoServiceImpl implements CuidadoService {
 
         double minutosSueno = 0d;
         for (Cuidado c : suenos) {
-            minutosSueno += (c.getCantidadMl() != null) ? c.getCantidadMl() : 0;
+
+            horasSueno += (c.getCantidadMl() != null) ? c.getCantidadMl() : 0;
+
         }
 
         QuickStatsResponse resp = new QuickStatsResponse();

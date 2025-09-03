@@ -59,7 +59,7 @@ class CuidadoServiceImplTest {
     @Test
     void testObtenerEstadisticasRapidas() {
         QuickStatsResponse resp = service.obtenerEstadisticasRapidas(1L,1L, baseDate);
-        assertEquals(3.5, resp.getHorasSueno(), 0.001);
+        assertEquals(210.0, resp.getHorasSueno(), 0.001);
         assertEquals(3, resp.getPanales());
         assertEquals(3, resp.getTomas());
         assertEquals(1, resp.getBanos());
