@@ -26,6 +26,8 @@ public interface RutinaService {
 
     RutinaDTO desactivar(Long usuarioId, Long bebeId, Long id);
 
+    RutinaDTO duplicar(Long usuarioId, Long rutinaId);
+
     RutinaEjecucionDTO registrarEjecucion(Long usuarioId, Long bebeId, Long rutinaId, RutinaEjecucionCreateDTO dto);
 
     java.util.List<RutinaEjecucionDTO> historial(Long usuarioId, Long bebeId, Long rutinaId, LocalDate desde, LocalDate hasta);

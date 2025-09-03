@@ -85,6 +85,24 @@ public class RutinaServiceImpl implements RutinaService {
         return RutinaMapper.toDTO(r);
     }
 
+    public RutinaDTO duplicar(Long usuarioId, Long rutinaId) {
+        Rutina r = rutinaRepository.findById(rutinaId).orElse(null);
+        if (r == null || Boolean.TRUE.equals(r.getEliminado()) || !r.getUsuarioId().equals(usuarioId)) {
+            throw new NotFoundException("Rutina no encontrada");
+        }
+        Rutina copia = Rutina.builder()
+                .usuarioId(r.getUsuarioId())
+                .bebeId(r.getBebeId())
+                .nombre(r.getNombre())
+                .descripcion(r.getDescripcion())
+                .horaProgramada(r.getHoraProgramada())
+                .diasSemana(r.getDiasSemana())
+                .activa(r.getActiva())
+                .build();
+        copia = rutinaRepository.save(copia);
+        return RutinaMapper.toDTO(copia);
+    }
+
     public RutinaEjecucionDTO registrarEjecucion(Long usuarioId, Long bebeId, Long rutinaId, RutinaEjecucionCreateDTO dto) {
         Rutina r = rutinaRepository.findOneByIdAndUsuarioAndBebe(rutinaId, usuarioId, bebeId);
         if (r == null || Boolean.TRUE.equals(r.getEliminado())) throw new NotFoundException("Rutina no encontrada");

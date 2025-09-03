@@ -32,9 +32,9 @@ export const eliminarRutina = (usuarioId, bebeId, id) => {
   );
 };
 
-export const duplicarRutina = (usuarioId, bebeId, id) => {
+export const duplicarRutina = (usuarioId, id) => {
   return axios.post(
-    `${API_RUTINAS_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/${id}/duplicar`
+    `${API_RUTINAS_ENDPOINT}/usuario/${usuarioId}/${id}/duplicar`
   );
 };
 
