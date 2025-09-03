@@ -5,8 +5,11 @@ const API_CITAS_ENDPOINT = `${API_CITAS_URL}/api/v1/citas`;
 const API_TIPOS_CITA_ENDPOINT = `${API_CITAS_URL}/api/v1/tipos-cita`;
 const API_ESTADOS_CITA_ENDPOINT = `${API_CITAS_URL}/api/v1/estados-cita`;
 
-export const listar = (bebeId) => {
-  return axios.get(`${API_CITAS_ENDPOINT}/bebe/${bebeId}`);
+export const listar = (bebeId, page, size) => {
+  const params = {};
+  if (page !== undefined) params.page = page;
+  if (size !== undefined) params.size = size;
+  return axios.get(`${API_CITAS_ENDPOINT}/bebe/${bebeId}`, { params });
 };
 
 export const crearCita = (data) => {
