@@ -23,6 +23,11 @@ export const listarRecientes = (usuarioId, bebeId, limit = 5) => {
   );
 };
 
+export const obtenerStatsRapidas = (usuarioId, bebeId) =>
+  axios.get(
+    `${API_CUIDADOS_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/stats`
+  );
+
 export const crearCuidado = (usuarioId, data) => {
   return axios.post(`${API_CUIDADOS_ENDPOINT}/usuario/${usuarioId}`, data);
 };
