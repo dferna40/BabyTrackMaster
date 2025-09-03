@@ -14,11 +14,13 @@ import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import Chip from '@mui/material/Chip';
 import Badge from '@mui/material/Badge';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 import { LocalizationProvider, DateCalendar, PickersDay } from '@mui/x-date-pickers';
@@ -27,7 +29,10 @@ import {
   listar,
   crearCita,
   actualizarCita,
-  eliminarCita,
+  confirmarCita,
+  cancelarCita,
+  completarCita,
+  marcarNoAsistida,
   listarTipos,
   enviarRecordatorio,
 } from '../../services/citasService';
@@ -48,6 +53,8 @@ export default function Citas() {
   const [tipoFilter, setTipoFilter] = useState('');
   const [view, setView] = useState('month');
   const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [menuAnchor, setMenuAnchor] = useState(null);
+  const [menuCitaId, setMenuCitaId] = useState(null);
 
   const { activeBaby } = React.useContext(BabyContext);
   const { user } = React.useContext(AuthContext);
@@ -63,6 +70,8 @@ export default function Citas() {
             ...c,
             tipoId: c.tipo?.id ?? c.tipoId,
             tipoNombre: c.tipo?.nombre ?? c.tipoNombre,
+            estadoId: c.estado?.id ?? c.estadoId,
+            estadoNombre: c.estado?.nombre ?? c.estadoNombre,
           }))
         )
       )
@@ -97,6 +106,45 @@ export default function Citas() {
     [filteredCitas, selectedDate]
   );
 
+  const getEstadoColor = (estado) => {
+    switch (estado?.toLowerCase()) {
+      case 'confirmada':
+        return 'success';
+      case 'completada':
+        return 'primary';
+      case 'cancelada':
+        return 'default';
+      case 'no asistida':
+        return 'warning';
+      default:
+        return 'default';
+    }
+  };
+
+  const handleOpenEstadoMenu = (event, id) => {
+    setMenuAnchor(event.currentTarget);
+    setMenuCitaId(id);
+  };
+
+  const handleCloseEstadoMenu = () => {
+    setMenuAnchor(null);
+    setMenuCitaId(null);
+  };
+
+  const handleEstadoChange = (accion) => {
+    if (!menuCitaId) return;
+    const actions = {
+      confirmar: confirmarCita,
+      cancelar: cancelarCita,
+      completar: completarCita,
+      noAsistida: marcarNoAsistida,
+    };
+    actions[accion](menuCitaId)
+      .then(() => fetchCitas())
+      .catch((error) => console.error('Error changing estado:', error))
+      .finally(() => handleCloseEstadoMenu());
+  };
+
   const handleAdd = () => {
     setSelectedCita(null);
     setOpenForm(true);
@@ -107,14 +155,6 @@ export default function Citas() {
     setOpenForm(true);
   };
 
-  const handleDelete = (id) => {
-    if (!bebeId || !usuarioId) return;
-    if (window.confirm('¿Eliminar cita?')) {
-      eliminarCita(id)
-        .then(() => fetchCitas())
-        .catch((error) => console.error('Error deleting cita:', error));
-    }
-  };
 
   const handleFormSubmit = (data) => {
     if (!bebeId || !usuarioId) return;
@@ -243,6 +283,7 @@ export default function Citas() {
                 <TableCell>Hora</TableCell>
                 <TableCell>Motivo</TableCell>
                 <TableCell>Tipo</TableCell>
+                <TableCell>Estado</TableCell>
                 <TableCell align="center">Acciones</TableCell>
               </TableRow>
             </TableHead>
@@ -259,6 +300,13 @@ export default function Citas() {
                   <TableCell>
                     {cita.tipoNombre ||
                       tipos.find((t) => Number(t.id) === Number(cita.tipoId))?.nombre}
+                  </TableCell>
+                  <TableCell>
+                    <Chip
+                      label={cita.estadoNombre}
+                      color={getEstadoColor(cita.estadoNombre)}
+                      size="small"
+                    />
                   </TableCell>
                   <TableCell align="center">
                     <IconButton
@@ -277,10 +325,10 @@ export default function Citas() {
                     </IconButton>
                     <IconButton
                       size="small"
-                      aria-label="delete"
-                      onClick={() => handleDelete(cita.id)}
+                      aria-label="estado"
+                      onClick={(e) => handleOpenEstadoMenu(e, cita.id)}
                     >
-                      <DeleteIcon fontSize="small" />
+                      <MoreVertIcon fontSize="small" />
                     </IconButton>
                   </TableCell>
                 </TableRow>
@@ -298,6 +346,7 @@ export default function Citas() {
               <TableCell>Hora</TableCell>
               <TableCell>Motivo</TableCell>
               <TableCell>Tipo</TableCell>
+              <TableCell>Estado</TableCell>
               <TableCell>Centro médico</TableCell>
               <TableCell align="center">Acciones</TableCell>
             </TableRow>
@@ -318,6 +367,13 @@ export default function Citas() {
                     {cita.tipoNombre ||
                       tipos.find((t) => Number(t.id) === Number(cita.tipoId))?.nombre}
                   </TableCell>
+                  <TableCell>
+                    <Chip
+                      label={cita.estadoNombre}
+                      color={getEstadoColor(cita.estadoNombre)}
+                      size="small"
+                    />
+                  </TableCell>
                   <TableCell>{cita.centroMedico || '-'}</TableCell>
                   <TableCell align="center">
                     <IconButton
@@ -336,17 +392,17 @@ export default function Citas() {
                     </IconButton>
                     <IconButton
                       size="small"
-                      aria-label="delete"
-                      onClick={() => handleDelete(cita.id)}
+                      aria-label="estado"
+                      onClick={(e) => handleOpenEstadoMenu(e, cita.id)}
                     >
-                      <DeleteIcon fontSize="small" />
+                      <MoreVertIcon fontSize="small" />
                     </IconButton>
                   </TableCell>
                 </TableRow>
               ))}
           </TableBody>
         </Table>
-        <TablePagination
+      <TablePagination
           component="div"
           count={filteredCitas.length}
           page={page}
@@ -355,6 +411,24 @@ export default function Citas() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </TableContainer>
+      <Menu
+        anchorEl={menuAnchor}
+        open={Boolean(menuAnchor)}
+        onClose={handleCloseEstadoMenu}
+      >
+        <MenuItem onClick={() => handleEstadoChange('confirmar')}>
+          Confirmar
+        </MenuItem>
+        <MenuItem onClick={() => handleEstadoChange('completar')}>
+          Completar
+        </MenuItem>
+        <MenuItem onClick={() => handleEstadoChange('noAsistida')}>
+          No asistida
+        </MenuItem>
+        <MenuItem onClick={() => handleEstadoChange('cancelar')}>
+          Cancelar
+        </MenuItem>
+      </Menu>
 
       <CitaForm
         open={openForm}

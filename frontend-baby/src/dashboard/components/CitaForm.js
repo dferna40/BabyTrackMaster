@@ -9,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { listarTipos } from '../../services/citasService';
+import { listarTipos, listarEstados } from '../../services/citasService';
 
 export default function CitaForm({ open, onClose, onSubmit, initialData }) {
   const [formData, setFormData] = useState({
@@ -18,8 +18,10 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
     motivo: '',
     tipoId: '',
     centroMedico: '',
+    estadoId: '',
   });
   const [tipos, setTipos] = useState([]);
+  const [estados, setEstados] = useState([]);
 
   useEffect(() => {
     if (initialData) {
@@ -29,9 +31,17 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
         motivo: initialData.motivo || '',
         tipoId: initialData.tipoId || '',
         centroMedico: initialData.centroMedico || '',
+        estadoId: initialData.estadoId || '',
       });
     } else {
-      setFormData({ fecha: '', hora: '', motivo: '', tipoId: '', centroMedico: '' });
+      setFormData({
+        fecha: '',
+        hora: '',
+        motivo: '',
+        tipoId: '',
+        centroMedico: '',
+        estadoId: '',
+      });
     }
   }, [initialData, open]);
 
@@ -39,7 +49,12 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
     listarTipos()
       .then((response) => setTipos(response.data))
       .catch((err) => console.error('Error fetching tipos cita:', err));
-  }, []);
+    if (initialData && initialData.id) {
+      listarEstados()
+        .then((response) => setEstados(response.data))
+        .catch((err) => console.error('Error fetching estados cita:', err));
+    }
+  }, [initialData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,8 +62,12 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
   };
 
   const handleSubmit = () => {
-    const { fecha, hora, motivo, tipoId, centroMedico } = formData;
-    onSubmit({ fecha, hora, motivo, tipoId, centroMedico });
+    const { fecha, hora, motivo, tipoId, centroMedico, estadoId } = formData;
+    const data = { fecha, hora, motivo, tipoId, centroMedico };
+    if (initialData && initialData.id) {
+      data.estadoId = estadoId;
+    }
+    onSubmit(data);
   };
 
   return (
@@ -82,6 +101,23 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
             <FormLabel sx={{ mb: 1 }}>Centro médico (opcional)</FormLabel>
             <TextField name="centroMedico" value={formData.centroMedico} onChange={handleChange} />
           </FormControl>
+          {initialData && initialData.id && (
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormLabel sx={{ mb: 1 }}>Estado</FormLabel>
+              <TextField
+                select
+                name="estadoId"
+                value={formData.estadoId}
+                onChange={handleChange}
+              >
+                {estados.map((e) => (
+                  <MenuItem key={e.id} value={e.id}>
+                    {e.nombre}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </FormControl>
+          )}
         </Stack>
       </DialogContent>
       <DialogActions>
