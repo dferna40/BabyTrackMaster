@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.babytrackmaster.api_cuidados.dto.CuidadoRequest;
 import com.babytrackmaster.api_cuidados.dto.CuidadoResponse;
+import com.babytrackmaster.api_cuidados.dto.QuickStatsResponse;
 import com.babytrackmaster.api_cuidados.service.CuidadoService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -102,13 +103,23 @@ public class CuidadoController {
         }
 
 	@Operation(summary = "Listar cuidados por rango de fechas")
-        @GetMapping("/usuario/{usuarioId}/bebe/{bebeId}/rango")
-        public ResponseEntity<List<CuidadoResponse>> listarPorRango(
-                        @PathVariable Long usuarioId,
-                        @PathVariable Long bebeId,
-                        @RequestParam("desde") Long desdeMillis,
-                        @RequestParam("hasta") Long hastaMillis) {
-                return ResponseEntity.ok(
-                                service.listarPorRango(usuarioId, bebeId, new Date(desdeMillis), new Date(hastaMillis)));
-        }
-}
+         @GetMapping("/usuario/{usuarioId}/bebe/{bebeId}/rango")
+         public ResponseEntity<List<CuidadoResponse>> listarPorRango(
+                         @PathVariable Long usuarioId,
+                         @PathVariable Long bebeId,
+                         @RequestParam("desde") Long desdeMillis,
+                         @RequestParam("hasta") Long hastaMillis) {
+                 return ResponseEntity.ok(
+                                 service.listarPorRango(usuarioId, bebeId, new Date(desdeMillis), new Date(hastaMillis)));
+         }
+
+         @Operation(summary = "Obtener estadísticas rápidas del día")
+         @GetMapping("/usuario/{usuarioId}/bebe/{bebeId}/stats")
+         public ResponseEntity<QuickStatsResponse> obtenerStats(
+                         @PathVariable Long usuarioId,
+                         @PathVariable Long bebeId,
+                         @RequestParam(value = "fecha", required = false) Long fechaMillis) {
+                 Date fecha = fechaMillis != null ? new Date(fechaMillis) : new Date();
+                 return ResponseEntity.ok(service.obtenerEstadisticasRapidas(usuarioId, bebeId, fecha));
+         }
+  }

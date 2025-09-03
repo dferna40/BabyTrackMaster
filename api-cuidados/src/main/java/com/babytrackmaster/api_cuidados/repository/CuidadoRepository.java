@@ -15,4 +15,6 @@ public interface CuidadoRepository extends JpaRepository<Cuidado, Long> {
     List<Cuidado> findByBebeIdAndUsuarioIdAndEliminadoFalse(Long bebeId, Long usuarioId, Pageable pageable);
     List<Cuidado> findByBebeIdAndTipo_IdAndUsuarioIdAndEliminadoFalseOrderByInicioDesc(Long bebeId, Long tipoId, Long usuarioId);
     List<Cuidado> findByBebeIdAndUsuarioIdAndInicioBetweenAndEliminadoFalseOrderByInicioDesc(Long bebeId, Long usuarioId, Date desde, Date hasta);
+    List<Cuidado> findByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(Long bebeId, Long usuarioId, String tipoNombre, Date desde, Date hasta);
+    long countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(Long bebeId, Long usuarioId, String tipoNombre, Date desde, Date hasta);
 }

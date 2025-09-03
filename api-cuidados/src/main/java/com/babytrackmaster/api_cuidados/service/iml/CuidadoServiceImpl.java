@@ -1,6 +1,7 @@
 package com.babytrackmaster.api_cuidados.service.iml;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.babytrackmaster.api_cuidados.dto.CuidadoRequest;
 import com.babytrackmaster.api_cuidados.dto.CuidadoResponse;
+import com.babytrackmaster.api_cuidados.dto.QuickStatsResponse;
 import com.babytrackmaster.api_cuidados.entity.Cuidado;
 import com.babytrackmaster.api_cuidados.mapper.CuidadoMapper;
 import com.babytrackmaster.api_cuidados.repository.CuidadoRepository;
@@ -98,6 +100,39 @@ public class CuidadoServiceImpl implements CuidadoService {
         for (int i = 0; i < list.size(); i++) {
             resp.add(CuidadoMapper.toResponse(list.get(i)));
         }
+        return resp;
+    }
+
+    @Transactional(readOnly = true)
+    public QuickStatsResponse obtenerEstadisticasRapidas(Long usuarioId, Long bebeId, Date fecha) {
+        Date target = (fecha != null) ? fecha : new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(target);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        Date inicio = cal.getTime();
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        Date fin = cal.getTime();
+
+        List<Cuidado> suenos = repo.findByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Sueño", inicio, fin);
+        long panales = repo.countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Pañal", inicio, fin);
+        long biberones = repo.countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Biberon", inicio, fin);
+        long pechos = repo.countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Pecho", inicio, fin);
+        long banos = repo.countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Baño", inicio, fin);
+
+        double horasSueno = 0d;
+        for (Cuidado c : suenos) {
+            Date finSueno = c.getFin() != null ? c.getFin() : new Date();
+            horasSueno += (finSueno.getTime() - c.getInicio().getTime()) / (1000d * 60d * 60d);
+        }
+
+        QuickStatsResponse resp = new QuickStatsResponse();
+        resp.setHorasSueno(horasSueno);
+        resp.setPanales(panales);
+        resp.setTomas(biberones + pechos);
+        resp.setBanos(banos);
         return resp;
     }
 }
