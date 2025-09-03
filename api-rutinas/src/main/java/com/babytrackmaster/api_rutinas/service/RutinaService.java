@@ -12,21 +12,21 @@ import com.babytrackmaster.api_rutinas.dto.RutinaEjecucionDTO;
 
 public interface RutinaService {
 
-    RutinaDTO crear(Long usuarioId, RutinaCreateDTO dto);
+    RutinaDTO crear(Long usuarioId, Long bebeId, RutinaCreateDTO dto);
 
-    RutinaDTO obtener(Long usuarioId, Long id);
+    RutinaDTO obtener(Long usuarioId, Long bebeId, Long id);
 
-    RutinaDTO actualizar(Long usuarioId, Long id, RutinaCreateDTO dto);
+    RutinaDTO actualizar(Long usuarioId, Long bebeId, Long id, RutinaCreateDTO dto);
 
-    void eliminar(Long usuarioId, Long id);
+    void eliminar(Long usuarioId, Long bebeId, Long id);
 
-    Page<RutinaDTO> listar(Long usuarioId, Boolean activo, String dia, Pageable pageable);
+    Page<RutinaDTO> listar(Long usuarioId, Long bebeId, Boolean activo, String dia, Pageable pageable);
 
-    RutinaDTO activar(Long usuarioId, Long id);
+    RutinaDTO activar(Long usuarioId, Long bebeId, Long id);
 
-    RutinaDTO desactivar(Long usuarioId, Long id);
+    RutinaDTO desactivar(Long usuarioId, Long bebeId, Long id);
 
-    RutinaEjecucionDTO registrarEjecucion(Long usuarioId, Long rutinaId, RutinaEjecucionCreateDTO dto);
+    RutinaEjecucionDTO registrarEjecucion(Long usuarioId, Long bebeId, Long rutinaId, RutinaEjecucionCreateDTO dto);
 
-    java.util.List<RutinaEjecucionDTO> historial(Long usuarioId, Long rutinaId, LocalDate desde, LocalDate hasta);
+    java.util.List<RutinaEjecucionDTO> historial(Long usuarioId, Long bebeId, Long rutinaId, LocalDate desde, LocalDate hasta);
 }

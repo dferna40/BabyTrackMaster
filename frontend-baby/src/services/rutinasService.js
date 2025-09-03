@@ -12,23 +12,30 @@ export const listarPorBebe = (usuarioId, bebeId, page = 0, size = 10) => {
   );
 };
 
-export const crearRutina = (usuarioId, data) => {
-  return axios.post(`${API_RUTINAS_ENDPOINT}/usuario/${usuarioId}`, data);
-};
-
-export const actualizarRutina = (usuarioId, id, data) => {
-  return axios.put(
-    `${API_RUTINAS_ENDPOINT}/usuario/${usuarioId}/${id}`,
+export const crearRutina = (usuarioId, bebeId, data) => {
+  return axios.post(
+    `${API_RUTINAS_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}`,
     data
   );
 };
 
-export const eliminarRutina = (usuarioId, id) => {
-  return axios.delete(`${API_RUTINAS_ENDPOINT}/usuario/${usuarioId}/${id}`);
+export const actualizarRutina = (usuarioId, bebeId, id, data) => {
+  return axios.put(
+    `${API_RUTINAS_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/${id}`,
+    data
+  );
 };
 
-export const duplicarRutina = (usuarioId, id) => {
-  return axios.post(`${API_RUTINAS_ENDPOINT}/usuario/${usuarioId}/${id}/duplicar`);
+export const eliminarRutina = (usuarioId, bebeId, id) => {
+  return axios.delete(
+    `${API_RUTINAS_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/${id}`
+  );
+};
+
+export const duplicarRutina = (usuarioId, bebeId, id) => {
+  return axios.post(
+    `${API_RUTINAS_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/${id}/duplicar`
+  );
 };
 
 export default {

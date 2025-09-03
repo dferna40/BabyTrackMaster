@@ -19,6 +19,9 @@ public class Rutina {
     @Column(name="usuario_id", nullable=false)
     private Long usuarioId;
 
+    @Column(name="bebe_id")
+    private Long bebeId;
+
     @Column(nullable=false, length=120)
     private String nombre;
 
