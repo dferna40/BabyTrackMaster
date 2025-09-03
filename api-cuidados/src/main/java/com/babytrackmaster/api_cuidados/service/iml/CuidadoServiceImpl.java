@@ -122,14 +122,13 @@ public class CuidadoServiceImpl implements CuidadoService {
         long pechos = repo.countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Pecho", inicio, fin);
         long banos = repo.countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Baño", inicio, fin);
 
-        double horasSueno = 0d;
+        double minutosSueno = 0d;
         for (Cuidado c : suenos) {
-            Date finSueno = c.getFin() != null ? c.getFin() : new Date();
-            horasSueno += (finSueno.getTime() - c.getInicio().getTime()) / (1000d * 60d * 60d);
+            minutosSueno += (c.getCantidadMl() != null) ? c.getCantidadMl() : 0;
         }
 
         QuickStatsResponse resp = new QuickStatsResponse();
-        resp.setHorasSueno(horasSueno);
+        resp.setHorasSueno(minutosSueno / 60d);
         resp.setPanales(panales);
         resp.setTomas(biberones + pechos);
         resp.setBanos(banos);
