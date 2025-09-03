@@ -13,10 +13,10 @@ public class EstadoCitaDtoSerializationTest {
     void serializaResponse() throws Exception {
         EstadoCitaResponseDTO dto = EstadoCitaResponseDTO.builder()
                 .id(1L)
-                .nombre("Pendiente")
+                .nombre("Programada")
                 .build();
         String json = mapper.writeValueAsString(dto);
-        assertThat(json).contains("\"id\":1", "\"nombre\":\"Pendiente\"");
+        assertThat(json).contains("\"id\":1", "\"nombre\":\"Programada\"");
     }
 }
 
