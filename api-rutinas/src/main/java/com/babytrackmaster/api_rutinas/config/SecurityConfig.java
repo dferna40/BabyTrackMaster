@@ -1,7 +1,5 @@
 package com.babytrackmaster.api_rutinas.config;
 
-import java.util.Arrays;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,9 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.babytrackmaster.api_rutinas.security.JwtAuthenticationFilter;
 import com.babytrackmaster.api_rutinas.security.JwtService;
@@ -36,18 +31,6 @@ public class SecurityConfig {
 	@Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter(jwtService);
-    }
-
-	@Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration c = new CorsConfiguration();
-        c.setAllowedOrigins(Arrays.asList("*"));
-        c.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
-        c.setAllowedHeaders(Arrays.asList("*"));
-        c.setAllowCredentials(false);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", c);
-        return source;
     }
 
     @Bean
