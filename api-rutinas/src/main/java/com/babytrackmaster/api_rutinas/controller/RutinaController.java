@@ -143,7 +143,20 @@ public class RutinaController {
                 return ResponseEntity.ok(rutinaService.desactivar(usuarioId, bebeId, id));
         }
 
- // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+    // Duplicar
+    // -------------------------------------------------------------------------
+    @Operation(summary = "Duplicar rutina", description = "Clona una rutina existente")
+    @PostMapping("/usuario/{usuarioId}/{id}/duplicar")
+    public ResponseEntity<RutinaDTO> duplicar(
+            @PathVariable Long usuarioId,
+            @Parameter(description = "ID de la rutina", example = "1")
+            @PathVariable Long id) {
+                RutinaDTO res = rutinaService.duplicar(usuarioId, id);
+                return ResponseEntity.status(HttpStatus.CREATED).body(res);
+        }
+
+    // -------------------------------------------------------------------------
     // Registrar ejecución
     // -------------------------------------------------------------------------
     @Operation(summary = "Registrar ejecución", description = "Registra una ejecución para la rutina indicada.")
