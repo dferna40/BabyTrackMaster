@@ -46,11 +46,31 @@ public class CitaServiceImpl implements CitaService {
             tipo = tipoRepo.findById(dto.getTipoId())
                     .orElseThrow(() -> new NotFoundException("Tipo de cita no encontrado"));
         }
+
+        // Verificar cambios de fecha y hora
+        LocalDate fechaActual = c.getFecha();
+        LocalTime horaActual = c.getHora();
+        boolean fechaCambiada = false;
+        boolean horaCambiada = false;
+
+        if (dto.getFecha() != null) {
+            LocalDate nuevaFecha = LocalDate.parse(dto.getFecha());
+            fechaCambiada = !nuevaFecha.equals(fechaActual);
+        }
+        if (dto.getHora() != null) {
+            LocalTime nuevaHora = LocalTime.parse(dto.getHora());
+            horaCambiada = !nuevaHora.equals(horaActual);
+        }
+
         EstadoCita estado = null;
         if (dto.getEstadoId() != null) {
             estado = estadoRepo.findById(dto.getEstadoId())
                     .orElseThrow(() -> new NotFoundException("Estado de cita no encontrado"));
+        } else if (fechaCambiada || horaCambiada) {
+            estado = estadoRepo.findByNombreIgnoreCase("Reprogramada")
+                    .orElseThrow(() -> new NotFoundException("Estado de cita 'Reprogramada' no encontrado"));
         }
+
         CitaMapper.applyUpdate(c, dto, tipo, estado);
         c = repo.save(c);
         return CitaMapper.toDTO(c);
