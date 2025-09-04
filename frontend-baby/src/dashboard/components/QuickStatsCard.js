@@ -3,6 +3,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
+import { PieChart } from '@mui/x-charts/PieChart';
 import { AuthContext } from '../../context/AuthContext';
 import { BabyContext } from '../../context/BabyContext';
 import { obtenerStatsRapidas } from '../../services/cuidadosService';
@@ -34,12 +35,20 @@ export default function QuickStatsCard() {
     { label: 'Baños', value: `${stats.banos}` },
   ];
 
+  const chartData = [
+    { id: 0, value: stats.horasSueno, label: 'Horas de sueño' },
+    { id: 1, value: stats.panales, label: 'Pañales' },
+    { id: 2, value: stats.tomas, label: 'Tomas' },
+    { id: 3, value: stats.banos, label: 'Baños' },
+  ];
+
   return (
     <Card variant="outlined" sx={{ height: '100%' }}>
       <CardContent>
         <Typography variant="h6" component="h2" gutterBottom>
           Estadísticas rápidas del día
         </Typography>
+        <PieChart series={[{ data: chartData }]} width={200} height={200} />
         <Grid container spacing={2}>
           {statsArray.map((stat, index) => (
             <Grid item xs={6} key={index}>
