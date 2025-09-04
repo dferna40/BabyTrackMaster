@@ -16,6 +16,10 @@ jest.mock('../../services/cuidadosService', () => ({
   obtenerStatsRapidas: jest.fn(),
 }));
 
+if (typeof global.structuredClone !== 'function') {
+  global.structuredClone = (val) => JSON.parse(JSON.stringify(val));
+}
+
 describe('QuickStatsCard', () => {
   afterEach(() => {
     jest.clearAllMocks();
