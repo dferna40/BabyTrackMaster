@@ -1,8 +1,7 @@
 import React, { useRef, useState, useContext } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
+import { useNavigate } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
@@ -13,6 +12,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -23,7 +24,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
-export default function AnadirBebe({ open, onClose }) {
+export default function AnadirBebe() {
+  const navigate = useNavigate();
   const { addBaby } = useContext(BabyContext);
   const fileInputRef = useRef(null);
   const [preview, setPreview] = useState(null);
@@ -53,7 +55,7 @@ export default function AnadirBebe({ open, onClose }) {
       return;
     }
     setOpenSnackbar(false);
-    onClose();
+    navigate(-1);
   };
 
   const gruposSanguineos = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'];
@@ -87,7 +89,8 @@ export default function AnadirBebe({ open, onClose }) {
       reader.onerror = (error) => reject(error);
     });
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const payload = {};
     await Promise.all(
       Object.entries(formData).map(async ([key, value]) => {
@@ -117,172 +120,228 @@ export default function AnadirBebe({ open, onClose }) {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-        <DialogTitle>Añadir bebé</DialogTitle>
-        <DialogContent>
-          <Stack sx={{ mt: 1 }}>
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Nombre del bebé</FormLabel>
-              <TextField
-                required
-                name="nombre"
-                value={formData.nombre}
-                onChange={handleChange}
-                disabled={loading}
-              />
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Fecha de nacimiento</FormLabel>
-              <DatePicker
-                value={formData.fechaNacimiento}
-                onChange={handleDateChange}
-                disabled={loading}
-                slotProps={{ textField: { fullWidth: true, disabled: loading } }}
-              />
-            </FormControl>
-            <FormControl sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Sexo</FormLabel>
-              <RadioGroup
-                row
-                name="sexo"
-                value={formData.sexo}
-                onChange={handleChange}
-              >
-                <FormControlLabel value="M" control={<Radio />} label="M" disabled={loading} />
-                <FormControlLabel value="F" control={<Radio />} label="F" disabled={loading} />
-                <FormControlLabel value="ND" control={<Radio />} label="ND" disabled={loading} />
-              </RadioGroup>
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Peso al nacer (kg)</FormLabel>
-              <TextField
-                type="number"
-                name="pesoNacer"
-                value={formData.pesoNacer}
-                onChange={handleChange}
-                disabled={loading}
-              />
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Talla al nacer (cm)</FormLabel>
-              <TextField
-                type="number"
-                name="tallaNacer"
-                value={formData.tallaNacer}
-                onChange={handleChange}
-                disabled={loading}
-              />
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Perímetro craneal al nacer (cm)</FormLabel>
-              <TextField
-                type="number"
-                name="perimetroCranealNacer"
-                value={formData.perimetroCranealNacer}
-                onChange={handleChange}
-                disabled={loading}
-              />
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Semanas de gestación</FormLabel>
-              <TextField
-                type="number"
-                name="semanasGestacion"
-                value={formData.semanasGestacion}
-                onChange={handleChange}
-                disabled={loading}
-              />
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Grupo sanguíneo</FormLabel>
-              <TextField
-                select
-                name="grupoSanguineo"
-                value={formData.grupoSanguineo}
-                onChange={handleChange}
-                disabled={loading}
-              >
-                {gruposSanguineos.map((grupo) => (
-                  <MenuItem key={grupo} value={grupo}>
-                    {grupo}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Alergias</FormLabel>
-              <TextField
-                select
-                name="alergias"
-                value={formData.alergias}
-                onChange={handleChange}
-                disabled={loading}
-              >
-                {alergiasOptions.map((alergia) => (
-                  <MenuItem key={alergia} value={alergia}>
-                    {alergia}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Medicaciones</FormLabel>
-              <TextField
-                name="medicaciones"
-                value={formData.medicaciones}
-                onChange={handleChange}
-                disabled={loading}
-              />
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Número SS</FormLabel>
-              <TextField
-                name="numeroSs"
-                value={formData.numeroSs}
-                onChange={handleChange}
-                disabled={loading}
-              />
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Pediatra</FormLabel>
-              <TextField
-                name="pediatra"
-                value={formData.pediatra}
-                onChange={handleChange}
-                disabled={loading}
-              />
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Centro médico</FormLabel>
-              <TextField
-                name="centroMedico"
-                value={formData.centroMedico}
-                onChange={handleChange}
-                disabled={loading}
-              />
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Número centro médico</FormLabel>
-              <TextField
-                name="telefonoCentroMedico"
-                value={formData.telefonoCentroMedico}
-                onChange={handleChange}
-                disabled={loading}
-              />
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Observaciones</FormLabel>
+      <Box component="form" onSubmit={handleSubmit} sx={{ flexGrow: 1 }}>
+        <Typography variant="h4" sx={{ mb: 2 }}>
+          Añadir bebé
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={8}>
+            <Box component={Paper} sx={{ p: 2, mb: 2 }}>
+              <Typography variant="h6" gutterBottom>
+                Datos básicos
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    required
+                    label="Nombre del bebé"
+                    name="nombre"
+                    fullWidth
+                    value={formData.nombre}
+                    onChange={handleChange}
+                    disabled={loading}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <DatePicker
+                    label="Fecha de nacimiento"
+                    value={formData.fechaNacimiento}
+                    onChange={handleDateChange}
+                    disabled={loading}
+                    slotProps={{ textField: { fullWidth: true, disabled: loading } }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <FormControl>
+                    <FormLabel>Sexo</FormLabel>
+                    <RadioGroup
+                      row
+                      name="sexo"
+                      value={formData.sexo}
+                      onChange={handleChange}
+                    >
+                      <FormControlLabel value="M" control={<Radio />} label="M" disabled={loading} />
+                      <FormControlLabel value="F" control={<Radio />} label="F" disabled={loading} />
+                      <FormControlLabel value="ND" control={<Radio />} label="ND" disabled={loading} />
+                    </RadioGroup>
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </Box>
+
+            <Box component={Paper} sx={{ p: 2, mb: 2 }}>
+              <Typography variant="h6" gutterBottom>
+                Datos de nacimiento
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Peso al nacer (kg)"
+                    name="pesoNacer"
+                    type="number"
+                    fullWidth
+                    value={formData.pesoNacer}
+                    onChange={handleChange}
+                    disabled={loading}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Talla al nacer (cm)"
+                    name="tallaNacer"
+                    type="number"
+                    fullWidth
+                    value={formData.tallaNacer}
+                    onChange={handleChange}
+                    disabled={loading}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Perímetro craneal al nacer (cm)"
+                    name="perimetroCranealNacer"
+                    type="number"
+                    fullWidth
+                    value={formData.perimetroCranealNacer}
+                    onChange={handleChange}
+                    disabled={loading}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Semanas de gestación"
+                    name="semanasGestacion"
+                    type="number"
+                    fullWidth
+                    value={formData.semanasGestacion}
+                    onChange={handleChange}
+                    disabled={loading}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+
+            <Box component={Paper} sx={{ p: 2, mb: 2 }}>
+              <Typography variant="h6" gutterBottom>
+                Salud
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    select
+                    label="Grupo sanguíneo"
+                    name="grupoSanguineo"
+                    fullWidth
+                    value={formData.grupoSanguineo}
+                    onChange={handleChange}
+                    disabled={loading}
+                  >
+                    {gruposSanguineos.map((grupo) => (
+                      <MenuItem key={grupo} value={grupo}>
+                        {grupo}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    select
+                    label="Alergias"
+                    name="alergias"
+                    fullWidth
+                    value={formData.alergias}
+                    onChange={handleChange}
+                    disabled={loading}
+                  >
+                    {alergiasOptions.map((alergia) => (
+                      <MenuItem key={alergia} value={alergia}>
+                        {alergia}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    label="Medicaciones"
+                    name="medicaciones"
+                    fullWidth
+                    value={formData.medicaciones}
+                    onChange={handleChange}
+                    disabled={loading}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+
+            <Box component={Paper} sx={{ p: 2, mb: 2 }}>
+              <Typography variant="h6" gutterBottom>
+                Datos clínicos
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Número SS"
+                    name="numeroSs"
+                    fullWidth
+                    value={formData.numeroSs}
+                    onChange={handleChange}
+                    disabled={loading}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Pediatra"
+                    name="pediatra"
+                    fullWidth
+                    value={formData.pediatra}
+                    onChange={handleChange}
+                    disabled={loading}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Centro médico"
+                    name="centroMedico"
+                    fullWidth
+                    value={formData.centroMedico}
+                    onChange={handleChange}
+                    disabled={loading}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    label="Número centro médico"
+                    name="telefonoCentroMedico"
+                    fullWidth
+                    value={formData.telefonoCentroMedico}
+                    onChange={handleChange}
+                    disabled={loading}
+                  />
+                </Grid>
+              </Grid>
+            </Box>
+
+            <Box component={Paper} sx={{ p: 2, mb: 2 }}>
+              <Typography variant="h6" gutterBottom>
+                Observaciones
+              </Typography>
               <TextField
                 multiline
                 rows={4}
                 name="observaciones"
+                fullWidth
                 value={formData.observaciones}
                 onChange={handleChange}
                 disabled={loading}
               />
-            </FormControl>
-            <FormControl sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Foto/Identidad</FormLabel>
+            </Box>
+          </Grid>
+
+          <Grid item xs={12} md={4}>
+            <Box component={Paper} sx={{ p: 2, textAlign: 'center' }}>
+              <Typography variant="h6" gutterBottom>
+                Foto/Identidad
+              </Typography>
               <Stack spacing={2} alignItems="center">
                 <Avatar src={preview} sx={{ width: 120, height: 120 }} />
                 <input
@@ -301,31 +360,32 @@ export default function AnadirBebe({ open, onClose }) {
                   Subir foto
                 </Button>
               </Stack>
-            </FormControl>
-          </Stack>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={onClose} disabled={loading}>
+            </Box>
+          </Grid>
+        </Grid>
+
+        <Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ mt: 2 }}>
+          <Button onClick={() => navigate(-1)} disabled={loading}>
             Cancelar
           </Button>
-          <Button onClick={handleSubmit} variant="contained" disabled={loading}>
+          <Button type="submit" variant="contained" disabled={loading}>
             {loading ? <CircularProgress size={24} /> : 'Guardar'}
           </Button>
-        </DialogActions>
-        <Snackbar
-          open={openSnackbar}
-          autoHideDuration={6000}
+        </Stack>
+      </Box>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
           onClose={handleCloseSnackbar}
+          severity="success"
+          sx={{ width: '100%' }}
         >
-          <Alert
-            onClose={handleCloseSnackbar}
-            severity="success"
-            sx={{ width: '100%' }}
-          >
-            Bebé guardado correctamente
-          </Alert>
-        </Snackbar>
-      </Dialog>
+          Bebé guardado correctamente
+        </Alert>
+      </Snackbar>
     </LocalizationProvider>
   );
 }
