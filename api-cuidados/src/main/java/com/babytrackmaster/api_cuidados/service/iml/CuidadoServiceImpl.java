@@ -117,23 +117,42 @@ public class CuidadoServiceImpl implements CuidadoService {
         Date fin = cal.getTime();
 
         List<Cuidado> suenos = repo.findByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Sueño", inicio, fin);
-        long panales = repo.countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Pañal", inicio, fin);
+        List<Cuidado> numBanos = repo.findByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Baño", inicio, fin);
+        List<Cuidado> numPanales = repo.findByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Pañal", inicio, fin);
+        //long panales = repo.countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Pañal", inicio, fin);
         long biberones = repo.countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Biberon", inicio, fin);
         long pechos = repo.countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Pecho", inicio, fin);
-        long banos = repo.countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Baño", inicio, fin);
+        //long banos = repo.countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Baño", inicio, fin);
 
         double minutosSueno = 0d;
+        int horasSueno = 0;
         for (Cuidado c : suenos) {
+        	horasSueno += (c.getCantidadMl() != null) ? c.getCantidadMl() : 0;
+        
 
-            horasSueno += (c.getCantidadMl() != null) ? c.getCantidadMl() : 0;
+        }
+        
+        int numBanosTotal = 0;
+        
+        for (Cuidado c : numBanos) {
+        	numBanosTotal += (c.getCantidadMl() != null) ? c.getCantidadMl() : 0;
+        
+
+        }
+        
+        int numPanalesTotal = 0;
+        
+        for (Cuidado c : numPanales) {
+        	numPanalesTotal += (c.getCantidadMl() != null) ? c.getCantidadMl() : 0;
+        
 
         }
 
         QuickStatsResponse resp = new QuickStatsResponse();
-        resp.setHorasSueno(minutosSueno / 60d);
-        resp.setPanales(panales);
+        resp.setHorasSueno(horasSueno);
+        resp.setPanales(numPanalesTotal);
         resp.setTomas(biberones + pechos);
-        resp.setBanos(banos);
+        resp.setBanos(numBanosTotal);
         return resp;
     }
 }

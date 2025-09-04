@@ -41,7 +41,7 @@ export default function RecentCareCard() {
                 <TableCell>Fecha</TableCell>
                 <TableCell>Hora</TableCell>
                 <TableCell>Tipo</TableCell>
-                <TableCell>Cantidad (ml)</TableCell>
+                <TableCell>Cantidad/Horas</TableCell>
                 <TableCell>Observaciones</TableCell>
               </TableRow>
             </TableHead>
