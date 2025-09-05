@@ -270,6 +270,7 @@ export default function AnadirBebe() {
                       value={formData.grupoSanguineo}
                       onChange={handleChange}
                       disabled={loading}
+                      fullWidth
                     >
                       {gruposSanguineos.map((grupo) => (
                         <MenuItem key={grupo} value={grupo}>
@@ -293,6 +294,7 @@ export default function AnadirBebe() {
                       value={formData.alergias}
                       onChange={handleChange}
                       disabled={loading}
+                      fullWidth
                     >
                       {alergiasOptions.map((alergia) => (
                         <MenuItem key={alergia} value={alergia}>
