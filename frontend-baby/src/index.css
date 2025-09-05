@@ -8,3 +8,11 @@ body {
   background: radial-gradient(circle at 20% 10%, #ff7aa8 0%, #c5456f 35%, #9b2a4f 65%, #641d37 100%);
   background-size: cover;
 }
+
+/* Ensure long field labels are fully visible on the add baby form */
+#add-baby .MuiInputLabel-root {
+  overflow: visible;
+  white-space: normal;
+  text-overflow: initial;
+  width: auto;
+}
