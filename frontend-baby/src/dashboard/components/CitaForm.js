@@ -9,12 +9,20 @@ import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import dayjs from 'dayjs';
+import 'dayjs/locale/es';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { listarTipos, listarEstados } from '../../services/citasService';
+
+dayjs.locale('es');
 
 export default function CitaForm({ open, onClose, onSubmit, initialData }) {
   const [formData, setFormData] = useState({
-    fecha: '',
-    hora: '',
+    fecha: null,
+    hora: null,
     motivo: '',
     tipoId: '',
     centroMedico: '',
@@ -26,8 +34,8 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
   useEffect(() => {
     if (initialData) {
       setFormData({
-        fecha: initialData.fecha || '',
-        hora: initialData.hora || '',
+        fecha: initialData.fecha ? dayjs(initialData.fecha) : null,
+        hora: initialData.hora ? dayjs(`1970-01-01T${initialData.hora}`) : null,
         motivo: initialData.motivo || '',
         tipoId: initialData.tipoId || '',
         centroMedico: initialData.centroMedico || '',
@@ -35,8 +43,8 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
       });
     } else {
       setFormData({
-        fecha: '',
-        hora: '',
+        fecha: null,
+        hora: null,
         motivo: '',
         tipoId: '',
         centroMedico: '',
@@ -56,14 +64,19 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
     }
   }, [initialData]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = (name, value) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = () => {
     const { fecha, hora, motivo, tipoId, centroMedico, estadoId } = formData;
-    const data = { fecha, hora, motivo, tipoId, centroMedico };
+    const data = {
+      fecha: fecha ? fecha.format('YYYY-MM-DD') : '',
+      hora: hora ? hora.format('HH:mm') : '',
+      motivo,
+      tipoId,
+      centroMedico,
+    };
     if (initialData && initialData.id) {
       data.estadoId = estadoId;
     }
@@ -71,62 +84,87 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
   };
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>{initialData && initialData.id ? 'Editar cita' : 'Añadir cita'}</DialogTitle>
-      <DialogContent>
-        <Stack sx={{ mt: 1 }}>
-          <FormControl fullWidth sx={{ mb: 2 }}>
-            <FormLabel sx={{ mb: 1 }}>Fecha</FormLabel>
-            <TextField type="date" name="fecha" value={formData.fecha} onChange={handleChange} />
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 2 }}>
-            <FormLabel sx={{ mb: 1 }}>Hora</FormLabel>
-            <TextField type="time" name="hora" value={formData.hora} onChange={handleChange} />
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 2 }}>
-            <FormLabel sx={{ mb: 1 }}>Motivo</FormLabel>
-            <TextField name="motivo" value={formData.motivo} onChange={handleChange} />
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 2 }}>
-            <FormLabel sx={{ mb: 1 }}>Tipo</FormLabel>
-            <TextField select name="tipoId" value={formData.tipoId} onChange={handleChange}>
-              {tipos.map((t) => (
-                <MenuItem key={t.id} value={t.id}>
-                  {t.nombre}
-                </MenuItem>
-              ))}
-            </TextField>
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 2 }}>
-            <FormLabel sx={{ mb: 1 }}>Centro médico (opcional)</FormLabel>
-            <TextField name="centroMedico" value={formData.centroMedico} onChange={handleChange} />
-          </FormControl>
-          {initialData && initialData.id && (
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
+      <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+        <DialogTitle>{initialData && initialData.id ? 'Editar cita' : 'Añadir cita'}</DialogTitle>
+        <DialogContent>
+          <Stack sx={{ mt: 1 }}>
             <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Estado</FormLabel>
+              <FormLabel sx={{ mb: 1 }}>Fecha</FormLabel>
+              <DatePicker
+                value={formData.fecha}
+                onChange={(newValue) => handleChange('fecha', newValue)}
+                slotProps={{ textField: { fullWidth: true } }}
+                format="YYYY-MM-DD"
+              />
+            </FormControl>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormLabel sx={{ mb: 1 }}>Hora</FormLabel>
+              <TimePicker
+                value={formData.hora}
+                onChange={(newValue) => handleChange('hora', newValue)}
+                slotProps={{ textField: { fullWidth: true } }}
+                format="HH:mm"
+              />
+            </FormControl>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormLabel sx={{ mb: 1 }}>Motivo</FormLabel>
+              <TextField
+                name="motivo"
+                value={formData.motivo}
+                onChange={(e) => handleChange('motivo', e.target.value)}
+              />
+            </FormControl>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormLabel sx={{ mb: 1 }}>Tipo</FormLabel>
               <TextField
                 select
-                name="estadoId"
-                value={formData.estadoId}
-                onChange={handleChange}
+                name="tipoId"
+                value={formData.tipoId}
+                onChange={(e) => handleChange('tipoId', e.target.value)}
               >
-                {estados.map((e) => (
-                  <MenuItem key={e.id} value={e.id}>
-                    {e.nombre}
+                {tipos.map((t) => (
+                  <MenuItem key={t.id} value={t.id}>
+                    {t.nombre}
                   </MenuItem>
                 ))}
               </TextField>
             </FormControl>
-          )}
-        </Stack>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancelar</Button>
-        <Button variant="contained" onClick={handleSubmit}>
-          Guardar
-        </Button>
-      </DialogActions>
-    </Dialog>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormLabel sx={{ mb: 1 }}>Centro médico (opcional)</FormLabel>
+              <TextField
+                name="centroMedico"
+                value={formData.centroMedico}
+                onChange={(e) => handleChange('centroMedico', e.target.value)}
+              />
+            </FormControl>
+            {initialData && initialData.id && (
+              <FormControl fullWidth sx={{ mb: 2 }}>
+                <FormLabel sx={{ mb: 1 }}>Estado</FormLabel>
+                <TextField
+                  select
+                  name="estadoId"
+                  value={formData.estadoId}
+                  onChange={(e) => handleChange('estadoId', e.target.value)}
+                >
+                  {estados.map((e) => (
+                    <MenuItem key={e.id} value={e.id}>
+                      {e.nombre}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </FormControl>
+            )}
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose}>Cancelar</Button>
+          <Button variant="contained" onClick={handleSubmit}>
+            Guardar
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </LocalizationProvider>
   );
 }
 
