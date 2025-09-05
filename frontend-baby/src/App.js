@@ -11,6 +11,7 @@ import MainGrid from "./dashboard/components/MainGrid";
 import Cuidados from "./dashboard/pages/Cuidados";
 import Gastos from "./dashboard/pages/Gastos";
 import Diario from "./dashboard/pages/Diario";
+import Alimentacion from "./dashboard/pages/Alimentacion";
 import Citas from "./dashboard/pages/Citas";
 import Rutinas from "./dashboard/pages/Rutinas";
 import Configuracion from "./dashboard/pages/Configuracion";
@@ -44,6 +45,7 @@ function App() {
               <Route path="cuidados" element={<Cuidados />} />
               <Route path="gastos" element={<Gastos />} />
               <Route path="diario" element={<Diario />} />
+              <Route path="alimentacion" element={<Alimentacion />} />
               <Route path="citas" element={<Citas />} />
               <Route path="rutinas" element={<Rutinas />} />
               <Route path="anadir-bebe" element={<AnadirBebe />} />
