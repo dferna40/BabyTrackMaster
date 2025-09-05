@@ -47,4 +47,26 @@ describe('QuickStatsCard', () => {
       expect(screen.getByText('1')).toBeInTheDocument();
     });
   });
+
+  it('muestra mensaje cuando no hay estadísticas', async () => {
+    obtenerStatsRapidas.mockResolvedValue({
+      data: { horasSueno: 0, panales: 0, tomas: 0, banos: 0 },
+    });
+
+    render(
+      <AuthContext.Provider value={{ user: { id: 1 } }}>
+        <BabyContext.Provider value={{ activeBaby: { id: 2 } }}>
+          <QuickStatsCard />
+        </BabyContext.Provider>
+      </AuthContext.Provider>
+    );
+
+    expect(obtenerStatsRapidas).toHaveBeenCalledWith(1, 2);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText('No hay estadísticas que mostrar para el día de hoy.')
+      ).toBeInTheDocument();
+    });
+  });
 });

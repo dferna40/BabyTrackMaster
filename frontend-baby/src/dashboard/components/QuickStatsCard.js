@@ -42,25 +42,35 @@ export default function QuickStatsCard() {
     { id: 3, value: stats.banos, label: 'Baños' },
   ];
 
+  const hasStats = Object.values(stats).some((value) => value > 0);
+
   return (
     <Card variant="outlined" sx={{ height: '100%' }}>
       <CardContent>
         <Typography variant="h6" component="h2" gutterBottom>
           Estadísticas rápidas del día
         </Typography>
-        <PieChart series={[{ data: chartData }]} width={200} height={200} />
-        <Grid container spacing={2}>
-          {statsArray.map((stat, index) => (
-            <Grid item xs={6} key={index}>
-              <Typography variant="h5" component="p">
-                {stat.value}
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
-                {stat.label}
-              </Typography>
+        {hasStats ? (
+          <>
+            <PieChart series={[{ data: chartData }]} width={200} height={200} />
+            <Grid container spacing={2}>
+              {statsArray.map((stat, index) => (
+                <Grid item xs={6} key={index}>
+                  <Typography variant="h5" component="p">
+                    {stat.value}
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    {stat.label}
+                  </Typography>
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
+          </>
+        ) : (
+          <Typography variant="body2" color="text.secondary">
+            No hay estadísticas que mostrar para el día de hoy.
+          </Typography>
+        )}
       </CardContent>
     </Card>
   );
