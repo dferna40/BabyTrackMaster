@@ -12,6 +12,6 @@ body {
 /* Ensure long field labels are fully visible on the add baby form */
 #add-baby .MuiInputLabel-root {
   overflow: visible;
-  white-space: normal;
+  white-space: nowrap;
   text-overflow: initial;
 }
