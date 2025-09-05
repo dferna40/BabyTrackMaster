@@ -20,7 +20,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
-import { actualizarBebe, eliminarBebe } from '../../services/bebesService';
+import { actualizarBebe, eliminarBebe, fetchTipoAlergias, fetchTipoGrupoSanguineo } from '../../services/bebesService';
 import { BabyContext } from '../../context/BabyContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '@mui/material/Snackbar';
@@ -86,25 +86,17 @@ export default function EditarBebe() {
     navigate(-1);
   };
 
-  const gruposSanguineos = [
-    { id: 1, nombre: 'O+' },
-    { id: 2, nombre: 'O-' },
-    { id: 3, nombre: 'A+' },
-    { id: 4, nombre: 'A-' },
-    { id: 5, nombre: 'B+' },
-    { id: 6, nombre: 'B-' },
-    { id: 7, nombre: 'AB+' },
-    { id: 8, nombre: 'AB-' },
-  ];
-  const alergiasOptions = [
-    { id: 1, nombre: 'Ninguna' },
-    { id: 2, nombre: 'Gluten' },
-    { id: 3, nombre: 'Lactosa' },
-    { id: 4, nombre: 'Frutos secos' },
-    { id: 5, nombre: 'Polen' },
-    { id: 6, nombre: 'Ácaros' },
-    { id: 7, nombre: 'Medicamentos' },
-  ];
+  const [gruposSanguineos, setGruposSanguineos] = useState([]);
+  const [alergiasOptions, setAlergiasOptions] = useState([]);
+
+  useEffect(() => {
+    fetchTipoGrupoSanguineo()
+      .then((res) => setGruposSanguineos(res.data))
+      .catch((err) => console.error('Error fetching tipos grupo sanguíneo:', err));
+    fetchTipoAlergias()
+      .then((res) => setAlergiasOptions(res.data))
+      .catch((err) => console.error('Error fetching tipos alergia:', err));
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
