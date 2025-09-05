@@ -10,6 +10,7 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import MonetizationOnRoundedIcon from '@mui/icons-material/MonetizationOnRounded';
 import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
+import RamenDiningRoundedIcon from '@mui/icons-material/RamenDiningRounded';
 import EventRoundedIcon from '@mui/icons-material/EventRounded';
 import ScheduleRoundedIcon from '@mui/icons-material/ScheduleRounded';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
@@ -21,6 +22,7 @@ const mainListItems = [
   { text: 'Cuidados', icon: <FavoriteRoundedIcon />, to: '/dashboard/cuidados' },
   { text: 'Gastos', icon: <MonetizationOnRoundedIcon />, to: '/dashboard/gastos' },
   { text: 'Diario', icon: <MenuBookRoundedIcon />, to: '/dashboard/diario' },
+  { text: 'Alimentación', icon: <RamenDiningRoundedIcon />, to: '/dashboard/alimentacion' },
   { text: 'Citas', icon: <EventRoundedIcon />, to: '/dashboard/citas' },
   { text: 'Rutinas', icon: <ScheduleRoundedIcon />, to: '/dashboard/rutinas' },
 ];
