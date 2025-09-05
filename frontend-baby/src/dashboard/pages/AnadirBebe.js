@@ -6,6 +6,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
 import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -250,58 +252,56 @@ export default function AnadirBebe() {
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={4}>
-                  <TextField
-                    select
-                    label="Grupo sanguíneo"
-                    name="grupoSanguineo"
-                    InputLabelProps={{
-                      shrink: true,
-                      sx: {
-                        overflow: 'visible',
-                        whiteSpace: 'normal',
-                        textOverflow: 'unset',
-                      },
-                    }}
+                  <FormControl
                     fullWidth
-                    value={formData.grupoSanguineo}
-                    onChange={handleChange}
-                    disabled={loading}
                     variant="outlined"
-                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
+                    size="small"
+                    sx={{ '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider', borderRadius: 1 } }}
                   >
-                    {gruposSanguineos.map((grupo) => (
-                      <MenuItem key={grupo} value={grupo}>
-                        {grupo}
-                      </MenuItem>
-                    ))}
-                  </TextField>
+                    <InputLabel id="grupo-sanguineo-label" shrink>
+                      Grupo sanguíneo
+                    </InputLabel>
+                    <Select
+                      labelId="grupo-sanguineo-label"
+                      label="Grupo sanguíneo"
+                      name="grupoSanguineo"
+                      value={formData.grupoSanguineo}
+                      onChange={handleChange}
+                      disabled={loading}
+                    >
+                      {gruposSanguineos.map((grupo) => (
+                        <MenuItem key={grupo} value={grupo}>
+                          {grupo}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={4}>
-                  <TextField
-                    select
-                    label="Alergias"
-                    name="alergias"
-                    InputLabelProps={{
-                      shrink: true,
-                      sx: {
-                        overflow: 'visible',
-                        whiteSpace: 'normal',
-                        textOverflow: 'unset',
-                      },
-                    }}
+                  <FormControl
                     fullWidth
-                    value={formData.alergias}
-                    onChange={handleChange}
-                    disabled={loading}
                     variant="outlined"
-                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
+                    size="small"
+                    sx={{ '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider', borderRadius: 1 } }}
                   >
-                    {alergiasOptions.map((alergia) => (
-                      <MenuItem key={alergia} value={alergia}>
-                        {alergia}
-                      </MenuItem>
-                    ))}
-                  </TextField>
+                    <InputLabel id="alergias-label" shrink>
+                      Alergias
+                    </InputLabel>
+                    <Select
+                      labelId="alergias-label"
+                      label="Alergias"
+                      name="alergias"
+                      value={formData.alergias}
+                      onChange={handleChange}
+                      disabled={loading}
+                    >
+                      {alergiasOptions.map((alergia) => (
+                        <MenuItem key={alergia} value={alergia}>
+                          {alergia}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={4}>
                   <TextField
