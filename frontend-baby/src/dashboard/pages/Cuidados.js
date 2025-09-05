@@ -17,7 +17,6 @@ import TablePagination from '@mui/material/TablePagination';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
-import 'dayjs/locale/es';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import AddIcon from '@mui/icons-material/Add';
@@ -146,7 +145,7 @@ export default function Cuidados() {
   const handleExportCsv = () => {
     const headers = ['Hora', 'Tipo', esPecho ? 'Pecho' : 'Cantidad', 'Nota'];
     const rows = filteredCuidados.map((cuidado) => [
-      dayjs(cuidado.inicio).locale('es').format('DD/MM/YYYY HH:mm'),
+      dayjs(cuidado.inicio).format('DD/MM/YYYY HH:mm'),
       cuidado.tipoNombre,
       esPecho ? cuidado.pecho ?? '-' : cuidado.cantidadMl ?? '-',
       cuidado.observaciones ?? '',
@@ -169,7 +168,7 @@ export default function Cuidados() {
     const doc = new jsPDF();
     const tableColumn = ['Hora', 'Tipo', esPecho ? 'Pecho' : 'Cantidad', 'Nota'];
     const tableRows = filteredCuidados.map((cuidado) => [
-      dayjs(cuidado.inicio).locale('es').format('DD/MM/YYYY HH:mm'),
+      dayjs(cuidado.inicio).format('DD/MM/YYYY HH:mm'),
       cuidado.tipoNombre,
       esPecho ? cuidado.pecho ?? '-' : cuidado.cantidadMl ?? '-',
       cuidado.observaciones ?? '',
@@ -226,7 +225,7 @@ export default function Cuidados() {
               .map((cuidado) => (
               <TableRow key={cuidado.id}>
                 <TableCell>
-                  {dayjs(cuidado.inicio).locale('es').format('DD/MM/YYYY HH:mm')}
+                  {dayjs(cuidado.inicio).format('DD/MM/YYYY HH:mm')}
                 </TableCell>
                 <TableCell>{cuidado.tipoNombre}</TableCell>
                 <TableCell>{esPecho ? cuidado.pecho ?? '-' : cuidado.cantidadMl ?? '-'}</TableCell>

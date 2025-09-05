@@ -14,14 +14,10 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
 import dayjs from 'dayjs';
-import 'dayjs/locale/es';
-import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers';
 import { listarEntradas, crearEntrada } from '../../services/diarioService';
 import { BabyContext } from '../../context/BabyContext';
 import { AuthContext } from '../../context/AuthContext';
-
-dayjs.locale('es');
 
 const emociones = [
   { value: 'happy', label: '😊 Feliz' },
@@ -89,8 +85,7 @@ export default function Diario() {
   );
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
-      <Box
+    <Box
         sx={{
           width: '100%',
           display: 'grid',
@@ -223,7 +218,6 @@ export default function Diario() {
           </Card>
         </Box>
       </Box>
-    </LocalizationProvider>
   );
 }
 

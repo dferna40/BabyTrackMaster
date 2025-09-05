@@ -10,7 +10,6 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import dayjs from 'dayjs';
-import 'dayjs/locale/es';
 import { listarRecientes } from '../../services/cuidadosService';
 
 export default function RecentCareCard() {
@@ -48,8 +47,8 @@ export default function RecentCareCard() {
             <TableBody>
               {recentCare.slice(0, 5).map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>{dayjs(item.inicio).locale('es').format('DD/MM/YYYY')}</TableCell>
-                  <TableCell>{dayjs(item.inicio).locale('es').format('HH:mm')}</TableCell>
+                  <TableCell>{dayjs(item.inicio).format('DD/MM/YYYY')}</TableCell>
+                  <TableCell>{dayjs(item.inicio).format('HH:mm')}</TableCell>
                   <TableCell>{item.tipoNombre}</TableCell>
                   <TableCell>{item.cantidadMl ?? '-'}</TableCell>
                   <TableCell>{item.observaciones ?? ''}</TableCell>

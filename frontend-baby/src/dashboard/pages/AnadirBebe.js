@@ -16,11 +16,8 @@ import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
-import 'dayjs/locale/es';
 import { crearBebe, fetchTipoAlergias, fetchTipoGrupoSanguineo } from '../../services/bebesService';
 import { BabyContext } from '../../context/BabyContext';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -28,7 +25,6 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
 export default function AnadirBebe() {
-  dayjs.locale('es');
   const navigate = useNavigate();
   const { addBaby } = useContext(BabyContext);
   const fileInputRef = useRef(null);
@@ -135,8 +131,7 @@ export default function AnadirBebe() {
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
-      <Box
+    <Box
         component="form"
         id="add-baby"
         onSubmit={handleSubmit}
@@ -524,7 +519,7 @@ export default function AnadirBebe() {
           Bebé guardado correctamente
         </Alert>
       </Snackbar>
-    </LocalizationProvider>
+    </Box>
   );
 }
 

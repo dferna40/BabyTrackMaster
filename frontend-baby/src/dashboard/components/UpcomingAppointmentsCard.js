@@ -8,7 +8,6 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import dayjs from 'dayjs';
-import 'dayjs/locale/es';
 import { BabyContext } from '../../context/BabyContext';
 import { listarProximas } from '../../services/citasService';
 
@@ -50,10 +49,10 @@ export default function UpcomingAppointmentsCard() {
               {appointments.map((c) => (
                 <TableRow key={c.id}>
                   <TableCell>
-                    {dayjs(c.fecha).locale('es').format('DD/MM/YYYY')}
+                    {dayjs(c.fecha).format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
-                    {dayjs(`${c.fecha}T${c.hora}`).locale('es').format('HH:mm')}
+                    {dayjs(`${c.fecha}T${c.hora}`).format('HH:mm')}
                   </TableCell>
                   <TableCell>{c.motivo}</TableCell>
                   <TableCell>{c.tipoNombre}</TableCell>

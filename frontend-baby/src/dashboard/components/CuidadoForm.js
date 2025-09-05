@@ -9,11 +9,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { DateTimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
-import 'dayjs/locale/es';
 import { listarTipos } from '../../services/cuidadosService';
 
 export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
@@ -79,11 +76,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
   };
 
   return (
-    <LocalizationProvider
-      dateAdapter={AdapterDayjs}
-      adapterLocale="es"
-    >
-      <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
         <DialogTitle>
           {initialData && initialData.id
             ? 'Editar cuidado'
@@ -157,6 +150,5 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
           </Button>
         </DialogActions>
       </Dialog>
-    </LocalizationProvider>
   );
 }
