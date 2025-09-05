@@ -122,7 +122,12 @@ export default function AnadirBebe() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Box component="form" onSubmit={handleSubmit} sx={{ flexGrow: 1 }}>
+      <Box
+        component="form"
+        id="add-baby"
+        onSubmit={handleSubmit}
+        sx={{ flexGrow: 1 }}
+      >
         <Typography variant="h4" sx={{ mb: 2 }}>
           Añadir bebé
         </Typography>
