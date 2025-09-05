@@ -149,7 +149,10 @@ export default function AnadirBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -161,7 +164,10 @@ export default function AnadirBebe() {
                     slotProps={{
                       textField: {
                         variant: 'outlined',
-                        sx: { '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } },
+                        sx: {
+                          '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                          '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                        },
                         fullWidth: true,
                         disabled: loading,
                         InputLabelProps: { shrink: true },
@@ -203,7 +209,10 @@ export default function AnadirBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -217,7 +226,10 @@ export default function AnadirBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -231,7 +243,10 @@ export default function AnadirBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -245,7 +260,10 @@ export default function AnadirBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
               </Grid>
@@ -260,7 +278,10 @@ export default function AnadirBebe() {
                   <FormControl
                     fullWidth
                     variant="outlined"
-                    sx={{ '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider', borderRadius: 1 } }}
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   >
                     <InputLabel id="grupo-sanguineo-label" shrink>Grupo sanguíneo</InputLabel>
                     <Select
@@ -270,6 +291,7 @@ export default function AnadirBebe() {
                       value={formData.grupoSanguineo}
                       onChange={handleChange}
                       disabled={loading}
+                      fullWidth
                     >
                       {gruposSanguineos.map((grupo) => (
                         <MenuItem key={grupo} value={grupo}>
@@ -283,7 +305,10 @@ export default function AnadirBebe() {
                   <FormControl
                     fullWidth
                     variant="outlined"
-                    sx={{ '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider', borderRadius: 1 } }}
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   >
                     <InputLabel id="alergias-label" shrink>Alergias</InputLabel>
                     <Select
@@ -293,6 +318,7 @@ export default function AnadirBebe() {
                       value={formData.alergias}
                       onChange={handleChange}
                       disabled={loading}
+                      fullWidth
                     >
                       {alergiasOptions.map((alergia) => (
                         <MenuItem key={alergia} value={alergia}>
@@ -312,7 +338,10 @@ export default function AnadirBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
               </Grid>
@@ -333,7 +362,10 @@ export default function AnadirBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -346,7 +378,10 @@ export default function AnadirBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -359,7 +394,10 @@ export default function AnadirBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -372,7 +410,10 @@ export default function AnadirBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
               </Grid>
@@ -390,11 +431,14 @@ export default function AnadirBebe() {
                 value={formData.observaciones}
                 onChange={handleChange}
                 disabled={loading}
-                variant="outlined"
-                sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
-              />
-            </Box>
-          </Grid>
+                  variant="outlined"
+                  sx={{
+                    '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                    '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                  }}
+                />
+              </Box>
+            </Grid>
 
           <Grid item xs={12} md={4}>
             <Box component={Paper} sx={{ p: 2, textAlign: 'center' }}>
