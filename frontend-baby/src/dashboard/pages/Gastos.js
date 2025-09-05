@@ -23,7 +23,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { BarChart } from '@mui/x-charts/BarChart';
 import dayjs from 'dayjs';
-import 'dayjs/locale/es';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -161,7 +160,7 @@ export default function Gastos() {
   const handleExportCsv = () => {
     const headers = ['Fecha', 'Categoría', 'Descripción', 'Cantidad'];
     const rows = filteredGastos.map((gasto) => [
-      dayjs(gasto.fecha).locale('es').format('DD/MM/YYYY'),
+      dayjs(gasto.fecha).format('DD/MM/YYYY'),
       gasto.categoriaNombre ||
         categorias.find((c) => Number(c.id) === Number(gasto.categoriaId))?.nombre ||
         '',
@@ -187,7 +186,7 @@ export default function Gastos() {
     const doc = new jsPDF();
     const tableColumn = ['Fecha', 'Categoría', 'Descripción', 'Cantidad'];
     const tableRows = filteredGastos.map((gasto) => [
-      dayjs(gasto.fecha).locale('es').format('DD/MM/YYYY'),
+      dayjs(gasto.fecha).format('DD/MM/YYYY'),
       gasto.categoriaNombre ||
         categorias.find((c) => Number(c.id) === Number(gasto.categoriaId))?.nombre ||
         '',
@@ -271,7 +270,7 @@ export default function Gastos() {
               .map((gasto) => (
                 <TableRow key={gasto.id}>
                   <TableCell>
-                    {dayjs(gasto.fecha).locale('es').format('DD/MM/YYYY')}
+                    {dayjs(gasto.fecha).format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
                     {gasto.categoriaNombre ||

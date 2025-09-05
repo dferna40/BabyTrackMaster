@@ -10,10 +10,7 @@ import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import dayjs from 'dayjs';
-import 'dayjs/locale/es';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DatePicker } from '@mui/x-date-pickers';
 
 import { listarCategorias } from '../../services/gastosService';
 
@@ -84,8 +81,7 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
-      <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
         <DialogTitle>{initialData && initialData.id ? 'Editar gasto' : 'Añadir nuevo gasto'}</DialogTitle>
         <DialogContent>
           <Stack sx={{ mt: 1 }}>
@@ -141,6 +137,5 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
           <Button onClick={handleSubmit} variant="contained">Guardar</Button>
         </DialogActions>
       </Dialog>
-    </LocalizationProvider>
   );
 }

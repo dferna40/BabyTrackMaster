@@ -16,18 +16,13 @@ import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
-import 'dayjs/locale/es';
 import { actualizarBebe, eliminarBebe, fetchTipoAlergias, fetchTipoGrupoSanguineo } from '../../services/bebesService';
 import { BabyContext } from '../../context/BabyContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-
-dayjs.locale('es');
 
 export default function EditarBebe() {
   const navigate = useNavigate();
@@ -178,8 +173,7 @@ export default function EditarBebe() {
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
-      <Box component="form" onSubmit={handleSubmit} sx={{ flexGrow: 1 }}>
+    <Box component="form" onSubmit={handleSubmit} sx={{ flexGrow: 1 }}>
         <Typography variant="h4" sx={{ mb: 2 }}>
           Editar/borrar bebé
         </Typography>
@@ -563,7 +557,7 @@ export default function EditarBebe() {
           Bebé actualizado correctamente
         </Alert>
       </Snackbar>
-    </LocalizationProvider>
+    </Box>
   );
 }
 

@@ -1,12 +1,9 @@
 import * as React from 'react';
 import dayjs from 'dayjs';
-import 'dayjs/locale/es';
 import { useForkRef } from '@mui/material/utils';
 import Button from '@mui/material/Button';
 import CalendarTodayRoundedIcon from '@mui/icons-material/CalendarTodayRounded';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DatePicker } from '@mui/x-date-pickers';
 import {
   useParsedFormat,
   usePickerContext,
@@ -40,21 +37,18 @@ function ButtonField(props) {
 
 export default function CustomDatePicker() {
   const [value, setValue] = React.useState(dayjs('2023-04-17'));
-  dayjs.locale('es');
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
-      <DatePicker
-        value={value}
-        label={value == null ? null : value.format('DD MMM YYYY')}
-        onChange={(newValue) => setValue(newValue)}
-        slots={{ field: ButtonField }}
-        slotProps={{
-          nextIconButton: { size: 'small' },
-          previousIconButton: { size: 'small' },
-        }}
-        views={['day', 'month', 'year']}
-      />
-    </LocalizationProvider>
+    <DatePicker
+      value={value}
+      label={value == null ? null : value.format('DD MMM YYYY')}
+      onChange={(newValue) => setValue(newValue)}
+      slots={{ field: ButtonField }}
+      slotProps={{
+        nextIconButton: { size: 'small' },
+        previousIconButton: { size: 'small' },
+      }}
+      views={['day', 'month', 'year']}
+    />
   );
 }

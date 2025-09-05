@@ -10,14 +10,8 @@ import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import dayjs from 'dayjs';
-import 'dayjs/locale/es';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import { listarTipos, listarEstados } from '../../services/citasService';
-
-dayjs.locale('es');
 
 export default function CitaForm({ open, onClose, onSubmit, initialData }) {
   const [formData, setFormData] = useState({
@@ -84,8 +78,7 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
-      <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
         <DialogTitle>{initialData && initialData.id ? 'Editar cita' : 'Añadir cita'}</DialogTitle>
         <DialogContent>
           <Stack sx={{ mt: 1 }}>
@@ -164,7 +157,6 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
           </Button>
         </DialogActions>
       </Dialog>
-    </LocalizationProvider>
   );
 }
 

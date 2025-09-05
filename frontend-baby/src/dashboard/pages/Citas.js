@@ -28,9 +28,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import dayjs from 'dayjs';
-import 'dayjs/locale/es';
-import { LocalizationProvider, DateCalendar, PickersDay } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateCalendar, PickersDay } from '@mui/x-date-pickers';
 import {
   listar,
   crearCita,
@@ -46,8 +44,6 @@ import {
 import CitaForm from '../components/CitaForm';
 import { BabyContext } from '../../context/BabyContext';
 import { AuthContext } from '../../context/AuthContext';
-
-dayjs.locale('es');
 
 export default function Citas() {
   const [citas, setCitas] = useState([]);
@@ -336,19 +332,17 @@ export default function Citas() {
 
       {view === 'month' ? (
         <>
-          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
-            {selectedDate && (
-              <DateCalendar
-                value={selectedDate}
-                onChange={(newValue) => {
-                  const date = newValue ? dayjs(newValue) : dayjs();
-                  setSelectedDate(date);
-                  setSelectedDay(date);
-                }}
-                slots={{ day: CustomDay }}
-              />
-            )}
-          </LocalizationProvider>
+          {selectedDate && (
+            <DateCalendar
+              value={selectedDate}
+              onChange={(newValue) => {
+                const date = newValue ? dayjs(newValue) : dayjs();
+                setSelectedDate(date);
+                setSelectedDay(date);
+              }}
+              slots={{ day: CustomDay }}
+            />
+          )}
           {selectedDay && (
             <Button
               variant="outlined"
@@ -376,10 +370,10 @@ export default function Citas() {
               {citasSemana.map((cita) => (
                 <TableRow key={cita.id}>
                   <TableCell>
-                    {dayjs(cita.fecha).locale('es').format('DD/MM/YYYY')}
+                    {dayjs(cita.fecha).format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
-                    {dayjs(`${cita.fecha}T${cita.hora}`).locale('es').format('HH:mm')}
+                    {dayjs(`${cita.fecha}T${cita.hora}`).format('HH:mm')}
                   </TableCell>
                   <TableCell>{cita.motivo}</TableCell>
                   <TableCell>
@@ -442,10 +436,10 @@ export default function Citas() {
               .map((cita) => (
                 <TableRow key={cita.id}>
                   <TableCell>
-                    {dayjs(cita.fecha).locale('es').format('DD/MM/YYYY')}
+                    {dayjs(cita.fecha).format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
-                    {dayjs(`${cita.fecha}T${cita.hora}`).locale('es').format('HH:mm')}
+                    {dayjs(`${cita.fecha}T${cita.hora}`).format('HH:mm')}
                   </TableCell>
                   <TableCell>{cita.motivo}</TableCell>
                   <TableCell>

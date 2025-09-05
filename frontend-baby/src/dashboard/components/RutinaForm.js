@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import 'dayjs/locale/es';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -11,9 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { TimePicker } from '@mui/x-date-pickers';
 
 const diasOptions = [
   { value: 'L', label: 'Lunes' },
@@ -68,11 +65,8 @@ export default function RutinaForm({ open, onClose, onSubmit, initialData }) {
 
   const isValid = formData.dia && formData.hora && formData.tipo;
 
-  dayjs.locale('es');
-
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
-      <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
         <DialogTitle>{initialData && initialData.id ? 'Editar rutina' : 'Añadir rutina'}</DialogTitle>
         <DialogContent>
           <Stack sx={{ mt: 1 }}>
@@ -123,6 +117,5 @@ export default function RutinaForm({ open, onClose, onSubmit, initialData }) {
           </Button>
         </DialogActions>
       </Dialog>
-    </LocalizationProvider>
   );
 }
