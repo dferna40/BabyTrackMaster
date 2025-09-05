@@ -6,8 +6,6 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
 import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -317,8 +315,6 @@ export default function EditarBebe() {
                 Salud
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <FormControl
                 <Grid item xs={12} sm={4}>
                   <TextField
                     select
@@ -331,39 +327,17 @@ export default function EditarBebe() {
                       '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
                     }}
                     fullWidth
-                    variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                      minWidth: 160,
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: 'divider',
-                        borderRadius: 1,
-                      },
-                    }}
+                    value={formData.grupoSanguineo}
+                    onChange={handleChange}
+                    disabled={loading}
                   >
-                    <InputLabel id="grupo-sanguineo-label" shrink>
-                      Grupo sanguíneo
-                    </InputLabel>
-                    <Select
-                      labelId="grupo-sanguineo-label"
-                      label="Grupo sanguíneo"
-                      name="grupoSanguineo"
-                      value={formData.grupoSanguineo}
-                      onChange={handleChange}
-                      disabled={loading}
-                      fullWidth
-                    >
-                      {gruposSanguineos.map((grupo) => (
-                        <MenuItem key={grupo} value={grupo}>
-                          {grupo}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                    {gruposSanguineos.map((grupo) => (
+                      <MenuItem key={grupo} value={grupo}>
+                        {grupo}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControl
                 <Grid item xs={12} sm={4}>
                   <TextField
                     select
@@ -376,38 +350,18 @@ export default function EditarBebe() {
                       '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
                     }}
                     fullWidth
-                    variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                      minWidth: 160,
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: 'divider',
-                        borderRadius: 1,
-                      },
-                    }}
+                    value={formData.alergias}
+                    onChange={handleChange}
+                    disabled={loading}
                   >
-                    <InputLabel id="alergias-label" shrink>
-                      Alergias
-                    </InputLabel>
-                    <Select
-                      labelId="alergias-label"
-                      label="Alergias"
-                      name="alergias"
-                      value={formData.alergias}
-                      onChange={handleChange}
-                      disabled={loading}
-                      fullWidth
-                    >
-                      {alergiasOptions.map((alergia) => (
-                        <MenuItem key={alergia} value={alergia}>
-                          {alergia}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                    {alergiasOptions.map((alergia) => (
+                      <MenuItem key={alergia} value={alergia}>
+                        {alergia}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </Grid>
-                <Grid item xs={12} sm={12}>
+                <Grid item xs={12} sm={4}>
                   <TextField
                     label="Medicaciones"
                     name="medicaciones"
