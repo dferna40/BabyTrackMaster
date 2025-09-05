@@ -15,3 +15,8 @@ body {
   white-space: nowrap;
   text-overflow: initial;
 }
+
+#add-baby .MuiFormControl-root {
+  width: 100%;
+  margin-right: 16px;
+}
