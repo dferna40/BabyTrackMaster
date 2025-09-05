@@ -465,7 +465,7 @@ export default function AnadirBebe() {
           <Grid item xs={12} md={4}>
             <Box component={Paper} sx={{ p: 2, textAlign: 'center' }}>
               <Typography variant="h6" gutterBottom>
-                Foto/Identidad
+                Foto del bebé
               </Typography>
               <Stack spacing={2} alignItems="center">
                 <Avatar src={preview} sx={{ width: 120, height: 120 }} />
