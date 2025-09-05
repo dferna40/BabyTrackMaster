@@ -136,6 +136,7 @@ export default function AnadirBebe() {
                     required
                     label="Nombre del bebé"
                     name="nombre"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.nombre}
                     onChange={handleChange}
@@ -148,7 +149,13 @@ export default function AnadirBebe() {
                     value={formData.fechaNacimiento}
                     onChange={handleDateChange}
                     disabled={loading}
-                    slotProps={{ textField: { fullWidth: true, disabled: loading } }}
+                    slotProps={{
+                      textField: {
+                        fullWidth: true,
+                        disabled: loading,
+                        InputLabelProps: { shrink: true },
+                      },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -179,6 +186,7 @@ export default function AnadirBebe() {
                     label="Peso al nacer (kg)"
                     name="pesoNacer"
                     type="number"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.pesoNacer}
                     onChange={handleChange}
@@ -190,6 +198,7 @@ export default function AnadirBebe() {
                     label="Talla al nacer (cm)"
                     name="tallaNacer"
                     type="number"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.tallaNacer}
                     onChange={handleChange}
@@ -201,6 +210,7 @@ export default function AnadirBebe() {
                     label="Perímetro craneal al nacer (cm)"
                     name="perimetroCranealNacer"
                     type="number"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.perimetroCranealNacer}
                     onChange={handleChange}
@@ -212,6 +222,7 @@ export default function AnadirBebe() {
                     label="Semanas de gestación"
                     name="semanasGestacion"
                     type="number"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.semanasGestacion}
                     onChange={handleChange}
@@ -231,6 +242,7 @@ export default function AnadirBebe() {
                     select
                     label="Grupo sanguíneo"
                     name="grupoSanguineo"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.grupoSanguineo}
                     onChange={handleChange}
@@ -248,6 +260,7 @@ export default function AnadirBebe() {
                     select
                     label="Alergias"
                     name="alergias"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.alergias}
                     onChange={handleChange}
@@ -264,6 +277,7 @@ export default function AnadirBebe() {
                   <TextField
                     label="Medicaciones"
                     name="medicaciones"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.medicaciones}
                     onChange={handleChange}
@@ -282,6 +296,7 @@ export default function AnadirBebe() {
                   <TextField
                     label="Número SS"
                     name="numeroSs"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.numeroSs}
                     onChange={handleChange}
@@ -292,6 +307,7 @@ export default function AnadirBebe() {
                   <TextField
                     label="Pediatra"
                     name="pediatra"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.pediatra}
                     onChange={handleChange}
@@ -302,6 +318,7 @@ export default function AnadirBebe() {
                   <TextField
                     label="Centro médico"
                     name="centroMedico"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.centroMedico}
                     onChange={handleChange}
@@ -312,6 +329,7 @@ export default function AnadirBebe() {
                   <TextField
                     label="Número centro médico"
                     name="telefonoCentroMedico"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.telefonoCentroMedico}
                     onChange={handleChange}
