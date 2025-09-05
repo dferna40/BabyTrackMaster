@@ -14,9 +14,14 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
 import dayjs from 'dayjs';
+import 'dayjs/locale/es';
+import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { listarEntradas, crearEntrada } from '../../services/diarioService';
 import { BabyContext } from '../../context/BabyContext';
 import { AuthContext } from '../../context/AuthContext';
+
+dayjs.locale('es');
 
 const emociones = [
   { value: 'happy', label: '😊 Feliz' },
@@ -28,13 +33,13 @@ const emociones = [
 export default function Diario() {
   const [texto, setTexto] = useState('');
   const [emocion, setEmocion] = useState('neutral');
-  const [fecha, setFecha] = useState(dayjs().format('YYYY-MM-DD'));
+  const [fecha, setFecha] = useState(dayjs());
   const [etiqueta, setEtiqueta] = useState('');
   const [etiquetas, setEtiquetas] = useState([]);
   const [entradas, setEntradas] = useState([]);
   const [search, setSearch] = useState('');
   const [filtroEmocion, setFiltroEmocion] = useState('');
-  const [filtroFecha, setFiltroFecha] = useState('');
+  const [filtroFecha, setFiltroFecha] = useState(null);
   const { activeBaby } = React.useContext(BabyContext);
   const { user } = React.useContext(AuthContext);
 
@@ -49,7 +54,7 @@ export default function Diario() {
     if (!texto.trim() || !activeBaby || !user) return;
     const payload = {
       bebeId: activeBaby.id,
-      fecha,
+      fecha: fecha.format('YYYY-MM-DD'),
       hora: dayjs().format('HH:mm'),
       titulo: texto.substring(0, 120) || 'Entrada',
       contenido: texto,
@@ -60,7 +65,7 @@ export default function Diario() {
       .then(() => {
         setTexto('');
         setEmocion('neutral');
-        setFecha(dayjs().format('YYYY-MM-DD'));
+        setFecha(dayjs());
         setEtiquetas([]);
         return listarEntradas(user.id, activeBaby.id).then((data) =>
           setEntradas(data)
@@ -84,20 +89,21 @@ export default function Diario() {
   );
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        display: 'grid',
-        gap: 2,
-        gridTemplateColumns: { xs: '1fr', md: '1fr 2fr' },
-      }}
-    >
-      <Card variant="outlined">
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            Añadir entrada
-          </Typography>
-          <Stack spacing={2}>
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
+      <Box
+        sx={{
+          width: '100%',
+          display: 'grid',
+          gap: 2,
+          gridTemplateColumns: { xs: '1fr', md: '1fr 2fr' },
+        }}
+      >
+        <Card variant="outlined">
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Añadir entrada
+            </Typography>
+            <Stack spacing={2}>
             <TextField
               label="Texto"
               multiline
@@ -117,12 +123,11 @@ export default function Diario() {
                 </MenuItem>
               ))}
             </TextField>
-            <TextField
+            <DatePicker
               label="Fecha"
-              type="date"
               value={fecha}
-              onChange={(e) => setFecha(e.target.value)}
-              InputLabelProps={{ shrink: true }}
+              onChange={(newValue) => setFecha(newValue)}
+              slotProps={{ textField: { InputLabelProps: { shrink: true } } }}
             />
             <TextField
               label="Etiquetas"
@@ -142,15 +147,15 @@ export default function Diario() {
                 />
               ))}
             </Stack>
-            <Button variant="contained" onClick={handleAdd}>
-              Guardar entrada
-            </Button>
-          </Stack>
-        </CardContent>
-      </Card>
+              <Button variant="contained" onClick={handleAdd}>
+                Guardar entrada
+              </Button>
+            </Stack>
+          </CardContent>
+        </Card>
 
-      <Box>
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} mb={2}>
+        <Box>
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} mb={2}>
           <TextField
             select
             label="Emoción"
@@ -165,12 +170,11 @@ export default function Diario() {
               </MenuItem>
             ))}
           </TextField>
-          <TextField
+          <DatePicker
             label="Fecha"
-            type="date"
             value={filtroFecha}
-            onChange={(e) => setFiltroFecha(e.target.value)}
-            InputLabelProps={{ shrink: true }}
+            onChange={(newValue) => setFiltroFecha(newValue)}
+            slotProps={{ textField: { InputLabelProps: { shrink: true } } }}
           />
           <TextField
             placeholder="Buscar"
@@ -184,41 +188,42 @@ export default function Diario() {
               ),
             }}
           />
-        </Stack>
+          </Stack>
 
-        <Card variant="outlined">
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-              Entradas del diario
-            </Typography>
-            <List>
-              {entradasFiltradas.map((e) => (
-                <ListItem key={e.id} alignItems="flex-start">
-                  <ListItemText
-                    primary={`${
-                      emociones.find((em) => em.value === e.emocion)?.label ?? ''
-                    } ${dayjs(e.fecha).format('DD/MM/YYYY')}`}
-                    secondary={
-                      <>
-                        <Typography component="span">{e.texto}</Typography>
-                        <Box sx={{ mt: 1 }}>
-                          {e.etiquetas?.map((t) => (
-                            <Chip key={t} size="small" label={t} sx={{ mr: 1 }} />
-                          ))}
-                        </Box>
-                      </>
-                    }
-                  />
-                </ListItem>
-              ))}
-              {!entradasFiltradas.length && (
-                <Typography variant="body2">Sin entradas</Typography>
-              )}
-            </List>
-          </CardContent>
-        </Card>
+          <Card variant="outlined">
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                Entradas del diario
+              </Typography>
+              <List>
+                {entradasFiltradas.map((e) => (
+                  <ListItem key={e.id} alignItems="flex-start">
+                    <ListItemText
+                      primary={`${
+                        emociones.find((em) => em.value === e.emocion)?.label ?? ''
+                      } ${dayjs(e.fecha).format('DD/MM/YYYY')}`}
+                      secondary={
+                        <>
+                          <Typography component="span">{e.texto}</Typography>
+                          <Box sx={{ mt: 1 }}>
+                            {e.etiquetas?.map((t) => (
+                              <Chip key={t} size="small" label={t} sx={{ mr: 1 }} />
+                            ))}
+                          </Box>
+                        </>
+                      }
+                    />
+                  </ListItem>
+                ))}
+                {!entradasFiltradas.length && (
+                  <Typography variant="body2">Sin entradas</Typography>
+                )}
+              </List>
+            </CardContent>
+          </Card>
+        </Box>
       </Box>
-    </Box>
+    </LocalizationProvider>
   );
 }
 
