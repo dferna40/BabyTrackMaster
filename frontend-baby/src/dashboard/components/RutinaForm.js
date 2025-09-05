@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
+import 'dayjs/locale/es';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -9,6 +11,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 
 const diasOptions = [
   { value: 'L', label: 'Lunes' },
@@ -46,9 +51,14 @@ export default function RutinaForm({ open, onClose, onSubmit, initialData }) {
     }
   }, [initialData, open]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const handleChange = (nameOrEvent, value) => {
+    if (typeof nameOrEvent === 'string') {
+      const val = value && dayjs.isDayjs(value) ? value.format('HH:mm') : value;
+      setFormData((prev) => ({ ...prev, [nameOrEvent]: val }));
+    } else {
+      const { name, value: val } = nameOrEvent.target;
+      setFormData((prev) => ({ ...prev, [name]: val }));
+    }
   };
 
   const handleSubmit = () => {
@@ -58,58 +68,61 @@ export default function RutinaForm({ open, onClose, onSubmit, initialData }) {
 
   const isValid = formData.dia && formData.hora && formData.tipo;
 
+  dayjs.locale('es');
+
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>{initialData && initialData.id ? 'Editar rutina' : 'Añadir rutina'}</DialogTitle>
-      <DialogContent>
-        <Stack sx={{ mt: 1 }}>
-          <FormControl fullWidth sx={{ mb: 2 }}>
-            <FormLabel sx={{ mb: 1 }}>Día de la semana</FormLabel>
-            <TextField
-              select
-              name="dia"
-              value={formData.dia}
-              onChange={handleChange}
-            >
-              {diasOptions.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 2 }}>
-            <FormLabel sx={{ mb: 1 }}>Hora</FormLabel>
-            <TextField
-              type="time"
-              name="hora"
-              value={formData.hora}
-              onChange={handleChange}
-            />
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 2 }}>
-            <FormLabel sx={{ mb: 1 }}>Tipo de actividad</FormLabel>
-            <TextField
-              select
-              name="tipo"
-              value={formData.tipo}
-              onChange={handleChange}
-            >
-              {tipoOptions.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </FormControl>
-        </Stack>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancelar</Button>
-        <Button onClick={handleSubmit} variant="contained" disabled={!isValid}>
-          Guardar rutina
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
+      <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+        <DialogTitle>{initialData && initialData.id ? 'Editar rutina' : 'Añadir rutina'}</DialogTitle>
+        <DialogContent>
+          <Stack sx={{ mt: 1 }}>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormLabel sx={{ mb: 1 }}>Día de la semana</FormLabel>
+              <TextField
+                select
+                name="dia"
+                value={formData.dia}
+                onChange={handleChange}
+              >
+                {diasOptions.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </FormControl>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormLabel sx={{ mb: 1 }}>Hora</FormLabel>
+              <TimePicker
+                value={formData.hora ? dayjs(formData.hora, 'HH:mm') : null}
+                onChange={(newValue) => handleChange('hora', newValue)}
+                ampm={false}
+              />
+            </FormControl>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormLabel sx={{ mb: 1 }}>Tipo de actividad</FormLabel>
+              <TextField
+                select
+                name="tipo"
+                value={formData.tipo}
+                onChange={handleChange}
+              >
+                {tipoOptions.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </FormControl>
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose}>Cancelar</Button>
+          <Button onClick={handleSubmit} variant="contained" disabled={!isValid}>
+            Guardar rutina
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </LocalizationProvider>
   );
 }
