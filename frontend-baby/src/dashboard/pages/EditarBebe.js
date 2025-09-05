@@ -319,6 +319,17 @@ export default function EditarBebe() {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <FormControl
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    select
+                    label="Grupo sanguíneo"
+                    name="grupoSanguineo"
+                    InputLabelProps={{ shrink: true }}
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                     fullWidth
                     variant="outlined"
                     sx={{
@@ -353,6 +364,17 @@ export default function EditarBebe() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    select
+                    label="Alergias"
+                    name="alergias"
+                    InputLabelProps={{ shrink: true }}
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                     fullWidth
                     variant="outlined"
                     sx={{
