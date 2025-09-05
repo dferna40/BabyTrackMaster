@@ -48,7 +48,7 @@ describe('QuickStatsCard', () => {
     });
   });
 
-  it('muestra mensaje cuando no hay estadísticas', async () => {
+  it('muestra mensaje cuando el servicio devuelve valores por defecto', async () => {
     obtenerStatsRapidas.mockResolvedValue({
       data: { horasSueno: 0, panales: 0, tomas: 0, banos: 0 },
     });
