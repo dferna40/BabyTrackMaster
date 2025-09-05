@@ -256,11 +256,17 @@ export default function AnadirBebe() {
                 Salud
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={6}>
                   <FormControl
                     fullWidth
                     variant="outlined"
-                    sx={{ '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider', borderRadius: 1 } }}
+                    sx={{
+                      minWidth: 160,
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'divider',
+                        borderRadius: 1,
+                      },
+                    }}
                   >
                     <InputLabel id="grupo-sanguineo-label" shrink>Grupo sanguíneo</InputLabel>
                     <Select
@@ -280,11 +286,17 @@ export default function AnadirBebe() {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={6}>
                   <FormControl
                     fullWidth
                     variant="outlined"
-                    sx={{ '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider', borderRadius: 1 } }}
+                    sx={{
+                      minWidth: 160,
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'divider',
+                        borderRadius: 1,
+                      },
+                    }}
                   >
                     <InputLabel id="alergias-label" shrink>Alergias</InputLabel>
                     <Select
@@ -304,7 +316,7 @@ export default function AnadirBebe() {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={12}>
                   <TextField
                     label="Medicaciones"
                     name="medicaciones"
