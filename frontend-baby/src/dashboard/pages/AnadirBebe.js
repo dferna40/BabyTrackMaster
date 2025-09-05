@@ -141,6 +141,8 @@ export default function AnadirBebe() {
                     value={formData.nombre}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -151,6 +153,8 @@ export default function AnadirBebe() {
                     disabled={loading}
                     slotProps={{
                       textField: {
+                        variant: 'outlined',
+                        sx: { '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } },
                         fullWidth: true,
                         disabled: loading,
                         InputLabelProps: { shrink: true },
@@ -191,6 +195,8 @@ export default function AnadirBebe() {
                     value={formData.pesoNacer}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -203,6 +209,8 @@ export default function AnadirBebe() {
                     value={formData.tallaNacer}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -215,6 +223,8 @@ export default function AnadirBebe() {
                     value={formData.perimetroCranealNacer}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -227,6 +237,8 @@ export default function AnadirBebe() {
                     value={formData.semanasGestacion}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
                   />
                 </Grid>
               </Grid>
@@ -242,11 +254,20 @@ export default function AnadirBebe() {
                     select
                     label="Grupo sanguíneo"
                     name="grupoSanguineo"
-                    InputLabelProps={{ shrink: true }}
+                    InputLabelProps={{
+                      shrink: true,
+                      sx: {
+                        overflow: 'visible',
+                        whiteSpace: 'normal',
+                        textOverflow: 'unset',
+                      },
+                    }}
                     fullWidth
                     value={formData.grupoSanguineo}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
                   >
                     {gruposSanguineos.map((grupo) => (
                       <MenuItem key={grupo} value={grupo}>
@@ -260,11 +281,20 @@ export default function AnadirBebe() {
                     select
                     label="Alergias"
                     name="alergias"
-                    InputLabelProps={{ shrink: true }}
+                    InputLabelProps={{
+                      shrink: true,
+                      sx: {
+                        overflow: 'visible',
+                        whiteSpace: 'normal',
+                        textOverflow: 'unset',
+                      },
+                    }}
                     fullWidth
                     value={formData.alergias}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
                   >
                     {alergiasOptions.map((alergia) => (
                       <MenuItem key={alergia} value={alergia}>
@@ -282,6 +312,8 @@ export default function AnadirBebe() {
                     value={formData.medicaciones}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
                   />
                 </Grid>
               </Grid>
@@ -301,6 +333,8 @@ export default function AnadirBebe() {
                     value={formData.numeroSs}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -312,6 +346,8 @@ export default function AnadirBebe() {
                     value={formData.pediatra}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -323,6 +359,8 @@ export default function AnadirBebe() {
                     value={formData.centroMedico}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -334,6 +372,8 @@ export default function AnadirBebe() {
                     value={formData.telefonoCentroMedico}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
                   />
                 </Grid>
               </Grid>
@@ -351,6 +391,8 @@ export default function AnadirBebe() {
                 value={formData.observaciones}
                 onChange={handleChange}
                 disabled={loading}
+                variant="outlined"
+                sx={{ '& .MuiOutlinedInput-root': { borderColor: 'divider', borderRadius: 1 } }}
               />
             </Box>
           </Grid>
