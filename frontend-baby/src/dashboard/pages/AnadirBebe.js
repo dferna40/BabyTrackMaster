@@ -255,12 +255,7 @@ export default function AnadirBebe() {
                   <FormControl
                     fullWidth
                     variant="outlined"
-                    size="small"
-                    sx={{ '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider', borderRadius: 1 } }}
-                  >
-                    <InputLabel id="grupo-sanguineo-label" shrink>
-                      Grupo sanguíneo
-                    </InputLabel>
+
                     <Select
                       labelId="grupo-sanguineo-label"
                       label="Grupo sanguíneo"
@@ -281,12 +276,7 @@ export default function AnadirBebe() {
                   <FormControl
                     fullWidth
                     variant="outlined"
-                    size="small"
-                    sx={{ '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider', borderRadius: 1 } }}
-                  >
-                    <InputLabel id="alergias-label" shrink>
-                      Alergias
-                    </InputLabel>
+
                     <Select
                       labelId="alergias-label"
                       label="Alergias"
