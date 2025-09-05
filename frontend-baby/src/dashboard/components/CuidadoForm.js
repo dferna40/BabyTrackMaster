@@ -9,11 +9,16 @@ import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import dayjs from 'dayjs';
+import 'dayjs/locale/es';
 import { listarTipos } from '../../services/cuidadosService';
 
 export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
   const [formData, setFormData] = useState({
-    inicio: '',
+    inicio: null,
     tipoId: '',
     cantidadMl: '',
     observaciones: '',
@@ -24,14 +29,14 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
   useEffect(() => {
     if (initialData) {
       setFormData({
-        inicio: initialData.inicio ? new Date(initialData.inicio).toISOString().slice(0, 16) : '',
+        inicio: initialData.inicio ? dayjs(initialData.inicio) : null,
         tipoId: initialData.tipoId || '',
         cantidadMl: initialData.cantidadMl || '',
         observaciones: initialData.observaciones || '',
         pecho: initialData.pecho || '',
       });
     } else {
-      setFormData({ inicio: '', tipoId: '', cantidadMl: '', observaciones: '', pecho: '' });
+      setFormData({ inicio: null, tipoId: '', cantidadMl: '', observaciones: '', pecho: '' });
     }
   }, [initialData, open]);
 
@@ -55,28 +60,46 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
     }));
   };
 
+  const handleInicioChange = (newValue) => {
+    setFormData((prev) => ({ ...prev, inicio: newValue }));
+  };
+
   const isPecho =
     tipoOptions.find((option) => option.id == formData.tipoId)?.nombre === 'Pecho';
 
   const handleSubmit = () => {
-    onSubmit({ ...formData, pecho: formData.pecho });
+    const payload = {
+      ...formData,
+      inicio: formData.inicio
+        ? formData.inicio.format('YYYY-MM-DDTHH:mm')
+        : '',
+      pecho: formData.pecho,
+    };
+    onSubmit(payload);
   };
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>{initialData && initialData.id ? 'Editar cuidado' : 'Añadir nuevo cuidado'}</DialogTitle>
-      <DialogContent>
-        <Stack sx={{ mt: 1 }}>
-          <FormControl fullWidth sx={{ mb: 2 }}>
-            <FormLabel sx={{ mb: 1 }}>Inicio</FormLabel>
-            <TextField
-              type="datetime-local"
-              name="inicio"
-              value={formData.inicio}
-              onChange={handleChange}
-            />
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 2 }}>
+    <LocalizationProvider
+      dateAdapter={AdapterDayjs}
+      adapterLocale="es"
+    >
+      <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+        <DialogTitle>
+          {initialData && initialData.id
+            ? 'Editar cuidado'
+            : 'Añadir nuevo cuidado'}
+        </DialogTitle>
+        <DialogContent>
+          <Stack sx={{ mt: 1 }}>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormLabel sx={{ mb: 1 }}>Inicio</FormLabel>
+              <DateTimePicker
+                value={formData.inicio}
+                onChange={handleInicioChange}
+                slotProps={{ textField: { fullWidth: true } }}
+              />
+            </FormControl>
+            <FormControl fullWidth sx={{ mb: 2 }}>
             <FormLabel sx={{ mb: 1 }}>Tipo</FormLabel>
             <TextField
               select
@@ -126,11 +149,14 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
             />
           </FormControl>
         </Stack>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancelar</Button>
-        <Button onClick={handleSubmit} variant="contained">Guardar</Button>
-      </DialogActions>
-    </Dialog>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose}>Cancelar</Button>
+          <Button onClick={handleSubmit} variant="contained">
+            Guardar
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </LocalizationProvider>
   );
 }
