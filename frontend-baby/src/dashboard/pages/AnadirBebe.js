@@ -41,9 +41,9 @@ export default function AnadirBebe() {
     semanasGestacion: '',
     imagenBebe: null,
     numeroSs: '',
-    grupoSanguineo: '',
+    tipoGrupoSanguineoId: '',
     medicaciones: '',
-    alergias: '',
+    tipoAlergiaId: '',
     pediatra: '',
     centroMedico: '',
     telefonoCentroMedico: '',
@@ -60,8 +60,25 @@ export default function AnadirBebe() {
     navigate(-1);
   };
 
-  const gruposSanguineos = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'];
-  const alergiasOptions = ['Ninguna', 'Gluten', 'Lactosa', 'Frutos secos', 'Polen', 'Ácaros', 'Medicamentos'];
+  const gruposSanguineos = [
+    { id: 1, nombre: 'O+' },
+    { id: 2, nombre: 'O-' },
+    { id: 3, nombre: 'A+' },
+    { id: 4, nombre: 'A-' },
+    { id: 5, nombre: 'B+' },
+    { id: 6, nombre: 'B-' },
+    { id: 7, nombre: 'AB+' },
+    { id: 8, nombre: 'AB-' },
+  ];
+  const alergiasOptions = [
+    { id: 1, nombre: 'Ninguna' },
+    { id: 2, nombre: 'Gluten' },
+    { id: 3, nombre: 'Lactosa' },
+    { id: 4, nombre: 'Frutos secos' },
+    { id: 5, nombre: 'Polen' },
+    { id: 6, nombre: 'Ácaros' },
+    { id: 7, nombre: 'Medicamentos' },
+  ];
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -102,6 +119,8 @@ export default function AnadirBebe() {
             payload[key] = value.format('YYYY-MM-DD');
           } else if (key === 'imagenBebe' && value instanceof File) {
             payload[key] = await toBase64(value);
+          } else if (key === 'tipoGrupoSanguineoId' || key === 'tipoAlergiaId') {
+            payload[key] = Number(value);
           } else {
             payload[key] = value;
           }
@@ -301,15 +320,15 @@ export default function AnadirBebe() {
                     <Select
                       labelId="grupo-sanguineo-label"
                       label="Grupo sanguíneo"
-                      name="grupoSanguineo"
-                      value={formData.grupoSanguineo}
+                      name="tipoGrupoSanguineoId"
+                      value={formData.tipoGrupoSanguineoId}
                       onChange={handleChange}
                       disabled={loading}
                       fullWidth
                     >
                       {gruposSanguineos.map((grupo) => (
-                        <MenuItem key={grupo} value={grupo}>
-                          {grupo}
+                        <MenuItem key={grupo.id} value={grupo.id}>
+                          {grupo.nombre}
                         </MenuItem>
                       ))}
                     </Select>
@@ -336,15 +355,15 @@ export default function AnadirBebe() {
                     <Select
                       labelId="alergias-label"
                       label="Alergias"
-                      name="alergias"
-                      value={formData.alergias}
+                      name="tipoAlergiaId"
+                      value={formData.tipoAlergiaId}
                       onChange={handleChange}
                       disabled={loading}
                       fullWidth
                     >
                       {alergiasOptions.map((alergia) => (
-                        <MenuItem key={alergia} value={alergia}>
-                          {alergia}
+                        <MenuItem key={alergia.id} value={alergia.id}>
+                          {alergia.nombre}
                         </MenuItem>
                       ))}
                     </Select>
