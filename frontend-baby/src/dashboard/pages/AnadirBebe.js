@@ -34,7 +34,7 @@ export default function AnadirBebe() {
   const [formData, setFormData] = useState({
     nombre: '',
     fechaNacimiento: null,
-    sexo: 'ND',
+    sexo: '',
     pesoNacer: '',
     tallaNacer: '',
     perimetroCranealNacer: '',
@@ -163,6 +163,7 @@ export default function AnadirBebe() {
                     disabled={loading}
                     slotProps={{
                       textField: {
+                        required: true,
                         variant: 'outlined',
                         sx: {
                           '& .MuiOutlinedInput-root': { borderRadius: 1 },
@@ -176,8 +177,8 @@ export default function AnadirBebe() {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <FormControl>
-                    <FormLabel>Sexo</FormLabel>
+                  <FormControl required>
+                    <FormLabel required>Sexo</FormLabel>
                     <RadioGroup
                       row
                       name="sexo"
