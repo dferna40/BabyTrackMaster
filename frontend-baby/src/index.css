@@ -17,6 +17,7 @@ body {
 }
 
 #add-baby .MuiFormControl-root {
-  width: 100%;
+  width: calc(100% - 16px);
   margin-right: 16px;
+  box-sizing: border-box;
 }
