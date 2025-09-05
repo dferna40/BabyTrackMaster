@@ -191,12 +191,12 @@ export default function EditarBebe() {
                     value={formData.fechaNacimiento}
                     onChange={handleDateChange}
                     disabled={loading}
-                    slotProps={{ textField: { fullWidth: true, disabled: loading } }}
+                    slotProps={{ textField: { fullWidth: true, disabled: loading, required: true } }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <FormControl>
-                    <FormLabel>Sexo</FormLabel>
+                  <FormControl required>
+                    <FormLabel required>Sexo</FormLabel>
                     <RadioGroup
                       row
                       name="sexo"
