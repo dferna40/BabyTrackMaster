@@ -6,6 +6,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
 import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -179,10 +181,16 @@ export default function EditarBebe() {
                     required
                     label="Nombre del bebé"
                     name="nombre"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.nombre}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -191,7 +199,19 @@ export default function EditarBebe() {
                     value={formData.fechaNacimiento}
                     onChange={handleDateChange}
                     disabled={loading}
-                    slotProps={{ textField: { fullWidth: true, disabled: loading, required: true } }}
+                    slotProps={{
+                      textField: {
+                        required: true,
+                        variant: 'outlined',
+                        sx: {
+                          '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                          '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                        },
+                        fullWidth: true,
+                        disabled: loading,
+                        InputLabelProps: { shrink: true },
+                      },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -223,10 +243,16 @@ export default function EditarBebe() {
                     name="pesoNacer"
                     type="number"
                     inputProps={{ min: 0 }}
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.pesoNacer}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -235,10 +261,16 @@ export default function EditarBebe() {
                     name="tallaNacer"
                     type="number"
                     inputProps={{ min: 0 }}
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.tallaNacer}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -247,10 +279,16 @@ export default function EditarBebe() {
                     name="perimetroCranealNacer"
                     type="number"
                     inputProps={{ min: 0 }}
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.perimetroCranealNacer}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -259,10 +297,16 @@ export default function EditarBebe() {
                     name="semanasGestacion"
                     type="number"
                     inputProps={{ min: 0 }}
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.semanasGestacion}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
               </Grid>
@@ -273,48 +317,88 @@ export default function EditarBebe() {
                 Salud
               </Typography>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    select
-                    label="Grupo sanguíneo"
-                    name="grupoSanguineo"
+                <Grid item xs={12} sm={6}>
+                  <FormControl
                     fullWidth
-                    value={formData.grupoSanguineo}
-                    onChange={handleChange}
-                    disabled={loading}
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                      minWidth: 160,
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'divider',
+                        borderRadius: 1,
+                      },
+                    }}
                   >
-                    {gruposSanguineos.map((grupo) => (
-                      <MenuItem key={grupo} value={grupo}>
-                        {grupo}
-                      </MenuItem>
-                    ))}
-                  </TextField>
+                    <InputLabel id="grupo-sanguineo-label" shrink>
+                      Grupo sanguíneo
+                    </InputLabel>
+                    <Select
+                      labelId="grupo-sanguineo-label"
+                      label="Grupo sanguíneo"
+                      name="grupoSanguineo"
+                      value={formData.grupoSanguineo}
+                      onChange={handleChange}
+                      disabled={loading}
+                      fullWidth
+                    >
+                      {gruposSanguineos.map((grupo) => (
+                        <MenuItem key={grupo} value={grupo}>
+                          {grupo}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    select
-                    label="Alergias"
-                    name="alergias"
+                <Grid item xs={12} sm={6}>
+                  <FormControl
                     fullWidth
-                    value={formData.alergias}
-                    onChange={handleChange}
-                    disabled={loading}
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                      minWidth: 160,
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'divider',
+                        borderRadius: 1,
+                      },
+                    }}
                   >
-                    {alergiasOptions.map((alergia) => (
-                      <MenuItem key={alergia} value={alergia}>
-                        {alergia}
-                      </MenuItem>
-                    ))}
-                  </TextField>
+                    <InputLabel id="alergias-label" shrink>
+                      Alergias
+                    </InputLabel>
+                    <Select
+                      labelId="alergias-label"
+                      label="Alergias"
+                      name="alergias"
+                      value={formData.alergias}
+                      onChange={handleChange}
+                      disabled={loading}
+                      fullWidth
+                    >
+                      {alergiasOptions.map((alergia) => (
+                        <MenuItem key={alergia} value={alergia}>
+                          {alergia}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={12}>
                   <TextField
                     label="Medicaciones"
                     name="medicaciones"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.medicaciones}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
               </Grid>
@@ -329,40 +413,64 @@ export default function EditarBebe() {
                   <TextField
                     label="Número SS"
                     name="numeroSs"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.numeroSs}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     label="Pediatra"
                     name="pediatra"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.pediatra}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     label="Centro médico"
                     name="centroMedico"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.centroMedico}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     label="Número centro médico"
                     name="telefonoCentroMedico"
+                    InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.telefonoCentroMedico}
                     onChange={handleChange}
                     disabled={loading}
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                    }}
                   />
                 </Grid>
               </Grid>
@@ -380,6 +488,11 @@ export default function EditarBebe() {
                 value={formData.observaciones}
                 onChange={handleChange}
                 disabled={loading}
+                variant="outlined"
+                sx={{
+                  '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                  '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                }}
               />
             </Box>
           </Grid>
