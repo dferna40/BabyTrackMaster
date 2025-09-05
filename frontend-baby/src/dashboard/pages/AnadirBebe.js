@@ -505,21 +505,20 @@ export default function AnadirBebe() {
             {loading ? <CircularProgress size={24} /> : 'Guardar'}
           </Button>
         </Stack>
-      </Box>
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-      >
-        <Alert
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
           onClose={handleCloseSnackbar}
-          severity="success"
-          sx={{ width: '100%' }}
         >
-          Bebé guardado correctamente
-        </Alert>
-      </Snackbar>
-    </Box>
+          <Alert
+            onClose={handleCloseSnackbar}
+            severity="success"
+            sx={{ width: '100%' }}
+          >
+            Bebé guardado correctamente
+          </Alert>
+        </Snackbar>
+      </Box>
   );
 }
 
