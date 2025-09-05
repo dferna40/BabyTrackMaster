@@ -43,11 +43,13 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    const sanitizedValue =
+      name === 'cantidadMl' ? String(Math.max(0, Number(value))) : value;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: sanitizedValue,
       ...(name === 'tipoId' &&
-      tipoOptions.find((option) => option.id == value)?.nombre !== 'Pecho'
+      tipoOptions.find((option) => option.id == sanitizedValue)?.nombre !== 'Pecho'
         ? { pecho: '' }
         : {}),
     }));
@@ -110,6 +112,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
               name="cantidadMl"
               value={formData.cantidadMl}
               onChange={handleChange}
+              inputProps={{ min: 0 }}
             />
           </FormControl>
           <FormControl fullWidth sx={{ mb: 2 }}>
