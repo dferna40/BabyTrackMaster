@@ -20,6 +20,7 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
     cantidad: '',
   });
   const [categorias, setCategorias] = useState([]);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (initialData) {
@@ -32,6 +33,7 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
     } else {
       setFormData({ fecha: '', categoriaId: '', descripcion: '', cantidad: '' });
     }
+    setErrors({});
   }, [initialData, open]);
 
   useEffect(() => {
@@ -46,10 +48,25 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === 'cantidad') {
+      const val = Number(value);
+      setErrors((prev) => ({
+        ...prev,
+        cantidad: val >= 0 ? '' : 'La cantidad no puede ser negativa',
+      }));
+    }
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = () => {
+    const val = Number(formData.cantidad);
+    if (val < 0) {
+      setErrors((prev) => ({
+        ...prev,
+        cantidad: 'La cantidad no puede ser negativa',
+      }));
+      return;
+    }
     onSubmit(formData);
   };
 
@@ -99,6 +116,9 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
               name="cantidad"
               value={formData.cantidad}
               onChange={handleChange}
+              inputProps={{ min: 0 }}
+              error={Boolean(errors.cantidad)}
+              helperText={errors.cantidad}
             />
           </FormControl>
         </Stack>
