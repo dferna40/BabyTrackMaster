@@ -522,7 +522,10 @@ export default function Citas() {
             type="number"
             label="Minutos de antelación"
             value={minutosAntelacion}
-            onChange={(e) => setMinutosAntelacion(Number(e.target.value))}
+            onChange={(e) =>
+              setMinutosAntelacion(Math.max(0, Number(e.target.value)))
+            }
+            inputProps={{ min: 0 }}
             fullWidth
             sx={{ mt: 1 }}
           />
