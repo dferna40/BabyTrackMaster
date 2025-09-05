@@ -89,6 +89,7 @@ export default function EditarBebe() {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    if (type === 'number' && Number(value) < 0) return;
     setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
@@ -221,6 +222,7 @@ export default function EditarBebe() {
                     label="Peso al nacer (kg)"
                     name="pesoNacer"
                     type="number"
+                    inputProps={{ min: 0 }}
                     fullWidth
                     value={formData.pesoNacer}
                     onChange={handleChange}
@@ -232,6 +234,7 @@ export default function EditarBebe() {
                     label="Talla al nacer (cm)"
                     name="tallaNacer"
                     type="number"
+                    inputProps={{ min: 0 }}
                     fullWidth
                     value={formData.tallaNacer}
                     onChange={handleChange}
@@ -243,6 +246,7 @@ export default function EditarBebe() {
                     label="Perímetro craneal al nacer (cm)"
                     name="perimetroCranealNacer"
                     type="number"
+                    inputProps={{ min: 0 }}
                     fullWidth
                     value={formData.perimetroCranealNacer}
                     onChange={handleChange}
@@ -254,6 +258,7 @@ export default function EditarBebe() {
                     label="Semanas de gestación"
                     name="semanasGestacion"
                     type="number"
+                    inputProps={{ min: 0 }}
                     fullWidth
                     value={formData.semanasGestacion}
                     onChange={handleChange}
