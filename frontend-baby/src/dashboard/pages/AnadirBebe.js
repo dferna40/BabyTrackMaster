@@ -254,7 +254,14 @@ export default function AnadirBebe() {
                     select
                     label="Grupo sanguíneo"
                     name="grupoSanguineo"
-                    InputLabelProps={{ shrink: true }}
+                    InputLabelProps={{
+                      shrink: true,
+                      sx: {
+                        overflow: 'visible',
+                        whiteSpace: 'normal',
+                        textOverflow: 'unset',
+                      },
+                    }}
                     fullWidth
                     value={formData.grupoSanguineo}
                     onChange={handleChange}
@@ -274,7 +281,14 @@ export default function AnadirBebe() {
                     select
                     label="Alergias"
                     name="alergias"
-                    InputLabelProps={{ shrink: true }}
+                    InputLabelProps={{
+                      shrink: true,
+                      sx: {
+                        overflow: 'visible',
+                        whiteSpace: 'normal',
+                        textOverflow: 'unset',
+                      },
+                    }}
                     fullWidth
                     value={formData.alergias}
                     onChange={handleChange}
