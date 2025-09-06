@@ -26,9 +26,10 @@ import { BarChart } from '@mui/x-charts/BarChart';
 
 import {
   listarPorBebe,
-  crearAlimentacion,
-  actualizarAlimentacion,
-  eliminarAlimentacion,
+  obtenerEstadisticas,
+  crearRegistro,
+  actualizarRegistro,
+  eliminarRegistro,
 } from '../../services/alimentacionService';
 import AlimentacionForm from '../components/AlimentacionForm';
 import { BabyContext } from '../../context/BabyContext';
@@ -63,15 +64,6 @@ export default function Alimentacion() {
     [registros]
   );
 
-  useEffect(() => {
-    const stats = Array(7).fill(0);
-    filtered.forEach((r) => {
-      const dayIndex = dayjs(r.inicio).day();
-      stats[(dayIndex + 6) % 7] += 1;
-    });
-    setWeeklyStats(stats);
-  }, [filtered]);
-
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
     setPage(0);
@@ -84,9 +76,17 @@ export default function Alimentacion() {
       .catch((err) => console.error('Error fetching alimentacion:', err));
   };
 
+  const fetchEstadisticas = () => {
+    if (!bebeId || !usuarioId) return;
+    obtenerEstadisticas(usuarioId, bebeId)
+      .then((res) => setWeeklyStats(res.data?.weekly || res.data || Array(7).fill(0)))
+      .catch((err) => console.error('Error fetching estadisticas:', err));
+  };
+
   useEffect(() => {
     if (bebeId) {
       fetchRegistros();
+      fetchEstadisticas();
     }
   }, [bebeId]);
 
@@ -103,8 +103,11 @@ export default function Alimentacion() {
   const handleDelete = (id) => {
     if (!bebeId || !usuarioId) return;
     if (window.confirm('¿Eliminar registro?')) {
-      eliminarAlimentacion(usuarioId, id)
-        .then(() => fetchRegistros())
+      eliminarRegistro(usuarioId, id)
+        .then(() => {
+          fetchRegistros();
+          fetchEstadisticas();
+        })
         .catch((err) => console.error('Error deleting registro:', err));
     }
   };
@@ -113,13 +116,14 @@ export default function Alimentacion() {
     if (!bebeId || !usuarioId) return;
     const payload = { ...data, bebeId };
     const request = selected && selected.id
-      ? actualizarAlimentacion(usuarioId, selected.id, payload)
-      : crearAlimentacion(usuarioId, payload);
+      ? actualizarRegistro(usuarioId, selected.id, payload)
+      : crearRegistro(usuarioId, payload);
     request
       .then(() => {
         setOpenForm(false);
         setSelected(null);
         fetchRegistros();
+        fetchEstadisticas();
       })
       .catch((err) => console.error('Error saving registro:', err));
   };
