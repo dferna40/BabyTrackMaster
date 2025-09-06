@@ -103,7 +103,7 @@ export default function Alimentacion() {
   const handleDelete = (id) => {
     if (!bebeId || !usuarioId) return;
     if (window.confirm('¿Eliminar registro?')) {
-      eliminarRegistro(usuarioId, id)
+      eliminarRegistro(usuarioId, bebeId, id)
         .then(() => {
           fetchRegistros();
           fetchEstadisticas();
@@ -116,8 +116,8 @@ export default function Alimentacion() {
     if (!bebeId || !usuarioId) return;
     const payload = { ...data, bebeId };
     const request = selected && selected.id
-      ? actualizarRegistro(usuarioId, selected.id, payload)
-      : crearRegistro(usuarioId, payload);
+      ? actualizarRegistro(usuarioId, bebeId, selected.id, payload)
+      : crearRegistro(usuarioId, bebeId, payload);
     request
       .then(() => {
         setOpenForm(false);
