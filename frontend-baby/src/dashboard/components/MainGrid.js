@@ -37,10 +37,14 @@ export default function MainGrid() {
           <QuickActionsCard />
         </Grid>
         <Grid size={{ xs: 12 }}>
-          <RecentCareCard />
-        </Grid>
-        <Grid size={{ xs: 12 }}>
-          <UpcomingAppointmentsCard />
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <RecentCareCard />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <UpcomingAppointmentsCard />
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
       <Copyright sx={{ my: 4 }} />
