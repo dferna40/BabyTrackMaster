@@ -1,6 +1,7 @@
 package com.babytrackmaster.api_alimentacion;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -43,6 +44,22 @@ class AlimentacionServiceImplTest {
 
         AlimentacionResponse resp = service.crear(1L, 2L, req);
         assertEquals(5L, resp.getId());
+        verify(repo).save(any(Alimentacion.class));
+    }
+
+    @Test
+    void crearConFechaHoraNullAsignaFechaActual() {
+        AlimentacionRequest req = new AlimentacionRequest();
+        req.setTipo(TipoAlimentacion.BIBERON);
+        req.setCantidadMl(80);
+
+        Alimentacion saved = AlimentacionMapper.toEntity(req, 1L, 2L);
+        saved.setId(6L);
+
+        when(repo.save(any(Alimentacion.class))).thenReturn(saved);
+
+        AlimentacionResponse resp = service.crear(1L, 2L, req);
+        assertNotNull(resp.getFechaHora());
         verify(repo).save(any(Alimentacion.class));
     }
 }

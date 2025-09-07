@@ -14,7 +14,6 @@ public class AlimentacionRequest {
     @NotNull
     @Schema(allowableValues = {"lactancia", "biberon", "solidos"})
     private TipoAlimentacion tipo;
-    @NotNull
     private Date fechaHora;
 
     // Lactancia

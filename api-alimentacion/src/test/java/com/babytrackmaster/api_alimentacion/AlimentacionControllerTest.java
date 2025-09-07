@@ -61,4 +61,22 @@ class AlimentacionControllerTest {
                 .content(json))
                 .andExpect(status().isCreated());
     }
+
+    @Test
+    void crearSinFechaHoraDevuelveCreated() throws Exception {
+        AlimentacionRequest req = new AlimentacionRequest();
+        req.setTipo(TipoAlimentacion.BIBERON);
+        req.setCantidadMl(100);
+        AlimentacionResponse resp = new AlimentacionResponse();
+        resp.setId(1L);
+        resp.setFechaHora(new Date());
+        when(service.crear(any(Long.class), any(Long.class), any(AlimentacionRequest.class))).thenReturn(resp);
+
+        String json = mapper.writeValueAsString(req).replace("BIBERON", "biberon");
+
+        mockMvc.perform(post("/api/v1/alimentacion/usuario/1/bebe/2")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isCreated());
+    }
 }

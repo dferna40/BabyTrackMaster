@@ -13,7 +13,8 @@ public class AlimentacionMapper {
         a.setUsuarioId(usuarioId);
         a.setBebeId(bebeId);
         a.setTipo(req.getTipo());
-        a.setFechaHora(req.getFechaHora());
+        Date now = new Date();
+        a.setFechaHora(req.getFechaHora() != null ? req.getFechaHora() : now);
         a.setLado(req.getLado());
         a.setDuracionMin(req.getDuracionMin());
         a.setTipoLeche(req.getTipoLeche());
@@ -21,7 +22,6 @@ public class AlimentacionMapper {
         a.setAlimento(req.getAlimento());
         a.setCantidad(req.getCantidad());
         a.setObservaciones(req.getObservaciones());
-        Date now = new Date();
         a.setCreatedAt(now);
         a.setUpdatedAt(now);
         a.setEliminado(false);
@@ -30,7 +30,7 @@ public class AlimentacionMapper {
 
     public static void copyToEntity(AlimentacionRequest req, Alimentacion a) {
         a.setTipo(req.getTipo());
-        a.setFechaHora(req.getFechaHora());
+        a.setFechaHora(req.getFechaHora() != null ? req.getFechaHora() : a.getFechaHora());
         a.setLado(req.getLado());
         a.setDuracionMin(req.getDuracionMin());
         a.setTipoLeche(req.getTipoLeche());
