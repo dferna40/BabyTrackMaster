@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -47,6 +48,7 @@ export default function Cuidados() {
   const usuarioId = user?.id;
   const bebeId = activeBaby?.id;
   const [weeklyStats, setWeeklyStats] = useState(Array(7).fill(0));
+  const location = useLocation();
 
   const filteredCuidados = useMemo(
     () =>
@@ -93,6 +95,18 @@ export default function Cuidados() {
         .catch((error) => console.error('Error fetching tipos cuidado:', error));
     }
   }, [bebeId]);
+
+  useEffect(() => {
+    if (location.state?.tipo && tipos.length > 0) {
+      const tipo = tipos.find(
+        (t) => t.nombre.toLowerCase() === location.state.tipo.toLowerCase()
+      );
+      if (tipo) {
+        setSelectedCuidado({ tipoId: tipo.id });
+        setOpenForm(true);
+      }
+    }
+  }, [location.state, tipos]);
 
   const handleAdd = () => {
     setSelectedCuidado(null);

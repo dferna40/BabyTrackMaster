@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -49,6 +50,7 @@ export default function Alimentacion() {
   const bebeId = activeBaby?.id;
   const usuarioId = user?.id;
   const [weeklyStats, setWeeklyStats] = useState(Array(7).fill(0));
+  const location = useLocation();
 
   const filtered = useMemo(
     () => registros.filter((r) => r.tipo === tabValues[tab]),
@@ -89,6 +91,17 @@ export default function Alimentacion() {
       fetchEstadisticas();
     }
   }, [bebeId]);
+
+  useEffect(() => {
+    if (location.state?.tipo) {
+      const index = tabValues.indexOf(location.state.tipo);
+      if (index !== -1) {
+        setTab(index);
+        setSelected({ tipo: location.state.tipo });
+        setOpenForm(true);
+      }
+    }
+  }, [location.state]);
 
   const handleAdd = () => {
     setSelected({ tipo: tabValues[tab] });
