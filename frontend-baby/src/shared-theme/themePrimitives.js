@@ -5,29 +5,29 @@ const defaultTheme = createTheme();
 const customShadows = [...defaultTheme.shadows];
 
 export const brand = {
-  50: 'hsl(210, 100%, 95%)',
-  100: 'hsl(210, 100%, 92%)',
-  200: 'hsl(210, 100%, 80%)',
-  300: 'hsl(210, 100%, 65%)',
-  400: 'hsl(210, 98%, 48%)',
-  500: 'hsl(210, 98%, 42%)',
-  600: 'hsl(210, 98%, 55%)',
-  700: 'hsl(210, 100%, 35%)',
-  800: 'hsl(210, 100%, 16%)',
-  900: 'hsl(210, 100%, 21%)',
+  50: 'hsl(174, 75%, 95%)',
+  100: 'hsl(174, 75%, 90%)',
+  200: 'hsl(174, 70%, 80%)',
+  300: 'hsl(174, 65%, 65%)',
+  400: 'hsl(174, 60%, 50%)',
+  500: 'hsl(174, 65%, 45%)',
+  600: 'hsl(174, 70%, 40%)',
+  700: 'hsl(174, 75%, 32%)',
+  800: 'hsl(174, 85%, 25%)',
+  900: 'hsl(174, 90%, 15%)',
 };
 
 export const gray = {
-  50: 'hsl(220, 35%, 97%)',
-  100: 'hsl(220, 30%, 94%)',
-  200: 'hsl(220, 20%, 88%)',
-  300: 'hsl(220, 20%, 80%)',
-  400: 'hsl(220, 20%, 65%)',
-  500: 'hsl(220, 20%, 42%)',
-  600: 'hsl(220, 20%, 35%)',
-  700: 'hsl(220, 20%, 25%)',
-  800: 'hsl(220, 30%, 6%)',
-  900: 'hsl(220, 35%, 3%)',
+  50: 'hsl(0, 0%, 98%)',
+  100: 'hsl(0, 0%, 95%)',
+  200: 'hsl(0, 0%, 90%)',
+  300: 'hsl(0, 0%, 80%)',
+  400: 'hsl(0, 0%, 65%)',
+  500: 'hsl(0, 0%, 50%)',
+  600: 'hsl(0, 0%, 40%)',
+  700: 'hsl(0, 0%, 30%)',
+  800: 'hsl(0, 0%, 20%)',
+  900: 'hsl(0, 0%, 10%)',
 };
 
 export const green = {
@@ -72,8 +72,8 @@ export const red = {
 export const getDesignTokens = (mode) => {
   customShadows[1] =
     mode === 'dark'
-      ? 'hsla(220, 30%, 5%, 0.7) 0px 4px 16px 0px, hsla(220, 25%, 10%, 0.8) 0px 8px 16px -5px'
-      : 'hsla(220, 30%, 5%, 0.07) 0px 4px 16px 0px, hsla(220, 25%, 10%, 0.07) 0px 8px 16px -5px';
+      ? 'hsla(220, 30%, 5%, 0.5) 0px 4px 20px 0px'
+      : 'hsla(220, 30%, 5%, 0.05) 0px 4px 20px 0px';
 
   return {
     palette: {
@@ -209,7 +209,7 @@ export const getDesignTokens = (mode) => {
       },
     },
     shape: {
-      borderRadius: 8,
+      borderRadius: 12,
     },
     shadows: customShadows,
   };
@@ -262,8 +262,7 @@ export const colorSchemes = {
         hover: alpha(gray[200], 0.2),
         selected: `${alpha(gray[200], 0.3)}`,
       },
-      baseShadow:
-        'hsla(220, 30%, 5%, 0.07) 0px 4px 16px 0px, hsla(220, 25%, 10%, 0.07) 0px 8px 16px -5px',
+      baseShadow: 'hsla(220, 30%, 5%, 0.05) 0px 4px 20px 0px',
     },
   },
   dark: {
@@ -311,8 +310,7 @@ export const colorSchemes = {
         hover: alpha(gray[600], 0.2),
         selected: alpha(gray[600], 0.3),
       },
-      baseShadow:
-        'hsla(220, 30%, 5%, 0.7) 0px 4px 16px 0px, hsla(220, 25%, 10%, 0.8) 0px 8px 16px -5px',
+      baseShadow: 'hsla(220, 30%, 5%, 0.5) 0px 4px 20px 0px',
     },
   },
 };
@@ -368,7 +366,7 @@ export const typography = {
 };
 
 export const shape = {
-  borderRadius: 8,
+  borderRadius: 12,
 };
 
 const defaultShadows = [
