@@ -49,7 +49,7 @@ export default function Dashboard(props) {
               sx={{
                 alignItems: 'stretch',
                 width: '100%',
-                mx: 3,
+                px: 3,
                 pb: 5,
                 mt: { xs: 8, md: 0 },
               }}
