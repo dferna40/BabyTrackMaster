@@ -152,9 +152,9 @@ export default function Alimentacion() {
         return [...base, r.lado, r.duracionMin, r.observaciones || ''];
       }
       if (current === 'biberon') {
-        return [...base, r.biberonTipo, r.cantidad, r.observaciones || ''];
+        return [...base, r.tipoLeche, r.cantidadMl, r.observaciones || ''];
       }
-      return [...base, r.alimento, r.cantidad, r.observaciones || ''];
+      return [...base, r.alimento, r.cantidadMl, r.observaciones || ''];
     });
     const csvContent = [headers, ...rows].map((e) => e.join(',')).join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -176,9 +176,9 @@ export default function Alimentacion() {
         return [...base, r.lado, r.duracionMin, r.observaciones || ''];
       }
       if (current === 'biberon') {
-        return [...base, r.biberonTipo, r.cantidad, r.observaciones || ''];
+        return [...base, r.tipoLeche, r.cantidadMl, r.observaciones || ''];
       }
-      return [...base, r.alimento, r.cantidad, r.observaciones || ''];
+      return [...base, r.alimento, r.cantidadMl, r.observaciones || ''];
     });
     const doc = new jsPDF();
     autoTable(doc, {
@@ -243,15 +243,15 @@ export default function Alimentacion() {
                   )}
                   {tabValues[tab] === 'biberon' && (
                     <>
-                      <TableCell>{r.biberonTipo}</TableCell>
-                      <TableCell>{r.cantidad}</TableCell>
+                      <TableCell>{r.tipoLeche}</TableCell>
+                      <TableCell>{r.cantidadMl}</TableCell>
                       <TableCell>{r.observaciones}</TableCell>
                     </>
                   )}
                   {tabValues[tab] === 'solidos' && (
                     <>
                       <TableCell>{r.alimento}</TableCell>
-                      <TableCell>{r.cantidad}</TableCell>
+                      <TableCell>{r.cantidadMl}</TableCell>
                       <TableCell>{r.observaciones}</TableCell>
                     </>
                   )}
