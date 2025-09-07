@@ -20,13 +20,13 @@ export default function MainGrid() {
     <Box
       sx={{
         width: '100%',
-        maxWidth: { sm: '100%', md: '1700px' },
+        maxWidth: '100%',
         mx: 'auto',
         p: 2,
       }}
     >
       <Grid container spacing={2}>
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12 }}>
           <HighlightedCard />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
