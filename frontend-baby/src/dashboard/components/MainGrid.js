@@ -7,6 +7,7 @@ import UpcomingAppointmentsCard from './UpcomingAppointmentsCard';
 import RecentCareCard from './RecentCareCard';
 import HighlightedCard from './HighlightedCard';
 import QuickActionsCard from './QuickActionsCard';
+import StatsOverview from './StatsOverview';
 import { BabyContext } from '../../context/BabyContext';
 
 export default function MainGrid() {
@@ -28,6 +29,9 @@ export default function MainGrid() {
       <Grid container spacing={2}>
         <Grid size={{ xs: 12 }}>
           <HighlightedCard />
+        </Grid>
+        <Grid size={{ xs: 12 }}>
+          <StatsOverview />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
           <QuickActionsCard />
