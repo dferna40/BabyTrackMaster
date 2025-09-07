@@ -24,8 +24,8 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
     inicio: null,
     lado: '',
     duracionMin: '',
-    biberonTipo: '',
-    cantidad: '',
+    tipoLeche: '',
+    cantidadMl: '',
     alimento: '',
     observaciones: '',
   });
@@ -39,8 +39,8 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
         inicio: initialData.inicio ? dayjs(initialData.inicio) : null,
         lado: initialData.lado || '',
         duracionMin: initialData.duracionMin || '',
-        biberonTipo: initialData.biberonTipo || '',
-        cantidad: initialData.cantidad || '',
+        tipoLeche: initialData.tipoLeche || '',
+        cantidadMl: initialData.cantidadMl || '',
         alimento: initialData.alimento || '',
         observaciones: initialData.observaciones || '',
       });
@@ -50,8 +50,8 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
         inicio: null,
         lado: '',
         duracionMin: '',
-        biberonTipo: '',
-        cantidad: '',
+        tipoLeche: '',
+        cantidadMl: '',
         alimento: '',
         observaciones: '',
       });
@@ -76,12 +76,12 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
       if (!formData.duracionMin) newErrors.duracionMin = 'Requerido';
     }
     if (formData.tipo === 'biberon') {
-      if (!formData.biberonTipo) newErrors.biberonTipo = 'Requerido';
-      if (!formData.cantidad) newErrors.cantidad = 'Requerido';
+      if (!formData.tipoLeche) newErrors.tipoLeche = 'Requerido';
+      if (!formData.cantidadMl) newErrors.cantidadMl = 'Requerido';
     }
     if (formData.tipo === 'solidos') {
       if (!formData.alimento) newErrors.alimento = 'Requerido';
-      if (!formData.cantidad) newErrors.cantidad = 'Requerido';
+      if (!formData.cantidadMl) newErrors.cantidadMl = 'Requerido';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -159,11 +159,11 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
                 <FormLabel sx={{ mb: 1 }}>Tipo</FormLabel>
                 <TextField
                   select
-                  name="biberonTipo"
-                  value={formData.biberonTipo}
+                  name="tipoLeche"
+                  value={formData.tipoLeche}
                   onChange={handleChange}
-                  error={!!errors.biberonTipo}
-                  helperText={errors.biberonTipo}
+                  error={!!errors.tipoLeche}
+                  helperText={errors.tipoLeche}
                 >
                   <MenuItem value="leche_materna">Leche materna extraída</MenuItem>
                   <MenuItem value="formula">Fórmula</MenuItem>
@@ -173,11 +173,11 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
                 <FormLabel sx={{ mb: 1 }}>Cantidad (ml)</FormLabel>
                 <TextField
                   type="number"
-                  name="cantidad"
-                  value={formData.cantidad}
+                  name="cantidadMl"
+                  value={formData.cantidadMl}
                   onChange={handleChange}
-                  error={!!errors.cantidad}
-                  helperText={errors.cantidad}
+                  error={!!errors.cantidadMl}
+                  helperText={errors.cantidadMl}
                   inputProps={{ min: 0 }}
                 />
               </FormControl>
@@ -198,11 +198,11 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
               <FormControl fullWidth sx={{ mb: 2 }}>
                 <FormLabel sx={{ mb: 1 }}>Cantidad</FormLabel>
                 <TextField
-                  name="cantidad"
-                  value={formData.cantidad}
+                  name="cantidadMl"
+                  value={formData.cantidadMl}
                   onChange={handleChange}
-                  error={!!errors.cantidad}
-                  helperText={errors.cantidad}
+                  error={!!errors.cantidadMl}
+                  helperText={errors.cantidadMl}
                 />
               </FormControl>
             </>
