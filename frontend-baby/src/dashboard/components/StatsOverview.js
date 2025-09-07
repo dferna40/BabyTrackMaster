@@ -76,7 +76,7 @@ export default function StatsOverview() {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} sm={6} md={3}>
+      <Grid item xs={12}>
         <Card sx={{ backgroundColor: cardBg, color: theme.palette.text.primary }}>
           <CardContent>
             <Stack direction="row" spacing={2} alignItems="center">
@@ -89,7 +89,7 @@ export default function StatsOverview() {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={6} md={3}>
+      <Grid item xs={12}>
         <Card sx={{ backgroundColor: cardBg, color: theme.palette.text.primary }}>
           <CardContent>
             <Stack direction="row" spacing={2} alignItems="center">
@@ -102,7 +102,7 @@ export default function StatsOverview() {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={6} md={3}>
+      <Grid item xs={12}>
         <Card sx={{ backgroundColor: cardBg, color: theme.palette.text.primary }}>
           <CardContent>
             <Stack direction="row" spacing={2} alignItems="center">
@@ -120,7 +120,7 @@ export default function StatsOverview() {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12} sm={6} md={3}>
+      <Grid item xs={12}>
         <Card sx={{ backgroundColor: cardBg, color: theme.palette.text.primary }}>
           <CardContent>
             <Stack direction="row" spacing={2} alignItems="center">

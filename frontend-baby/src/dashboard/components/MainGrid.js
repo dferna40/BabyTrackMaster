@@ -33,13 +33,13 @@ export default function MainGrid() {
         <Grid size={{ xs: 12 }}>
           <StatsOverview />
         </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12 }}>
           <QuickActionsCard />
         </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12 }}>
           <RecentCareCard />
         </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>
+        <Grid size={{ xs: 12 }}>
           <UpcomingAppointmentsCard />
         </Grid>
       </Grid>
