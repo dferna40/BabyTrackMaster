@@ -75,6 +75,7 @@ export default function StatsOverview() {
   }, [user, activeBaby]);
 
   return (
+
     <Card
       sx={{
         width: '100%',
@@ -86,24 +87,51 @@ export default function StatsOverview() {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={3}>
             <Stack direction="row" spacing={2} alignItems="center" sx={{ width: '100%' }}>
+
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Card sx={{ backgroundColor: cardBg, color: theme.palette.text.primary }}>
+          <CardContent>
+            <Stack direction="row" spacing={2} alignItems="center">
+
               <LocalDrinkIcon />
               <Box>
                 <Typography variant="subtitle2">Último biberón</Typography>
                 <Typography variant="h6">{stats.lastBottle}</Typography>
               </Box>
             </Stack>
+
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <Stack direction="row" spacing={2} alignItems="center" sx={{ width: '100%' }}>
+
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12}>
+        <Card sx={{ backgroundColor: cardBg, color: theme.palette.text.primary }}>
+          <CardContent>
+            <Stack direction="row" spacing={2} alignItems="center">
+
               <HotelIcon />
               <Box>
                 <Typography variant="subtitle2">Horas de sueño</Typography>
                 <Typography variant="h6">{stats.sleepHours}h</Typography>
               </Box>
             </Stack>
+
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <Stack direction="row" spacing={2} alignItems="center" sx={{ width: '100%' }}>
+
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12}>
+        <Card sx={{ backgroundColor: cardBg, color: theme.palette.text.primary }}>
+          <CardContent>
+            <Stack direction="row" spacing={2} alignItems="center">
+
               <BabyChangingStationIcon />
               <Box>
                 <Typography variant="subtitle2">Pañales hoy</Typography>
@@ -115,9 +143,19 @@ export default function StatsOverview() {
                 </Stack>
               </Box>
             </Stack>
+
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <Stack direction="row" spacing={2} alignItems="center" sx={{ width: '100%' }}>
+
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12}>
+        <Card sx={{ backgroundColor: cardBg, color: theme.palette.text.primary }}>
+          <CardContent>
+            <Stack direction="row" spacing={2} alignItems="center">
+
               <TrendingUpIcon color={stats.weight.diff >= 0 ? 'success' : 'error'} />
               <Box>
                 <Typography variant="subtitle2">Peso actual</Typography>
@@ -129,10 +167,17 @@ export default function StatsOverview() {
                 </Stack>
               </Box>
             </Stack>
+
           </Grid>
         </Grid>
       </CardContent>
     </Card>
+
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
+
   );
 }
 
