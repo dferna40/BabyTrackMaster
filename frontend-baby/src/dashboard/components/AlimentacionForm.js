@@ -23,7 +23,7 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
     tipo: 'lactancia',
     inicio: null,
     lado: '',
-    duracion: '',
+    duracionMin: '',
     biberonTipo: '',
     cantidad: '',
     alimento: '',
@@ -38,7 +38,7 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
         tipo: initialData.tipo || 'lactancia',
         inicio: initialData.inicio ? dayjs(initialData.inicio) : null,
         lado: initialData.lado || '',
-        duracion: initialData.duracion || '',
+        duracionMin: initialData.duracionMin || '',
         biberonTipo: initialData.biberonTipo || '',
         cantidad: initialData.cantidad || '',
         alimento: initialData.alimento || '',
@@ -49,7 +49,7 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
         tipo: initialData?.tipo || 'lactancia',
         inicio: null,
         lado: '',
-        duracion: '',
+        duracionMin: '',
         biberonTipo: '',
         cantidad: '',
         alimento: '',
@@ -73,7 +73,7 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
     if (!formData.inicio) newErrors.inicio = 'Requerido';
     if (formData.tipo === 'lactancia') {
       if (!formData.lado) newErrors.lado = 'Requerido';
-      if (!formData.duracion) newErrors.duracion = 'Requerido';
+      if (!formData.duracionMin) newErrors.duracionMin = 'Requerido';
     }
     if (formData.tipo === 'biberon') {
       if (!formData.biberonTipo) newErrors.biberonTipo = 'Requerido';
@@ -91,8 +91,10 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
     if (!validate()) return;
     const payload = {
       ...formData,
-      inicio: formData.inicio ? formData.inicio.format('YYYY-MM-DDTHH:mm') : null,
+      fechaHora: formData.inicio ? formData.inicio.format('YYYY-MM-DDTHH:mm') : null,
+      duracionMin: formData.duracionMin ? Number(formData.duracionMin) : undefined,
     };
+    delete payload.inicio;
     onSubmit(payload);
   };
 
@@ -141,11 +143,11 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
                 <FormLabel sx={{ mb: 1 }}>Duración (minutos)</FormLabel>
                 <TextField
                   type="number"
-                  name="duracion"
-                  value={formData.duracion}
+                  name="duracionMin"
+                  value={formData.duracionMin}
                   onChange={handleChange}
-                  error={!!errors.duracion}
-                  helperText={errors.duracion}
+                  error={!!errors.duracionMin}
+                  helperText={errors.duracionMin}
                   inputProps={{ min: 0 }}
                 />
               </FormControl>

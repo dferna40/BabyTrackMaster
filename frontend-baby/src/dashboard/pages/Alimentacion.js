@@ -149,7 +149,7 @@ export default function Alimentacion() {
     const rows = filtered.map((r) => {
       const base = [dayjs(r.inicio).format('DD/MM/YYYY HH:mm')];
       if (current === 'lactancia') {
-        return [...base, r.lado, r.duracion, r.observaciones || ''];
+        return [...base, r.lado, r.duracionMin, r.observaciones || ''];
       }
       if (current === 'biberon') {
         return [...base, r.biberonTipo, r.cantidad, r.observaciones || ''];
@@ -173,7 +173,7 @@ export default function Alimentacion() {
     const rows = filtered.map((r) => {
       const base = [dayjs(r.inicio).format('DD/MM/YYYY HH:mm')];
       if (current === 'lactancia') {
-        return [...base, r.lado, r.duracion, r.observaciones || ''];
+        return [...base, r.lado, r.duracionMin, r.observaciones || ''];
       }
       if (current === 'biberon') {
         return [...base, r.biberonTipo, r.cantidad, r.observaciones || ''];
@@ -237,7 +237,7 @@ export default function Alimentacion() {
                   {tabValues[tab] === 'lactancia' && (
                     <>
                       <TableCell>{r.lado}</TableCell>
-                      <TableCell>{r.duracion}</TableCell>
+                      <TableCell>{r.duracionMin}</TableCell>
                       <TableCell>{r.observaciones}</TableCell>
                     </>
                   )}
