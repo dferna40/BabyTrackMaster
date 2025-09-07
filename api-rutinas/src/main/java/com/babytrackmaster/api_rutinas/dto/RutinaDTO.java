@@ -16,4 +16,6 @@ public class RutinaDTO {
     @Schema(example = "L,M,X,J,V")
     private String diasSemana;
     private Boolean activa;
+    @Schema(example = "1")
+    private Long bebeId;
 }

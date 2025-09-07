@@ -27,17 +27,38 @@ public class CitaController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(dto, usuarioId));
 	}
 
-	@Operation(summary = "Actualizar cita")
-	@PutMapping("/{id}")
-	public ResponseEntity<CitaResponseDTO> actualizar(@PathVariable Long id, @Valid @RequestBody CitaUpdateDTO dto) {
-		Long usuarioId = jwtService.resolveUserId();
-		return ResponseEntity.ok(service.actualizar(id, usuarioId, dto));
-	}
+        @Operation(summary = "Actualizar cita")
+        @PutMapping("/{id}")
+        public ResponseEntity<CitaResponseDTO> actualizar(@PathVariable Long id, @Valid @RequestBody CitaUpdateDTO dto) {
+                Long usuarioId = jwtService.resolveUserId();
+                return ResponseEntity.ok(service.actualizar(id, usuarioId, dto));
+        }
 
-	@Operation(summary = "Eliminar cita (lógico)")
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-		Long usuarioId = jwtService.resolveUserId();
+        @Operation(summary = "Confirmar cita")
+        @PutMapping("/{id}/confirmar")
+        public ResponseEntity<CitaResponseDTO> confirmar(@PathVariable Long id) {
+                Long usuarioId = jwtService.resolveUserId();
+                return ResponseEntity.ok(service.confirmar(id, usuarioId));
+        }
+
+        @Operation(summary = "Completar cita")
+        @PutMapping("/{id}/completar")
+        public ResponseEntity<CitaResponseDTO> completar(@PathVariable Long id) {
+                Long usuarioId = jwtService.resolveUserId();
+                return ResponseEntity.ok(service.completar(id, usuarioId));
+        }
+
+        @Operation(summary = "Marcar cita como no asistida")
+        @PutMapping("/{id}/no-asistida")
+        public ResponseEntity<CitaResponseDTO> noAsistida(@PathVariable Long id) {
+                Long usuarioId = jwtService.resolveUserId();
+                return ResponseEntity.ok(service.noAsistida(id, usuarioId));
+        }
+
+        @Operation(summary = "Eliminar cita (lógico)")
+        @DeleteMapping("/{id}")
+        public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+                Long usuarioId = jwtService.resolveUserId();
 		service.eliminar(id, usuarioId);
 		return ResponseEntity.noContent().build();
 	}
@@ -73,11 +94,28 @@ public class CitaController {
                 return ResponseEntity.ok(service.listarPorTipo(usuarioId, tipoId, page, size));
         }
 
-	@Operation(summary = "Listar por médico")
-	@GetMapping("/medico")
-	public ResponseEntity<Page<CitaResponseDTO>> listarPorMedico(@RequestParam String nombre,
-			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-		Long usuarioId = jwtService.resolveUserId();
-		return ResponseEntity.ok(service.listarPorMedico(usuarioId, nombre, page, size));
-	}
+        @Operation(summary = "Enviar recordatorio de cita")
+        @PostMapping("/{id}/recordatorio")
+        public ResponseEntity<Void> enviarRecordatorio(@PathVariable Long id,
+                        @RequestBody RecordatorioDTO dto) {
+                Long usuarioId = jwtService.resolveUserId();
+                service.enviarRecordatorio(id, usuarioId, dto.getMinutosAntelacion());
+                return ResponseEntity.accepted().build();
+        }
+
+        @Operation(summary = "Listar por médico")
+        @GetMapping("/medico")
+        public ResponseEntity<Page<CitaResponseDTO>> listarPorMedico(@RequestParam String nombre,
+                        @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+                Long usuarioId = jwtService.resolveUserId();
+                return ResponseEntity.ok(service.listarPorMedico(usuarioId, nombre, page, size));
+        }
+
+        @Operation(summary = "Listar por bebé")
+        @GetMapping("/bebe/{bebeId}")
+        public ResponseEntity<Page<CitaResponseDTO>> listarPorBebe(@PathVariable Long bebeId,
+                        @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+                Long usuarioId = jwtService.resolveUserId();
+                return ResponseEntity.ok(service.listarPorBebe(usuarioId, bebeId, page, size));
+        }
 }

@@ -8,6 +8,9 @@ import lombok.*;
 @NoArgsConstructor @AllArgsConstructor
 public class DiarioCreateDTO {
 
+    @Schema(example = "1")
+    @NotNull private Long bebeId;
+
     @Schema(example = "2025-08-27")
     @NotNull private String fecha;        // ISO yyyy-MM-dd
 

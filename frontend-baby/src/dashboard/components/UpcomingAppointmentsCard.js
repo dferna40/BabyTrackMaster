@@ -1,0 +1,73 @@
+import React, { useEffect, useState } from 'react';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import dayjs from 'dayjs';
+import { BabyContext } from '../../context/BabyContext';
+import { listarProximas } from '../../services/citasService';
+
+export default function UpcomingAppointmentsCard() {
+  const [appointments, setAppointments] = useState([]);
+  const { activeBaby } = React.useContext(BabyContext);
+
+  useEffect(() => {
+    if (!activeBaby?.id) return;
+    listarProximas(activeBaby.id)
+      .then((data) => {
+        setAppointments(data);
+      })
+      .catch((err) => {
+        console.error('Error fetching citas:', err);
+        setAppointments([]);
+      });
+  }, [activeBaby]);
+
+  return (
+    <Card variant="outlined" sx={{ height: '100%' }}>
+      <CardContent>
+        <Typography variant="h6" component="h2" gutterBottom>
+          Próximas Citas
+        </Typography>
+        {appointments.length > 0 ? (
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>Fecha</TableCell>
+                <TableCell>Hora</TableCell>
+                <TableCell>Motivo</TableCell>
+                <TableCell>Tipo</TableCell>
+                <TableCell>Estado</TableCell>
+                <TableCell>Centro médico</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {appointments.map((c) => (
+                <TableRow key={c.id}>
+                  <TableCell>
+                    {dayjs(c.fecha).format('DD/MM/YYYY')}
+                  </TableCell>
+                  <TableCell>
+                    {dayjs(`${c.fecha}T${c.hora}`).format('HH:mm')}
+                  </TableCell>
+                  <TableCell>{c.motivo}</TableCell>
+                  <TableCell>{c.tipoNombre}</TableCell>
+                  <TableCell>{c.estadoNombre}</TableCell>
+                  <TableCell>{c.centroMedico}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        ) : (
+          <Typography variant="body2" color="text.secondary">
+            No hay citas próximas.
+          </Typography>
+        )}
+      </CardContent>
+    </Card>
+  );
+}

@@ -9,7 +9,7 @@ import lombok.*;
 public class CitaUpdateDTO {
 
     @Size(max = 150)
-    private String titulo;
+    private String motivo;
 
     @Size(max = 500)
     private String descripcion;
@@ -22,10 +22,12 @@ public class CitaUpdateDTO {
     private String hora;
 
     @Size(max = 150)
-    private String ubicacion;
+    private String centroMedico;
 
     @Size(max = 120)
     private String medico;
+
+    private Long bebeId;
 
     private Long tipoId;
 

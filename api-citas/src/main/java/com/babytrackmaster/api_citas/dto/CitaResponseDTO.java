@@ -7,11 +7,12 @@ import lombok.*;
 public class CitaResponseDTO {
     private Long id;
     private Long usuarioId;
-    private String titulo;
+    private Long bebeId;
+    private String motivo;
     private String descripcion;
     private String fecha; // ISO
     private String hora;  // HH:mm
-    private String ubicacion;
+    private String centroMedico;
     private String medico;
     private TipoCitaResponseDTO tipo;
     private EstadoCitaResponseDTO estado;

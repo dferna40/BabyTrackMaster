@@ -122,6 +122,9 @@ public class JwtService {
         if (auth != null) {
             // principal.getId()
             Object principal = auth.getPrincipal();
+            if (principal instanceof Number) {
+                return Long.valueOf(((Number) principal).longValue());
+            }
             if (principal != null) {
                 try {
                     java.lang.reflect.Method m = principal.getClass().getMethod("getId", new Class[] {});

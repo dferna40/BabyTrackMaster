@@ -5,8 +5,8 @@ export default function Dashboard() {
   const { logout } = useContext(AuthContext);
   return (
     <div>
-      <h1>Dashboard</h1>
-      <button onClick={logout}>Logout</button>
+      <h1>Panel</h1>
+      <button onClick={logout}>Cerrar sesión</button>
     </div>
   );
 }

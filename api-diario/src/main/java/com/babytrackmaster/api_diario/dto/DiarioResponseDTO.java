@@ -10,6 +10,7 @@ import java.time.LocalTime;
 public class DiarioResponseDTO {
     private Long id;
     private Long usuarioId;
+    private Long bebeId;
     private LocalDate fecha;
     private LocalTime hora;
     private String titulo;

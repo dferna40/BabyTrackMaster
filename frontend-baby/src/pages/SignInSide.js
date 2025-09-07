@@ -11,7 +11,6 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import AppTheme from '../theme/AppTheme';
-import ColorModeSelect from '../theme/ColorModeSelect';
 
 const SignInCard = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -59,17 +58,16 @@ export default function SignInSide(props) {
           square
           sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
-          <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
           <SignInCard component="form" onSubmit={handleSubmit}>
             <Typography component="h1" variant="h5">
-              Sign in
+              Iniciar sesión
             </Typography>
             <TextField
               margin="normal"
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Correo electrónico"
               name="email"
               autoComplete="email"
               autoFocus
@@ -79,27 +77,27 @@ export default function SignInSide(props) {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Contraseña"
               type="password"
               id="password"
               autoComplete="current-password"
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label="Recordarme"
             />
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-              Sign In
+              Iniciar sesión
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                  ¿Olvidaste tu contraseña?
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {"¿No tienes una cuenta? Regístrate"}
                 </Link>
               </Grid>
             </Grid>

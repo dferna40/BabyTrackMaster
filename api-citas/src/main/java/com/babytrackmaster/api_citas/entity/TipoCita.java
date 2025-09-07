@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "tipo_cita")
+@Table(name = "tipo_citas")
 public class TipoCita {
 
     @Id

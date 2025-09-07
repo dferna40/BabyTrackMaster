@@ -14,7 +14,7 @@ public class CitaCreateDTO {
     @Schema(example = "Revisión 1 mes")
     @NotBlank
     @Size(max = 150)
-    private String titulo;
+    private String motivo;
 
     @Schema(example = "Control de peso y lactancia")
     @Size(max = 500)
@@ -30,11 +30,15 @@ public class CitaCreateDTO {
 
     @Schema(example = "Centro de Salud Los Álamos")
     @Size(max = 150)
-    private String ubicacion;
+    private String centroMedico;
 
     @Schema(example = "Dra. García")
     @Size(max = 120)
     private String medico;
+
+    @Schema(example = "1")
+    @NotNull
+    private Long bebeId;
 
     @Schema(example = "1")
     @NotNull

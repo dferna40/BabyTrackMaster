@@ -85,6 +85,16 @@ public class DiarioServiceImpl implements DiarioService {
         return mapPage(p);
     }
 
+    @Transactional(readOnly = true)
+    public List<DiarioResponseDTO> listarPorBebe(Long usuarioId, Long bebeId) {
+        List<Diario> list = repo.findByUsuarioAndBebe(usuarioId, bebeId);
+        List<DiarioResponseDTO> out = new ArrayList<>();
+        for (Diario d : list) {
+            out.add(DiarioMapper.toDTO(d));
+        }
+        return out;
+    }
+
     private PageResponseDTO<DiarioResponseDTO> mapPage(Page<Diario> page) {
         List<Diario> list = page.getContent();
         List<DiarioResponseDTO> out = new ArrayList<DiarioResponseDTO>();

@@ -380,8 +380,12 @@ export const inputsCustomizations = {
       input: {
         padding: 0,
       },
-      root: ({ theme }) => ({
+      inputMultiline: {
         padding: '8px 12px',
+      },
+      root: ({ theme, ownerState }) => ({
+        padding: ownerState.multiline ? 0 : '8px 12px',
+        ...(ownerState.multiline && { height: 'auto' }),
         color: (theme.vars || theme).palette.text.primary,
         borderRadius: (theme.vars || theme).shape.borderRadius,
         border: `1px solid ${(theme.vars || theme).palette.divider}`,
@@ -403,6 +407,7 @@ export const inputsCustomizations = {
           {
             props: {
               size: 'small',
+              multiline: false,
             },
             style: {
               height: '2.25rem',
@@ -411,6 +416,7 @@ export const inputsCustomizations = {
           {
             props: {
               size: 'medium',
+              multiline: false,
             },
             style: {
               height: '2.5rem',

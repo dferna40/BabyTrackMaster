@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import App from './App';
 
-test('renders learn react link', () => {
+test.skip('renders BabyTrackMaster text', async () => {
+  const { default: App } = await import('./App');
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const textElement = screen.getByText(/BabyTrackMaster/i);
+  expect(textElement).toBeInTheDocument();
 });

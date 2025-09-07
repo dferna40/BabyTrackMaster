@@ -13,6 +13,7 @@ public class DiarioMapper {
     public static Diario toEntity(DiarioCreateDTO dto, Long usuarioId) {
         Diario d = new Diario();
         d.setUsuarioId(usuarioId);
+        d.setBebeId(dto.getBebeId());
         d.setFecha(LocalDate.parse(dto.getFecha()));
         d.setHora(LocalTime.parse(dto.getHora()));
         d.setTitulo(dto.getTitulo());
@@ -36,6 +37,7 @@ public class DiarioMapper {
         DiarioResponseDTO out = new DiarioResponseDTO();
         out.setId(d.getId());
         out.setUsuarioId(d.getUsuarioId());
+        out.setBebeId(d.getBebeId());
         out.setFecha(d.getFecha());
         out.setHora(d.getHora());
         out.setTitulo(d.getTitulo());

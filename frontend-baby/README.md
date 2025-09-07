@@ -3,7 +3,7 @@
 Aplicación **React** (SPA) para la interfaz de usuario.
 
 ## Descripción
-Pantallas de autenticación, dashboard, cuidados, gastos, hitos, diario, citas, rutinas y perfil. Rutas protegidas con JWT y consumo de APIs vía Axios.
+Pantallas de autenticación, dashboard, cuidados, gastos, hitos, diario, citas y rutinas. Rutas protegidas con JWT y consumo de APIs vía Axios. La página **Inicio sin bebé** está destinada únicamente a usuarios que aún no tienen bebés registrados.
 
 ## Tecnologías usadas
 - **React**

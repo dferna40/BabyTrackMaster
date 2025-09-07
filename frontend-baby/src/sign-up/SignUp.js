@@ -16,8 +16,7 @@ import { styled } from '@mui/material/styles';
 import axios from 'axios';
 import AppTheme from '../shared-theme/AppTheme';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import ColorModeSelect from '../shared-theme/ColorModeSelect';
-import API_BASE_URL from '../config';
+import { API_USUARIOS_URL } from '../config';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from '../sign-up/components/CustomIcons';
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -118,7 +117,7 @@ export default function SignUp(props) {
     setApiErrorMessage('');
     const data = new FormData(event.currentTarget);
     try {
-      await axios.post(`${API_BASE_URL}/api/v1/auth/register`, {
+      await axios.post(`${API_USUARIOS_URL}/api/v1/auth/register`, {
         nombre: data.get('name'),
         apellidos: data.get('apellidos'),
         email: data.get('email'),
@@ -135,7 +134,6 @@ export default function SignUp(props) {
   return (
     <AppTheme {...props}>
       <CssBaseline enableColorScheme />
-      <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
       <SignUpContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
           <SitemarkIcon />

@@ -29,7 +29,7 @@ public class CitaServiceImpl implements CitaService {
     public CitaResponseDTO crear(CitaCreateDTO dto, Long usuarioId) {
         TipoCita tipo = tipoRepo.findById(dto.getTipoId())
                 .orElseThrow(() -> new NotFoundException("Tipo de cita no encontrado"));
-        EstadoCita estado = estadoRepo.findByNombreIgnoreCase("PENDIENTE")
+        EstadoCita estado = estadoRepo.findByNombreIgnoreCase("Programada")
                 .orElseThrow(() -> new NotFoundException("Estado de cita por defecto no encontrado"));
         Cita c = CitaMapper.toEntity(dto, usuarioId, tipo, estado);
         c = repo.save(c);
@@ -46,14 +46,57 @@ public class CitaServiceImpl implements CitaService {
             tipo = tipoRepo.findById(dto.getTipoId())
                     .orElseThrow(() -> new NotFoundException("Tipo de cita no encontrado"));
         }
+
+        // Verificar cambios de fecha y hora
+        LocalDate fechaActual = c.getFecha();
+        LocalTime horaActual = c.getHora();
+        boolean fechaCambiada = false;
+        boolean horaCambiada = false;
+
+        if (dto.getFecha() != null) {
+            LocalDate nuevaFecha = LocalDate.parse(dto.getFecha());
+            fechaCambiada = !nuevaFecha.equals(fechaActual);
+        }
+        if (dto.getHora() != null) {
+            LocalTime nuevaHora = LocalTime.parse(dto.getHora());
+            horaCambiada = !nuevaHora.equals(horaActual);
+        }
+
         EstadoCita estado = null;
         if (dto.getEstadoId() != null) {
             estado = estadoRepo.findById(dto.getEstadoId())
                     .orElseThrow(() -> new NotFoundException("Estado de cita no encontrado"));
+        } else if (fechaCambiada || horaCambiada) {
+            estado = estadoRepo.findByNombreIgnoreCase("Reprogramada")
+                    .orElseThrow(() -> new NotFoundException("Estado de cita 'Reprogramada' no encontrado"));
         }
+
         CitaMapper.applyUpdate(c, dto, tipo, estado);
         c = repo.save(c);
         return CitaMapper.toDTO(c);
+    }
+
+    private CitaResponseDTO actualizarEstado(Long id, Long usuarioId, String estadoNombre) {
+        EstadoCita estado = estadoRepo.findByNombreIgnoreCase(estadoNombre)
+                .orElseThrow(() -> new NotFoundException("Estado de cita '" + estadoNombre + "' no encontrado"));
+        CitaUpdateDTO dto = new CitaUpdateDTO();
+        dto.setEstadoId(estado.getId());
+        return actualizar(id, usuarioId, dto);
+    }
+
+    @Override
+    public CitaResponseDTO confirmar(Long id, Long usuarioId) {
+        return actualizarEstado(id, usuarioId, "Confirmada");
+    }
+
+    @Override
+    public CitaResponseDTO completar(Long id, Long usuarioId) {
+        return actualizarEstado(id, usuarioId, "Completada");
+    }
+
+    @Override
+    public CitaResponseDTO noAsistida(Long id, Long usuarioId) {
+        return actualizarEstado(id, usuarioId, "No asistida");
     }
 
     public void eliminar(Long id, Long usuarioId) {
@@ -61,6 +104,10 @@ public class CitaServiceImpl implements CitaService {
         if (c == null) {
             throw new NotFoundException("Cita no encontrada");
         }
+        // Al eliminar una cita se marca como cancelada y se mantiene el registro
+        EstadoCita cancelada = estadoRepo.findByNombreIgnoreCase("Cancelada")
+                .orElseThrow(() -> new NotFoundException("Estado de cita 'Cancelada' no encontrado"));
+        c.setEstado(cancelada);
         c.setEliminado(Boolean.TRUE);
         repo.save(c);
     }
@@ -117,5 +164,29 @@ public class CitaServiceImpl implements CitaService {
             list.add(CitaMapper.toDTO(res.getContent().get(i)));
         }
         return new PageImpl<CitaResponseDTO>(list, p, res.getTotalElements());
+    }
+
+    public Page<CitaResponseDTO> listarPorBebe(Long usuarioId, Long bebeId, int page, int size) {
+        Pageable p = PageRequest.of(page, size);
+        Page<Cita> res = repo.listarPorBebe(usuarioId, bebeId, p);
+        List<CitaResponseDTO> list = new ArrayList<CitaResponseDTO>();
+        int i;
+        for (i = 0; i < res.getContent().size(); i++) {
+            list.add(CitaMapper.toDTO(res.getContent().get(i)));
+        }
+        return new PageImpl<CitaResponseDTO>(list, p, res.getTotalElements());
+    }
+
+    @Override
+    public void enviarRecordatorio(Long id, Long usuarioId, Integer minutosAntelacion) {
+        Cita c = repo.findOneByIdAndUsuario(id, usuarioId);
+        if (c == null) {
+            throw new NotFoundException("Cita no encontrada");
+        }
+        // TODO: Integrar con servicio de notificaciones (correo, push, etc.)
+        System.out.printf(
+                "Recordatorio enviado para cita %d con %d minutos de antelación%n",
+                id,
+                minutosAntelacion);
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import java.util.List;
 
 import com.babytrackmaster.api_diario.entity.Diario;
 
@@ -33,4 +34,9 @@ public interface DiarioRepository extends JpaRepository<Diario, Long> {
     Page<Diario> findByUsuarioAndTag(@Param("usuarioId") Long usuarioId,
                                      @Param("tag") String tag,
                                      Pageable pageable);
+
+    @Query("SELECT d FROM Diario d WHERE d.usuarioId = :usuarioId AND d.bebeId = :bebeId AND d.eliminado = false " +
+           "ORDER BY d.fecha DESC, d.hora DESC")
+    List<Diario> findByUsuarioAndBebe(@Param("usuarioId") Long usuarioId,
+                                      @Param("bebeId") Long bebeId);
 }
