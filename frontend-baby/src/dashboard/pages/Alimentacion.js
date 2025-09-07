@@ -147,7 +147,7 @@ export default function Alimentacion() {
     const current = tabValues[tab];
     const headers = headersMap[current];
     const rows = filtered.map((r) => {
-      const base = [dayjs(r.inicio).format('DD/MM/YYYY HH:mm')];
+      const base = [dayjs(r.fechaHora).format('DD/MM/YYYY HH:mm')];
       if (current === 'lactancia') {
         return [...base, r.lado, r.duracionMin, r.observaciones || ''];
       }
@@ -171,7 +171,7 @@ export default function Alimentacion() {
     const current = tabValues[tab];
     const headers = headersMap[current];
     const rows = filtered.map((r) => {
-      const base = [dayjs(r.inicio).format('DD/MM/YYYY HH:mm')];
+      const base = [dayjs(r.fechaHora).format('DD/MM/YYYY HH:mm')];
       if (current === 'lactancia') {
         return [...base, r.lado, r.duracionMin, r.observaciones || ''];
       }
@@ -232,7 +232,7 @@ export default function Alimentacion() {
               .map((r) => (
                 <TableRow key={r.id}>
                   <TableCell>
-                    {dayjs(r.inicio).format('DD/MM/YYYY HH:mm')}
+                    {dayjs(r.fechaHora).format('DD/MM/YYYY HH:mm')}
                   </TableCell>
                   {tabValues[tab] === 'lactancia' && (
                     <>
