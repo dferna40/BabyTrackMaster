@@ -47,7 +47,8 @@ export default function Dashboard(props) {
             <Stack
               spacing={2}
               sx={{
-                alignItems: 'center',
+                alignItems: 'stretch',
+                width: '100%',
                 mx: 3,
                 pb: 5,
                 mt: { xs: 8, md: 0 },
