@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Unstable_Grid2';
 import Copyright from '../internals/components/Copyright';
 import UpcomingAppointmentsCard from './UpcomingAppointmentsCard';
 import RecentCareCard from './RecentCareCard';
