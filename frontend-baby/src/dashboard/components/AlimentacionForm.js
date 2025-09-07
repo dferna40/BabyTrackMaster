@@ -36,7 +36,7 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
     if (initialData) {
       setFormData({
         tipo: initialData.tipo || 'lactancia',
-        inicio: initialData.fechaHora ? dayjs(initialData.fechaHora) : null,
+        inicio: initialData.inicio ? dayjs(initialData.inicio) : null,
         lado: initialData.lado || '',
         duracionMin: initialData.duracionMin || '',
         tipoLeche: initialData.tipoLeche || '',
