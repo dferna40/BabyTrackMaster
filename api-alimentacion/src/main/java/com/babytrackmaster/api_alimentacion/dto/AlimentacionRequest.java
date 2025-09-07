@@ -12,6 +12,7 @@ import lombok.Data;
 @Schema(name = "AlimentacionRequest", description = "Datos para crear/actualizar un registro de alimentacion")
 public class AlimentacionRequest {
     @NotNull
+    @Schema(allowableValues = {"lactancia", "biberon", "solidos"})
     private TipoAlimentacion tipo;
     @NotNull
     private Date fechaHora;

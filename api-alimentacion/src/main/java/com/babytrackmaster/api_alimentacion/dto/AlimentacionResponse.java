@@ -13,6 +13,7 @@ public class AlimentacionResponse {
     private Long id;
     private Long usuarioId;
     private Long bebeId;
+    @Schema(allowableValues = {"lactancia", "biberon", "solidos"})
     private TipoAlimentacion tipo;
     private Date fechaHora;
     private String lado;

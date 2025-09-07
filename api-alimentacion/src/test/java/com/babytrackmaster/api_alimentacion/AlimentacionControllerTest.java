@@ -54,9 +54,11 @@ class AlimentacionControllerTest {
         resp.setId(1L);
         when(service.crear(any(Long.class), any(Long.class), any(AlimentacionRequest.class))).thenReturn(resp);
 
+        String json = mapper.writeValueAsString(req).replace("BIBERON", "biberon");
+
         mockMvc.perform(post("/api/v1/alimentacion/usuario/1/bebe/2")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(req)))
+                .content(json))
                 .andExpect(status().isCreated());
     }
 }

@@ -32,7 +32,7 @@ class AlimentacionServiceImplTest {
     @Test
     void crearGuardaYDevuelve() {
         AlimentacionRequest req = new AlimentacionRequest();
-        req.setTipo(TipoAlimentacion.BIBERON);
+        req.setTipo(TipoAlimentacion.from("biberon"));
         req.setFechaHora(new Date());
         req.setCantidadMl(120);
 
