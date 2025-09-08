@@ -247,7 +247,7 @@ export default function Cuidados() {
                     {dayjs(cuidado.inicio).format("DD/MM/YYYY HH:mm")}
                   </TableCell>
                   <TableCell>{cuidado.tipoNombre}</TableCell>
-                  <TableCell>
+                  <TableCell sx={{ fontWeight: 600 }}>
                     {esPecho
                       ? (cuidado.pecho ?? "-")
                       : (cuidado.cantidadMl ?? "-")}

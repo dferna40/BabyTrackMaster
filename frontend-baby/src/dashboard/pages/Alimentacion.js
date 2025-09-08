@@ -250,21 +250,21 @@ export default function Alimentacion() {
                   {tabValues[tab] === 'lactancia' && (
                     <>
                       <TableCell>{r.lado}</TableCell>
-                      <TableCell>{r.duracionMin}</TableCell>
+                      <TableCell sx={{ fontWeight: 600 }}>{r.duracionMin}</TableCell>
                       <TableCell>{r.observaciones}</TableCell>
                     </>
                   )}
                   {tabValues[tab] === 'biberon' && (
                     <>
                       <TableCell>{r.tipoLeche}</TableCell>
-                      <TableCell>{r.cantidadMl}</TableCell>
+                      <TableCell sx={{ fontWeight: 600 }}>{r.cantidadMl}</TableCell>
                       <TableCell>{r.observaciones}</TableCell>
                     </>
                   )}
                   {tabValues[tab] === 'solidos' && (
                     <>
                       <TableCell>{r.alimento}</TableCell>
-                      <TableCell>{r.cantidadMl}</TableCell>
+                      <TableCell sx={{ fontWeight: 600 }}>{r.cantidadMl}</TableCell>
                       <TableCell>{r.observaciones}</TableCell>
                     </>
                   )}

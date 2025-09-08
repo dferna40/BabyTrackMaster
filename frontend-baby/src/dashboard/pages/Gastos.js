@@ -283,7 +283,9 @@ export default function Gastos() {
                       )?.nombre}
                   </TableCell>
                   <TableCell>{gasto.descripcion}</TableCell>
-                  <TableCell>{Number(gasto.cantidad).toFixed(2)}</TableCell>
+                  <TableCell sx={{ fontWeight: 600 }}>
+                    {Number(gasto.cantidad).toFixed(2)}
+                  </TableCell>
                   <TableCell align="center">
                     <IconButton
                       size="small"
