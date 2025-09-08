@@ -34,7 +34,10 @@ export default function HighlightedCard() {
       <CardContent sx={{ p: 0 }}>
         <Box
           sx={(theme) => ({
-            backgroundColor: theme.palette.background.paper,
+            bgcolor: theme.vars
+              ? `rgba(${theme.vars.palette.background.paperChannel} / 1)`
+              : theme.palette.background.paper,
+            color: theme.palette.text.primary,
             borderRadius: 2,
             p: 2,
             display: 'flex',
