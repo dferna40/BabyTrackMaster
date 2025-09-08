@@ -46,8 +46,13 @@ export default function MenuContent() {
             >
               {({ isActive }) => (
                 <ListItemButton selected={isActive}>
-                  <ListItemIcon>{item.icon}</ListItemIcon>
-                  <ListItemText primary={item.text} />
+                  <ListItemIcon sx={{ color: 'primary.main' }}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.text}
+                    primaryTypographyProps={{ sx: { color: 'primary.main' } }}
+                  />
                 </ListItemButton>
               )}
             </NavLink>
@@ -64,8 +69,13 @@ export default function MenuContent() {
             >
               {({ isActive }) => (
                 <ListItemButton selected={isActive}>
-                  <ListItemIcon>{item.icon}</ListItemIcon>
-                  <ListItemText primary={item.text} />
+                  <ListItemIcon sx={{ color: 'success.main' }}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.text}
+                    primaryTypographyProps={{ sx: { color: 'success.main' } }}
+                  />
                 </ListItemButton>
               )}
             </NavLink>
