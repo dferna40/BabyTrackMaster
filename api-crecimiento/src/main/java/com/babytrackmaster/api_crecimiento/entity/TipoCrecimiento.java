@@ -13,6 +13,6 @@ public class TipoCrecimiento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 60)
+    @Column(nullable = false, unique = true)
     private String nombre;
 }

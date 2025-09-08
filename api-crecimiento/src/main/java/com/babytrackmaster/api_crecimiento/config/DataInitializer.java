@@ -16,22 +16,20 @@ import com.babytrackmaster.api_crecimiento.repository.TipoCrecimientoRepository;
 @RequiredArgsConstructor
 public class DataInitializer {
 
-	private final TipoCrecimientoRepository tipoCrecimientoRepository;
+    private final TipoCrecimientoRepository tipoCrecimientoRepository;
 
-	@Bean
-	public CommandLineRunner loadInitialData() {
-		return args -> {
-			if (tipoCrecimientoRepository.count() == 0) {
-				tipoCrecimientoRepository.saveAll(List.of(createTipoCrecimiento("Peso"),
-						createTipoCrecimiento("Talla"), createTipoCrecimiento("Perímetro cefálico")));
-			}
-		};
-	}
+    @Bean
+    public CommandLineRunner loadInitialData() {
+        return args -> {
+            List<String> nombres = List.of("Peso", "Talla", "Perímetro cefálico");
 
-	private TipoCrecimiento createTipoCrecimiento(String nombre) {
-		TipoCrecimiento tc = new TipoCrecimiento();
-		Date now = new Date();
-		tc.setNombre(nombre);
-		return tc;
-	}
+            for (String nombre : nombres) {
+                if (!tipoCrecimientoRepository.existsByNombre(nombre)) {
+                    TipoCrecimiento tc = new TipoCrecimiento();
+                    tc.setNombre(nombre);
+                    tipoCrecimientoRepository.save(tc);
+                }
+            }
+        };
+    }
 }
