@@ -17,13 +17,10 @@ export const dataGridCustomizations = {
       root: ({ theme }) => ({
         '--DataGrid-overlayHeight': '300px',
         overflow: 'clip',
-        borderColor: (theme.vars || theme).palette.divider,
-        backgroundColor: (theme.vars || theme).palette.background.default,
-        [`& .${gridClasses.columnHeader}`]: {
-          backgroundColor: (theme.vars || theme).palette.background.paper,
-        },
+        borderColor: '#e9ecef',
+        backgroundColor: '#f8f9fa',
         [`& .${gridClasses.footerContainer}`]: {
-          backgroundColor: (theme.vars || theme).palette.background.paper,
+          backgroundColor: '#f8f9fa',
         },
         [`& .${checkboxClasses.root}`]: {
           padding: theme.spacing(0.5),
@@ -64,18 +61,29 @@ export const dataGridCustomizations = {
       }),
       row: ({ theme }) => ({
         '&:last-of-type': {
-          borderBottom: `1px solid ${(theme.vars || theme).palette.divider}`,
+          borderBottom: '1px solid #e9ecef',
+        },
+        '&.even': {
+          backgroundColor: '#fdfdfd',
+        },
+        '&.odd': {
+          backgroundColor: '#f8f9fa',
         },
         '&:hover': {
-          backgroundColor: (theme.vars || theme).palette.action.hover,
+          backgroundColor: '#f1f9ff',
         },
+        color: '#212529',
         '&.Mui-selected': {
           background: (theme.vars || theme).palette.action.selected,
           '&:hover': {
-            backgroundColor: (theme.vars || theme).palette.action.hover,
+            backgroundColor: '#f1f9ff',
           },
         },
       }),
+      columnHeader: {
+        backgroundColor: '#e3f2fd',
+        borderBottom: '1px solid #dee2e6',
+      },
       iconButtonContainer: ({ theme }) => ({
         [`& .${iconButtonClasses.root}`]: {
           border: 'none',
