@@ -17,10 +17,9 @@ import { listarRecientes as listarAlimentacionRecientes } from '../../services/a
 
 export default function StatsOverview() {
   const theme = useTheme();
-  const cardBg =
-    theme.palette.mode === 'light'
-      ? theme.palette.grey[50]
-      : theme.palette.grey[900];
+  const cardBg = theme.vars
+    ? `rgba(${theme.vars.palette.background.paperChannel} / 1)`
+    : theme.palette.background.paper;
 
   const { user } = useContext(AuthContext);
   const { activeBaby } = useContext(BabyContext);
