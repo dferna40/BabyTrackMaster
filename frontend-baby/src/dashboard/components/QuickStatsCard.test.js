@@ -27,7 +27,7 @@ describe('QuickStatsCard', () => {
 
   it('muestra estadísticas obtenidas del servicio', async () => {
     obtenerStatsRapidas.mockResolvedValue({
-      data: { horasSueno: 8, panales: 5, tomas: 6, banos: 1 },
+      data: { horasSueno: 8, panales: 5, banos: 1 },
     });
 
     render(
@@ -43,14 +43,13 @@ describe('QuickStatsCard', () => {
     await waitFor(() => {
       expect(screen.getByText('8h')).toBeInTheDocument();
       expect(screen.getByText('5')).toBeInTheDocument();
-      expect(screen.getByText('6')).toBeInTheDocument();
       expect(screen.getByText('1')).toBeInTheDocument();
     });
   });
 
   it('muestra mensaje cuando el servicio devuelve valores por defecto', async () => {
     obtenerStatsRapidas.mockResolvedValue({
-      data: { horasSueno: 0, panales: 0, tomas: 0, banos: 0 },
+      data: { horasSueno: 0, panales: 0, banos: 0 },
     });
 
     render(

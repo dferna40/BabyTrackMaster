@@ -41,7 +41,7 @@ export default function QuickActionsCard() {
       obtenerStatsRapidas(usuarioId, bebeId)
         .then(({ data }) =>
           setActionsData((prev) => ({
-            biberon: { ...prev.biberon, today: data.tomas || 0 },
+            ...prev,
             panal: { ...prev.panal, today: data.panales || 0 },
             sueno: { ...prev.sueno, today: data.horasSueno || 0 },
             bano: { ...prev.bano, today: data.banos || 0 },

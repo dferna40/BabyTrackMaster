@@ -44,8 +44,6 @@ class CuidadoControllerTest {
 
         TipoCuidado sueno = saveTipo("Sue\u00f1o");
         TipoCuidado panal = saveTipo("Pa\u00f1al");
-        TipoCuidado biberon = saveTipo("Biberon");
-        TipoCuidado pecho = saveTipo("Pecho");
         TipoCuidado bano = saveTipo("Ba\u00f1o");
 
         createCuidado(sueno, date(2024,3,10,0,0), date(2024,3,10,2,0));
@@ -53,9 +51,6 @@ class CuidadoControllerTest {
         createCuidado(panal, date(2024,3,10,3,0), date(2024,3,10,3,5));
         createCuidado(panal, date(2024,3,10,7,0), date(2024,3,10,7,5));
         createCuidado(panal, date(2024,3,10,13,0), date(2024,3,10,13,7));
-        createCuidado(biberon, date(2024,3,10,6,0), date(2024,3,10,6,30));
-        createCuidado(biberon, date(2024,3,10,9,0), date(2024,3,10,9,20));
-        createCuidado(pecho, date(2024,3,10,15,0), date(2024,3,10,15,15));
         createCuidado(bano, date(2024,3,10,18,0), date(2024,3,10,18,20));
     }
 
@@ -66,7 +61,6 @@ class CuidadoControllerTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.horasSueno", closeTo(3.5, 0.01)))
             .andExpect(jsonPath("$.panales").value(3))
-            .andExpect(jsonPath("$.tomas").value(3))
             .andExpect(jsonPath("$.banos").value(1));
     }
 
