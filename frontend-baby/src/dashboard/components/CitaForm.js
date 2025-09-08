@@ -11,7 +11,11 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import dayjs from 'dayjs';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
-import { listarTipos, listarEstados } from '../../services/citasService';
+import {
+  listarTipos,
+  listarEstados,
+  listarEspecialidades,
+} from '../../services/citasService';
 import { saveButton, cancelButton } from '../../theme/buttonStyles';
 
 export default function CitaForm({ open, onClose, onSubmit, initialData }) {
@@ -22,9 +26,11 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
     tipoId: '',
     centroMedico: '',
     estadoId: '',
+    especialidadId: '',
   });
   const [tipos, setTipos] = useState([]);
   const [estados, setEstados] = useState([]);
+  const [especialidades, setEspecialidades] = useState([]);
 
   useEffect(() => {
     if (initialData) {
@@ -35,6 +41,7 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
         tipoId: initialData.tipoId || '',
         centroMedico: initialData.centroMedico || '',
         estadoId: initialData.estadoId || '',
+        especialidadId: initialData.tipoEspecialidadId || '',
       });
     } else {
       setFormData({
@@ -44,6 +51,7 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
         tipoId: '',
         centroMedico: '',
         estadoId: '',
+        especialidadId: '',
       });
     }
   }, [initialData, open]);
@@ -59,12 +67,36 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
     }
   }, [initialData]);
 
+  useEffect(() => {
+    const selectedTipo = tipos.find(
+      (t) => Number(t.id) === Number(formData.tipoId)
+    );
+    if (selectedTipo && selectedTipo.nombre?.toLowerCase() === 'especialista') {
+      listarEspecialidades()
+        .then((response) => setEspecialidades(response.data))
+        .catch((err) =>
+          console.error('Error fetching tipos especialidad:', err)
+        );
+    } else {
+      setEspecialidades([]);
+      setFormData((prev) => ({ ...prev, especialidadId: '' }));
+    }
+  }, [formData.tipoId, tipos]);
+
   const handleChange = (name, value) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = () => {
-    const { fecha, hora, motivo, tipoId, centroMedico, estadoId } = formData;
+    const {
+      fecha,
+      hora,
+      motivo,
+      tipoId,
+      centroMedico,
+      estadoId,
+      especialidadId,
+    } = formData;
     const data = {
       fecha: fecha ? fecha.format('YYYY-MM-DD') : '',
       hora: hora ? hora.format('HH:mm') : '',
@@ -72,6 +104,9 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
       tipoId,
       centroMedico,
     };
+    if (especialidadId) {
+      data.tipoEspecialidadId = especialidadId;
+    }
     if (initialData && initialData.id) {
       data.estadoId = estadoId;
     }
@@ -124,6 +159,23 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
                 ))}
               </TextField>
             </FormControl>
+            {especialidades.length > 0 && (
+              <FormControl fullWidth sx={{ mb: 2 }}>
+                <FormLabel sx={{ mb: 1 }}>Especialidad</FormLabel>
+                <TextField
+                  select
+                  name="especialidadId"
+                  value={formData.especialidadId}
+                  onChange={(e) => handleChange('especialidadId', e.target.value)}
+                >
+                  {especialidades.map((e) => (
+                    <MenuItem key={e.id} value={e.id}>
+                      {e.nombre}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </FormControl>
+            )}
             <FormControl fullWidth sx={{ mb: 2 }}>
               <FormLabel sx={{ mb: 1 }}>Centro médico (opcional)</FormLabel>
               <TextField

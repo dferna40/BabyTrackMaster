@@ -5,6 +5,7 @@ import { API_CITAS_URL } from '../config';
 const API_CITAS_ENDPOINT = `${API_CITAS_URL}/api/v1/citas`;
 const API_TIPOS_CITA_ENDPOINT = `${API_CITAS_URL}/api/v1/tipos-cita`;
 const API_ESTADOS_CITA_ENDPOINT = `${API_CITAS_URL}/api/v1/estados-cita`;
+const API_TIPOS_ESPECIALIDAD_ENDPOINT = `${API_CITAS_URL}/api/v1/tipos-especialidad`;
 
 export const listar = (bebeId, page, size) => {
   const params = {};
@@ -25,6 +26,9 @@ export const listarProximas = (bebeId, limite = 10) => {
         ...c,
         tipoNombre: c.tipo?.nombre ?? c.tipoNombre,
         estadoNombre: c.estado?.nombre ?? c.estadoNombre,
+        tipoEspecialidadNombre:
+          c.tipoEspecialidad?.nombre ?? c.tipoEspecialidadNombre,
+        tipoEspecialidadId: c.tipoEspecialidad?.id ?? c.tipoEspecialidadId,
       }))
       .filter((c) => dayjs(`${c.fecha}T${c.hora}`) >= now)
       .sort((a, b) =>
@@ -68,6 +72,10 @@ export const listarTipos = () => {
 
 export const listarEstados = () => {
   return axios.get(`${API_ESTADOS_CITA_ENDPOINT}`);
+};
+
+export const listarEspecialidades = () => {
+  return axios.get(`${API_TIPOS_ESPECIALIDAD_ENDPOINT}`);
 };
 
 export const enviarRecordatorio = (id, minutosAntelacion) => {
