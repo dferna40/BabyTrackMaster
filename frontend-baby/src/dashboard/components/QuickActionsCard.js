@@ -5,6 +5,8 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import Avatar from '@mui/material/Avatar';
+import { lightBlue, lightGreen, deepPurple, cyan } from '@mui/material/colors';
 import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
 import BabyChangingStationIcon from '@mui/icons-material/BabyChangingStation';
 import HotelIcon from '@mui/icons-material/Hotel';
@@ -109,6 +111,8 @@ export default function QuickActionsCard() {
       path: '/dashboard/alimentacion',
       state: { tipo: 'biberon' },
       unit: '',
+      color: 'primary',
+      bgColor: lightBlue[50],
     },
     {
       key: 'panal',
@@ -117,6 +121,8 @@ export default function QuickActionsCard() {
       path: '/dashboard/cuidados',
       state: { tipo: 'Pañal' },
       unit: '',
+      color: 'success',
+      bgColor: lightGreen[50],
     },
     {
       key: 'sueno',
@@ -125,6 +131,8 @@ export default function QuickActionsCard() {
       path: '/dashboard/cuidados',
       state: { tipo: 'Sueño' },
       unit: 'h',
+      color: 'secondary',
+      bgColor: deepPurple[50],
     },
     {
       key: 'bano',
@@ -133,11 +141,13 @@ export default function QuickActionsCard() {
       path: '/dashboard/cuidados',
       state: { tipo: 'Baño' },
       unit: '',
+      color: 'info',
+      bgColor: cyan[50],
     },
   ];
 
   return (
-    <Card variant="outlined" sx={{ height: '100%' }}>
+    <Card sx={{ height: '100%', boxShadow: 3, borderRadius: 2, bgcolor: '#F3F8FF' }}>
       <CardContent>
         <Typography variant="h6" component="h2" gutterBottom>
           Acciones Rápidas
@@ -151,10 +161,17 @@ export default function QuickActionsCard() {
 
             return (
               <Grid item xs={6} md={3} key={action.key}>
-                <Card variant="outlined" sx={{ height: '100%' }}>
+                <Card sx={{ height: '100%', boxShadow: 1, borderRadius: 2, bgcolor: '#F3F8FF' }}>
                   <CardContent>
                     <Stack spacing={1} alignItems="center">
-                      <Icon />
+                      <Avatar
+                        sx={{
+                          bgcolor: action.bgColor,
+                          color: (theme) => theme.palette[action.color].main,
+                        }}
+                      >
+                        <Icon />
+                      </Avatar>
                       <Typography variant="subtitle1">{action.label}</Typography>
                       <Typography variant="body2" color="text.secondary">
                         Última vez: {last}
