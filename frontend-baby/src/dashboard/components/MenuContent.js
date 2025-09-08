@@ -13,6 +13,7 @@ import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
 import RamenDiningRoundedIcon from '@mui/icons-material/RamenDiningRounded';
 import EventRoundedIcon from '@mui/icons-material/EventRounded';
 import ScheduleRoundedIcon from '@mui/icons-material/ScheduleRounded';
+import BarChartRoundedIcon from '@mui/icons-material/BarChartRounded';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
@@ -25,6 +26,7 @@ const mainListItems = [
   { text: 'Alimentación', icon: <RamenDiningRoundedIcon />, to: '/dashboard/alimentacion' },
   { text: 'Citas', icon: <EventRoundedIcon />, to: '/dashboard/citas' },
   { text: 'Rutinas', icon: <ScheduleRoundedIcon />, to: '/dashboard/rutinas' },
+  { text: 'Crecimiento', icon: <BarChartRoundedIcon />, to: '/dashboard/crecimiento' },
 ];
 
 const secondaryListItems = [
