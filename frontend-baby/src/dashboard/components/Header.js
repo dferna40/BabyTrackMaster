@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
-import CustomDatePicker from './CustomDatePicker';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
 import Search from './Search';
 
@@ -19,7 +18,6 @@ export default function Header() {
       }}
     >
       <Search />
-      <CustomDatePicker />
       <ColorModeIconDropdown />
     </Stack>
   );
