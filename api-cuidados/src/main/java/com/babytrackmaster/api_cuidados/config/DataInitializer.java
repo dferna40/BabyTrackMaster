@@ -24,8 +24,6 @@ public class DataInitializer {
         return args -> {
             if (tipoCuidadoRepository.count() == 0) {
                 tipoCuidadoRepository.saveAll(List.of(
-                    createTipoCuidado("Biberón"),
-                    createTipoCuidado("Pecho"),
                     createTipoCuidado("Pañal"),
                     createTipoCuidado("Sueño"),
                     createTipoCuidado("Baño")
