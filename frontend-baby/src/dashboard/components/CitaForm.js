@@ -12,6 +12,7 @@ import FormLabel from '@mui/material/FormLabel';
 import dayjs from 'dayjs';
 import { DatePicker, TimePicker } from '@mui/x-date-pickers';
 import { listarTipos, listarEstados } from '../../services/citasService';
+import { saveButton, cancelButton } from '../../theme/buttonStyles';
 
 export default function CitaForm({ open, onClose, onSubmit, initialData }) {
   const [formData, setFormData] = useState({
@@ -154,14 +155,14 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
           <Button
             variant="contained"
             onClick={onClose}
-            sx={{ bgcolor: '#6c757d', '&:hover': { bgcolor: '#5c636a' } }}
+            sx={cancelButton}
           >
             Cancelar
           </Button>
           <Button
             variant="contained"
             onClick={handleSubmit}
-            sx={{ bgcolor: '#198754', '&:hover': { bgcolor: '#157347' } }}
+            sx={saveButton}
           >
             Guardar
           </Button>

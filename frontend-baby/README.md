@@ -13,3 +13,13 @@ Pantallas de autenticación, dashboard, cuidados, gastos, hitos, diario, citas y
 - **jwt-decode**
 - Gestión de estado con Context / useReducer
 - Herramientas: Create React App (o Vite), ESLint/Prettier (opcional)
+
+## Estilos de botones
+Para mantener la coherencia en los colores de la interfaz, los componentes deben importar los estilos de `src/theme/buttonStyles.js` en lugar de definir el `sx` inline.
+
+```jsx
+import { saveButton, cancelButton } from '../theme/buttonStyles';
+
+<Button sx={saveButton}>Guardar</Button>
+<Button sx={cancelButton}>Cancelar</Button>
+```

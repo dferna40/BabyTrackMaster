@@ -32,10 +32,12 @@ import {
   actualizarGasto,
   eliminarGasto,
   listarCategorias,
-} from "../../services/gastosService";
-import GastoForm from "../components/GastoForm";
-import { BabyContext } from "../../context/BabyContext";
-import { AuthContext } from "../../context/AuthContext";
+
+} from '../../services/gastosService';
+import { addButton } from '../../theme/buttonStyles';
+import GastoForm from '../components/GastoForm';
+import { BabyContext } from '../../context/BabyContext';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function Gastos() {
   const [gastos, setGastos] = useState([]);
@@ -219,11 +221,7 @@ export default function Gastos() {
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          sx={{
-            alignSelf: "flex-start",
-            backgroundColor: "#20c997",
-            "&:hover": { backgroundColor: "#1aa179" },
-          }}
+          sx={{ alignSelf: 'flex-start', ...addButton }}
           onClick={handleAdd}
         >
           Añadir gasto

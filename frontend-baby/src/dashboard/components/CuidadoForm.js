@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
-import Stack from "@mui/material/Stack";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import { DateTimePicker } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
-import { listarTipos } from "../../services/cuidadosService";
+
+import React, { useEffect, useState } from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Stack from '@mui/material/Stack';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import { DateTimePicker } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
+import { listarTipos } from '../../services/cuidadosService';
+import { saveButton, cancelButton } from '../../theme/buttonStyles';
 
 export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
   const [formData, setFormData] = useState({
@@ -148,29 +150,23 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
             />
           </FormControl>
         </Stack>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          variant="contained"
-          onClick={onClose}
-          sx={{
-            backgroundColor: "#6c757d",
-            "&:hover": { backgroundColor: "#5c636a" },
-          }}
-        >
-          Cancelar
-        </Button>
-        <Button
-          onClick={handleSubmit}
-          variant="contained"
-          sx={{
-            backgroundColor: "#198754",
-            "&:hover": { backgroundColor: "#157347" },
-          }}
-        >
-          Guardar
-        </Button>
-      </DialogActions>
-    </Dialog>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            onClick={onClose}
+            sx={cancelButton}
+          >
+            Cancelar
+          </Button>
+          <Button
+            onClick={handleSubmit}
+            variant="contained"
+            sx={saveButton}
+          >
+            Guardar
+          </Button>
+        </DialogActions>
+      </Dialog>
   );
 }

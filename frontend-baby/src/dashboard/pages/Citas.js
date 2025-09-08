@@ -28,6 +28,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import dayjs from 'dayjs';
+import { addButton, cancelButton } from '../../theme/buttonStyles';
 import { DateCalendar, PickersDay } from '@mui/x-date-pickers';
 import {
   listar,
@@ -268,7 +269,7 @@ export default function Citas() {
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          sx={{ alignSelf: 'flex-start', bgcolor: '#20c997', '&:hover': { bgcolor: '#1aa179' } }}
+          sx={{ alignSelf: 'flex-start', ...addButton }}
           onClick={handleAdd}
         >
           Añadir cita
@@ -528,7 +529,7 @@ export default function Citas() {
           <Button
             variant="contained"
             onClick={handleRecordatorioClose}
-            sx={{ bgcolor: '#6c757d', '&:hover': { bgcolor: '#5c636a' } }}
+            sx={cancelButton}
           >
             Cancelar
           </Button>

@@ -18,6 +18,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { listarEntradas, crearEntrada } from '../../services/diarioService';
 import { BabyContext } from '../../context/BabyContext';
 import { AuthContext } from '../../context/AuthContext';
+import { saveButton } from '../../theme/buttonStyles';
 
 const emociones = [
   { value: 'happy', label: '😊 Feliz' },
@@ -145,7 +146,7 @@ export default function Diario() {
               <Button
                 variant="contained"
                 onClick={handleAdd}
-                sx={{ bgcolor: '#198754', '&:hover': { bgcolor: '#157347' } }}
+                sx={saveButton}
               >
                 Guardar entrada
               </Button>

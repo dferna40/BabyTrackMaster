@@ -11,8 +11,9 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers";
+import { listarCategorias } from '../../services/gastosService';
+import { saveButton, cancelButton } from '../../theme/buttonStyles';
 
-import { listarCategorias } from "../../services/gastosService";
 
 export default function GastoForm({ open, onClose, onSubmit, initialData }) {
   const [formData, setFormData] = useState({
@@ -87,80 +88,72 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>
-        {initialData && initialData.id ? "Editar gasto" : "Añadir nuevo gasto"}
-      </DialogTitle>
-      <DialogContent>
-        <Stack sx={{ mt: 1 }}>
-          <FormControl fullWidth sx={{ mb: 2 }}>
-            <FormLabel sx={{ mb: 1 }}>Fecha</FormLabel>
-            <DatePicker
-              value={formData.fecha}
-              onChange={handleDateChange}
-              slotProps={{ textField: { fullWidth: true } }}
-            />
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 2 }}>
-            <FormLabel sx={{ mb: 1 }}>Categoría</FormLabel>
-            <TextField
-              select
-              name="categoriaId"
-              value={formData.categoriaId}
-              onChange={handleChange}
-            >
-              {categorias.map((option) => (
-                <MenuItem key={option.id} value={option.id}>
-                  {option.nombre}
-                </MenuItem>
-              ))}
-            </TextField>
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 2 }}>
-            <FormLabel sx={{ mb: 1 }}>Descripción</FormLabel>
-            <TextField
-              multiline
-              rows={3}
-              name="descripcion"
-              value={formData.descripcion}
-              onChange={handleChange}
-            />
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 2 }}>
-            <FormLabel sx={{ mb: 1 }}>Cantidad</FormLabel>
-            <TextField
-              type="number"
-              name="cantidad"
-              value={formData.cantidad}
-              onChange={handleChange}
-              inputProps={{ min: 0 }}
-              error={Boolean(errors.cantidad)}
-              helperText={errors.cantidad}
-            />
-          </FormControl>
-        </Stack>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          variant="contained"
-          onClick={onClose}
-          sx={{
-            backgroundColor: "#6c757d",
-            "&:hover": { backgroundColor: "#5c636a" },
-          }}
-        >
-          Cancelar
-        </Button>
-        <Button
-          onClick={handleSubmit}
-          variant="contained"
-          sx={{
-            backgroundColor: "#198754",
-            "&:hover": { backgroundColor: "#157347" },
-          }}
-        >
-          Guardar
-        </Button>
-      </DialogActions>
-    </Dialog>
+        <DialogTitle>{initialData && initialData.id ? 'Editar gasto' : 'Añadir nuevo gasto'}</DialogTitle>
+        <DialogContent>
+          <Stack sx={{ mt: 1 }}>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormLabel sx={{ mb: 1 }}>Fecha</FormLabel>
+              <DatePicker
+                value={formData.fecha}
+                onChange={handleDateChange}
+                slotProps={{ textField: { fullWidth: true } }}
+              />
+            </FormControl>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormLabel sx={{ mb: 1 }}>Categoría</FormLabel>
+              <TextField
+                select
+                name="categoriaId"
+                value={formData.categoriaId}
+                onChange={handleChange}
+              >
+                {categorias.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.nombre}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </FormControl>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormLabel sx={{ mb: 1 }}>Descripción</FormLabel>
+              <TextField
+                multiline
+                rows={3}
+                name="descripcion"
+                value={formData.descripcion}
+                onChange={handleChange}
+              />
+            </FormControl>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormLabel sx={{ mb: 1 }}>Cantidad</FormLabel>
+              <TextField
+                type="number"
+                name="cantidad"
+                value={formData.cantidad}
+                onChange={handleChange}
+                inputProps={{ min: 0 }}
+                error={Boolean(errors.cantidad)}
+                helperText={errors.cantidad}
+              />
+            </FormControl>
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            onClick={onClose}
+            sx={cancelButton}
+          >
+            Cancelar
+          </Button>
+          <Button
+            onClick={handleSubmit}
+            variant="contained"
+            sx={saveButton}
+          >
+            Guardar
+          </Button>
+        </DialogActions>
+      </Dialog>
   );
 }

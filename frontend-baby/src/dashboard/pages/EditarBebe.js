@@ -1,33 +1,30 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import FormLabel from "@mui/material/FormLabel";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Radio from "@mui/material/Radio";
-import Avatar from "@mui/material/Avatar";
-import Stack from "@mui/material/Stack";
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
-import { DatePicker } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
-import {
-  actualizarBebe,
-  eliminarBebe,
-  fetchTipoAlergias,
-  fetchTipoGrupoSanguineo,
-} from "../../services/bebesService";
-import { BabyContext } from "../../context/BabyContext";
-import CircularProgress from "@mui/material/CircularProgress";
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
+
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import FormLabel from '@mui/material/FormLabel';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import { DatePicker } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
+import { actualizarBebe, eliminarBebe, fetchTipoAlergias, fetchTipoGrupoSanguineo } from '../../services/bebesService';
+import { BabyContext } from '../../context/BabyContext';
+import CircularProgress from '@mui/material/CircularProgress';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import { saveButton, cancelButton, deleteButton, primaryButton } from '../../theme/buttonStyles';
 
 export default function EditarBebe() {
   const navigate = useNavigate();
@@ -525,120 +522,44 @@ export default function EditarBebe() {
                   value={formData.telefonoCentroMedico}
                   onChange={handleChange}
                   disabled={loading}
-                  variant="outlined"
-                  sx={{
-                    "& .MuiOutlinedInput-root": { borderRadius: 1 },
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "divider",
-                    },
-                  }}
-                />
-              </Grid>
-            </Grid>
-          </Box>
-
-          <Box component={Paper} sx={{ p: 2, mb: 2 }}>
-            <Typography variant="h6" gutterBottom>
-              Observaciones
-            </Typography>
-            <TextField
-              multiline
-              rows={4}
-              name="observaciones"
-              fullWidth
-              value={formData.observaciones}
-              onChange={handleChange}
-              disabled={loading}
-              variant="outlined"
-              sx={{
-                "& .MuiOutlinedInput-root": { borderRadius: 1 },
-                "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "divider",
-                },
-              }}
-            />
-          </Box>
+                  sx={primaryButton}
+                >
+                  Subir foto
+                </Button>
+              </Stack>
+            </Box>
+          </Grid>
         </Grid>
 
-        <Grid item xs={12} md={4}>
-          <Box component={Paper} sx={{ p: 2, textAlign: "center" }}>
-            <Typography variant="h6" gutterBottom>
-              Foto/Identidad
-            </Typography>
-            <Stack spacing={2} alignItems="center">
-              <Avatar src={preview} sx={{ width: 120, height: 120 }} />
-              <input
-                type="file"
-                accept="image/*"
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                onChange={handlePhotoChange}
-                disabled={loading}
-              />
-              <Button
-                variant="contained"
-                onClick={() =>
-                  fileInputRef.current && fileInputRef.current.click()
-                }
-                disabled={loading}
-                sx={{
-                  backgroundColor: "#0d6efd",
-                  "&:hover": { backgroundColor: "#0b5ed7" },
-                }}
-              >
-                Subir foto
-              </Button>
-            </Stack>
-          </Box>
-        </Grid>
-      </Grid>
-
-      <Stack
-        direction="row"
-        spacing={2}
-        justifyContent="flex-end"
-        sx={{ mt: 2 }}
-      >
-        <Button
-          variant="contained"
-          onClick={() => navigate(-1)}
-          disabled={loading}
-          sx={{
-            backgroundColor: "#6c757d",
-            "&:hover": { backgroundColor: "#5c636a" },
-          }}
-        >
-          Cancelar
-        </Button>
-        <Button
-          variant="contained"
-          onClick={handleDelete}
-          disabled={loading}
-          sx={{
-            backgroundColor: "#dc3545",
-            "&:hover": { backgroundColor: "#bb2d3b" },
-          }}
-        >
-          Eliminar bebé
-        </Button>
-        <Button
-          type="submit"
-          variant="contained"
-          disabled={loading}
-          sx={{
-            backgroundColor: "#198754",
-            "&:hover": { backgroundColor: "#157347" },
-          }}
-        >
-          {loading ? <CircularProgress size={24} /> : "Guardar"}
-        </Button>
-      </Stack>
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-      >
-        <Alert
+        <Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ mt: 2 }}>
+          <Button
+            variant="contained"
+            onClick={() => navigate(-1)}
+            disabled={loading}
+            sx={cancelButton}
+          >
+            Cancelar
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleDelete}
+            disabled={loading}
+            sx={deleteButton}
+          >
+            Eliminar bebé
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={loading}
+            sx={saveButton}
+          >
+            {loading ? <CircularProgress size={24} /> : 'Guardar'}
+          </Button>
+        </Stack>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
           onClose={handleCloseSnackbar}
           severity="success"
           sx={{ width: "100%" }}

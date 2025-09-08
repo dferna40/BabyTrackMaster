@@ -28,6 +28,7 @@ import {
   eliminarRutina,
   duplicarRutina,
 } from '../../services/rutinasService';
+import { addButton } from '../../theme/buttonStyles';
 import RutinaForm from '../components/RutinaForm';
 import { BabyContext } from '../../context/BabyContext';
 import { AuthContext } from '../../context/AuthContext';
@@ -162,7 +163,7 @@ export default function Rutinas() {
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          sx={{ alignSelf: 'flex-start', bgcolor: '#20c997', '&:hover': { bgcolor: '#1aa179' } }}
+          sx={{ alignSelf: 'flex-start', ...addButton }}
           onClick={handleAdd}
         >
           Añadir rutina

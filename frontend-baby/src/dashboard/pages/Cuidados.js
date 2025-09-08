@@ -30,10 +30,11 @@ import {
   actualizarCuidado,
   eliminarCuidado,
   listarTipos,
-} from "../../services/cuidadosService";
-import CuidadoForm from "../components/CuidadoForm";
-import { BabyContext } from "../../context/BabyContext";
-import { AuthContext } from "../../context/AuthContext";
+} from '../../services/cuidadosService';
+import CuidadoForm from '../components/CuidadoForm';
+import { BabyContext } from '../../context/BabyContext';
+import { AuthContext } from '../../context/AuthContext';
+import { addButton } from '../../theme/buttonStyles';
 
 export default function Cuidados() {
   const [tab, setTab] = useState(0);
@@ -211,11 +212,7 @@ export default function Cuidados() {
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          sx={{
-            alignSelf: "flex-start",
-            backgroundColor: "#20c997",
-            "&:hover": { backgroundColor: "#1aa179" },
-          }}
+          sx={{ alignSelf: 'flex-start', ...addButton }}
           onClick={handleAdd}
         >
           Añadir nuevo cuidado
