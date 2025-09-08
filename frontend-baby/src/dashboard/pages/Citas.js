@@ -86,6 +86,10 @@ export default function Citas() {
               tipoNombre: c.tipo?.nombre ?? c.tipoNombre,
               estadoId: c.estado?.id ?? c.estadoId,
               estadoNombre: c.estado?.nombre ?? c.estadoNombre,
+              tipoEspecialidadId:
+                c.tipoEspecialidad?.id ?? c.tipoEspecialidadId,
+              tipoEspecialidadNombre:
+                c.tipoEspecialidad?.nombre ?? c.tipoEspecialidadNombre,
             }))
           );
         } else {
