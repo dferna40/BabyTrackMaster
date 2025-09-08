@@ -106,7 +106,7 @@ export default function Acerca() {
           </Typography>
           <Button
             variant="contained"
-            sx={{ mt: 1, alignSelf: 'flex-start' }}
+            sx={{ mt: 1, alignSelf: 'flex-start', bgcolor: '#0d6efd', '&:hover': { bgcolor: '#0b5ed7' } }}
             href="mailto:soporte@babytrackmaster.com"
           >
             Contáctanos

@@ -216,7 +216,7 @@ export default function Gastos() {
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          sx={{ alignSelf: 'flex-start' }}
+          sx={{ alignSelf: 'flex-start', bgcolor: '#20c997', '&:hover': { bgcolor: '#1aa179' } }}
           onClick={handleAdd}
         >
           Añadir gasto
@@ -288,14 +288,15 @@ export default function Gastos() {
                     >
                       <EditIcon fontSize="small" />
                     </IconButton>
-                    <IconButton
-                      size="small"
-                      aria-label="delete"
-                      onClick={() => handleDelete(gasto.id)}
-                    >
-                      <DeleteIcon fontSize="small" />
-                    </IconButton>
-                  </TableCell>
+        <IconButton
+          size="small"
+          aria-label="delete"
+          onClick={() => handleDelete(gasto.id)}
+          sx={{ color: '#dc3545' }}
+        >
+          <DeleteIcon fontSize="small" />
+        </IconButton>
+      </TableCell>
                 </TableRow>
               ))}
           </TableBody>

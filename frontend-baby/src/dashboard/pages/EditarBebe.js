@@ -524,6 +524,10 @@ export default function EditarBebe() {
                   variant="contained"
                   onClick={() => fileInputRef.current && fileInputRef.current.click()}
                   disabled={loading}
+                  sx={{
+                    bgcolor: '#0d6efd',
+                    '&:hover': { bgcolor: '#0b5ed7' },
+                  }}
                 >
                   Subir foto
                 </Button>
@@ -533,13 +537,28 @@ export default function EditarBebe() {
         </Grid>
 
         <Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ mt: 2 }}>
-          <Button onClick={() => navigate(-1)} disabled={loading}>
+          <Button
+            variant="contained"
+            onClick={() => navigate(-1)}
+            disabled={loading}
+            sx={{ bgcolor: '#6c757d', '&:hover': { bgcolor: '#5c636a' } }}
+          >
             Cancelar
           </Button>
-          <Button color="error" onClick={handleDelete} disabled={loading}>
+          <Button
+            variant="contained"
+            onClick={handleDelete}
+            disabled={loading}
+            sx={{ bgcolor: '#dc3545', '&:hover': { bgcolor: '#bb2d3b' } }}
+          >
             Eliminar bebé
           </Button>
-          <Button type="submit" variant="contained" disabled={loading}>
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={loading}
+            sx={{ bgcolor: '#198754', '&:hover': { bgcolor: '#157347' } }}
+          >
             {loading ? <CircularProgress size={24} /> : 'Guardar'}
           </Button>
         </Stack>

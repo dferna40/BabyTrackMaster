@@ -111,8 +111,19 @@ export default function RutinaForm({ open, onClose, onSubmit, initialData }) {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={onClose}>Cancelar</Button>
-          <Button onClick={handleSubmit} variant="contained" disabled={!isValid}>
+          <Button
+            variant="contained"
+            onClick={onClose}
+            sx={{ bgcolor: '#6c757d', '&:hover': { bgcolor: '#5c636a' } }}
+          >
+            Cancelar
+          </Button>
+          <Button
+            onClick={handleSubmit}
+            variant="contained"
+            disabled={!isValid}
+            sx={{ bgcolor: '#198754', '&:hover': { bgcolor: '#157347' } }}
+          >
             Guardar rutina
           </Button>
         </DialogActions>
