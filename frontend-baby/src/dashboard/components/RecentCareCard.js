@@ -8,38 +8,63 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import IconButton from '@mui/material/IconButton';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import BabyChangingStationIcon from '@mui/icons-material/BabyChangingStation';
-import HotelIcon from '@mui/icons-material/Hotel';
-import BathtubIcon from '@mui/icons-material/Bathtub';
-import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import Box from '@mui/material/Box';
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import { useNavigate } from 'react-router-dom';
 import { listarRecientes } from '../../services/cuidadosService';
-
-dayjs.extend(relativeTime);
 
 export default function RecentCareCard() {
   const [recentCare, setRecentCare] = useState([]);
   const { activeBaby } = React.useContext(BabyContext);
   const { user } = React.useContext(AuthContext);
-  const navigate = useNavigate();
   const usuarioId = user?.id;
   const bebeId = activeBaby?.id;
 
   const iconMap = {
-    Pañal: BabyChangingStationIcon,
-    Sueño: HotelIcon,
-    Dormir: HotelIcon,
-    Baño: BathtubIcon,
-    Bañar: BathtubIcon,
-    Pecho: LocalDrinkIcon,
-    'Biberón': LocalDrinkIcon,
-    Toma: LocalDrinkIcon,
-    Alimentación: LocalDrinkIcon,
+    Pañal: '👶',
+    Sueño: '😴',
+    Dormir: '😴',
+    Baño: '🛁',
+    Bañar: '🛁',
+    Pecho: '🍼',
+    'Biberón': '🍼',
+    Toma: '🍼',
+    Alimentación: '🍼',
+  };
+
+  const formatTimeAgo = (inicio) => {
+    const diffMinutes = dayjs().diff(dayjs(inicio), 'minute');
+    const hours = Math.floor(diffMinutes / 60);
+    const minutes = diffMinutes % 60;
+    const hoursStr = hours ? `${hours}h ` : '';
+    return `Hace ${hoursStr}${minutes}m`;
+  };
+
+  const formatValue = (item) => {
+    switch (item.tipoNombre) {
+      case 'Biberón':
+      case 'Pecho':
+      case 'Toma':
+      case 'Alimentación': {
+        const quantity = item.cantidadMl ?? item.pecho;
+        return quantity ? `${quantity}ml` : '';
+      }
+      case 'Pañal':
+        return 'Limpio';
+      case 'Sueño':
+      case 'Dormir': {
+        const durationMin =
+          item.duracionMin ??
+          (item.fin ? dayjs(item.fin).diff(dayjs(item.inicio), 'minute') : 0);
+        const hours = Math.floor(durationMin / 60);
+        const minutes = durationMin % 60;
+        return `${hours}h ${minutes}m`;
+      }
+      case 'Baño':
+      case 'Bañar':
+        return 'Limpio';
+      default:
+        return '';
+    }
   };
 
   useEffect(() => {
@@ -50,35 +75,51 @@ export default function RecentCareCard() {
     }
   }, [bebeId, usuarioId]);
 
-  const handleRegister = (tipoNombre) => () => {
-    navigate('/dashboard/cuidados', { state: { tipo: tipoNombre } });
-  };
-
   return (
     <Card variant="outlined" sx={{ height: '100%' }}>
       <CardContent>
-        <Typography variant="h6" component="h2" gutterBottom>
+        <Typography
+          variant="h6"
+          component="h2"
+          gutterBottom
+          sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+        >
+          <span role="img" aria-label="reloj">
+            ⏰
+          </span>
           Actividad Reciente
         </Typography>
         {recentCare.length > 0 ? (
-          <List>
+          <List sx={{ p: 0 }}>
             {recentCare.map((item) => {
-              const Icon = iconMap[item.tipoNombre] || HelpOutlineIcon;
-              const timeAgo = dayjs(item.inicio).fromNow();
-              const quantity = item.cantidadMl ?? item.pecho ?? '-';
+              const emoji = iconMap[item.tipoNombre] || '❓';
+              const timeAgo = formatTimeAgo(item.inicio);
+              const value = formatValue(item);
               return (
                 <ListItem
                   key={item.id}
-                  secondaryAction={
-                    <IconButton edge="end" aria-label="registrar" onClick={handleRegister(item.tipoNombre)}>
-                      <AddCircleOutlineIcon />
-                    </IconButton>
-                  }
+                  sx={{
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    borderRadius: 2,
+                    mb: 1,
+                  }}
                 >
-                  <ListItemIcon>
-                    <Icon />
+                  <ListItemIcon sx={{ minWidth: 40 }}>
+                    <Typography component="span" fontSize="1.5rem">
+                      {emoji}
+                    </Typography>
                   </ListItemIcon>
-                  <ListItemText primary={item.tipoNombre} secondary={`${timeAgo} · ${quantity}`} />
+                  <ListItemText primary={item.tipoNombre} secondary={timeAgo} />
+                  <Box>
+                    <Typography
+                      variant="body2"
+                      color="primary"
+                      sx={{ fontWeight: 'bold' }}
+                    >
+                      {value}
+                    </Typography>
+                  </Box>
                 </ListItem>
               );
             })}
