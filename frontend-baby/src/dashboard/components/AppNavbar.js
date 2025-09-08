@@ -60,7 +60,7 @@ export default function AppNavbar() {
           <Stack
             direction="row"
             spacing={1}
-            sx={{ justifyContent: 'center', mr: 'auto' }}
+            sx={{ justifyContent: 'center', mr: 'auto', alignItems: 'center' }}
           >
             <CustomIcon />
             <Typography variant="h4" component="h1" sx={{ color: 'text.primary' }}>
@@ -84,7 +84,7 @@ export function CustomIcon() {
       component="img"
       src="/baby-logo.png"
       alt="BabyTrackMaster"
-      sx={{ width: '1.5rem', height: '1.5rem' }}
+      sx={{ width: '3rem', height: '3rem' }}
     />
   );
 }
