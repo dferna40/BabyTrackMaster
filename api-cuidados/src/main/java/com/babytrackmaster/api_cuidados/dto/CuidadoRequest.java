@@ -17,7 +17,6 @@ public class CuidadoRequest {
 
     private Date fin;
     private Integer cantidadMl;
-    private String pecho;
     private String tipoPanal;
     private String medicamento;
     private String dosis;

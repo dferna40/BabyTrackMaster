@@ -21,7 +21,6 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
     tipoId: "",
     cantidadMl: "",
     observaciones: "",
-    pecho: "",
   });
   const [tipoOptions, setTipoOptions] = useState([]);
 
@@ -32,7 +31,6 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
         tipoId: initialData.tipoId || "",
         cantidadMl: initialData.cantidadMl || "",
         observaciones: initialData.observaciones || "",
-        pecho: initialData.pecho || "",
       });
     } else {
       setFormData({
@@ -40,7 +38,6 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
         tipoId: "",
         cantidadMl: "",
         observaciones: "",
-        pecho: "",
       });
     }
   }, [initialData, open]);
@@ -58,11 +55,6 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
     setFormData((prev) => ({
       ...prev,
       [name]: sanitizedValue,
-      ...(name === "tipoId" &&
-      tipoOptions.find((option) => option.id == sanitizedValue)?.nombre !==
-        "Pecho"
-        ? { pecho: "" }
-        : {}),
     }));
   };
 
@@ -70,15 +62,10 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
     setFormData((prev) => ({ ...prev, inicio: newValue }));
   };
 
-  const isPecho =
-    tipoOptions.find((option) => option.id == formData.tipoId)?.nombre ===
-    "Pecho";
-
   const handleSubmit = () => {
     const payload = {
       ...formData,
       inicio: formData.inicio ? formData.inicio.format("YYYY-MM-DDTHH:mm") : "",
-      pecho: formData.pecho,
     };
     onSubmit(payload);
   };
@@ -115,20 +102,6 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
               ))}
             </TextField>
           </FormControl>
-          {isPecho && (
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Pecho</FormLabel>
-              <TextField
-                select
-                name="pecho"
-                value={formData.pecho}
-                onChange={handleChange}
-              >
-                <MenuItem value="Izquierdo">Izquierdo</MenuItem>
-                <MenuItem value="Derecho">Derecho</MenuItem>
-              </TextField>
-            </FormControl>
-          )}
           <FormControl fullWidth sx={{ mb: 2 }}>
             <FormLabel sx={{ mb: 1 }}>Cantidad</FormLabel>
             <TextField

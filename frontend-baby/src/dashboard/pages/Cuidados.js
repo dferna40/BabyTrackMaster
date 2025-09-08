@@ -58,8 +58,6 @@ export default function Cuidados() {
     [cuidados, tab, tipos],
   );
 
-  const esPecho = tipos[tab]?.nombre === "Pecho";
-
   useEffect(() => {
     const stats = Array(7).fill(0);
     filteredCuidados.forEach((cuidado) => {
@@ -157,11 +155,11 @@ export default function Cuidados() {
   };
 
   const handleExportCsv = () => {
-    const headers = ["Hora", "Tipo", esPecho ? "Pecho" : "Cantidad", "Nota"];
+    const headers = ["Hora", "Tipo", "Cantidad", "Nota"];
     const rows = filteredCuidados.map((cuidado) => [
       dayjs(cuidado.inicio).format("DD/MM/YYYY HH:mm"),
       cuidado.tipoNombre,
-      esPecho ? (cuidado.pecho ?? "-") : (cuidado.cantidadMl ?? "-"),
+      cuidado.cantidadMl ?? "-",
       cuidado.observaciones ?? "",
     ]);
     const csvContent = [headers, ...rows].map((e) => e.join(",")).join("\n");
@@ -183,13 +181,13 @@ export default function Cuidados() {
     const tableColumn = [
       "Hora",
       "Tipo",
-      esPecho ? "Pecho" : "Cantidad",
+      "Cantidad",
       "Nota",
     ];
     const tableRows = filteredCuidados.map((cuidado) => [
       dayjs(cuidado.inicio).format("DD/MM/YYYY HH:mm"),
       cuidado.tipoNombre,
-      esPecho ? (cuidado.pecho ?? "-") : (cuidado.cantidadMl ?? "-"),
+      cuidado.cantidadMl ?? "-",
       cuidado.observaciones ?? "",
     ]);
     autoTable(doc, {
@@ -233,7 +231,7 @@ export default function Cuidados() {
             <TableRow>
               <TableCell>Hora</TableCell>
               <TableCell>Tipo</TableCell>
-              <TableCell>{esPecho ? "Pecho" : "Cantidad"}</TableCell>
+              <TableCell>Cantidad</TableCell>
               <TableCell>Nota</TableCell>
               <TableCell align="center">Acciones</TableCell>
             </TableRow>
@@ -248,9 +246,7 @@ export default function Cuidados() {
                   </TableCell>
                   <TableCell>{cuidado.tipoNombre}</TableCell>
                   <TableCell sx={{ fontWeight: 600 }}>
-                    {esPecho
-                      ? (cuidado.pecho ?? "-")
-                      : (cuidado.cantidadMl ?? "-")}
+                    {cuidado.cantidadMl ?? "-"}
                   </TableCell>
                   <TableCell>{cuidado.observaciones}</TableCell>
                   <TableCell align="center">
