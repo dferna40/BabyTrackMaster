@@ -21,6 +21,7 @@ import Acerca from "./dashboard/pages/Acerca";
 import AnadirBebe from "./dashboard/pages/AnadirBebe";
 import EditarBebe from "./dashboard/pages/EditarBebe";
 import InicioSinBebe from "./dashboard/pages/InicioSinBebe";
+import Crecimiento from "./dashboard/pages/Crecimiento";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 
@@ -46,6 +47,7 @@ function App() {
             >
               <Route index element={<MainGrid />} />
               <Route path="cuidados" element={<Cuidados />} />
+              <Route path="crecimiento" element={<Crecimiento />} />
               <Route path="gastos" element={<Gastos />} />
               <Route path="diario" element={<Diario />} />
               <Route path="alimentacion" element={<Alimentacion />} />
