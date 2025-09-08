@@ -20,6 +20,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
     inicio: null,
     tipoId: "",
     cantidadMl: "",
+    duracion: "",
     observaciones: "",
   });
   const [tipoOptions, setTipoOptions] = useState([]);
@@ -30,6 +31,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
         inicio: initialData.inicio ? dayjs(initialData.inicio) : null,
         tipoId: initialData.tipoId || "",
         cantidadMl: initialData.cantidadMl || "",
+        duracion: initialData.duracion || "",
         observaciones: initialData.observaciones || "",
       });
     } else {
@@ -37,6 +39,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
         inicio: null,
         tipoId: "",
         cantidadMl: "",
+        duracion: "",
         observaciones: "",
       });
     }
@@ -51,7 +54,9 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     const sanitizedValue =
-      name === "cantidadMl" ? String(Math.max(0, Number(value))) : value;
+      ["cantidadMl", "duracion"].includes(name)
+        ? String(Math.max(0, Number(value)))
+        : value;
     setFormData((prev) => ({
       ...prev,
       [name]: sanitizedValue,
@@ -69,6 +74,11 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
     };
     onSubmit(payload);
   };
+
+  const selectedTipo = tipoOptions.find(
+    (option) => Number(option.id) === Number(formData.tipoId),
+  );
+  const isSueno = selectedTipo?.nombre === "Sueño";
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
@@ -102,16 +112,29 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
               ))}
             </TextField>
           </FormControl>
-          <FormControl fullWidth sx={{ mb: 2 }}>
-            <FormLabel sx={{ mb: 1 }}>Cantidad</FormLabel>
-            <TextField
-              type="number"
-              name="cantidadMl"
-              value={formData.cantidadMl}
-              onChange={handleChange}
-              inputProps={{ min: 0 }}
-            />
-          </FormControl>
+          {isSueno ? (
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormLabel sx={{ mb: 1 }}>Duración</FormLabel>
+              <TextField
+                type="number"
+                name="duracion"
+                value={formData.duracion}
+                onChange={handleChange}
+                inputProps={{ min: 0 }}
+              />
+            </FormControl>
+          ) : (
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormLabel sx={{ mb: 1 }}>Cantidad</FormLabel>
+              <TextField
+                type="number"
+                name="cantidadMl"
+                value={formData.cantidadMl}
+                onChange={handleChange}
+                inputProps={{ min: 0 }}
+              />
+            </FormControl>
+          )}
           <FormControl fullWidth sx={{ mb: 2 }}>
             <FormLabel sx={{ mb: 1 }}>Observaciones</FormLabel>
             <TextField
