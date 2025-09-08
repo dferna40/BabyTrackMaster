@@ -39,10 +39,18 @@ export default function SideMenu() {
       <Box
         sx={{
           display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
           mt: 'calc(var(--template-frame-height, 0px) + 4px)',
           p: 1.5,
         }}
       >
+        <Box
+          component="img"
+          src="/logo.png"
+          alt="BabyTrackMaster"
+          sx={{ width: 40, height: 40, mb: 1 }}
+        />
         <SelectContent />
       </Box>
       <Divider />
