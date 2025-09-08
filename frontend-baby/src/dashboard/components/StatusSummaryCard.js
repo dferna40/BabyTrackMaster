@@ -11,7 +11,12 @@ import BathtubIcon from '@mui/icons-material/Bathtub';
 import dayjs from 'dayjs';
 import { AuthContext } from '../../context/AuthContext';
 import { BabyContext } from '../../context/BabyContext';
-import { listarRecientes } from '../../services/cuidadosService';
+import {
+  listarRecientes as listarCuidadosRecientes,
+} from '../../services/cuidadosService';
+import {
+  listarRecientes as listarAlimentacionRecientes,
+} from '../../services/alimentacionService';
 
 export default function StatusSummaryCard() {
   const { user } = useContext(AuthContext);
@@ -25,16 +30,19 @@ export default function StatusSummaryCard() {
 
   useEffect(() => {
     if (user?.id && activeBaby?.id) {
-      listarRecientes(user.id, activeBaby.id, 20)
-        .then(({ data }) => {
-          const findByName = (names) =>
+      Promise.all([
+        listarCuidadosRecientes(user.id, activeBaby.id, 20),
+        listarAlimentacionRecientes(user.id, activeBaby.id, 20),
+      ])
+        .then(([cuidados, alimentacion]) => {
+          const findByName = (data, names) =>
             data.find((item) => names.includes(item.tipoNombre));
 
           setEvents({
-            feeding: findByName(['Pecho', 'Biberón', 'Toma', 'Alimentación']),
-            diaper: findByName(['Pañal']),
-            sleep: findByName(['Sueño', 'Dormir']),
-            bath: findByName(['Baño', 'Bañar']),
+            feeding: findByName(alimentacion.data, ['Pecho', 'Biberón']),
+            diaper: findByName(cuidados.data, ['Pañal']),
+            sleep: findByName(cuidados.data, ['Sueño', 'Dormir']),
+            bath: findByName(cuidados.data, ['Baño', 'Bañar']),
           });
         })
         .catch(() =>
