@@ -15,6 +15,7 @@ import Diario from "./dashboard/pages/Diario";
 import Alimentacion from "./dashboard/pages/Alimentacion";
 import Citas from "./dashboard/pages/Citas";
 import Rutinas from "./dashboard/pages/Rutinas";
+import Crecimiento from "./dashboard/pages/Crecimiento";
 import Configuracion from "./dashboard/pages/Configuracion";
 import Acerca from "./dashboard/pages/Acerca";
 import AnadirBebe from "./dashboard/pages/AnadirBebe";
@@ -52,6 +53,7 @@ function App() {
               <Route path="alimentacion" element={<Alimentacion />} />
               <Route path="citas" element={<Citas />} />
               <Route path="rutinas" element={<Rutinas />} />
+              <Route path="crecimiento" element={<Crecimiento />} />
               <Route path="anadir-bebe" element={<AnadirBebe />} />
               <Route path="editar-bebe" element={<EditarBebe />} />
               <Route path="configuracion" element={<Configuracion />} />
