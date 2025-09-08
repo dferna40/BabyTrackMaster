@@ -4,6 +4,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
+import { primaryButton } from '../../theme/buttonStyles';
 
 export default function Acerca() {
   return (
@@ -106,7 +107,7 @@ export default function Acerca() {
           </Typography>
           <Button
             variant="contained"
-            sx={{ mt: 1, alignSelf: 'flex-start', bgcolor: '#0d6efd', '&:hover': { bgcolor: '#0b5ed7' } }}
+            sx={{ mt: 1, alignSelf: 'flex-start', ...primaryButton }}
             href="mailto:soporte@babytrackmaster.com"
           >
             Contáctanos

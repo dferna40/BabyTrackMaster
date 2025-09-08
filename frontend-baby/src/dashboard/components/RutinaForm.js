@@ -11,6 +11,7 @@ import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { TimePicker } from '@mui/x-date-pickers';
+import { saveButton, cancelButton } from '../../theme/buttonStyles';
 
 const diasOptions = [
   { value: 'L', label: 'Lunes' },
@@ -114,7 +115,7 @@ export default function RutinaForm({ open, onClose, onSubmit, initialData }) {
           <Button
             variant="contained"
             onClick={onClose}
-            sx={{ bgcolor: '#6c757d', '&:hover': { bgcolor: '#5c636a' } }}
+            sx={cancelButton}
           >
             Cancelar
           </Button>
@@ -122,7 +123,7 @@ export default function RutinaForm({ open, onClose, onSubmit, initialData }) {
             onClick={handleSubmit}
             variant="contained"
             disabled={!isValid}
-            sx={{ bgcolor: '#198754', '&:hover': { bgcolor: '#157347' } }}
+            sx={saveButton}
           >
             Guardar rutina
           </Button>

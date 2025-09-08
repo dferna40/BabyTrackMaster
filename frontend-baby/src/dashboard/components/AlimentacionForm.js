@@ -11,6 +11,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
+import { saveButton, cancelButton } from '../../theme/buttonStyles';
 
 const tipos = [
   { value: 'lactancia', label: 'Lactancia' },
@@ -220,18 +221,10 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button
-          variant="contained"
-          onClick={onClose}
-          sx={{ bgcolor: '#6c757d', '&:hover': { bgcolor: '#5c636a' } }}
-        >
+        <Button variant="contained" onClick={onClose} sx={cancelButton}>
           Cancelar
         </Button>
-        <Button
-          onClick={handleSubmit}
-          variant="contained"
-          sx={{ bgcolor: '#198754', '&:hover': { bgcolor: '#157347' } }}
-        >
+        <Button onClick={handleSubmit} variant="contained" sx={saveButton}>
           Guardar
         </Button>
       </DialogActions>

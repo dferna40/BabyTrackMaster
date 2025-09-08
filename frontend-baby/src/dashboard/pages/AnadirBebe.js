@@ -23,6 +23,7 @@ import { BabyContext } from '../../context/BabyContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import { saveButton, cancelButton, primaryButton } from '../../theme/buttonStyles';
 
 export default function AnadirBebe() {
   const navigate = useNavigate();
@@ -489,10 +490,7 @@ export default function AnadirBebe() {
                   variant="contained"
                   onClick={() => fileInputRef.current && fileInputRef.current.click()}
                   disabled={loading}
-                  sx={{
-                    bgcolor: '#0d6efd',
-                    '&:hover': { bgcolor: '#0b5ed7' },
-                  }}
+                  sx={primaryButton}
                 >
                   Subir foto
                 </Button>
@@ -506,7 +504,7 @@ export default function AnadirBebe() {
             variant="contained"
             onClick={() => navigate(-1)}
             disabled={loading}
-            sx={{ bgcolor: '#6c757d', '&:hover': { bgcolor: '#5c636a' } }}
+            sx={cancelButton}
           >
             Cancelar
           </Button>
@@ -514,7 +512,7 @@ export default function AnadirBebe() {
             type="submit"
             variant="contained"
             disabled={loading}
-            sx={{ bgcolor: '#198754', '&:hover': { bgcolor: '#157347' } }}
+            sx={saveButton}
           >
             {loading ? <CircularProgress size={24} /> : 'Guardar'}
           </Button>

@@ -34,6 +34,7 @@ import {
 import CuidadoForm from '../components/CuidadoForm';
 import { BabyContext } from '../../context/BabyContext';
 import { AuthContext } from '../../context/AuthContext';
+import { addButton } from '../../theme/buttonStyles';
 
 export default function Cuidados() {
   const [tab, setTab] = useState(0);
@@ -206,7 +207,7 @@ export default function Cuidados() {
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          sx={{ alignSelf: 'flex-start', bgcolor: '#20c997', '&:hover': { bgcolor: '#1aa179' } }}
+          sx={{ alignSelf: 'flex-start', ...addButton }}
           onClick={handleAdd}
         >
           Añadir nuevo cuidado

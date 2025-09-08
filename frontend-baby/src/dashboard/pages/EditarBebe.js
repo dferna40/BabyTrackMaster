@@ -23,6 +23,7 @@ import { BabyContext } from '../../context/BabyContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import { saveButton, cancelButton, deleteButton, primaryButton } from '../../theme/buttonStyles';
 
 export default function EditarBebe() {
   const navigate = useNavigate();
@@ -524,10 +525,7 @@ export default function EditarBebe() {
                   variant="contained"
                   onClick={() => fileInputRef.current && fileInputRef.current.click()}
                   disabled={loading}
-                  sx={{
-                    bgcolor: '#0d6efd',
-                    '&:hover': { bgcolor: '#0b5ed7' },
-                  }}
+                  sx={primaryButton}
                 >
                   Subir foto
                 </Button>
@@ -541,7 +539,7 @@ export default function EditarBebe() {
             variant="contained"
             onClick={() => navigate(-1)}
             disabled={loading}
-            sx={{ bgcolor: '#6c757d', '&:hover': { bgcolor: '#5c636a' } }}
+            sx={cancelButton}
           >
             Cancelar
           </Button>
@@ -549,7 +547,7 @@ export default function EditarBebe() {
             variant="contained"
             onClick={handleDelete}
             disabled={loading}
-            sx={{ bgcolor: '#dc3545', '&:hover': { bgcolor: '#bb2d3b' } }}
+            sx={deleteButton}
           >
             Eliminar bebé
           </Button>
@@ -557,7 +555,7 @@ export default function EditarBebe() {
             type="submit"
             variant="contained"
             disabled={loading}
-            sx={{ bgcolor: '#198754', '&:hover': { bgcolor: '#157347' } }}
+            sx={saveButton}
           >
             {loading ? <CircularProgress size={24} /> : 'Guardar'}
           </Button>

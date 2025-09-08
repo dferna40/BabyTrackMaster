@@ -13,6 +13,7 @@ import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers';
 
 import { listarCategorias } from '../../services/gastosService';
+import { saveButton, cancelButton } from '../../theme/buttonStyles';
 
 export default function GastoForm({ open, onClose, onSubmit, initialData }) {
   const [formData, setFormData] = useState({
@@ -136,14 +137,14 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
           <Button
             variant="contained"
             onClick={onClose}
-            sx={{ bgcolor: '#6c757d', '&:hover': { bgcolor: '#5c636a' } }}
+            sx={cancelButton}
           >
             Cancelar
           </Button>
           <Button
             onClick={handleSubmit}
             variant="contained"
-            sx={{ bgcolor: '#198754', '&:hover': { bgcolor: '#157347' } }}
+            sx={saveButton}
           >
             Guardar
           </Button>
