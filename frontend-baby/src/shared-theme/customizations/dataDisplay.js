@@ -240,7 +240,12 @@ export const dataDisplayCustomizations = {
   },
   MuiTablePagination: {
     styleOverrides: {
-      actions: {
+      root: ({ theme }) => ({
+        backgroundColor: '#ffffff',
+        border: '1px solid #e9ecef',
+        borderRadius: (theme.vars || theme).shape.borderRadius,
+      }),
+      actions: ({ theme }) => ({
         display: 'flex',
         gap: 8,
         marginRight: 6,
@@ -248,8 +253,13 @@ export const dataDisplayCustomizations = {
           minWidth: 0,
           width: 36,
           height: 36,
+          borderRadius: (theme.vars || theme).shape.borderRadius,
+          '&:active': {
+            backgroundColor: '#e3f2fd',
+            color: '#0d6efd',
+          },
         },
-      },
+      }),
     },
   },
   MuiIcon: {
