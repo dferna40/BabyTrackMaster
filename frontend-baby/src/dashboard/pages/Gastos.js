@@ -155,7 +155,7 @@ export default function Gastos() {
   };
 
   const handleExportCsv = () => {
-    const headers = ["Fecha", "Categoría", "Descripción", "Cantidad"];
+    const headers = ["Fecha", "Categoría",  "Precio", "Descripción"];
     const rows = filteredGastos.map((gasto) => [
       dayjs(gasto.fecha).format("DD/MM/YYYY"),
       gasto.categoriaNombre ||
@@ -186,7 +186,7 @@ export default function Gastos() {
 
   const handleExportPdf = () => {
     const doc = new jsPDF();
-    const tableColumn = ["Fecha", "Categoría", "Descripción", "Cantidad"];
+    const tableColumn = ["Fecha", "Categoría", "Precio", "Descripción" ];
     const tableRows = filteredGastos.map((gasto) => [
       dayjs(gasto.fecha).format("DD/MM/YYYY"),
       gasto.categoriaNombre ||
@@ -263,8 +263,8 @@ export default function Gastos() {
             <TableRow>
               <TableCell>Fecha</TableCell>
               <TableCell>Categoría</TableCell>
+              <TableCell>Precio</TableCell>
               <TableCell>Descripción</TableCell>
-              <TableCell>Cantidad</TableCell>
               <TableCell align="center">Acciones</TableCell>
             </TableRow>
           </TableHead>
@@ -282,10 +282,11 @@ export default function Gastos() {
                         (c) => Number(c.id) === Number(gasto.categoriaId),
                       )?.nombre}
                   </TableCell>
-                  <TableCell>{gasto.descripcion}</TableCell>
                   <TableCell sx={{ fontWeight: 600 }}>
-                    {Number(gasto.cantidad).toFixed(2)}
+                    {Number(gasto.cantidad).toFixed(2)} €
                   </TableCell>
+                  <TableCell>{gasto.descripcion}</TableCell>
+                  
                   <TableCell align="center">
                     <IconButton
                       size="small"

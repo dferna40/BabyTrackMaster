@@ -20,7 +20,7 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
     fecha: null,
     categoriaId: "",
     descripcion: "",
-    cantidad: "",
+    precio: "",
   });
   const [categorias, setCategorias] = useState([]);
   const [errors, setErrors] = useState({});
@@ -31,14 +31,14 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
         fecha: initialData.fecha ? dayjs(initialData.fecha) : null,
         categoriaId: initialData.categoriaId || "",
         descripcion: initialData.descripcion || "",
-        cantidad: initialData.cantidad || "",
+        precio: initialData.precio || "",
       });
     } else {
       setFormData({
         fecha: null,
         categoriaId: "",
         descripcion: "",
-        cantidad: "",
+        precio: "",
       });
     }
     setErrors({});
@@ -56,11 +56,11 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "cantidad") {
+    if (name === "precio") {
       const val = Number(value);
       setErrors((prev) => ({
         ...prev,
-        cantidad: val >= 0 ? "" : "La cantidad no puede ser negativa",
+        precio: val >= 0 ? "" : "El precio no puede ser negativo",
       }));
     }
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -71,11 +71,11 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
   };
 
   const handleSubmit = () => {
-    const val = Number(formData.cantidad);
+    const val = Number(formData.precio);
     if (val < 0) {
       setErrors((prev) => ({
         ...prev,
-        cantidad: "La cantidad no puede ser negativa",
+        precio: "El precio no puede ser negativo",
       }));
       return;
     }
@@ -125,15 +125,15 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
               />
             </FormControl>
             <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Cantidad</FormLabel>
+              <FormLabel sx={{ mb: 1 }}>Precio</FormLabel>
               <TextField
                 type="number"
-                name="cantidad"
-                value={formData.cantidad}
+                name="precio"
+                value={formData.precio}
                 onChange={handleChange}
                 inputProps={{ min: 0 }}
-                error={Boolean(errors.cantidad)}
-                helperText={errors.cantidad}
+                error={Boolean(errors.precio)}
+                helperText={errors.precio}
               />
             </FormControl>
           </Stack>
