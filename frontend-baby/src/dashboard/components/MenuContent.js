@@ -14,7 +14,7 @@ import RamenDiningRoundedIcon from '@mui/icons-material/RamenDiningRounded';
 import EventRoundedIcon from '@mui/icons-material/EventRounded';
 import ScheduleRoundedIcon from '@mui/icons-material/ScheduleRounded';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
-import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 
 const mainListItems = [
@@ -29,7 +29,7 @@ const mainListItems = [
 
 const secondaryListItems = [
   { text: 'Añadir bebe', icon: <AddCircleRoundedIcon />, to: '/dashboard/anadir-bebe' },
-  { text: 'Editar/borrar bebé', icon: <SettingsRoundedIcon />, to: '/dashboard/editar-bebe' },
+  { text: 'Editar/borrar bebé', icon: <EditRoundedIcon />, to: '/dashboard/editar-bebe' },
   { text: 'Acerca de', icon: <InfoRoundedIcon />, to: '/dashboard/acerca' },
 ];
 
