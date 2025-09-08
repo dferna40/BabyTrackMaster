@@ -392,6 +392,7 @@ export default function Citas() {
                       size="small"
                       aria-label="reminder"
                       onClick={() => handleRecordatorio(cita.id)}
+                      sx={{ color: '#6c757d' }}
                     >
                       <NotificationsActiveIcon fontSize="small" />
                     </IconButton>
@@ -399,6 +400,7 @@ export default function Citas() {
                       size="small"
                       aria-label="edit"
                       onClick={() => handleEdit(cita)}
+                      sx={{ color: '#0d6efd' }}
                     >
                       <EditIcon fontSize="small" />
                     </IconButton>
@@ -406,6 +408,7 @@ export default function Citas() {
                       size="small"
                       aria-label="estado"
                       onClick={(e) => handleOpenEstadoMenu(e, cita.id)}
+                      sx={{ color: '#6c757d' }}
                     >
                       <MoreVertIcon fontSize="small" />
                     </IconButton>
@@ -459,6 +462,7 @@ export default function Citas() {
                       size="small"
                       aria-label="reminder"
                       onClick={() => handleRecordatorio(cita.id)}
+                      sx={{ color: '#6c757d' }}
                     >
                       <NotificationsActiveIcon fontSize="small" />
                     </IconButton>
@@ -466,6 +470,7 @@ export default function Citas() {
                       size="small"
                       aria-label="edit"
                       onClick={() => handleEdit(cita)}
+                      sx={{ color: '#0d6efd' }}
                     >
                       <EditIcon fontSize="small" />
                     </IconButton>
@@ -473,6 +478,7 @@ export default function Citas() {
                       size="small"
                       aria-label="estado"
                       onClick={(e) => handleOpenEstadoMenu(e, cita.id)}
+                      sx={{ color: '#6c757d' }}
                     >
                       <MoreVertIcon fontSize="small" />
                     </IconButton>

@@ -273,6 +273,7 @@ export default function Alimentacion() {
                       size="small"
                       aria-label="edit"
                       onClick={() => handleEdit(r)}
+                      sx={{ color: '#0d6efd' }}
                     >
                       <EditIcon fontSize="small" />
                     </IconButton>

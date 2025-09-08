@@ -258,6 +258,7 @@ export default function Cuidados() {
                       size="small"
                       aria-label="edit"
                       onClick={() => handleEdit(cuidado)}
+                      sx={{ color: '#0d6efd' }}
                     >
                       <EditIcon fontSize="small" />
                     </IconButton>
@@ -265,7 +266,7 @@ export default function Cuidados() {
                       size="small"
                       aria-label="delete"
                       onClick={() => handleDelete(cuidado.id)}
-                      sx={{ color: "#dc3545" }}
+                      sx={{ color: '#dc3545' }}
                     >
                       <DeleteIcon fontSize="small" />
                     </IconButton>

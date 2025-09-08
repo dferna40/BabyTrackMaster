@@ -240,6 +240,7 @@ export default function Rutinas() {
                         size="small"
                         aria-label="edit"
                         onClick={() => handleEdit(rutina)}
+                        sx={{ color: '#0d6efd' }}
                       >
                         <EditIcon fontSize="small" />
                       </IconButton>
@@ -255,6 +256,7 @@ export default function Rutinas() {
                         size="small"
                         aria-label="duplicate"
                         onClick={() => handleDuplicate(rutina.id)}
+                        sx={{ color: '#6c757d' }}
                       >
                         <ContentCopyIcon fontSize="small" />
                       </IconButton>

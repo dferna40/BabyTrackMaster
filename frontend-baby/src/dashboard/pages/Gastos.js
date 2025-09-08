@@ -289,6 +289,7 @@ export default function Gastos() {
                       size="small"
                       aria-label="edit"
                       onClick={() => handleEdit(gasto)}
+                      sx={{ color: '#0d6efd' }}
                     >
                       <EditIcon fontSize="small" />
                     </IconButton>
