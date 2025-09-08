@@ -47,7 +47,7 @@ export default function SideMenu() {
       >
         <Box
           component="img"
-          src="/logo.png"
+          src="/baby-logo.png"
           alt="BabyTrackMaster"
           sx={{ width: 40, height: 40, mb: 1 }}
         />
