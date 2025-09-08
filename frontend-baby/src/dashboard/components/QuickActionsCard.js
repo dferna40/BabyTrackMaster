@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
-import { lightBlue, lightGreen, deepPurple, cyan } from '@mui/material/colors';
+import { alpha } from '@mui/material/styles';
 import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
 import BabyChangingStationIcon from '@mui/icons-material/BabyChangingStation';
 import HotelIcon from '@mui/icons-material/Hotel';
@@ -112,7 +112,6 @@ export default function QuickActionsCard() {
       state: { tipo: 'biberon' },
       unit: '',
       color: 'primary',
-      bgColor: lightBlue[50],
     },
     {
       key: 'panal',
@@ -122,7 +121,6 @@ export default function QuickActionsCard() {
       state: { tipo: 'Pañal' },
       unit: '',
       color: 'success',
-      bgColor: lightGreen[50],
     },
     {
       key: 'sueno',
@@ -132,7 +130,6 @@ export default function QuickActionsCard() {
       state: { tipo: 'Sueño' },
       unit: 'h',
       color: 'secondary',
-      bgColor: deepPurple[50],
     },
     {
       key: 'bano',
@@ -142,12 +139,21 @@ export default function QuickActionsCard() {
       state: { tipo: 'Baño' },
       unit: '',
       color: 'info',
-      bgColor: cyan[50],
     },
   ];
 
   return (
-    <Card sx={{ height: '100%', boxShadow: 3, borderRadius: 2, bgcolor: '#F3F8FF' }}>
+    <Card
+      sx={{
+        height: '100%',
+        boxShadow: 3,
+        borderRadius: 2,
+        bgcolor: (theme) =>
+          theme.vars
+            ? `rgba(${theme.vars.palette.background.paperChannel} / 1)`
+            : theme.palette.background.paper,
+      }}
+    >
       <CardContent>
         <Typography variant="h6" component="h2" gutterBottom>
           Acciones Rápidas
@@ -161,12 +167,23 @@ export default function QuickActionsCard() {
 
             return (
               <Grid item xs={6} md={3} key={action.key}>
-                <Card sx={{ height: '100%', boxShadow: 1, borderRadius: 2, bgcolor: '#F3F8FF' }}>
+                <Card
+                  sx={{
+                    height: '100%',
+                    boxShadow: 1,
+                    borderRadius: 2,
+                    bgcolor: (theme) =>
+                      theme.vars
+                        ? `rgba(${theme.vars.palette.background.paperChannel} / 1)`
+                        : theme.palette.background.paper,
+                  }}
+                >
                   <CardContent>
                     <Stack spacing={1} alignItems="center">
                       <Avatar
                         sx={{
-                          bgcolor: action.bgColor,
+                          bgcolor: (theme) =>
+                            alpha(theme.palette[action.color].main, 0.15),
                           color: (theme) => theme.palette[action.color].main,
                         }}
                       >
