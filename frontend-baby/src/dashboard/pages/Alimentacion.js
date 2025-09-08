@@ -5,7 +5,6 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
-import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
@@ -230,7 +229,7 @@ export default function Alimentacion() {
         ))}
       </Tabs>
 
-      <TableContainer component={Paper} sx={{ mb: 4 }}>
+      <TableContainer sx={{ mb: 4 }}>
         <Table size="small">
           <TableHead>
             <TableRow>

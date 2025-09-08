@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -355,7 +354,7 @@ export default function Citas() {
           )}
         </>
       ) : (
-        <TableContainer component={Paper} sx={{ mb: 4 }}>
+        <TableContainer sx={{ mb: 4 }}>
           <Table size="small">
             <TableHead>
               <TableRow>
@@ -418,7 +417,7 @@ export default function Citas() {
         </TableContainer>
       )}
 
-      <TableContainer component={Paper} sx={{ mb: 4 }}>
+      <TableContainer sx={{ mb: 4 }}>
         <Table size="small">
           <TableHead>
             <TableRow>

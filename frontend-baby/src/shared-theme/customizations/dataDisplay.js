@@ -197,6 +197,47 @@ export const dataDisplayCustomizations = {
       }),
     },
   },
+  MuiTable: {
+    styleOverrides: {
+      root: {
+        backgroundColor: '#f8f9fa',
+      },
+    },
+  },
+  MuiTableHead: {
+    styleOverrides: {
+      root: {
+        backgroundColor: '#e3f2fd',
+        '& .MuiTableCell-root': {
+          color: '#212529',
+        },
+      },
+    },
+  },
+  MuiTableRow: {
+    styleOverrides: {
+      root: {
+        '&:not(.MuiTableRow-head)': {
+          '&:nth-of-type(odd)': {
+            backgroundColor: '#ffffff',
+          },
+          '&:nth-of-type(even)': {
+            backgroundColor: '#f8f9fa',
+          },
+          '&:hover': {
+            backgroundColor: '#f1f9ff',
+          },
+        },
+      },
+    },
+  },
+  MuiTableCell: {
+    styleOverrides: {
+      root: {
+        borderBottom: '1px solid #e9ecef',
+      },
+    },
+  },
   MuiTablePagination: {
     styleOverrides: {
       actions: {
