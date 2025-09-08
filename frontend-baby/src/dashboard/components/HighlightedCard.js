@@ -2,10 +2,8 @@ import React, { useContext } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import WavingHandRoundedIcon from '@mui/icons-material/WavingHandRounded';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { BabyContext } from '../../context/BabyContext';
 
 export default function HighlightedCard() {
@@ -46,14 +44,20 @@ export default function HighlightedCard() {
           })}
         >
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-            <WavingHandRoundedIcon />
-            <Typography component="h2" variant="subtitle2" sx={{ fontWeight: 600 }}>
+            <Typography component="span" sx={{ fontSize: '2rem' }}>👋</Typography>
+            <Typography
+              component="h2"
+              variant="subtitle2"
+              sx={{ fontWeight: 600, fontFamily: '"Comic Sans MS", cursive' }}
+            >
               {greeting}
             </Typography>
-            <Typography>{summary}</Typography>
+            <Typography sx={{ fontFamily: '"Comic Sans MS", cursive' }}>
+              {summary}
+            </Typography>
           </Box>
           <IconButton>
-            <FavoriteBorderIcon />
+            <Typography component="span" sx={{ fontSize: '1.5rem' }}>❤️</Typography>
           </IconButton>
         </Box>
       </CardContent>
