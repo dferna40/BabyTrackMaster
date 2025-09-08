@@ -153,7 +153,7 @@ export default function Cuidados() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
+  // Exporta datos con las mismas columnas para todos los tipos.
   const handleExportCsv = () => {
     const headers = ["Hora", "Tipo", "Cantidad", "Nota"];
     const rows = filteredCuidados.map((cuidado) => [
