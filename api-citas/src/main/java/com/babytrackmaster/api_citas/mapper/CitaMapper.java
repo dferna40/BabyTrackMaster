@@ -4,14 +4,16 @@ import com.babytrackmaster.api_citas.dto.*;
 import com.babytrackmaster.api_citas.entity.Cita;
 import com.babytrackmaster.api_citas.entity.TipoCita;
 import com.babytrackmaster.api_citas.entity.EstadoCita;
+import com.babytrackmaster.api_citas.entity.TipoEspecialidad;
 import com.babytrackmaster.api_citas.mapper.EstadoCitaMapper;
+import com.babytrackmaster.api_citas.mapper.TipoEspecialidadMapper;
 import java.time.*;
 
 public class CitaMapper {
 
     private CitaMapper() {}
 
-    public static Cita toEntity(CitaCreateDTO dto, Long usuarioId, TipoCita tipo, EstadoCita estado) {
+    public static Cita toEntity(CitaCreateDTO dto, Long usuarioId, TipoCita tipo, EstadoCita estado, TipoEspecialidad tipoEspecialidad) {
         Cita c = new Cita();
         c.setUsuarioId(usuarioId);
         c.setBebeId(dto.getBebeId());
@@ -22,13 +24,14 @@ public class CitaMapper {
         c.setCentroMedico(dto.getCentroMedico());
         c.setMedico(dto.getMedico());
         c.setTipo(tipo);
+        c.setTipoEspecialidad(tipoEspecialidad);
         c.setRecordatorioMinutos(dto.getRecordatorioMinutos());
         c.setEstado(estado);
         c.setEliminado(Boolean.FALSE);
         return c;
     }
 
-    public static void applyUpdate(Cita c, CitaUpdateDTO dto, TipoCita tipo, EstadoCita estado) {
+    public static void applyUpdate(Cita c, CitaUpdateDTO dto, TipoCita tipo, EstadoCita estado, TipoEspecialidad tipoEspecialidad) {
         if (dto.getMotivo() != null) c.setMotivo(dto.getMotivo());
         if (dto.getDescripcion() != null) c.setDescripcion(dto.getDescripcion());
         if (dto.getFecha() != null) c.setFecha(LocalDate.parse(dto.getFecha()));
@@ -37,6 +40,7 @@ public class CitaMapper {
         if (dto.getMedico() != null) c.setMedico(dto.getMedico());
         if (dto.getBebeId() != null) c.setBebeId(dto.getBebeId());
         if (tipo != null) c.setTipo(tipo);
+        if (tipoEspecialidad != null) c.setTipoEspecialidad(tipoEspecialidad);
         if (dto.getRecordatorioMinutos() != null) c.setRecordatorioMinutos(dto.getRecordatorioMinutos());
         if (estado != null) c.setEstado(estado);
     }
@@ -54,6 +58,9 @@ public class CitaMapper {
         b.medico(c.getMedico());
         if (c.getTipo() != null) {
             b.tipo(TipoCitaMapper.toDTO(c.getTipo()));
+        }
+        if (c.getTipoEspecialidad() != null) {
+            b.tipoEspecialidad(TipoEspecialidadMapper.toDTO(c.getTipoEspecialidad()));
         }
         if (c.getEstado() != null) {
             b.estado(EstadoCitaMapper.toDTO(c.getEstado()));

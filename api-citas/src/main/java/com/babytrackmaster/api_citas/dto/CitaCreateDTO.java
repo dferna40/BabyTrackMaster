@@ -44,6 +44,10 @@ public class CitaCreateDTO {
     @NotNull
     private Long tipoId;
 
+    @Schema(example = "1")
+    @NotNull
+    private Long tipoEspecialidadId;
+
     @Schema(example = "30")
     private Integer recordatorioMinutos;
 }

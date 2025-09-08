@@ -31,6 +31,8 @@ public class CitaUpdateDTO {
 
     private Long tipoId;
 
+    private Long tipoEspecialidadId;
+
     private Integer recordatorioMinutos;
 
     private Long estadoId;

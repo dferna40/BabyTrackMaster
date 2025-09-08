@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import com.babytrackmaster.api_citas.entity.EstadoCita;
+import com.babytrackmaster.api_citas.entity.TipoEspecialidad;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -68,6 +69,10 @@ public class Cita {
     @ManyToOne
     @JoinColumn(name = "estado", nullable = false)
     private EstadoCita estado;
+
+    @ManyToOne
+    @JoinColumn(name = "tipo_especialidad")
+    private TipoEspecialidad tipoEspecialidad;
 
     // recordatorio en minutos antes de la cita (ej. 30, 60, 1440)
     private Integer recordatorioMinutos;

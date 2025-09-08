@@ -4,11 +4,13 @@ import com.babytrackmaster.api_citas.dto.*;
 import com.babytrackmaster.api_citas.entity.Cita;
 import com.babytrackmaster.api_citas.entity.TipoCita;
 import com.babytrackmaster.api_citas.entity.EstadoCita;
+import com.babytrackmaster.api_citas.entity.TipoEspecialidad;
 import com.babytrackmaster.api_citas.exception.NotFoundException;
 import com.babytrackmaster.api_citas.mapper.CitaMapper;
 import com.babytrackmaster.api_citas.repository.CitaRepository;
 import com.babytrackmaster.api_citas.repository.TipoCitaRepository;
 import com.babytrackmaster.api_citas.repository.EstadoCitaRepository;
+import com.babytrackmaster.api_citas.repository.TipoEspecialidadRepository;
 import com.babytrackmaster.api_citas.service.CitaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -25,13 +27,16 @@ public class CitaServiceImpl implements CitaService {
     private final CitaRepository repo;
     private final TipoCitaRepository tipoRepo;
     private final EstadoCitaRepository estadoRepo;
+    private final TipoEspecialidadRepository especialidadRepo;
 
     public CitaResponseDTO crear(CitaCreateDTO dto, Long usuarioId) {
         TipoCita tipo = tipoRepo.findById(dto.getTipoId())
                 .orElseThrow(() -> new NotFoundException("Tipo de cita no encontrado"));
+        TipoEspecialidad tipoEspecialidad = especialidadRepo.findById(dto.getTipoEspecialidadId())
+                .orElseThrow(() -> new NotFoundException("Tipo de especialidad no encontrado"));
         EstadoCita estado = estadoRepo.findByNombreIgnoreCase("Programada")
                 .orElseThrow(() -> new NotFoundException("Estado de cita por defecto no encontrado"));
-        Cita c = CitaMapper.toEntity(dto, usuarioId, tipo, estado);
+        Cita c = CitaMapper.toEntity(dto, usuarioId, tipo, estado, tipoEspecialidad);
         c = repo.save(c);
         return CitaMapper.toDTO(c);
     }
@@ -45,6 +50,11 @@ public class CitaServiceImpl implements CitaService {
         if (dto.getTipoId() != null) {
             tipo = tipoRepo.findById(dto.getTipoId())
                     .orElseThrow(() -> new NotFoundException("Tipo de cita no encontrado"));
+        }
+        TipoEspecialidad tipoEspecialidad = null;
+        if (dto.getTipoEspecialidadId() != null) {
+            tipoEspecialidad = especialidadRepo.findById(dto.getTipoEspecialidadId())
+                    .orElseThrow(() -> new NotFoundException("Tipo de especialidad no encontrado"));
         }
 
         // Verificar cambios de fecha y hora
@@ -71,7 +81,7 @@ public class CitaServiceImpl implements CitaService {
                     .orElseThrow(() -> new NotFoundException("Estado de cita 'Reprogramada' no encontrado"));
         }
 
-        CitaMapper.applyUpdate(c, dto, tipo, estado);
+        CitaMapper.applyUpdate(c, dto, tipo, estado, tipoEspecialidad);
         c = repo.save(c);
         return CitaMapper.toDTO(c);
     }
