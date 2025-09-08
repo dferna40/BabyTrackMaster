@@ -156,7 +156,7 @@ export default function QuickActionsCard() {
           {actions.map((action) => {
             const Icon = action.icon;
             const info = actionsData[action.key];
-            const last = info.last ? info.last.format('HH:mm') : '-';
+            const last = info.last ? info.last.fromNow() : '-';
             const today = `${info.today}${action.unit}`;
 
             return (
