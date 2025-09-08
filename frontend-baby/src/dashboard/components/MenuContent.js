@@ -28,8 +28,8 @@ const mainListItems = [
 ];
 
 const secondaryListItems = [
-  { text: 'Añadir bebe', icon: <AddCircleRoundedIcon />, to: '/dashboard/anadir-bebe' },
-  { text: 'Editar/borrar bebé', icon: <EditRoundedIcon />, to: '/dashboard/editar-bebe' },
+  { text: 'Añadir bebé', icon: <AddCircleRoundedIcon />, to: '/dashboard/anadir-bebe' },
+  { text: 'Editar/borrar bebé', icon: <SettingsRoundedIcon />, to: '/dashboard/editar-bebe' },
   { text: 'Acerca de', icon: <InfoRoundedIcon />, to: '/dashboard/acerca' },
 ];
 
