@@ -7,7 +7,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
+import MedicalServicesRoundedIcon from '@mui/icons-material/MedicalServicesRounded';
 import MonetizationOnRoundedIcon from '@mui/icons-material/MonetizationOnRounded';
 import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
 import RamenDiningRoundedIcon from '@mui/icons-material/RamenDiningRounded';
@@ -19,7 +19,7 @@ import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 
 const mainListItems = [
   { text: 'Inicio', icon: <HomeRoundedIcon />, to: '/dashboard' },
-  { text: 'Cuidados', icon: <FavoriteRoundedIcon />, to: '/dashboard/cuidados' },
+  { text: 'Cuidados', icon: <MedicalServicesRoundedIcon />, to: '/dashboard/cuidados' },
   { text: 'Gastos', icon: <MonetizationOnRoundedIcon />, to: '/dashboard/gastos' },
   { text: 'Diario', icon: <MenuBookRoundedIcon />, to: '/dashboard/diario' },
   { text: 'Alimentación', icon: <RamenDiningRoundedIcon />, to: '/dashboard/alimentacion' },
