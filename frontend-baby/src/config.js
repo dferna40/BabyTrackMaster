@@ -14,6 +14,8 @@ const API_RUTINAS_URL =
   process.env.REACT_APP_API_RUTINAS_URL || 'http://localhost:8086';
 const API_ALIMENTACION_URL =
   process.env.REACT_APP_API_ALIMENTACION_URL || 'http://localhost:8091';
+const API_CRECIMIENTO_URL =
+  process.env.REACT_APP_API_CRECIMIENTO_URL || 'http://localhost:8092';
 const API_BEBE_URL =
   process.env.REACT_APP_API_BEBE_URL || 'http://localhost:8089';
 
@@ -26,6 +28,7 @@ export {
   API_DIARIO_URL,
   API_RUTINAS_URL,
   API_ALIMENTACION_URL,
+  API_CRECIMIENTO_URL,
   API_BEBE_URL,
 };
 
