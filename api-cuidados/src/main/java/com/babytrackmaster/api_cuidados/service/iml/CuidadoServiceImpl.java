@@ -118,10 +118,10 @@ public class CuidadoServiceImpl implements CuidadoService {
 
         List<Cuidado> suenos = repo.findByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Sueño", inicio, fin);
         List<Cuidado> numBanos = repo.findByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Baño", inicio, fin);
-        List<Cuidado> numPanales = repo.findByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Pañal", inicio, fin);
+        List<Cuidado> numPanales = repo
+                .findByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Pañal",
+                        inicio, fin);
         //long panales = repo.countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Pañal", inicio, fin);
-        long biberones = repo.countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Biberon", inicio, fin);
-        long pechos = repo.countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Pecho", inicio, fin);
         //long banos = repo.countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Baño", inicio, fin);
 
         double minutosSueno = 0d;
@@ -151,7 +151,6 @@ public class CuidadoServiceImpl implements CuidadoService {
         QuickStatsResponse resp = new QuickStatsResponse();
         resp.setHorasSueno(horasSueno);
         resp.setPanales(numPanalesTotal);
-        resp.setTomas(biberones + pechos);
         resp.setBanos(numBanosTotal);
         return resp;
     }

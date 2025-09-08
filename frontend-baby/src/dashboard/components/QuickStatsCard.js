@@ -14,7 +14,6 @@ export default function QuickStatsCard() {
   const [stats, setStats] = useState({
     horasSueno: 0,
     panales: 0,
-    tomas: 0,
     banos: 0,
   });
 
@@ -23,7 +22,7 @@ export default function QuickStatsCard() {
       obtenerStatsRapidas(user.id, activeBaby.id)
         .then(({ data }) => setStats(data))
         .catch(() =>
-          setStats({ horasSueno: 0, panales: 0, tomas: 0, banos: 0 })
+          setStats({ horasSueno: 0, panales: 0, banos: 0 })
         );
     }
   }, [user, activeBaby]);
@@ -31,15 +30,13 @@ export default function QuickStatsCard() {
   const statsArray = [
     { label: 'Horas de sueño', value: `${stats.horasSueno}h` },
     { label: 'Pañales', value: `${stats.panales}` },
-    { label: 'Tomas', value: `${stats.tomas}` },
     { label: 'Baños', value: `${stats.banos}` },
   ];
 
   const chartData = [
     { id: 0, value: stats.horasSueno, label: 'Horas de sueño' },
     { id: 1, value: stats.panales, label: 'Pañales' },
-    { id: 2, value: stats.tomas, label: 'Tomas' },
-    { id: 3, value: stats.banos, label: 'Baños' },
+    { id: 2, value: stats.banos, label: 'Baños' },
   ];
 
   const hasStats = Object.values(stats).some((value) => value > 0);

@@ -10,8 +10,6 @@ public class QuickStatsResponse {
     private double horasSueno;
     @Schema(example = "5", description = "Cantidad de pañales")
     private long panales;
-    @Schema(example = "6", description = "Número total de tomas (biberón + pecho)")
-    private long tomas;
     @Schema(example = "1", description = "Cantidad de baños")
     private long banos;
 }
