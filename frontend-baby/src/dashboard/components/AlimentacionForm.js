@@ -220,8 +220,18 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
         </Stack>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancelar</Button>
-        <Button onClick={handleSubmit} variant="contained">
+        <Button
+          variant="contained"
+          onClick={onClose}
+          sx={{ bgcolor: '#6c757d', '&:hover': { bgcolor: '#5c636a' } }}
+        >
+          Cancelar
+        </Button>
+        <Button
+          onClick={handleSubmit}
+          variant="contained"
+          sx={{ bgcolor: '#198754', '&:hover': { bgcolor: '#157347' } }}
+        >
           Guardar
         </Button>
       </DialogActions>

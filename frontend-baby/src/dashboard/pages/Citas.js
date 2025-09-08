@@ -268,7 +268,7 @@ export default function Citas() {
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          sx={{ alignSelf: 'flex-start' }}
+          sx={{ alignSelf: 'flex-start', bgcolor: '#20c997', '&:hover': { bgcolor: '#1aa179' } }}
           onClick={handleAdd}
         >
           Añadir cita
@@ -525,7 +525,13 @@ export default function Citas() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleRecordatorioClose}>Cancelar</Button>
+          <Button
+            variant="contained"
+            onClick={handleRecordatorioClose}
+            sx={{ bgcolor: '#6c757d', '&:hover': { bgcolor: '#5c636a' } }}
+          >
+            Cancelar
+          </Button>
           <Button onClick={handleRecordatorioConfirm} variant="contained">
             Enviar
           </Button>

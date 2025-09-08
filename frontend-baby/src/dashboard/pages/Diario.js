@@ -142,7 +142,11 @@ export default function Diario() {
                 />
               ))}
             </Stack>
-              <Button variant="contained" onClick={handleAdd}>
+              <Button
+                variant="contained"
+                onClick={handleAdd}
+                sx={{ bgcolor: '#198754', '&:hover': { bgcolor: '#157347' } }}
+              >
                 Guardar entrada
               </Button>
             </Stack>

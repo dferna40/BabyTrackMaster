@@ -162,7 +162,7 @@ export default function Rutinas() {
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          sx={{ alignSelf: 'flex-start' }}
+          sx={{ alignSelf: 'flex-start', bgcolor: '#20c997', '&:hover': { bgcolor: '#1aa179' } }}
           onClick={handleAdd}
         >
           Añadir rutina
@@ -247,6 +247,7 @@ export default function Rutinas() {
                         size="small"
                         aria-label="delete"
                         onClick={() => handleDelete(rutina.id)}
+                        sx={{ color: '#dc3545' }}
                       >
                         <DeleteIcon fontSize="small" />
                       </IconButton>
