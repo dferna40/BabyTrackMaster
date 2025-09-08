@@ -10,8 +10,10 @@ import lombok.RequiredArgsConstructor;
 
 import com.babytrackmaster.api_citas.entity.TipoCita;
 import com.babytrackmaster.api_citas.entity.EstadoCita;
+import com.babytrackmaster.api_citas.entity.TipoEspecialidad;
 import com.babytrackmaster.api_citas.repository.TipoCitaRepository;
 import com.babytrackmaster.api_citas.repository.EstadoCitaRepository;
+import com.babytrackmaster.api_citas.repository.TipoEspecialidadRepository;
 
 @Configuration
 @RequiredArgsConstructor
@@ -19,6 +21,7 @@ public class DataInitializer {
 
     private final TipoCitaRepository tipoCitaRepository;
     private final EstadoCitaRepository estadoCitaRepository;
+    private final TipoEspecialidadRepository tipoEspecialidadRepository;
 
     @Bean
     public CommandLineRunner loadInitialData() {
@@ -45,6 +48,16 @@ public class DataInitializer {
                     createEstadoCita("No asistida")
                 ));
             }
+            if (tipoEspecialidadRepository.count() == 0) {
+                tipoEspecialidadRepository.saveAll(List.of(
+                    createTipoEspecialidad("Pediatría general"),
+                    createTipoEspecialidad("Dermatología pediátrica"),
+                    createTipoEspecialidad("Cardiología pediátrica"),
+                    createTipoEspecialidad("Neurología pediátrica"),
+                    createTipoEspecialidad("Gastroenterología pediátrica"),
+                    createTipoEspecialidad("Otorrinolaringología pediátrica")
+                ));
+            }
         };
     }
 
@@ -59,5 +72,10 @@ public class DataInitializer {
         estado.setNombre(nombre);
         return estado;
     }
-}
 
+    private TipoEspecialidad createTipoEspecialidad(String nombre) {
+        TipoEspecialidad especialidad = new TipoEspecialidad();
+        especialidad.setNombre(nombre);
+        return especialidad;
+    }
+}
