@@ -133,19 +133,13 @@ public class CuidadoServiceImpl implements CuidadoService {
         }
         
         int numBanosTotal = 0;
-        
         for (Cuidado c : numBanos) {
-        	numBanosTotal += (c.getCantidadMl() != null) ? c.getCantidadMl() : 0;
-        
-
+            numBanosTotal += (c.getCantidadMl() != null) ? c.getCantidadMl() : 0;
         }
-        
-        int numPanalesTotal = 0;
-        
-        for (Cuidado c : numPanales) {
-        	numPanalesTotal += (c.getCantidadMl() != null) ? c.getCantidadMl() : 0;
-        
 
+        int numPanalesTotal = 0;
+        for (Cuidado c : numPanales) {
+            numPanalesTotal += (c.getCantidadMl() != null) ? c.getCantidadMl() : 0;
         }
 
         QuickStatsResponse resp = new QuickStatsResponse();
