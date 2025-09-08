@@ -1,30 +1,30 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import IconButton from '@mui/material/IconButton';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { BarChart } from '@mui/x-charts/BarChart';
-import dayjs from 'dayjs';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
+import React, { useEffect, useMemo, useState } from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import IconButton from "@mui/material/IconButton";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { BarChart } from "@mui/x-charts/BarChart";
+import dayjs from "dayjs";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 import {
   listarPorBebe,
@@ -32,10 +32,10 @@ import {
   actualizarGasto,
   eliminarGasto,
   listarCategorias,
-} from '../../services/gastosService';
-import GastoForm from '../components/GastoForm';
-import { BabyContext } from '../../context/BabyContext';
-import { AuthContext } from '../../context/AuthContext';
+} from "../../services/gastosService";
+import GastoForm from "../components/GastoForm";
+import { BabyContext } from "../../context/BabyContext";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Gastos() {
   const [gastos, setGastos] = useState([]);
@@ -43,9 +43,9 @@ export default function Gastos() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [openForm, setOpenForm] = useState(false);
   const [selectedGasto, setSelectedGasto] = useState(null);
-  const [categoryFilter, setCategoryFilter] = useState('0');
+  const [categoryFilter, setCategoryFilter] = useState("0");
   const [categorias, setCategorias] = useState([]);
-  const [monthFilter, setMonthFilter] = useState(dayjs().format('YYYY-MM'));
+  const [monthFilter, setMonthFilter] = useState(dayjs().format("YYYY-MM"));
   const [weeklyStats, setWeeklyStats] = useState(Array(7).fill(0));
   const { activeBaby } = React.useContext(BabyContext);
   const { user } = React.useContext(AuthContext);
@@ -59,7 +59,7 @@ export default function Gastos() {
         setGastos(response.data.content ?? response.data);
       })
       .catch((error) => {
-        console.error('Error fetching gastos:', error);
+        console.error("Error fetching gastos:", error);
       });
   };
 
@@ -71,7 +71,7 @@ export default function Gastos() {
           setCategorias(response.data);
         })
         .catch((error) => {
-          console.error('Error fetching categorias:', error);
+          console.error("Error fetching categorias:", error);
         });
     }
   }, [bebeId]);
@@ -80,24 +80,20 @@ export default function Gastos() {
     () =>
       gastos.filter((g) => {
         const matchCategory =
-          categoryFilter !== '0'
+          categoryFilter !== "0"
             ? Number(g.categoriaId) === Number(categoryFilter)
             : true;
         const matchMonth = monthFilter
-          ? dayjs(g.fecha).format('YYYY-MM') === monthFilter
+          ? dayjs(g.fecha).format("YYYY-MM") === monthFilter
           : true;
         return matchCategory && matchMonth;
       }),
-    [gastos, categoryFilter, monthFilter]
+    [gastos, categoryFilter, monthFilter],
   );
 
   const totalMes = useMemo(
-    () =>
-      filteredGastos.reduce(
-        (sum, g) => sum + Number(g.cantidad ?? 0),
-        0
-      ),
-    [filteredGastos]
+    () => filteredGastos.reduce((sum, g) => sum + Number(g.cantidad ?? 0), 0),
+    [filteredGastos],
   );
 
   useEffect(() => {
@@ -121,11 +117,11 @@ export default function Gastos() {
 
   const handleDelete = (id) => {
     if (!bebeId || !usuarioId) return;
-    if (window.confirm('¿Eliminar gasto?')) {
+    if (window.confirm("¿Eliminar gasto?")) {
       eliminarGasto(usuarioId, id)
         .then(() => fetchGastos())
         .catch((error) => {
-          console.error('Error deleting gasto:', error);
+          console.error("Error deleting gasto:", error);
         });
     }
   };
@@ -144,7 +140,7 @@ export default function Gastos() {
         fetchGastos();
       })
       .catch((error) => {
-        console.error('Error saving gasto:', error);
+        console.error("Error saving gasto:", error);
       });
   };
 
@@ -158,25 +154,30 @@ export default function Gastos() {
   };
 
   const handleExportCsv = () => {
-    const headers = ['Fecha', 'Categoría', 'Descripción', 'Cantidad'];
+    const headers = ["Fecha", "Categoría", "Descripción", "Cantidad"];
     const rows = filteredGastos.map((gasto) => [
-      dayjs(gasto.fecha).format('DD/MM/YYYY'),
+      dayjs(gasto.fecha).format("DD/MM/YYYY"),
       gasto.categoriaNombre ||
-        categorias.find((c) => Number(c.id) === Number(gasto.categoriaId))?.nombre ||
-        '',
-      gasto.descripcion || '',
+        categorias.find((c) => Number(c.id) === Number(gasto.categoriaId))
+          ?.nombre ||
+        "",
+      gasto.descripcion || "",
       Number(gasto.cantidad).toFixed(2),
     ]);
-    const csvContent = [headers, ...rows].map((e) => e.join(',')).join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const csvContent = [headers, ...rows].map((e) => e.join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = url;
     const categoriaNombre =
-      categoryFilter !== '0'
-        ? categorias.find((c) => Number(c.id) === Number(categoryFilter))?.nombre || 'general'
-        : 'general';
-    link.setAttribute('download', `gastos_${categoriaNombre.toLowerCase()}.csv`);
+      categoryFilter !== "0"
+        ? categorias.find((c) => Number(c.id) === Number(categoryFilter))
+            ?.nombre || "general"
+        : "general";
+    link.setAttribute(
+      "download",
+      `gastos_${categoriaNombre.toLowerCase()}.csv`,
+    );
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -184,13 +185,14 @@ export default function Gastos() {
 
   const handleExportPdf = () => {
     const doc = new jsPDF();
-    const tableColumn = ['Fecha', 'Categoría', 'Descripción', 'Cantidad'];
+    const tableColumn = ["Fecha", "Categoría", "Descripción", "Cantidad"];
     const tableRows = filteredGastos.map((gasto) => [
-      dayjs(gasto.fecha).format('DD/MM/YYYY'),
+      dayjs(gasto.fecha).format("DD/MM/YYYY"),
       gasto.categoriaNombre ||
-        categorias.find((c) => Number(c.id) === Number(gasto.categoriaId))?.nombre ||
-        '',
-      gasto.descripcion || '',
+        categorias.find((c) => Number(c.id) === Number(gasto.categoriaId))
+          ?.nombre ||
+        "",
+      gasto.descripcion || "",
       Number(gasto.cantidad).toFixed(2),
     ]);
     autoTable(doc, {
@@ -198,25 +200,30 @@ export default function Gastos() {
       body: tableRows,
     });
     const categoriaNombre =
-      categoryFilter !== '0'
-        ? categorias.find((c) => Number(c.id) === Number(categoryFilter))?.nombre || 'general'
-        : 'general';
+      categoryFilter !== "0"
+        ? categorias.find((c) => Number(c.id) === Number(categoryFilter))
+            ?.nombre || "general"
+        : "general";
     doc.save(`gastos_${categoriaNombre.toLowerCase()}.pdf`);
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: "100%" }}>
       <Stack
-        direction={{ xs: 'column', sm: 'row' }}
+        direction={{ xs: "column", sm: "row" }}
         justifyContent="flex-start"
-        alignItems={{ xs: 'stretch', sm: 'center' }}
+        alignItems={{ xs: "stretch", sm: "center" }}
         spacing={2}
         mb={2}
       >
         <Button
           variant="contained"
           startIcon={<AddIcon />}
-          sx={{ alignSelf: 'flex-start', bgcolor: '#20c997', '&:hover': { bgcolor: '#1aa179' } }}
+          sx={{
+            alignSelf: "flex-start",
+            backgroundColor: "#20c997",
+            "&:hover": { backgroundColor: "#1aa179" },
+          }}
           onClick={handleAdd}
         >
           Añadir gasto
@@ -270,12 +277,12 @@ export default function Gastos() {
               .map((gasto) => (
                 <TableRow key={gasto.id}>
                   <TableCell>
-                    {dayjs(gasto.fecha).format('DD/MM/YYYY')}
+                    {dayjs(gasto.fecha).format("DD/MM/YYYY")}
                   </TableCell>
                   <TableCell>
                     {gasto.categoriaNombre ||
                       categorias.find(
-                        (c) => Number(c.id) === Number(gasto.categoriaId)
+                        (c) => Number(c.id) === Number(gasto.categoriaId),
                       )?.nombre}
                   </TableCell>
                   <TableCell>{gasto.descripcion}</TableCell>
@@ -288,15 +295,15 @@ export default function Gastos() {
                     >
                       <EditIcon fontSize="small" />
                     </IconButton>
-        <IconButton
-          size="small"
-          aria-label="delete"
-          onClick={() => handleDelete(gasto.id)}
-          sx={{ color: '#dc3545' }}
-        >
-          <DeleteIcon fontSize="small" />
-        </IconButton>
-      </TableCell>
+                    <IconButton
+                      size="small"
+                      aria-label="delete"
+                      onClick={() => handleDelete(gasto.id)}
+                      sx={{ color: "#dc3545" }}
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
@@ -311,7 +318,7 @@ export default function Gastos() {
         />
       </TableContainer>
       {filteredGastos.length > 0 && (
-        <Box sx={{ mb: 4, display: 'flex', gap: 2 }}>
+        <Box sx={{ mb: 4, display: "flex", gap: 2 }}>
           <Button variant="outlined" onClick={handleExportPdf}>
             Exportar PDF
           </Button>
@@ -330,8 +337,8 @@ export default function Gastos() {
             height={250}
             xAxis={[
               {
-                scaleType: 'band',
-                data: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+                scaleType: "band",
+                data: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
               },
             ]}
             series={[{ data: weeklyStats }]}
@@ -349,4 +356,3 @@ export default function Gastos() {
     </Box>
   );
 }
-
