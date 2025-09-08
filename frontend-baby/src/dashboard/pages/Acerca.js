@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -8,7 +9,7 @@ import { primaryButton } from '../../theme/buttonStyles';
 
 export default function Acerca() {
   return (
-    <Box sx={{ width: '100%', maxWidth: 800 }}>
+    <Box sx={{ width: "100%", maxWidth: 800 }}>
       <Typography variant="h4" gutterBottom>
         Acerca de
       </Typography>
@@ -31,9 +32,9 @@ export default function Acerca() {
           </Typography>
           <Typography>
             Nuestra misión es facilitar la gestión de rutinas, citas, cuidados y
-            recuerdos del bebé, ahorrando tiempo a los padres, reduciendo olvidos
-            y ofreciendo estadísticas y recordatorios inteligentes que apoyan el
-            día a día familiar.
+            recuerdos del bebé, ahorrando tiempo a los padres, reduciendo
+            olvidos y ofreciendo estadísticas y recordatorios inteligentes que
+            apoyan el día a día familiar.
           </Typography>
         </div>
 
@@ -61,13 +62,14 @@ export default function Acerca() {
           </Typography>
           <Typography>
             Tecnología: Aplicación construida con Spring Boot (backend), React
-            (frontend) y MySQL (bases de datos por microservicio), desplegada con
-            Docker y Jenkins.
+            (frontend) y MySQL (bases de datos por microservicio), desplegada
+            con Docker y Jenkins.
           </Typography>
           <Typography>
             Valores clave del desarrollo: seguridad (uso de JWT y Spring
-            Security), escalabilidad (arquitectura de microservicios), innovación
-            (integración con notificaciones y estadísticas en tiempo real).
+            Security), escalabilidad (arquitectura de microservicios),
+            innovación (integración con notificaciones y estadísticas en tiempo
+            real).
           </Typography>
         </div>
 
@@ -96,7 +98,7 @@ export default function Acerca() {
             Contacto / enlaces
           </Typography>
           <Typography>
-            📧 Correo de soporte:{' '}
+            📧 Correo de soporte:{" "}
             <Link href="mailto:soporte@babytrackmaster.com">
               soporte@babytrackmaster.com
             </Link>
