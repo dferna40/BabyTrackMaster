@@ -20,7 +20,6 @@ public class CuidadoResponse {
     private Date fin;
     @Schema(example = "120")
     private Integer cantidadMl;
-    private String pecho;
     private String tipoPanal;
     private String medicamento;
     private String dosis;

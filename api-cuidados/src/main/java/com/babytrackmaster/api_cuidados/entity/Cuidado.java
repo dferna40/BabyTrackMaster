@@ -36,9 +36,6 @@ public class Cuidado {
     @Column(name="cantidad_ml")
     private Integer cantidadMl;
 
-    @Column(length=10)
-    private String pecho; // IZQ/DER
-
     @Column(name="tipo_panal", length=20)
     private String tipoPanal; // PIPI/CACA/MIXTO
 

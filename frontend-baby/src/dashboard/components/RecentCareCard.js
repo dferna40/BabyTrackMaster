@@ -45,7 +45,7 @@ export default function RecentCareCard() {
       case 'Pecho':
       case 'Toma':
       case 'Alimentación': {
-        const quantity = item.cantidadMl ?? item.pecho;
+        const quantity = item.cantidadMl;
         return quantity ? `${quantity}ml` : '';
       }
       case 'Pañal':
