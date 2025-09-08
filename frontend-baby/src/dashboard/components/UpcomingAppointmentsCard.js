@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
+import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { BabyContext } from '../../context/BabyContext';
@@ -44,34 +43,36 @@ export default function UpcomingAppointmentsCard() {
     <Card variant="outlined" sx={{ height: '100%' }}>
       <CardContent>
         <Typography variant="h6" component="h2" gutterBottom>
-          Próximas Citas
+          <CalendarMonthIcon sx={{ mr: 1 }} /> Próximas Citas
         </Typography>
         {appointments.length > 0 ? (
-          <List>
-            {appointments.map((c) => (
-              <ListItem
-                key={c.id}
-                disableGutters
-                secondaryAction={
-                  <Chip
-                    label={c.tipoNombre}
-                    color={getTipoColor(c.tipoNombre)}
-                    size="small"
-                  />
-                }
-              >
-                <ListItemText
-                  primary={dayjs(`${c.fecha}T${c.hora}`).format('DD/MM/YYYY HH:mm')}
-                  secondary={`${c.motivo} · ${c.centroMedico} · ${c.estadoNombre}`}
-                  primaryTypographyProps={{ variant: 'body2' }}
-                  secondaryTypographyProps={{
-                    variant: 'caption',
-                    color: 'text.secondary',
-                  }}
-                />
-              </ListItem>
-            ))}
-          </List>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            {appointments.map((c) => {
+              const appointmentDate = dayjs(`${c.fecha}T${c.hora}`);
+              const today = dayjs();
+              let formattedDate;
+              if (appointmentDate.isSame(today, 'day')) {
+                formattedDate = 'Hoy';
+              } else if (appointmentDate.diff(today, 'day') === 1) {
+                formattedDate = 'Mañana';
+              } else {
+                formattedDate = appointmentDate.format('DD/MM/YYYY HH:mm');
+              }
+              return (
+                <Card key={c.id} variant="outlined" sx={{ bgcolor: 'success.light', mb: 1 }}>
+                  <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Box>
+                      <Typography variant="body1">{c.motivo}</Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {formattedDate}
+                      </Typography>
+                    </Box>
+                    <Chip label={c.tipoNombre} color={getTipoColor(c.tipoNombre)} size="small" />
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </Box>
         ) : (
           <Typography variant="body2" color="text.secondary">
             No hay citas próximas.
