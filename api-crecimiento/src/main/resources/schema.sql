@@ -1,8 +1,6 @@
 CREATE TABLE IF NOT EXISTS tipo_crecimiento (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(60) NOT NULL,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL
+    nombre VARCHAR(60) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS crecimientos (

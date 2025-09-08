@@ -64,10 +64,7 @@ class CrecimientoControllerTest {
 
     private TipoCrecimiento saveTipo(String nombre) {
         TipoCrecimiento t = new TipoCrecimiento();
-        Date now = new Date();
         t.setNombre(nombre);
-        t.setCreatedAt(now);
-        t.setUpdatedAt(now);
         return tipoRepo.save(t);
     }
 

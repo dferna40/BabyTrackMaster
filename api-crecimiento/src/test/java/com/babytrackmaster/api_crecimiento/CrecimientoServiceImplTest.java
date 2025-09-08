@@ -39,14 +39,14 @@ class CrecimientoServiceImplTest {
         crecimientoRepo.deleteAll();
         tipoRepo.deleteAll();
         TipoCrecimiento peso = saveTipo("Peso");
-        TipoCrecimiento estatura = saveTipo("Estatura");
+        TipoCrecimiento talla = saveTipo("Talla");
         tipoPesoId = peso.getId();
         desde = date(2024,3,10,0,0);
         hasta = date(2024,3,11,0,0);
         createCrecimiento(peso, date(2024,3,10,8,0), 3.0);
         createCrecimiento(peso, date(2024,3,10,12,0), 3.5);
         createCrecimiento(peso, date(2024,3,10,18,0), 4.0);
-        createCrecimiento(estatura, date(2024,3,10,9,0), 50.0);
+        createCrecimiento(talla, date(2024,3,10,9,0), 50.0);
     }
 
     @Test
@@ -59,10 +59,7 @@ class CrecimientoServiceImplTest {
 
     private TipoCrecimiento saveTipo(String nombre) {
         TipoCrecimiento t = new TipoCrecimiento();
-        Date now = new Date();
         t.setNombre(nombre);
-        t.setCreatedAt(now);
-        t.setUpdatedAt(now);
         return tipoRepo.save(t);
     }
 
