@@ -116,31 +116,32 @@ public class CuidadoServiceImpl implements CuidadoService {
         cal.add(Calendar.DAY_OF_MONTH, 1);
         Date fin = cal.getTime();
 
-        List<Cuidado> suenos = repo.findByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Sueño", inicio, fin);
-        List<Cuidado> numBanos = repo.findByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Baño", inicio, fin);
-        List<Cuidado> numPanales = repo
-                .findByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Pañal",
-                        inicio, fin);
-        //long panales = repo.countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Pañal", inicio, fin);
-        //long banos = repo.countByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId, usuarioId, "Baño", inicio, fin);
+        List<Cuidado> suenos = repo.findByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId,
+                usuarioId, "Sueño", inicio, fin);
+        List<Cuidado> numBanos = repo.findByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId,
+                usuarioId, "Baño", inicio, fin);
+        List<Cuidado> numPanales = repo.findByBebeIdAndUsuarioIdAndTipo_NombreAndEliminadoFalseAndInicioBetween(bebeId,
+                usuarioId, "Pañal", inicio, fin);
 
-        double minutosSueno = 0d;
-        int horasSueno = 0;
+        double horasSueno = 0d;
         for (Cuidado c : suenos) {
-        	horasSueno += (c.getCantidadMl() != null) ? c.getCantidadMl() : 0;
-        
+            if (c.getDuracion() != null) {
+                try {
+                    horasSueno += Double.parseDouble(c.getDuracion()) / 60d;
+                } catch (NumberFormatException e) {
+                    if (c.getInicio() != null && c.getFin() != null) {
+                        long diff = c.getFin().getTime() - c.getInicio().getTime();
+                        horasSueno += diff / (1000d * 60d * 60d);
+                    }
+                }
+            } else if (c.getInicio() != null && c.getFin() != null) {
+                long diff = c.getFin().getTime() - c.getInicio().getTime();
+                horasSueno += diff / (1000d * 60d * 60d);
+            }
+        }
 
-        }
-        
-        int numBanosTotal = 0;
-        for (Cuidado c : numBanos) {
-            numBanosTotal += (c.getCantidadMl() != null) ? c.getCantidadMl() : 0;
-        }
-
-        int numPanalesTotal = 0;
-        for (Cuidado c : numPanales) {
-            numPanalesTotal += (c.getCantidadMl() != null) ? c.getCantidadMl() : 0;
-        }
+        int numBanosTotal = numBanos.size();
+        int numPanalesTotal = numPanales.size();
 
         QuickStatsResponse resp = new QuickStatsResponse();
         resp.setHorasSueno(horasSueno);
