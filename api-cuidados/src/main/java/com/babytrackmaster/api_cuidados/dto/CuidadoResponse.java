@@ -18,6 +18,7 @@ public class CuidadoResponse {
     private String tipoNombre;
     private Date inicio;
     private Date fin;
+    private String duracion;
     @Schema(example = "120")
     private Integer cantidadMl;
     private String tipoPanal;

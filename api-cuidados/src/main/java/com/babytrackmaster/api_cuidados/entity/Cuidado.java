@@ -33,6 +33,9 @@ public class Cuidado {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fin;
 
+    @Column(name="duracion", length=50)
+    private String duracion;
+
     @Column(name="cantidad_ml")
     private Integer cantidadMl;
 

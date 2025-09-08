@@ -16,6 +16,7 @@ public class CuidadoRequest {
     @NotNull private Date inicio;
 
     private Date fin;
+    private String duracion;
     private Integer cantidadMl;
     private String tipoPanal;
     private String medicamento;

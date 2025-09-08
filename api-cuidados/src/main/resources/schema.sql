@@ -14,5 +14,8 @@ INSERT INTO tipo_cuidado (nombre, created_at, updated_at) VALUES
 ('PASEO', NOW(), NOW());
 
 ALTER TABLE cuidados
+    ADD COLUMN duracion VARCHAR(50);
+
+ALTER TABLE cuidados
     ADD CONSTRAINT fk_cuidados_tipo FOREIGN KEY (tipo) REFERENCES tipo_cuidado(id);
 

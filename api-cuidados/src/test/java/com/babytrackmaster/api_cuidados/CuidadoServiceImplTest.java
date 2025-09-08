@@ -42,8 +42,8 @@ class CuidadoServiceImplTest {
         TipoCuidado panal = saveTipo("Pa\u00f1al");
         TipoCuidado bano = saveTipo("Ba\u00f1o");
 
-        createCuidado(sueno, date(2024,3,10,0,0), date(2024,3,10,4,0), 120);
-        createCuidado(sueno, date(2024,3,10,10,0), date(2024,3,10,10,30), 90);
+        createCuidado(sueno, date(2024,3,10,0,0), date(2024,3,10,4,0), "120");
+        createCuidado(sueno, date(2024,3,10,10,0), date(2024,3,10,10,30), "90");
         createCuidado(sueno, date(2024,3,10,16,0), date(2024,3,10,18,0), null);
         createCuidado(panal, date(2024,3,10,3,0), date(2024,3,10,3,5));
         createCuidado(panal, date(2024,3,10,7,0), date(2024,3,10,7,5));
@@ -54,7 +54,7 @@ class CuidadoServiceImplTest {
     @Test
     void testObtenerEstadisticasRapidas() {
         QuickStatsResponse resp = service.obtenerEstadisticasRapidas(1L,1L, baseDate);
-        assertEquals(210.0, resp.getHorasSueno(), 0.001);
+        assertEquals(5.5, resp.getHorasSueno(), 0.001);
         assertEquals(3, resp.getPanales());
         assertEquals(1, resp.getBanos());
     }
@@ -68,14 +68,14 @@ class CuidadoServiceImplTest {
         return tipoRepo.save(t);
     }
 
-    private Cuidado createCuidado(TipoCuidado tipo, Date inicio, Date fin, Integer cantidad) {
+    private Cuidado createCuidado(TipoCuidado tipo, Date inicio, Date fin, String duracion) {
         Cuidado c = new Cuidado();
         c.setBebeId(1L);
         c.setUsuarioId(1L);
         c.setTipo(tipo);
         c.setInicio(inicio);
         c.setFin(fin);
-        c.setCantidadMl(cantidad);
+        c.setDuracion(duracion);
         Date now = new Date();
         c.setCreatedAt(now);
         c.setUpdatedAt(now);
