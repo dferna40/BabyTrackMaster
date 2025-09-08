@@ -14,7 +14,7 @@ import RamenDiningRoundedIcon from '@mui/icons-material/RamenDiningRounded';
 import EventRoundedIcon from '@mui/icons-material/EventRounded';
 import ScheduleRoundedIcon from '@mui/icons-material/ScheduleRounded';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
-import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 
 const mainListItems = [
