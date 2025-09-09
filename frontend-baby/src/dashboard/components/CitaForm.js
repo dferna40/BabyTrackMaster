@@ -88,6 +88,14 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
   };
 
   const handleSubmit = () => {
+    if (!formData.fecha) {
+      alert('La fecha es obligatoria');
+      return;
+    }
+    if (!formData.hora) {
+      alert('La hora es obligatoria');
+      return;
+    }
     const {
       fecha,
       hora,
@@ -123,7 +131,7 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
               <DatePicker
                 value={formData.fecha}
                 onChange={(newValue) => handleChange('fecha', newValue)}
-                slotProps={{ textField: { fullWidth: true } }}
+                slotProps={{ textField: { fullWidth: true, required: true } }}
                 format="YYYY-MM-DD"
               />
             </FormControl>
@@ -132,7 +140,7 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
               <TimePicker
                 value={formData.hora}
                 onChange={(newValue) => handleChange('hora', newValue)}
-                slotProps={{ textField: { fullWidth: true } }}
+                slotProps={{ textField: { fullWidth: true, required: true } }}
                 format="HH:mm"
               />
             </FormControl>
