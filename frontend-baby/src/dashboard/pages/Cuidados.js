@@ -104,7 +104,7 @@ export default function Cuidados() {
         (t) => t.nombre.toLowerCase() === location.state.tipo.toLowerCase(),
       );
       if (tipo) {
-        setSelectedCuidado({ tipoId: tipo.id });
+        setSelectedCuidado({ tipoId: tipo.id, disableTipo: true });
         setOpenForm(true);
       }
     }
