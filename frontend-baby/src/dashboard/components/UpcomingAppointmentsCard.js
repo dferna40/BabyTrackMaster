@@ -58,7 +58,11 @@ export default function UpcomingAppointmentsCard({ appointments = [], error }) {
                         {formattedDate}
                       </Typography>
                     </Box>
-                    <Chip label={c.tipoNombre} color={getTipoColor(c.tipoNombre)} size="small" />
+                    <Chip
+                      label={c.tipoNombre || c.tipo?.nombre}
+                      color={getTipoColor(c.tipoNombre)}
+                      size="small"
+                    />
                   </CardContent>
                 </Card>
               );

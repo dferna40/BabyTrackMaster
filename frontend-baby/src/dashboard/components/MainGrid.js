@@ -20,7 +20,13 @@ export default function MainGrid() {
     if (!activeBaby?.id) return;
     listarProximas(activeBaby.id)
       .then((response) => {
-        setAppointments(response.data);
+        setAppointments(
+          response.data.map((c) => ({
+            ...c,
+            tipoNombre: c.tipo?.nombre ?? c.tipoNombre,
+            tipoId: c.tipo?.id ?? c.tipoId,
+          }))
+        );
         setError(null);
       })
       .catch((err) => {
