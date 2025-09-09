@@ -37,6 +37,7 @@ export default function WelcomeBanner() {
         <Box
           sx={(theme) => ({
             backgroundColor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
             borderRadius: 2,
             p: 2,
             display: 'flex',
@@ -46,14 +47,19 @@ export default function WelcomeBanner() {
           })}
         >
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-            <WavingHandRoundedIcon />
-            <Typography component="h2" variant="subtitle2" sx={{ fontWeight: 600 }}>
+            <WavingHandRoundedIcon color="inherit" />
+            <Typography
+              component="h2"
+              variant="subtitle2"
+              sx={{ fontWeight: 600 }}
+              color="inherit"
+            >
               {greeting}
             </Typography>
-            <Typography>{summary}</Typography>
+            <Typography color="inherit">{summary}</Typography>
           </Box>
-          <IconButton>
-            <FavoriteBorderIcon />
+          <IconButton color="inherit">
+            <FavoriteBorderIcon color="primary" />
           </IconButton>
         </Box>
       </CardContent>
