@@ -15,9 +15,9 @@ export default function UpcomingAppointmentsCard({ appointments = [], error }) {
   const getTipoColor = (tipo) => {
     switch (tipo?.toLowerCase()) {
       case 'consulta':
-        return 'primary';
+        return 'success';
       case 'vacuna':
-        return 'secondary';
+        return 'warning';
       default:
         return 'default';
     }
@@ -41,7 +41,7 @@ export default function UpcomingAppointmentsCard({ appointments = [], error }) {
               let formattedDate;
               if (appointmentDate.isSame(today, 'day')) {
                 formattedDate = `Hoy ${appointmentDate.format('hh:mm A')}`;
-              } else if (appointmentDate.diff(today, 'day') === 1) {
+              } else if (appointmentDate.isSame(today.add(1, 'day'), 'day')) {
                 formattedDate = `Mañana ${appointmentDate.format('hh:mm A')}`;
               } else {
                 formattedDate = appointmentDate.format('DD/MM/YYYY hh:mm A');
@@ -50,9 +50,9 @@ export default function UpcomingAppointmentsCard({ appointments = [], error }) {
                 <Card key={c.id} variant="outlined" sx={{ bgcolor: 'success.light', mb: 1 }}>
                   <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Box>
-                      <Typography variant="body1">{formattedDate}</Typography>
+                      <Typography variant="body1">{c.motivo}</Typography>
                       <Typography variant="body2" color="text.secondary">
-                        {c.motivo}
+                        {formattedDate}
                       </Typography>
                     </Box>
                     <Chip label={c.tipoNombre} color={getTipoColor(c.tipoNombre)} size="small" />
