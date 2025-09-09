@@ -68,6 +68,7 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
 
   const handleDateChange = (newValue) => {
     setFormData((prev) => ({ ...prev, fecha: newValue }));
+    setErrors((prev) => ({ ...prev, fecha: "" }));
   };
 
   const handleSubmit = () => {
@@ -76,6 +77,13 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
       setErrors((prev) => ({
         ...prev,
         precio: "El precio no puede ser negativo",
+      }));
+      return;
+    }
+    if (!formData.fecha) {
+      setErrors((prev) => ({
+        ...prev,
+        fecha: "La fecha es obligatoria",
       }));
       return;
     }
@@ -96,7 +104,7 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
               <DatePicker
                 value={formData.fecha}
                 onChange={handleDateChange}
-                slotProps={{ textField: { fullWidth: true } }}
+                slotProps={{ textField: { fullWidth: true, required: true, error: Boolean(errors.fecha), helperText: errors.fecha } }}
               />
             </FormControl>
             <FormControl fullWidth sx={{ mb: 2 }}>
