@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -9,9 +9,26 @@ import HighlightedCard from './HighlightedCard';
 import QuickActionsCard from './QuickActionsCard';
 import StatsOverview from './StatsOverview';
 import { BabyContext } from '../../context/BabyContext';
+import { listarProximas } from '../../services/citasService';
 
 export default function MainGrid() {
-  const { babies } = useContext(BabyContext);
+  const { babies, activeBaby } = useContext(BabyContext);
+  const [appointments, setAppointments] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!activeBaby?.id) return;
+    listarProximas(activeBaby.id)
+      .then((response) => {
+        setAppointments(response.data);
+        setError(null);
+      })
+      .catch((err) => {
+        console.error('Error fetching citas:', err);
+        setError('Error al cargar las citas.');
+        setAppointments([]);
+      });
+  }, [activeBaby]);
 
   if (babies.length === 0) {
     return <Navigate to="/dashboard/inicio" replace />;
@@ -42,7 +59,7 @@ export default function MainGrid() {
               <RecentCareCard />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <UpcomingAppointmentsCard />
+              <UpcomingAppointmentsCard appointments={appointments} error={error} />
             </Grid>
           </Grid>
         </Grid>
