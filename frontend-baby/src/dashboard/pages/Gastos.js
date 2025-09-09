@@ -24,6 +24,7 @@ import { BarChart } from "@mui/x-charts/BarChart";
 import dayjs from "dayjs";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { useTheme } from "@mui/material/styles";
 
 import {
   listarPorBebe,
@@ -52,6 +53,8 @@ export default function Gastos() {
   const { user } = React.useContext(AuthContext);
   const usuarioId = user?.id;
   const bebeId = activeBaby?.id;
+  const theme = useTheme();
+  const colors = theme.palette.chart;
 
   const fetchGastos = () => {
     if (!bebeId || !usuarioId) return;
@@ -335,6 +338,8 @@ export default function Gastos() {
             Gastos por día de la semana
           </Typography>
           <BarChart
+            colors={Object.values(colors)}
+            borderRadius={8}
             height={250}
             xAxis={[
               {
