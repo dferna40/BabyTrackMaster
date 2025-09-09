@@ -40,19 +40,19 @@ export default function UpcomingAppointmentsCard({ appointments = [], error }) {
               const today = dayjs();
               let formattedDate;
               if (appointmentDate.isSame(today, 'day')) {
-                formattedDate = 'Hoy';
+                formattedDate = `Hoy ${appointmentDate.format('hh:mm A')}`;
               } else if (appointmentDate.diff(today, 'day') === 1) {
-                formattedDate = 'Mañana';
+                formattedDate = `Mañana ${appointmentDate.format('hh:mm A')}`;
               } else {
-                formattedDate = appointmentDate.format('DD/MM/YYYY HH:mm');
+                formattedDate = appointmentDate.format('DD/MM/YYYY hh:mm A');
               }
               return (
                 <Card key={c.id} variant="outlined" sx={{ bgcolor: 'success.light', mb: 1 }}>
                   <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Box>
-                      <Typography variant="body1">{c.motivo}</Typography>
+                      <Typography variant="body1">{formattedDate}</Typography>
                       <Typography variant="body2" color="text.secondary">
-                        {formattedDate}
+                        {c.motivo}
                       </Typography>
                     </Box>
                     <Chip label={c.tipoNombre} color={getTipoColor(c.tipoNombre)} size="small" />
