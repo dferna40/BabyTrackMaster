@@ -122,8 +122,8 @@ public class CitaController {
 
         @Operation(summary = "Listar próximas citas")
         @GetMapping("/proximas")
-        public ResponseEntity<List<CitaResponseDTO>> proximas(@RequestParam int limit) {
+        public ResponseEntity<List<CitaResponseDTO>> proximas(@RequestParam Long bebeId, @RequestParam int limit) {
                 Long usuarioId = jwtService.resolveUserId();
-                return ResponseEntity.ok(service.proximas(usuarioId, limit));
+                return ResponseEntity.ok(service.proximas(usuarioId, bebeId, limit));
         }
 }

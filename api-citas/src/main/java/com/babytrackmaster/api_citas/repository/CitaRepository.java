@@ -47,10 +47,11 @@ public interface CitaRepository extends JpaRepository<Cita, Long> {
                              @Param("bebeId") Long bebeId,
                              Pageable pageable);
 
-    @Query("select c from Cita c where c.usuarioId = :usuarioId and c.eliminado = false and " +
+    @Query("select c from Cita c where c.usuarioId = :usuarioId and c.bebeId = :bebeId and c.eliminado = false and " +
            "(c.fecha > :hoy or (c.fecha = :hoy and c.hora >= :hora)) " +
            "order by c.fecha asc, c.hora asc")
     List<Cita> proximas(@Param("usuarioId") Long usuarioId,
+                        @Param("bebeId") Long bebeId,
                         @Param("hoy") LocalDate hoy,
                         @Param("hora") LocalTime hora);
 }
