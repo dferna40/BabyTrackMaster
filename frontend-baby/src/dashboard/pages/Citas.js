@@ -146,6 +146,8 @@ export default function Citas() {
     [filteredCitas, selectedDay]
   );
 
+  const tableData = view === 'week' ? citasSemana : citasDelDia;
+
   const getEstadoColor = (estado) => {
     switch (estado?.toLowerCase()) {
       case 'confirmada':
@@ -333,8 +335,7 @@ export default function Citas() {
           Semana
         </Button>
       </Stack>
-
-      {view === 'month' ? (
+      {view === 'month' && (
         <>
           {selectedDate && (
             <DateCalendar
@@ -357,71 +358,6 @@ export default function Citas() {
             </Button>
           )}
         </>
-      ) : (
-        <TableContainer sx={{ mb: 4 }}>
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell>Fecha</TableCell>
-                <TableCell>Hora</TableCell>
-                <TableCell>Motivo</TableCell>
-                <TableCell>Tipo</TableCell>
-                <TableCell>Estado</TableCell>
-                <TableCell align="center">Acciones</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {citasSemana.map((cita) => (
-                <TableRow key={cita.id}>
-                  <TableCell>
-                    {dayjs(cita.fecha).format('DD/MM/YYYY')}
-                  </TableCell>
-                  <TableCell>
-                    {dayjs(`${cita.fecha}T${cita.hora}`).format('HH:mm')}
-                  </TableCell>
-                  <TableCell>{cita.motivo}</TableCell>
-                  <TableCell>
-                    {cita.tipoNombre ||
-                      tipos.find((t) => Number(t.id) === Number(cita.tipoId))?.nombre}
-                  </TableCell>
-                  <TableCell>
-                    <Chip
-                      label={cita.estadoNombre}
-                      color={getEstadoColor(cita.estadoNombre)}
-                      size="small"
-                    />
-                  </TableCell>
-                  <TableCell align="center">
-                    <IconButton
-                      size="small"
-                      aria-label="reminder"
-                      onClick={() => handleRecordatorio(cita.id)}
-                      sx={{ color: '#6c757d' }}
-                    >
-                      <NotificationsActiveIcon fontSize="small" />
-                    </IconButton>
-                    <IconButton
-                      size="small"
-                      aria-label="edit"
-                      onClick={() => handleEdit(cita)}
-                      sx={{ color: '#0d6efd' }}
-                    >
-                      <EditIcon fontSize="small" />
-                    </IconButton>
-                    <IconButton
-                      size="small"
-                      aria-label="estado"
-                      onClick={(e) => handleOpenEstadoMenu(e, cita.id)}
-                      sx={{ color: '#6c757d' }}
-                    >
-                      <MoreVertIcon fontSize="small" />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
       )}
 
       <TableContainer sx={{ mb: 4 }}>
@@ -433,12 +369,12 @@ export default function Citas() {
               <TableCell>Motivo</TableCell>
               <TableCell>Tipo</TableCell>
               <TableCell>Estado</TableCell>
-              <TableCell>Centro médico</TableCell>
+              {view !== 'week' && <TableCell>Centro médico</TableCell>}
               <TableCell align="center">Acciones</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {citasDelDia
+            {tableData
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((cita) => (
                 <TableRow key={cita.id}>
@@ -460,7 +396,9 @@ export default function Citas() {
                       size="small"
                     />
                   </TableCell>
-                  <TableCell>{cita.centroMedico || '-'}</TableCell>
+                  {view !== 'week' && (
+                    <TableCell>{cita.centroMedico || '-'}</TableCell>
+                  )}
                   <TableCell align="center">
                     <IconButton
                       size="small"
@@ -491,9 +429,9 @@ export default function Citas() {
               ))}
           </TableBody>
         </Table>
-      <TablePagination
+        <TablePagination
           component="div"
-          count={citasDelDia.length}
+          count={tableData.length}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
