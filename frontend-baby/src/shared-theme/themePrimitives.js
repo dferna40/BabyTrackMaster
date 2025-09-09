@@ -69,6 +69,13 @@ export const red = {
   900: 'hsl(0, 93%, 6%)',
 };
 
+export const chartPastel = {
+  babyBlue: '#A2D2FF',
+  babyPink: '#FFC6FF',
+  mint: '#CDEAC0',
+  softYellow: '#FFF5BA',
+};
+
 export const getDesignTokens = (mode) => {
   customShadows[1] =
     mode === 'dark'
@@ -135,6 +142,7 @@ export const getDesignTokens = (mode) => {
       grey: {
         ...gray,
       },
+      chart: chartPastel,
       divider: mode === 'dark' ? alpha(gray[700], 0.6) : alpha(gray[300], 0.4),
       background: {
         default: 'hsl(0, 0%, 99%)',

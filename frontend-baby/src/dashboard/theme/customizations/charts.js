@@ -1,9 +1,14 @@
 import { axisClasses, legendClasses, chartsGridClasses } from '@mui/x-charts';
 
-import { gray } from '../../../shared-theme/themePrimitives';
+import { gray, chartPastel } from '../../../shared-theme/themePrimitives';
 
 /* eslint-disable import/prefer-default-export */
 export const chartsCustomizations = {
+  MuiCharts: {
+    defaultProps: {
+      colors: Object.values(chartPastel),
+    },
+  },
   MuiChartsAxis: {
     styleOverrides: {
       root: ({ theme }) => ({

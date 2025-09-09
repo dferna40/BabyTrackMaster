@@ -21,8 +21,21 @@ declare module '@mui/material/styles' {
 
   interface PaletteColor extends ColorRange {}
 
+  interface ChartPalette {
+    babyBlue: string;
+    babyPink: string;
+    mint: string;
+    softYellow: string;
+  }
+
   interface Palette {
     baseShadow: string;
+    chart: ChartPalette;
+  }
+
+  interface PaletteOptions {
+    baseShadow?: string;
+    chart?: ChartPalette;
   }
 }
 
@@ -95,6 +108,13 @@ export const red = {
   900: 'hsl(0, 93%, 6%)',
 };
 
+export const chartPastel: ChartPalette = {
+  babyBlue: '#A2D2FF',
+  babyPink: '#FFC6FF',
+  mint: '#CDEAC0',
+  softYellow: '#FFF5BA',
+};
+
 export const getDesignTokens = (mode: PaletteMode) => {
   customShadows[1] =
     mode === 'dark'
@@ -161,6 +181,7 @@ export const getDesignTokens = (mode: PaletteMode) => {
       grey: {
         ...gray,
       },
+      chart: chartPastel,
       divider: mode === 'dark' ? alpha(gray[700], 0.6) : alpha(gray[300], 0.4),
       background: {
         default: 'hsl(0, 0%, 99%)',
