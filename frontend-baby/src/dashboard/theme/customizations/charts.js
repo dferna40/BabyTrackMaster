@@ -1,36 +1,39 @@
 import { axisClasses, legendClasses, chartsGridClasses } from '@mui/x-charts';
 
-import { gray, chartPastel } from '../../../shared-theme/themePrimitives';
+import { gray } from '../../../shared-theme/themePrimitives';
 
 /* eslint-disable import/prefer-default-export */
 export const chartsCustomizations = {
   MuiCharts: {
-    defaultProps: {
-      colors: Object.values(chartPastel),
-    },
+    defaultProps: ({ theme }) => ({
+      colors: Object.values((theme.vars || theme).palette.chart),
+    }),
   },
   MuiChartsAxis: {
     styleOverrides: {
-      root: ({ theme }) => ({
-        [`& .${axisClasses.line}`]: {
-          stroke: chartPastel.babyBlue,
-        },
-        [`& .${axisClasses.tick}`]: { stroke: chartPastel.babyBlue },
-        [`& .${axisClasses.tickLabel}`]: {
-          fill: gray[500],
-          fontWeight: 500,
-        },
-        ...theme.applyStyles('dark', {
+      root: ({ theme }) => {
+        const chartColors = (theme.vars || theme).palette.chart;
+        return {
           [`& .${axisClasses.line}`]: {
-            stroke: gray[700],
+            stroke: chartColors.babyBlue,
           },
-          [`& .${axisClasses.tick}`]: { stroke: gray[700] },
+          [`& .${axisClasses.tick}`]: { stroke: chartColors.babyBlue },
           [`& .${axisClasses.tickLabel}`]: {
-            fill: chartPastel.babyBlue,
+            fill: gray[500],
             fontWeight: 500,
           },
-        }),
-      }),
+          ...theme.applyStyles('dark', {
+            [`& .${axisClasses.line}`]: {
+              stroke: gray[700],
+            },
+            [`& .${axisClasses.tick}`]: { stroke: gray[700] },
+            [`& .${axisClasses.tickLabel}`]: {
+              fill: chartColors.babyBlue,
+              fontWeight: 500,
+            },
+          }),
+        };
+      },
     },
   },
   MuiChartsTooltip: {
@@ -61,20 +64,23 @@ export const chartsCustomizations = {
   },
   MuiChartsGrid: {
     styleOverrides: {
-      root: ({ theme }) => ({
-        [`& .${chartsGridClasses.line}`]: {
-          stroke: chartPastel.mint,
-          strokeDasharray: '3 3',
-          strokeWidth: 0.5,
-        },
-        ...theme.applyStyles('dark', {
+      root: ({ theme }) => {
+        const chartColors = (theme.vars || theme).palette.chart;
+        return {
           [`& .${chartsGridClasses.line}`]: {
-            stroke: gray[700],
+            stroke: chartColors.mint,
             strokeDasharray: '3 3',
             strokeWidth: 0.5,
           },
-        }),
-      }),
+          ...theme.applyStyles('dark', {
+            [`& .${chartsGridClasses.line}`]: {
+              stroke: gray[700],
+              strokeDasharray: '3 3',
+              strokeWidth: 0.5,
+            },
+          }),
+        };
+      },
     },
   },
 };
