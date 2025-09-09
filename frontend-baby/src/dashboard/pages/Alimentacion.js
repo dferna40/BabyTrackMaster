@@ -157,14 +157,14 @@ export default function Alimentacion() {
       'Hora',
       'Tipo lactancia',
       'Lado',
-      'Sólido',
-      'Cantidad leche fórmula',
-      'Cantidad otros alimentos',
-      'Duración',
+      'Sólido (g)',
+      'Cantidad leche fórmula (ml)',
+      'Cantidad otros alimentos (ml)',
+      'Duración (min)',
       'Observaciones',
     ],
     biberon: ['Hora', 'Tipo', 'Cantidad (ml)', 'Observaciones'],
-    solidos: ['Hora', 'Alimento', 'Cantidad', 'Observaciones'],
+    solidos: ['Hora', 'Alimento', 'Cantidad (g)', 'Observaciones'],
   };
 
   const handleExportCsv = () => {
@@ -245,7 +245,7 @@ export default function Alimentacion() {
           sx={{ alignSelf: 'flex-start', ...addButton }}
           onClick={handleAdd}
         >
-          Añadir registro
+          Registrar alimentación
         </Button>
       </Stack>
 

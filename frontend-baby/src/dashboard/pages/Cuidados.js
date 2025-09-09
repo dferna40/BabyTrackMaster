@@ -225,7 +225,7 @@ export default function Cuidados() {
           sx={{ alignSelf: 'flex-start', ...addButton }}
           onClick={handleAdd}
         >
-          Añadir nuevo cuidado
+          Registrar cuidado
         </Button>
       </Stack>
 

@@ -97,11 +97,11 @@ export default function Diario() {
         <Card variant="outlined">
           <CardContent>
             <Typography variant="h6" gutterBottom>
-              Añadir entrada
+              Crear nueva entrada del diario para {activeBaby?.nombre ?? 'tu bebé'}
             </Typography>
             <Stack spacing={2}>
             <TextField
-              label="Texto"
+              label="¿Que ha hecho tu bebé hoy?"
               multiline
               rows={3}
               value={texto}
@@ -193,7 +193,7 @@ export default function Diario() {
           <Card variant="outlined">
             <CardContent>
               <Typography variant="h6" gutterBottom>
-                Entradas del diario
+                Entradas del diario de {activeBaby?.nombre ?? 'tu bebé'} 
               </Typography>
               <List>
                 {entradasFiltradas.map((e) => (

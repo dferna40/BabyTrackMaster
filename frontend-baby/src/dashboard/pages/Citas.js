@@ -277,7 +277,7 @@ export default function Citas() {
           sx={{ alignSelf: 'flex-start', ...addButton }}
           onClick={handleAdd}
         >
-          Añadir cita
+          Registrar cita
         </Button>
         <TextField
           size="small"

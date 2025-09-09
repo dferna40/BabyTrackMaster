@@ -226,7 +226,7 @@ export default function Gastos() {
           sx={{ alignSelf: 'flex-start', ...addButton }}
           onClick={handleAdd}
         >
-          Añadir gasto
+          Registrar gasto
         </Button>
         <FormControl sx={{ minWidth: 150 }}>
           <FormLabel sx={{ mb: 1 }}>Categoría</FormLabel>
@@ -266,7 +266,7 @@ export default function Gastos() {
             <TableRow>
               <TableCell>Fecha</TableCell>
               <TableCell>Categoría</TableCell>
-              <TableCell>Precio</TableCell>
+              <TableCell>Precio €</TableCell>
               <TableCell>Descripción</TableCell>
               <TableCell align="center">Acciones</TableCell>
             </TableRow>
@@ -286,7 +286,7 @@ export default function Gastos() {
                       )?.nombre}
                   </TableCell>
                   <TableCell sx={{ fontWeight: 600 }}>
-                    {Number(gasto.cantidad).toFixed(2)} €
+                    {Number(gasto.cantidad).toFixed(2)}
                   </TableCell>
                   <TableCell>{gasto.descripcion}</TableCell>
                   

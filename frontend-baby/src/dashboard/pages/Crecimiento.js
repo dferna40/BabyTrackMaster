@@ -157,7 +157,7 @@ export default function Crecimiento() {
           sx={{ alignSelf: "flex-start", ...addButton }}
           onClick={handleAdd}
         >
-          Añadir registro
+          Registrar crecimiento
         </Button>
         <TextField
           label="Desde"
