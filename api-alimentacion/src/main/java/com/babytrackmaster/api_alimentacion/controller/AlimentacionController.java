@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.babytrackmaster.api_alimentacion.dto.AlimentacionRequest;
 import com.babytrackmaster.api_alimentacion.dto.AlimentacionResponse;
 import com.babytrackmaster.api_alimentacion.dto.AlimentacionStatsResponse;
+import com.babytrackmaster.api_alimentacion.entity.TipoLactancia;
 import com.babytrackmaster.api_alimentacion.service.AlimentacionService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -85,5 +86,11 @@ public class AlimentacionController {
             @PathVariable Long usuarioId,
             @PathVariable Long bebeId) {
         return ResponseEntity.ok(service.stats(usuarioId, bebeId));
+    }
+
+    @Operation(summary = "Listar tipos de lactancia")
+    @GetMapping("/tipos-lactancia")
+    public ResponseEntity<List<TipoLactancia>> tiposLactancia() {
+        return ResponseEntity.ok(service.listarTiposLactancia());
     }
 }

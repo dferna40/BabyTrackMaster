@@ -13,8 +13,10 @@ import com.babytrackmaster.api_alimentacion.dto.AlimentacionResponse;
 import com.babytrackmaster.api_alimentacion.dto.AlimentacionStatsResponse;
 import com.babytrackmaster.api_alimentacion.entity.Alimentacion;
 import com.babytrackmaster.api_alimentacion.entity.TipoAlimentacion;
+import com.babytrackmaster.api_alimentacion.entity.TipoLactancia;
 import com.babytrackmaster.api_alimentacion.mapper.AlimentacionMapper;
 import com.babytrackmaster.api_alimentacion.repository.AlimentacionRepository;
+import com.babytrackmaster.api_alimentacion.repository.TipoLactanciaRepository;
 import com.babytrackmaster.api_alimentacion.service.AlimentacionService;
 
 @Service
@@ -22,9 +24,11 @@ import com.babytrackmaster.api_alimentacion.service.AlimentacionService;
 public class AlimentacionServiceImpl implements AlimentacionService {
 
     private final AlimentacionRepository repo;
+    private final TipoLactanciaRepository tipoLactanciaRepo;
 
-    public AlimentacionServiceImpl(AlimentacionRepository repo) {
+    public AlimentacionServiceImpl(AlimentacionRepository repo, TipoLactanciaRepository tipoLactanciaRepo) {
         this.repo = repo;
+        this.tipoLactanciaRepo = tipoLactanciaRepo;
     }
 
     public AlimentacionResponse crear(Long usuarioId, Long bebeId, AlimentacionRequest request) {
@@ -64,6 +68,11 @@ public class AlimentacionServiceImpl implements AlimentacionService {
             resp.add(AlimentacionMapper.toResponse(a));
         }
         return resp;
+    }
+
+    @Transactional(readOnly = true)
+    public List<TipoLactancia> listarTiposLactancia() {
+        return tipoLactanciaRepo.findAll();
     }
 
     @Transactional(readOnly = true)

@@ -17,10 +17,13 @@ public class AlimentacionMapper {
         a.setFechaHora(req.getFechaHora() != null ? req.getFechaHora() : now);
         a.setLado(req.getLado());
         a.setDuracionMin(req.getDuracionMin());
+        a.setTipoLactancia(req.getTipoLactancia());
         a.setTipoLeche(req.getTipoLeche());
         a.setCantidadMl(req.getCantidadMl());
+        a.setCantidadLecheFormula(req.getCantidadLecheFormula());
         a.setAlimento(req.getAlimento());
         a.setCantidad(req.getCantidad());
+        a.setCantidadOtrosAlimentos(req.getCantidadOtrosAlimentos());
         a.setObservaciones(req.getObservaciones());
         a.setCreatedAt(now);
         a.setUpdatedAt(now);
@@ -33,10 +36,13 @@ public class AlimentacionMapper {
         a.setFechaHora(req.getFechaHora() != null ? req.getFechaHora() : a.getFechaHora());
         a.setLado(req.getLado());
         a.setDuracionMin(req.getDuracionMin());
+        a.setTipoLactancia(req.getTipoLactancia());
         a.setTipoLeche(req.getTipoLeche());
         a.setCantidadMl(req.getCantidadMl());
+        a.setCantidadLecheFormula(req.getCantidadLecheFormula());
         a.setAlimento(req.getAlimento());
         a.setCantidad(req.getCantidad());
+        a.setCantidadOtrosAlimentos(req.getCantidadOtrosAlimentos());
         a.setObservaciones(req.getObservaciones());
         a.setUpdatedAt(new Date());
     }
@@ -50,10 +56,13 @@ public class AlimentacionMapper {
         r.setFechaHora(a.getFechaHora());
         r.setLado(a.getLado());
         r.setDuracionMin(a.getDuracionMin());
+        r.setTipoLactancia(a.getTipoLactancia());
         r.setTipoLeche(a.getTipoLeche());
         r.setCantidadMl(a.getCantidadMl());
+        r.setCantidadLecheFormula(a.getCantidadLecheFormula());
         r.setAlimento(a.getAlimento());
         r.setCantidad(a.getCantidad());
+        r.setCantidadOtrosAlimentos(a.getCantidadOtrosAlimentos());
         r.setObservaciones(a.getObservaciones());
         r.setCreatedAt(a.getCreatedAt());
         r.setUpdatedAt(a.getUpdatedAt());
