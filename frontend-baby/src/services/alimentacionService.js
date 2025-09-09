@@ -40,3 +40,6 @@ export const eliminarRegistro = (usuarioId, bebeId, id) =>
   axios.delete(
     `${API_ALIMENTACION_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/${id}`
   );
+
+export const listarTiposLactancia = () =>
+  axios.get(`${API_ALIMENTACION_ENDPOINT}/tipos-lactancia`);

@@ -151,7 +151,16 @@ export default function Alimentacion() {
   };
 
   const headersMap = {
-    lactancia: ['Hora', 'Lado', 'Duración', 'Observaciones'],
+    lactancia: [
+      'Hora',
+      'Tipo lactancia',
+      'Lado',
+      'Sólido',
+      'Cantidad leche fórmula',
+      'Cantidad otros alimentos',
+      'Duración',
+      'Observaciones',
+    ],
     biberon: ['Hora', 'Tipo', 'Cantidad (ml)', 'Observaciones'],
     solidos: ['Hora', 'Alimento', 'Cantidad', 'Observaciones'],
   };
@@ -162,7 +171,16 @@ export default function Alimentacion() {
     const rows = filtered.map((r) => {
       const base = [dayjs(r.inicio).format('DD/MM/YYYY HH:mm')];
       if (current === 'lactancia') {
-        return [...base, r.lado, r.duracionMin, r.observaciones || ''];
+        return [
+          ...base,
+          r.tipoLactancia?.nombre || '',
+          r.lado || '',
+          r.alimento || '',
+          r.cantidadLecheFormula || '',
+          r.cantidadOtrosAlimentos || '',
+          r.duracionMin || '',
+          r.observaciones || '',
+        ];
       }
       if (current === 'biberon') {
         return [...base, r.tipoLeche, r.cantidadMl, r.observaciones || ''];
@@ -186,7 +204,16 @@ export default function Alimentacion() {
     const rows = filtered.map((r) => {
       const base = [dayjs(r.inicio).format('DD/MM/YYYY HH:mm')];
       if (current === 'lactancia') {
-        return [...base, r.lado, r.duracionMin, r.observaciones || ''];
+        return [
+          ...base,
+          r.tipoLactancia?.nombre || '',
+          r.lado || '',
+          r.alimento || '',
+          r.cantidadLecheFormula || '',
+          r.cantidadOtrosAlimentos || '',
+          r.duracionMin || '',
+          r.observaciones || '',
+        ];
       }
       if (current === 'biberon') {
         return [...base, r.tipoLeche, r.cantidadMl, r.observaciones || ''];
@@ -249,7 +276,15 @@ export default function Alimentacion() {
                   </TableCell>
                   {tabValues[tab] === 'lactancia' && (
                     <>
+                      <TableCell>{r.tipoLactancia?.nombre}</TableCell>
                       <TableCell>{r.lado}</TableCell>
+                      <TableCell>{r.alimento}</TableCell>
+                      <TableCell sx={{ fontWeight: 600 }}>
+                        {r.cantidadLecheFormula}
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: 600 }}>
+                        {r.cantidadOtrosAlimentos}
+                      </TableCell>
                       <TableCell sx={{ fontWeight: 600 }}>{r.duracionMin}</TableCell>
                       <TableCell>{r.observaciones}</TableCell>
                     </>
