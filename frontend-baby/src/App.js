@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import weekOfYear from 'dayjs/plugin/weekOfYear';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import SignInSide from "./sign-in-side/SignInSide";
@@ -26,6 +27,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 
 dayjs.extend(relativeTime);
+dayjs.extend(weekOfYear);
 dayjs.locale('es');
 
 function App() {
