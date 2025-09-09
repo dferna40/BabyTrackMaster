@@ -2,6 +2,7 @@ package com.babytrackmaster.api_citas.service;
 
 import com.babytrackmaster.api_citas.dto.*;
 import org.springframework.data.domain.Page;
+import java.util.List;
 
 public interface CitaService {
     CitaResponseDTO crear(CitaCreateDTO dto, Long usuarioId);
@@ -17,4 +18,5 @@ public interface CitaService {
     Page<CitaResponseDTO> listarPorMedico(Long usuarioId, String medico, int page, int size);
     Page<CitaResponseDTO> listarPorBebe(Long usuarioId, Long bebeId, int page, int size);
     void enviarRecordatorio(Long id, Long usuarioId, Integer minutosAntelacion);
+    List<CitaResponseDTO> proximas(Long usuarioId, int limit);
 }
