@@ -69,9 +69,12 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
   };
 
   const handleSubmit = () => {
+    if (!formData.inicio) return;
     const payload = {
       ...formData,
-      inicio: formData.inicio ? formData.inicio.format("YYYY-MM-DDTHH:mm") : "",
+      inicio: formData.inicio
+        ? formData.inicio.format("YYYY-MM-DDTHH:mm")
+        : "",
     };
     onSubmit(payload);
   };
@@ -95,7 +98,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
             <DateTimePicker
               value={formData.inicio}
               onChange={handleInicioChange}
-              slotProps={{ textField: { fullWidth: true } }}
+              slotProps={{ textField: { fullWidth: true, required: true } }}
             />
           </FormControl>
           <FormControl fullWidth sx={{ mb: 2 }}>
