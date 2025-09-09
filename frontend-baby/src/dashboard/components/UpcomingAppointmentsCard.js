@@ -43,6 +43,9 @@ export default function UpcomingAppointmentsCard({ appointments = [], error }) {
                 formattedDate = `Hoy ${appointmentDate.format('hh:mm A')}`;
               } else if (appointmentDate.isSame(today.add(1, 'day'), 'day')) {
                 formattedDate = `Mañana ${appointmentDate.format('hh:mm A')}`;
+              } else if (appointmentDate.isSame(today, 'week')) {
+                formattedDate = appointmentDate.format('dddd hh:mm A');
+                formattedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
               } else {
                 formattedDate = appointmentDate.format('DD/MM/YYYY hh:mm A');
               }
