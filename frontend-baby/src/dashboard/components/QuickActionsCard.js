@@ -11,6 +11,8 @@ import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
 import BabyChangingStationIcon from '@mui/icons-material/BabyChangingStation';
 import HotelIcon from '@mui/icons-material/Hotel';
 import BathtubIcon from '@mui/icons-material/Bathtub';
+import BiotechIcon from '@mui/icons-material/Biotech';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
@@ -27,10 +29,12 @@ export default function QuickActionsCard() {
   const { activeBaby } = useContext(BabyContext);
 
   const [actionsData, setActionsData] = useState({
+    pecho: { last: null, today: 0 },
     biberon: { last: null, today: 0 },
     panal: { last: null, today: 0 },
     sueno: { last: null, today: 0 },
     bano: { last: null, today: 0 },
+    gasto: { last: null, today: 0 },
   });
 
   useEffect(() => {
@@ -105,6 +109,20 @@ export default function QuickActionsCard() {
 
   const actions = [
     {
+      key: 'pecho',
+      label: 'Pecho',
+      icon: BiotechIcon,
+      path: '/dashboard/alimentacion',
+      state: {
+        tipo: 'lactancia',
+        tipoLactancia: 'Lactancia directa',
+        disableTipo: true,
+        disableTipoLactancia: true,
+      },
+      unit: '',
+      color: 'primary',
+    },
+    {
       key: 'biberon',
       label: 'Biberón',
       icon: LocalDrinkIcon,
@@ -123,6 +141,15 @@ export default function QuickActionsCard() {
       color: 'success',
     },
     {
+      key: 'bano',
+      label: 'Baño',
+      icon: BathtubIcon,
+      path: '/dashboard/cuidados',
+      state: { tipo: 'Baño' },
+      unit: '',
+      color: 'info',
+    },
+    {
       key: 'sueno',
       label: 'Sueño',
       icon: HotelIcon,
@@ -132,13 +159,13 @@ export default function QuickActionsCard() {
       color: 'secondary',
     },
     {
-      key: 'bano',
-      label: 'Baño',
-      icon: BathtubIcon,
-      path: '/dashboard/cuidados',
-      state: { tipo: 'Baño' },
+      key: 'gasto',
+      label: 'Gasto',
+      icon: AttachMoneyIcon,
+      path: '/dashboard/gastos',
+      state: { openForm: true },
       unit: '',
-      color: 'info',
+      color: 'warning',
     },
   ];
 
