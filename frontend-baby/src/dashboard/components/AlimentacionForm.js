@@ -77,6 +77,22 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
     setErrors({});
   }, [initialData, open]);
 
+  useEffect(() => {
+    if (
+      initialData?.tipoLactancia &&
+      typeof initialData.tipoLactancia === 'string'
+    ) {
+      const found = tiposLactancia.find(
+        (t) =>
+          t.nombre?.toLowerCase() ===
+          initialData.tipoLactancia.toLowerCase()
+      );
+      if (found) {
+        setFormData((prev) => ({ ...prev, tipoLactanciaId: found.id }));
+      }
+    }
+  }, [tiposLactancia, initialData]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -153,7 +169,13 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
         <Stack sx={{ mt: 1 }}>
           <FormControl fullWidth sx={{ mb: 2 }}>
             <FormLabel sx={{ mb: 1 }}>Tipo</FormLabel>
-            <TextField select name="tipo" value={formData.tipo} onChange={handleChange}>
+            <TextField
+              select
+              name="tipo"
+              value={formData.tipo}
+              onChange={handleChange}
+              disabled={initialData?.disableTipo}
+            >
               {tipos.map((t) => (
                 <MenuItem key={t.value} value={t.value}>
                   {t.label}
@@ -180,6 +202,7 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
                   onChange={handleChange}
                   error={!!errors.tipoLactanciaId}
                   helperText={errors.tipoLactanciaId}
+                  disabled={initialData?.disableTipoLactancia}
                 >
                   {tiposLactancia.map((t) => (
                     <MenuItem key={t.id} value={t.id}>
