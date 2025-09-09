@@ -13,9 +13,9 @@ export const chartsCustomizations = {
     styleOverrides: {
       root: ({ theme }) => ({
         [`& .${axisClasses.line}`]: {
-          stroke: gray[300],
+          stroke: chartPastel.babyBlue,
         },
-        [`& .${axisClasses.tick}`]: { stroke: gray[300] },
+        [`& .${axisClasses.tick}`]: { stroke: chartPastel.babyBlue },
         [`& .${axisClasses.tickLabel}`]: {
           fill: gray[500],
           fontWeight: 500,
@@ -26,7 +26,7 @@ export const chartsCustomizations = {
           },
           [`& .${axisClasses.tick}`]: { stroke: gray[700] },
           [`& .${axisClasses.tickLabel}`]: {
-            fill: gray[300],
+            fill: chartPastel.babyBlue,
             fontWeight: 500,
           },
         }),
@@ -63,15 +63,15 @@ export const chartsCustomizations = {
     styleOverrides: {
       root: ({ theme }) => ({
         [`& .${chartsGridClasses.line}`]: {
-          stroke: gray[200],
-          strokeDasharray: '4 2',
-          strokeWidth: 0.8,
+          stroke: chartPastel.mint,
+          strokeDasharray: '3 3',
+          strokeWidth: 0.5,
         },
         ...theme.applyStyles('dark', {
           [`& .${chartsGridClasses.line}`]: {
             stroke: gray[700],
-            strokeDasharray: '4 2',
-            strokeWidth: 0.8,
+            strokeDasharray: '3 3',
+            strokeWidth: 0.5,
           },
         }),
       }),
