@@ -25,6 +25,7 @@ import dayjs from "dayjs";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { useTheme } from "@mui/material/styles";
+import { useLocation } from "react-router-dom";
 
 import {
   listarPorBebe,
@@ -53,6 +54,7 @@ export default function Gastos() {
   const { user } = React.useContext(AuthContext);
   const usuarioId = user?.id;
   const bebeId = activeBaby?.id;
+  const location = useLocation();
   const theme = useTheme();
   const colors = theme.palette.chart;
 
@@ -79,6 +81,13 @@ export default function Gastos() {
         });
     }
   }, [bebeId]);
+
+  useEffect(() => {
+    if (location.state?.openForm) {
+      setSelectedGasto(null);
+      setOpenForm(true);
+    }
+  }, [location.state]);
 
   const filteredGastos = useMemo(
     () =>
@@ -119,6 +128,13 @@ export default function Gastos() {
     setOpenForm(true);
   };
 
+  const handleCloseForm = () => {
+    setOpenForm(false);
+    if (location.state?.openForm) {
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+  };
+
   const handleDelete = (id) => {
     if (!bebeId || !usuarioId) return;
     if (window.confirm("¿Eliminar gasto?")) {
@@ -139,7 +155,7 @@ export default function Gastos() {
 
     request
       .then(() => {
-        setOpenForm(false);
+        handleCloseForm();
         setSelectedGasto(null);
         fetchGastos();
       })
@@ -355,7 +371,7 @@ export default function Gastos() {
       </Card>
       <GastoForm
         open={openForm}
-        onClose={() => setOpenForm(false)}
+        onClose={handleCloseForm}
         onSubmit={handleFormSubmit}
         initialData={selectedGasto}
       />
