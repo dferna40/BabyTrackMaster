@@ -31,6 +31,7 @@ export default function Diario() {
   const [texto, setTexto] = useState('');
   const [emocion, setEmocion] = useState('neutral');
   const [fecha, setFecha] = useState(dayjs());
+  const [fechaError, setFechaError] = useState(false);
   const [etiqueta, setEtiqueta] = useState('');
   const [etiquetas, setEtiquetas] = useState([]);
   const [entradas, setEntradas] = useState([]);
@@ -49,6 +50,10 @@ export default function Diario() {
 
   const handleAdd = () => {
     if (!texto.trim() || !activeBaby || !user) return;
+    if (!fecha) {
+      setFechaError(true);
+      return;
+    }
     const payload = {
       bebeId: activeBaby.id,
       fecha: fecha.format('YYYY-MM-DD'),
@@ -63,6 +68,7 @@ export default function Diario() {
         setTexto('');
         setEmocion('neutral');
         setFecha(dayjs());
+        setFechaError(false);
         setEtiquetas([]);
         return listarEntradas(user.id, activeBaby.id).then((data) =>
           setEntradas(data)
@@ -122,8 +128,18 @@ export default function Diario() {
             <DatePicker
               label="Fecha"
               value={fecha}
-              onChange={(newValue) => setFecha(newValue)}
-              slotProps={{ textField: { InputLabelProps: { shrink: true } } }}
+              onChange={(newValue) => {
+                setFecha(newValue);
+                setFechaError(false);
+              }}
+              slotProps={{
+                textField: {
+                  required: true,
+                  InputLabelProps: { shrink: true },
+                  error: fechaError,
+                  helperText: fechaError ? 'La fecha es requerida' : undefined,
+                },
+              }}
             />
             <TextField
               label="Etiquetas"
