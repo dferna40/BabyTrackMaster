@@ -17,10 +17,10 @@ export const dataGridCustomizations = {
       root: ({ theme }) => ({
         '--DataGrid-overlayHeight': '300px',
         overflow: 'clip',
-        borderColor: '#e9ecef',
-        backgroundColor: '#f8f9fa',
+        borderColor: (theme.vars || theme).palette.divider,
+        backgroundColor: (theme.vars || theme).palette.background.paper,
         [`& .${gridClasses.footerContainer}`]: {
-          backgroundColor: '#f8f9fa',
+          backgroundColor: (theme.vars || theme).palette.background.paper,
         },
         [`& .${checkboxClasses.root}`]: {
           padding: theme.spacing(0.5),
@@ -38,6 +38,14 @@ export const dataGridCustomizations = {
             },
           },
         },
+        ...theme.applyStyles('dark', {
+          backgroundColor: gray[900],
+          borderColor: gray[700],
+          color: gray[50],
+          [`& .${gridClasses.footerContainer}`]: {
+            backgroundColor: gray[900],
+          },
+        }),
       }),
       cell: ({ theme }) => ({
         borderTopColor: (theme.vars || theme).palette.divider,
@@ -61,29 +69,43 @@ export const dataGridCustomizations = {
       }),
       row: ({ theme }) => ({
         '&:last-of-type': {
-          borderBottom: '1px solid #e9ecef',
+          borderBottom: `1px solid ${(theme.vars || theme).palette.divider}`,
         },
         '&.even': {
-          backgroundColor: '#fdfdfd',
+          backgroundColor: (theme.vars || theme).palette.background.paper,
         },
         '&.odd': {
-          backgroundColor: '#f8f9fa',
+          backgroundColor: (theme.vars || theme).palette.background.default,
         },
         '&:hover': {
-          backgroundColor: '#f1f9ff',
+          backgroundColor: (theme.vars || theme).palette.action.hover,
         },
-        color: '#212529',
+        color: (theme.vars || theme).palette.text.primary,
         '&.Mui-selected': {
           background: (theme.vars || theme).palette.action.selected,
           '&:hover': {
-            backgroundColor: '#f1f9ff',
+            backgroundColor: (theme.vars || theme).palette.action.hover,
           },
         },
+        ...theme.applyStyles('dark', {
+          color: gray[50],
+          '&.even': {
+            backgroundColor: gray[800],
+          },
+          '&.odd': {
+            backgroundColor: gray[900],
+          },
+        }),
       }),
-      columnHeader: {
-        backgroundColor: '#e3f2fd',
-        borderBottom: '1px solid #dee2e6',
-      },
+      columnHeader: ({ theme }) => ({
+        backgroundColor: (theme.vars || theme).palette.background.paper,
+        borderBottom: `1px solid ${(theme.vars || theme).palette.divider}`,
+        color: (theme.vars || theme).palette.text.primary,
+        ...theme.applyStyles('dark', {
+          backgroundColor: gray[900],
+          color: gray[50],
+        }),
+      }),
       iconButtonContainer: ({ theme }) => ({
         [`& .${iconButtonClasses.root}`]: {
           border: 'none',
