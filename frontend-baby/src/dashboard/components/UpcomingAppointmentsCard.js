@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -8,28 +8,9 @@ import Button from '@mui/material/Button';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { BabyContext } from '../../context/BabyContext';
-import { listarProximas } from '../../services/citasService';
 
-export default function UpcomingAppointmentsCard() {
-  const [appointments, setAppointments] = useState([]);
-  const [error, setError] = useState(null);
-  const { activeBaby } = React.useContext(BabyContext);
+export default function UpcomingAppointmentsCard({ appointments = [], error }) {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!activeBaby?.id) return;
-    listarProximas(activeBaby.id)
-      .then((response) => {
-        setAppointments(response.data);
-        setError(null);
-      })
-      .catch((err) => {
-        console.error('Error fetching citas:', err);
-        setError('Error al cargar las citas.');
-        setAppointments([]);
-      });
-  }, [activeBaby]);
 
   const getTipoColor = (tipo) => {
     switch (tipo?.toLowerCase()) {
