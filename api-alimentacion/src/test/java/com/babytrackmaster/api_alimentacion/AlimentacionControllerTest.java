@@ -45,6 +45,13 @@ class AlimentacionControllerTest {
     }
 
     @Test
+    void tiposLactanciaDevuelveOk() throws Exception {
+        when(service.listarTiposLactancia()).thenReturn(List.of());
+        mockMvc.perform(get("/api/v1/alimentacion/tipos-lactancia"))
+               .andExpect(status().isOk());
+    }
+
+    @Test
     void crearDevuelveCreated() throws Exception {
         AlimentacionRequest req = new AlimentacionRequest();
         req.setTipo(TipoAlimentacion.BIBERON);

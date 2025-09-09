@@ -19,6 +19,7 @@ import com.babytrackmaster.api_alimentacion.entity.Alimentacion;
 import com.babytrackmaster.api_alimentacion.entity.TipoAlimentacion;
 import com.babytrackmaster.api_alimentacion.mapper.AlimentacionMapper;
 import com.babytrackmaster.api_alimentacion.repository.AlimentacionRepository;
+import com.babytrackmaster.api_alimentacion.repository.TipoLactanciaRepository;
 import com.babytrackmaster.api_alimentacion.service.AlimentacionService;
 
 @SpringBootTest
@@ -26,6 +27,9 @@ class AlimentacionServiceImplTest {
 
     @MockBean
     private AlimentacionRepository repo;
+
+    @MockBean
+    private TipoLactanciaRepository tipoLactanciaRepo;
 
     @Autowired
     private AlimentacionService service;
