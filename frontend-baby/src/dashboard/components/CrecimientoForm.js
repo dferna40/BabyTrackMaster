@@ -73,6 +73,7 @@ export default function CrecimientoForm({ open, onClose, onSubmit, initialData }
   };
 
   const handleSubmit = () => {
+    if (!formData.fecha) return;
     const payload = {
       ...formData,
       fecha: formData.fecha ? formData.fecha.format('YYYY-MM-DD') : '',
@@ -93,7 +94,7 @@ export default function CrecimientoForm({ open, onClose, onSubmit, initialData }
             <DatePicker
               value={formData.fecha}
               onChange={handleFechaChange}
-              slotProps={{ textField: { fullWidth: true } }}
+              slotProps={{ textField: { fullWidth: true, required: true } }}
             />
           </FormControl>
           <FormControl fullWidth sx={{ mb: 2 }}>
