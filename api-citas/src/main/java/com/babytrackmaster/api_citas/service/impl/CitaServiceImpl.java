@@ -199,4 +199,17 @@ public class CitaServiceImpl implements CitaService {
                 id,
                 minutosAntelacion);
     }
+
+    @Override
+    public List<CitaResponseDTO> proximas(Long usuarioId, int limit) {
+        List<Cita> citas = repo.proximas(usuarioId, LocalDate.now(), LocalTime.now());
+        if (limit > 0 && citas.size() > limit) {
+            citas = citas.subList(0, limit);
+        }
+        List<CitaResponseDTO> list = new ArrayList<>();
+        for (Cita c : citas) {
+            list.add(CitaMapper.toDTO(c));
+        }
+        return list;
+    }
 }

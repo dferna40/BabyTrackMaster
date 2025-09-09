@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @Tag(name = "Citas", description = "Gestión de citas médicas del bebé")
 @RestController
@@ -117,5 +118,12 @@ public class CitaController {
                         @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
                 Long usuarioId = jwtService.resolveUserId();
                 return ResponseEntity.ok(service.listarPorBebe(usuarioId, bebeId, page, size));
+        }
+
+        @Operation(summary = "Listar próximas citas")
+        @GetMapping("/proximas")
+        public ResponseEntity<List<CitaResponseDTO>> proximas(@RequestParam Long usuarioId,
+                        @RequestParam int limit) {
+                return ResponseEntity.ok(service.proximas(usuarioId, limit));
         }
 }
