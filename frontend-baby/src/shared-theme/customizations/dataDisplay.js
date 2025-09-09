@@ -199,43 +199,67 @@ export const dataDisplayCustomizations = {
   },
   MuiTable: {
     styleOverrides: {
-      root: {
-        backgroundColor: '#f8f9fa',
-      },
+      root: ({ theme }) => ({
+        backgroundColor: (theme.vars || theme).palette.background.default,
+        color: (theme.vars || theme).palette.text.primary,
+        ...theme.applyStyles('dark', {
+          backgroundColor: gray[900],
+          color: gray[50],
+        }),
+      }),
     },
   },
   MuiTableHead: {
     styleOverrides: {
-      root: {
-        backgroundColor: '#e3f2fd',
+      root: ({ theme }) => ({
+        backgroundColor: (theme.vars || theme).palette.action.hover,
         '& .MuiTableCell-root': {
-          color: '#212529',
+          color: (theme.vars || theme).palette.text.primary,
         },
-      },
+        ...theme.applyStyles('dark', {
+          backgroundColor: gray[900],
+          '& .MuiTableCell-root': {
+            color: gray[50],
+          },
+        }),
+      }),
     },
   },
   MuiTableRow: {
     styleOverrides: {
-      root: {
+      root: ({ theme }) => ({
         '&:not(.MuiTableRow-head)': {
           '&:nth-of-type(odd)': {
-            backgroundColor: '#ffffff',
+            backgroundColor: (theme.vars || theme).palette.background.paper,
           },
           '&:nth-of-type(even)': {
-            backgroundColor: '#f8f9fa',
+            backgroundColor: (theme.vars || theme).palette.background.default,
           },
           '&:hover': {
-            backgroundColor: '#f1f9ff',
+            backgroundColor: (theme.vars || theme).palette.action.hover,
           },
         },
-      },
+        ...theme.applyStyles('dark', {
+          '&:not(.MuiTableRow-head)': {
+            '&:nth-of-type(odd)': {
+              backgroundColor: gray[900],
+            },
+            '&:nth-of-type(even)': {
+              backgroundColor: gray[800],
+            },
+            '&:hover': {
+              backgroundColor: gray[700],
+            },
+          },
+        }),
+      }),
     },
   },
   MuiTableCell: {
     styleOverrides: {
-      root: {
-        borderBottom: '1px solid #e9ecef',
-      },
+      root: ({ theme }) => ({
+        borderBottom: `1px solid ${(theme.vars || theme).palette.divider}`,
+      }),
     },
   },
   MuiTablePagination: {
@@ -245,9 +269,13 @@ export const dataDisplayCustomizations = {
     },
     styleOverrides: {
       root: ({ theme }) => ({
-        backgroundColor: '#ffffff',
-        border: '1px solid #e9ecef',
+        backgroundColor: (theme.vars || theme).palette.background.paper,
+        color: (theme.vars || theme).palette.text.primary,
+        border: `1px solid ${(theme.vars || theme).palette.divider}`,
         borderRadius: (theme.vars || theme).shape.borderRadius,
+        ...theme.applyStyles('dark', {
+          backgroundColor: gray[900],
+        }),
       }),
       actions: ({ theme }) => ({
         display: 'flex',
@@ -259,10 +287,18 @@ export const dataDisplayCustomizations = {
           height: 36,
           borderRadius: (theme.vars || theme).shape.borderRadius,
           '&:active': {
-            backgroundColor: '#e3f2fd',
-            color: '#0d6efd',
+            backgroundColor: (theme.vars || theme).palette.action.hover,
+            color: (theme.vars || theme).palette.primary.main,
           },
         },
+        ...theme.applyStyles('dark', {
+          [`& .${iconButtonClasses.root}`]: {
+            '&:active': {
+              backgroundColor: gray[700],
+              color: gray[50],
+            },
+          },
+        }),
       }),
     },
   },
