@@ -44,8 +44,7 @@ public class CitaCreateDTO {
     @NotNull
     private Long tipoId;
 
-    @Schema(example = "1")
-    @NotNull
+    @Schema(example = "1", description = "Identificador del tipo de especialidad (opcional)")
     private Long tipoEspecialidadId;
 
     @Schema(example = "30")
