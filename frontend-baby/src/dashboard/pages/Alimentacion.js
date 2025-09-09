@@ -31,6 +31,7 @@ import {
   crearRegistro,
   actualizarRegistro,
   eliminarRegistro,
+  listarTiposLactancia,
 } from '../../services/alimentacionService';
 import { addButton } from '../../theme/buttonStyles';
 import AlimentacionForm from '../components/AlimentacionForm';
@@ -95,13 +96,43 @@ export default function Alimentacion() {
   }, [bebeId]);
 
   useEffect(() => {
-    if (location.state?.tipo) {
-      const index = tabValues.indexOf(location.state.tipo);
-      if (index !== -1) {
-        setTab(index);
-        setSelected({ tipo: location.state.tipo });
-        setOpenForm(true);
-      }
+    const state = location.state;
+    if (!state?.tipo) return;
+
+    const { tipo, tipoLactancia, disableTipo, disableTipoLactancia } = state;
+    const index = tabValues.indexOf(tipo);
+    if (index !== -1) {
+      setTab(index);
+    }
+
+    const openWithSelected = (tipoLactanciaData) => {
+      setSelected({
+        tipo,
+        tipoLactancia: tipoLactanciaData,
+        disableTipo,
+        disableTipoLactancia,
+      });
+      setOpenForm(true);
+    };
+
+    if (tipoLactancia && typeof tipoLactancia === 'string') {
+      listarTiposLactancia()
+        .then((res) => {
+          const found = res.data?.find(
+            (t) => t.nombre?.toLowerCase() === tipoLactancia.toLowerCase()
+          );
+          if (found) {
+            openWithSelected(found);
+          } else {
+            openWithSelected({ nombre: tipoLactancia });
+          }
+        })
+        .catch((err) => {
+          console.error('Error fetching tipos lactancia:', err);
+          openWithSelected({ nombre: tipoLactancia });
+        });
+    } else {
+      openWithSelected(tipoLactancia);
     }
   }, [location.state]);
 
