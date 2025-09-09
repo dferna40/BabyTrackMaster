@@ -13,10 +13,10 @@ export const listar = (bebeId, page, size) => {
   return axios.get(`${API_CITAS_ENDPOINT}/bebe/${bebeId}`, { params });
 };
 
-export const listarProximas = (usuarioId, limite = 10) => {
+export const listarProximas = (bebeId, limite = 10) => {
   return axios.get(`${API_CITAS_ENDPOINT}/proximas`, {
     params: {
-      usuarioId,
+      bebeId,
       limit: limite,
     },
   });

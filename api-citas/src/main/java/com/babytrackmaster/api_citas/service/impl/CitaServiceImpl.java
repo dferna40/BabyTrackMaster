@@ -201,8 +201,8 @@ public class CitaServiceImpl implements CitaService {
     }
 
     @Override
-    public List<CitaResponseDTO> proximas(Long usuarioId, int limit) {
-        List<Cita> citas = repo.proximas(usuarioId, LocalDate.now(), LocalTime.now());
+    public List<CitaResponseDTO> proximas(Long usuarioId, Long bebeId, int limit) {
+        List<Cita> citas = repo.proximas(usuarioId, bebeId, LocalDate.now(), LocalTime.now());
         if (limit > 0 && citas.size() > limit) {
             citas = citas.subList(0, limit);
         }

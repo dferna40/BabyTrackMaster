@@ -18,5 +18,5 @@ public interface CitaService {
     Page<CitaResponseDTO> listarPorMedico(Long usuarioId, String medico, int page, int size);
     Page<CitaResponseDTO> listarPorBebe(Long usuarioId, Long bebeId, int page, int size);
     void enviarRecordatorio(Long id, Long usuarioId, Integer minutosAntelacion);
-    List<CitaResponseDTO> proximas(Long usuarioId, int limit);
+    List<CitaResponseDTO> proximas(Long usuarioId, Long bebeId, int limit);
 }
