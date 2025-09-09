@@ -23,6 +23,7 @@ import dayjs from 'dayjs';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { BarChart } from '@mui/x-charts/BarChart';
+import { useTheme } from '@mui/material/styles';
 
 import {
   listarPorBebe,
@@ -51,6 +52,7 @@ export default function Alimentacion() {
   const usuarioId = user?.id;
   const [weeklyStats, setWeeklyStats] = useState(Array(7).fill(0));
   const location = useLocation();
+  const theme = useTheme();
 
   const filtered = useMemo(
     () => registros.filter((r) => r.tipo === tabValues[tab]),
@@ -361,6 +363,8 @@ export default function Alimentacion() {
               series={[{ data: weeklyStats }]}
               margin={{ left: 30, right: 10, top: 20, bottom: 20 }}
               grid={{ horizontal: true }}
+              colors={Object.values(theme.palette.chart)}
+              borderRadius={8}
             />
           </CardContent>
         </Card>
@@ -372,9 +376,14 @@ export default function Alimentacion() {
             <BarChart
               height={250}
               xAxis={[{ scaleType: 'band', data: ['Lactancia', 'Biberón'] }]}
-              series={[{ data: [lactanciaCount, biberonCount] }]}
+              series={[
+                { data: [lactanciaCount, 0], color: theme.palette.chart.babyBlue },
+                { data: [0, biberonCount], color: theme.palette.chart.babyPink },
+              ]}
               margin={{ left: 30, right: 10, top: 20, bottom: 20 }}
               grid={{ horizontal: true }}
+              colors={Object.values(theme.palette.chart)}
+              borderRadius={8}
             />
           </CardContent>
         </Card>
