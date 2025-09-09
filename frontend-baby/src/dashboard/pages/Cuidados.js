@@ -23,6 +23,7 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { BarChart } from "@mui/x-charts/BarChart";
+import { useTheme } from "@mui/material/styles";
 import {
   listarPorBebe,
   crearCuidado,
@@ -49,6 +50,7 @@ export default function Cuidados() {
   const bebeId = activeBaby?.id;
   const [weeklyStats, setWeeklyStats] = useState(Array(7).fill(0));
   const location = useLocation();
+  const theme = useTheme();
 
   const filteredCuidados = useMemo(
     () =>
@@ -321,6 +323,8 @@ export default function Cuidados() {
             series={[{ data: weeklyStats }]}
             margin={{ left: 30, right: 10, top: 20, bottom: 20 }}
             grid={{ horizontal: true }}
+            colors={Object.values(theme.palette.chart)}
+            borderRadius={8}
           />
         </CardContent>
       </Card>
