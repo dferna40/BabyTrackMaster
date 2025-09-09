@@ -13,17 +13,20 @@ import { listarProximas } from '../../services/citasService';
 
 export default function UpcomingAppointmentsCard() {
   const [appointments, setAppointments] = useState([]);
+  const [error, setError] = useState(null);
   const { activeBaby } = React.useContext(BabyContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!activeBaby?.id) return;
     listarProximas(activeBaby.id)
-      .then((data) => {
-        setAppointments(data);
+      .then((response) => {
+        setAppointments(response.data);
+        setError(null);
       })
       .catch((err) => {
         console.error('Error fetching citas:', err);
+        setError('Error al cargar las citas.');
         setAppointments([]);
       });
   }, [activeBaby]);
@@ -45,7 +48,11 @@ export default function UpcomingAppointmentsCard() {
         <Typography variant="h6" component="h2" gutterBottom>
           <CalendarMonthIcon sx={{ mr: 1 }} /> Próximas Citas
         </Typography>
-        {appointments.length > 0 ? (
+        {error ? (
+          <Typography variant="body2" color="error">
+            {error}
+          </Typography>
+        ) : appointments.length > 0 ? (
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             {appointments.map((c) => {
               const appointmentDate = dayjs(`${c.fecha}T${c.hora}`);
