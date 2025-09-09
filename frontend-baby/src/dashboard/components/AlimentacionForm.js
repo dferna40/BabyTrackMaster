@@ -12,6 +12,7 @@ import FormLabel from '@mui/material/FormLabel';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { saveButton, cancelButton } from '../../theme/buttonStyles';
+import { listarTiposLactancia } from '../../services/alimentacionService';
 
 const tipos = [
   { value: 'lactancia', label: 'Lactancia' },
@@ -20,18 +21,28 @@ const tipos = [
 ];
 
 export default function AlimentacionForm({ open, onClose, onSubmit, initialData }) {
+  const [tiposLactancia, setTiposLactancia] = useState([]);
   const [formData, setFormData] = useState({
     tipo: 'lactancia',
     inicio: null,
     lado: '',
     duracionMin: '',
+    tipoLactanciaId: '',
     tipoLeche: '',
     cantidadMl: '',
+    cantidadLecheFormula: '',
     alimento: '',
+    cantidadOtrosAlimentos: '',
     observaciones: '',
   });
 
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    listarTiposLactancia()
+      .then((res) => setTiposLactancia(res.data))
+      .catch((err) => console.error('Error fetching tipos lactancia:', err));
+  }, []);
 
   useEffect(() => {
     if (initialData) {
@@ -40,9 +51,12 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
         inicio: initialData.inicio ? dayjs(initialData.inicio) : null,
         lado: initialData.lado || '',
         duracionMin: initialData.duracionMin || '',
+        tipoLactanciaId: initialData.tipoLactancia?.id || '',
         tipoLeche: initialData.tipoLeche || '',
         cantidadMl: initialData.cantidadMl || '',
+        cantidadLecheFormula: initialData.cantidadLecheFormula || '',
         alimento: initialData.alimento || '',
+        cantidadOtrosAlimentos: initialData.cantidadOtrosAlimentos || '',
         observaciones: initialData.observaciones || '',
       });
     } else {
@@ -51,9 +65,12 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
         inicio: null,
         lado: '',
         duracionMin: '',
+        tipoLactanciaId: '',
         tipoLeche: '',
         cantidadMl: '',
+        cantidadLecheFormula: '',
         alimento: '',
+        cantidadOtrosAlimentos: '',
         observaciones: '',
       });
     }
@@ -69,12 +86,26 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
     setFormData((prev) => ({ ...prev, inicio: newValue }));
   };
 
+  const selectedTipo = tiposLactancia.find(
+    (t) => t.id === Number(formData.tipoLactanciaId)
+  )?.nombre?.toLowerCase();
+
   const validate = () => {
     const newErrors = {};
     if (!formData.inicio) newErrors.inicio = 'Requerido';
     if (formData.tipo === 'lactancia') {
+      if (!formData.tipoLactanciaId) newErrors.tipoLactanciaId = 'Requerido';
       if (!formData.lado) newErrors.lado = 'Requerido';
       if (!formData.duracionMin) newErrors.duracionMin = 'Requerido';
+      if (selectedTipo?.includes('complementaria') && !formData.alimento)
+        newErrors.alimento = 'Requerido';
+      if (selectedTipo?.includes('mixta') && !formData.cantidadLecheFormula)
+        newErrors.cantidadLecheFormula = 'Requerido';
+      if (
+        selectedTipo?.includes('predominante') &&
+        !formData.cantidadOtrosAlimentos
+      )
+        newErrors.cantidadOtrosAlimentos = 'Requerido';
     }
     if (formData.tipo === 'biberon') {
       if (!formData.tipoLeche) newErrors.tipoLeche = 'Requerido';
@@ -92,10 +123,24 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
     if (!validate()) return;
     const payload = {
       ...formData,
-      fechaHora: formData.inicio ? formData.inicio.format('YYYY-MM-DDTHH:mm') : null,
-      duracionMin: formData.duracionMin ? Number(formData.duracionMin) : undefined,
+      fechaHora: formData.inicio
+        ? formData.inicio.format('YYYY-MM-DDTHH:mm')
+        : null,
+      duracionMin: formData.duracionMin
+        ? Number(formData.duracionMin)
+        : undefined,
+      cantidadLecheFormula: formData.cantidadLecheFormula
+        ? Number(formData.cantidadLecheFormula)
+        : undefined,
+      cantidadOtrosAlimentos: formData.cantidadOtrosAlimentos
+        ? Number(formData.cantidadOtrosAlimentos)
+        : undefined,
+      tipoLactancia: formData.tipoLactanciaId
+        ? { id: formData.tipoLactanciaId }
+        : undefined,
     };
     delete payload.inicio;
+    delete payload.tipoLactanciaId;
     onSubmit(payload);
   };
 
@@ -127,6 +172,23 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
           {formData.tipo === 'lactancia' && (
             <>
               <FormControl fullWidth sx={{ mb: 2 }}>
+                <FormLabel sx={{ mb: 1 }}>Tipo lactancia</FormLabel>
+                <TextField
+                  select
+                  name="tipoLactanciaId"
+                  value={formData.tipoLactanciaId}
+                  onChange={handleChange}
+                  error={!!errors.tipoLactanciaId}
+                  helperText={errors.tipoLactanciaId}
+                >
+                  {tiposLactancia.map((t) => (
+                    <MenuItem key={t.id} value={t.id}>
+                      {t.nombre}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </FormControl>
+              <FormControl fullWidth sx={{ mb: 2 }}>
                 <FormLabel sx={{ mb: 1 }}>Lado</FormLabel>
                 <TextField
                   select
@@ -152,6 +214,46 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
                   inputProps={{ min: 0 }}
                 />
               </FormControl>
+              {selectedTipo?.includes('complementaria') && (
+                <FormControl fullWidth sx={{ mb: 2 }}>
+                  <FormLabel sx={{ mb: 1 }}>Sólido</FormLabel>
+                  <TextField
+                    name="alimento"
+                    value={formData.alimento}
+                    onChange={handleChange}
+                    error={!!errors.alimento}
+                    helperText={errors.alimento}
+                  />
+                </FormControl>
+              )}
+              {selectedTipo?.includes('mixta') && (
+                <FormControl fullWidth sx={{ mb: 2 }}>
+                  <FormLabel sx={{ mb: 1 }}>Cantidad leche fórmula</FormLabel>
+                  <TextField
+                    type="number"
+                    name="cantidadLecheFormula"
+                    value={formData.cantidadLecheFormula}
+                    onChange={handleChange}
+                    error={!!errors.cantidadLecheFormula}
+                    helperText={errors.cantidadLecheFormula}
+                    inputProps={{ min: 0 }}
+                  />
+                </FormControl>
+              )}
+              {selectedTipo?.includes('predominante') && (
+                <FormControl fullWidth sx={{ mb: 2 }}>
+                  <FormLabel sx={{ mb: 1 }}>Cantidad otros alimentos</FormLabel>
+                  <TextField
+                    type="number"
+                    name="cantidadOtrosAlimentos"
+                    value={formData.cantidadOtrosAlimentos}
+                    onChange={handleChange}
+                    error={!!errors.cantidadOtrosAlimentos}
+                    helperText={errors.cantidadOtrosAlimentos}
+                    inputProps={{ min: 0 }}
+                  />
+                </FormControl>
+              )}
             </>
           )}
           {formData.tipo === 'biberon' && (
