@@ -22,6 +22,7 @@ import {
   obtenerStatsRapidas,
 } from '../../services/cuidadosService';
 import { listarRecientes as listarAlimentacionRecientes } from '../../services/alimentacionService';
+import { listarRecientes as listarGastosRecientes } from '../../services/gastosService';
 
 export default function QuickActionsCard() {
   const navigate = useNavigate();
@@ -55,20 +56,44 @@ export default function QuickActionsCard() {
           /* ignore errors */
         });
 
-      listarAlimentacionRecientes(usuarioId, bebeId, 1)
+      listarAlimentacionRecientes(usuarioId, bebeId, 20)
         .then(({ data }) => {
           if (Array.isArray(data) && data.length > 0) {
-            const last = data[0];
-            const date = dayjs(
-              last.inicio ||
-                last.fecha ||
-                last.date ||
-                last.fechaHora ||
-                last.createdAt
-            );
+            const now = dayjs();
+            const getDate = (item) =>
+              dayjs(
+                item.inicio ||
+                  item.fecha ||
+                  item.date ||
+                  item.fechaHora ||
+                  item.createdAt,
+              );
+
+            const pechoItems = data.filter((item) => item.tipo === 'lactancia');
+            const biberonItems = data.filter((item) => item.tipo === 'biberon');
+
+            const lastPecho = pechoItems[0] ? getDate(pechoItems[0]) : null;
+            const lastBiberon = biberonItems[0]
+              ? getDate(biberonItems[0])
+              : null;
+
+            const todayPecho = pechoItems.filter((item) =>
+              getDate(item).isSame(now, 'day'),
+            ).length;
+            const todayBiberon = biberonItems.filter((item) =>
+              getDate(item).isSame(now, 'day'),
+            ).length;
+
             setActionsData((prev) => ({
               ...prev,
-              biberon: { ...prev.biberon, last: date },
+              pecho: {
+                last: lastPecho || prev.pecho.last,
+                today: todayPecho,
+              },
+              biberon: {
+                last: lastBiberon || prev.biberon.last,
+                today: todayBiberon,
+              },
             }));
           }
         })
@@ -96,6 +121,38 @@ export default function QuickActionsCard() {
             sueno: { ...prev.sueno, last: updates.sueno || prev.sueno.last },
             bano: { ...prev.bano, last: updates.bano || prev.bano.last },
           }));
+        })
+        .catch(() => {
+          /* ignore errors */
+        });
+
+      listarGastosRecientes(usuarioId, bebeId, 20)
+        .then(({ data }) => {
+          if (Array.isArray(data) && data.length > 0) {
+            const now = dayjs();
+            const getDate = (item) =>
+              dayjs(
+                item.fecha ||
+                  item.inicio ||
+                  item.date ||
+                  item.fechaHora ||
+                  item.createdAt,
+              );
+            const last = getDate(data[0]);
+            const todayTotal = data.reduce((sum, item) => {
+              const date = getDate(item);
+              return date.isSame(now, 'day')
+                ? sum + Number(item.cantidad || 0)
+                : sum;
+            }, 0);
+            setActionsData((prev) => ({
+              ...prev,
+              gasto: {
+                last: last || prev.gasto.last,
+                today: todayTotal,
+              },
+            }));
+          }
         })
         .catch(() => {
           /* ignore errors */
