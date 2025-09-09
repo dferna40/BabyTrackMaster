@@ -16,6 +16,7 @@ import { listarTipos } from '../../services/cuidadosService';
 import { saveButton, cancelButton } from '../../theme/buttonStyles';
 
 export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
+  const disableTipo = initialData?.disableTipo;
   const [formData, setFormData] = useState({
     inicio: null,
     tipoId: "",
@@ -104,6 +105,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
               name="tipoId"
               value={formData.tipoId}
               onChange={handleChange}
+              disabled={disableTipo}
             >
               {tipoOptions.map((option) => (
                 <MenuItem key={option.id} value={option.id}>
