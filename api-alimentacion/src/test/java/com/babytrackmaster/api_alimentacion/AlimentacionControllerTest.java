@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -52,16 +52,40 @@ class AlimentacionControllerTest {
     }
 
     @Test
+    void tiposAlimentacionDevuelveOk() throws Exception {
+        when(service.listarTiposAlimentacion()).thenReturn(List.of());
+        mockMvc.perform(get("/api/v1/alimentacion/tipos-alimentacion"))
+               .andExpect(status().isOk());
+    }
+
+    @Test
+    void tiposBiberonDevuelveOk() throws Exception {
+        when(service.listarTiposBiberon()).thenReturn(List.of());
+        mockMvc.perform(get("/api/v1/alimentacion/tipos-biberon"))
+               .andExpect(status().isOk());
+    }
+
+    @Test
+    void tiposAlimentacionSolidoDevuelveOk() throws Exception {
+        when(service.listarTiposAlimentacionSolido()).thenReturn(List.of());
+        mockMvc.perform(get("/api/v1/alimentacion/tipos-alimentacion-solido"))
+               .andExpect(status().isOk());
+    }
+
+    @Test
     void crearDevuelveCreated() throws Exception {
         AlimentacionRequest req = new AlimentacionRequest();
-        req.setTipo(TipoAlimentacion.BIBERON);
-        req.setFechaHora(new Date());
+        TipoAlimentacion tipo = new TipoAlimentacion();
+        tipo.setId(2L);
+        tipo.setNombre("Biberón");
+        req.setTipoAlimentacion(tipo);
+        req.setFechaHora(LocalDateTime.now());
         req.setCantidadMl(100);
         AlimentacionResponse resp = new AlimentacionResponse();
         resp.setId(1L);
         when(service.crear(any(Long.class), any(Long.class), any(AlimentacionRequest.class))).thenReturn(resp);
 
-        String json = mapper.writeValueAsString(req).replace("BIBERON", "biberon");
+        String json = mapper.writeValueAsString(req);
 
         mockMvc.perform(post("/api/v1/alimentacion/usuario/1/bebe/2")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -72,14 +96,17 @@ class AlimentacionControllerTest {
     @Test
     void crearSinFechaHoraDevuelveCreated() throws Exception {
         AlimentacionRequest req = new AlimentacionRequest();
-        req.setTipo(TipoAlimentacion.BIBERON);
+        TipoAlimentacion tipo = new TipoAlimentacion();
+        tipo.setId(2L);
+        tipo.setNombre("Biberón");
+        req.setTipoAlimentacion(tipo);
         req.setCantidadMl(100);
         AlimentacionResponse resp = new AlimentacionResponse();
         resp.setId(1L);
-        resp.setFechaHora(new Date());
+        resp.setFechaHora(LocalDateTime.now());
         when(service.crear(any(Long.class), any(Long.class), any(AlimentacionRequest.class))).thenReturn(resp);
 
-        String json = mapper.writeValueAsString(req).replace("BIBERON", "biberon");
+        String json = mapper.writeValueAsString(req);
 
         mockMvc.perform(post("/api/v1/alimentacion/usuario/1/bebe/2")
                 .contentType(MediaType.APPLICATION_JSON)

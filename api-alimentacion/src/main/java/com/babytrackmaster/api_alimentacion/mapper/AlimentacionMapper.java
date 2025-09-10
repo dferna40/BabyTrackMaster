@@ -11,36 +11,38 @@ public class AlimentacionMapper {
         Alimentacion a = new Alimentacion();
         a.setUsuarioId(usuarioId);
         a.setBebeId(bebeId);
-        a.setTipo(req.getTipo());
+        a.setTipoAlimentacion(req.getTipoAlimentacion());
         a.setFechaHora(req.getFechaHora());
         a.setLado(req.getLado());
         a.setDuracionMin(req.getDuracionMin());
         a.setTipoLactancia(req.getTipoLactancia());
-        a.setTipoLeche(req.getTipoLeche());
+        a.setTipoBiberon(req.getTipoBiberon());
         a.setCantidadMl(req.getCantidadMl());
         a.setCantidadLecheFormula(req.getCantidadLecheFormula());
-        a.setAlimento(req.getAlimento());
+        a.setTipoAlimentacionSolido(req.getTipoAlimentacionSolido());
         a.setCantidad(req.getCantidad());
         a.setCantidadOtrosAlimentos(req.getCantidadOtrosAlimentos());
+        a.setAlimentacionOtros(req.getAlimentacionOtros());
         a.setObservaciones(req.getObservaciones());
         a.setEliminado(false);
         return a;
     }
 
     public static void copyToEntity(AlimentacionRequest req, Alimentacion a) {
-        a.setTipo(req.getTipo());
+        a.setTipoAlimentacion(req.getTipoAlimentacion());
         if (req.getFechaHora() != null) {
             a.setFechaHora(req.getFechaHora());
         }
         a.setLado(req.getLado());
         a.setDuracionMin(req.getDuracionMin());
         a.setTipoLactancia(req.getTipoLactancia());
-        a.setTipoLeche(req.getTipoLeche());
+        a.setTipoBiberon(req.getTipoBiberon());
         a.setCantidadMl(req.getCantidadMl());
         a.setCantidadLecheFormula(req.getCantidadLecheFormula());
-        a.setAlimento(req.getAlimento());
+        a.setTipoAlimentacionSolido(req.getTipoAlimentacionSolido());
         a.setCantidad(req.getCantidad());
         a.setCantidadOtrosAlimentos(req.getCantidadOtrosAlimentos());
+        a.setAlimentacionOtros(req.getAlimentacionOtros());
         a.setObservaciones(req.getObservaciones());
     }
 
@@ -49,17 +51,18 @@ public class AlimentacionMapper {
         r.setId(a.getId());
         r.setUsuarioId(a.getUsuarioId());
         r.setBebeId(a.getBebeId());
-        r.setTipo(a.getTipo());
+        r.setTipoAlimentacion(a.getTipoAlimentacion());
         r.setFechaHora(a.getFechaHora());
         r.setLado(a.getLado());
         r.setDuracionMin(a.getDuracionMin());
         r.setTipoLactancia(a.getTipoLactancia());
-        r.setTipoLeche(a.getTipoLeche());
+        r.setTipoBiberon(a.getTipoBiberon());
         r.setCantidadMl(a.getCantidadMl());
         r.setCantidadLecheFormula(a.getCantidadLecheFormula());
-        r.setAlimento(a.getAlimento());
+        r.setTipoAlimentacionSolido(a.getTipoAlimentacionSolido());
         r.setCantidad(a.getCantidad());
         r.setCantidadOtrosAlimentos(a.getCantidadOtrosAlimentos());
+        r.setAlimentacionOtros(a.getAlimentacionOtros());
         r.setObservaciones(a.getObservaciones());
         r.setCreatedAt(a.getCreatedAt());
         r.setUpdatedAt(a.getUpdatedAt());

@@ -16,9 +16,14 @@ import com.babytrackmaster.api_alimentacion.dto.AlimentacionStatsResponse;
 import com.babytrackmaster.api_alimentacion.entity.Alimentacion;
 import com.babytrackmaster.api_alimentacion.entity.TipoAlimentacion;
 import com.babytrackmaster.api_alimentacion.entity.TipoLactancia;
+import com.babytrackmaster.api_alimentacion.entity.TipoLecheBiberon;
+import com.babytrackmaster.api_alimentacion.entity.TipoAlimentacionSolido;
 import com.babytrackmaster.api_alimentacion.mapper.AlimentacionMapper;
 import com.babytrackmaster.api_alimentacion.repository.AlimentacionRepository;
 import com.babytrackmaster.api_alimentacion.repository.TipoLactanciaRepository;
+import com.babytrackmaster.api_alimentacion.repository.TipoAlimentacionRepository;
+import com.babytrackmaster.api_alimentacion.repository.TipoLecheBiberonRepository;
+import com.babytrackmaster.api_alimentacion.repository.TipoAlimentacionSolidoRepository;
 import com.babytrackmaster.api_alimentacion.service.AlimentacionService;
 
 @Service
@@ -27,10 +32,20 @@ public class AlimentacionServiceImpl implements AlimentacionService {
 
     private final AlimentacionRepository repo;
     private final TipoLactanciaRepository tipoLactanciaRepo;
+    private final TipoAlimentacionRepository tipoAlimentacionRepo;
+    private final TipoLecheBiberonRepository tipoBiberonRepo;
+    private final TipoAlimentacionSolidoRepository tipoAlimentacionSolidoRepo;
 
-    public AlimentacionServiceImpl(AlimentacionRepository repo, TipoLactanciaRepository tipoLactanciaRepo) {
+    public AlimentacionServiceImpl(AlimentacionRepository repo,
+            TipoLactanciaRepository tipoLactanciaRepo,
+            TipoAlimentacionRepository tipoAlimentacionRepo,
+            TipoLecheBiberonRepository tipoBiberonRepo,
+            TipoAlimentacionSolidoRepository tipoAlimentacionSolidoRepo) {
         this.repo = repo;
         this.tipoLactanciaRepo = tipoLactanciaRepo;
+        this.tipoAlimentacionRepo = tipoAlimentacionRepo;
+        this.tipoBiberonRepo = tipoBiberonRepo;
+        this.tipoAlimentacionSolidoRepo = tipoAlimentacionSolidoRepo;
     }
 
     public AlimentacionResponse crear(Long usuarioId, Long bebeId, AlimentacionRequest request) {
@@ -77,6 +92,21 @@ public class AlimentacionServiceImpl implements AlimentacionService {
     }
 
     @Transactional(readOnly = true)
+    public List<TipoAlimentacion> listarTiposAlimentacion() {
+        return tipoAlimentacionRepo.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<TipoLecheBiberon> listarTiposBiberon() {
+        return tipoBiberonRepo.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<TipoAlimentacionSolido> listarTiposAlimentacionSolido() {
+        return tipoAlimentacionSolidoRepo.findAll();
+    }
+
+    @Transactional(readOnly = true)
     public AlimentacionStatsResponse stats(Long usuarioId, Long bebeId) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime inicioDia = now.toLocalDate().atStartOfDay();
@@ -98,19 +128,29 @@ public class AlimentacionServiceImpl implements AlimentacionService {
             weekly.set(index, weekly.get(index) + 1);
         }
 
-        long lactanciaDia = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId,
-                TipoAlimentacion.LACTANCIA, inicioDia, finDia);
-        long biberonDia = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId,
-                TipoAlimentacion.BIBERON, inicioDia, finDia);
-        long solidosDia = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId,
-                TipoAlimentacion.SOLIDOS, inicioDia, finDia);
+        TipoAlimentacion lactancia = tipoAlimentacionRepo.findByNombreIgnoreCase("lactancia").orElse(null);
+        TipoAlimentacion biberon = tipoAlimentacionRepo.findByNombreIgnoreCase("biberón").orElse(null);
+        TipoAlimentacion solidos = tipoAlimentacionRepo.findByNombreIgnoreCase("sólidos").orElse(null);
 
-        long lactanciaSemana = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId,
-                TipoAlimentacion.LACTANCIA, inicioSemana, finSemana);
-        long biberonSemana = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId,
-                TipoAlimentacion.BIBERON, inicioSemana, finSemana);
-        long solidosSemana = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId,
-                TipoAlimentacion.SOLIDOS, inicioSemana, finSemana);
+        long lactanciaDia = lactancia == null ? 0 :
+                repo.countByUsuarioIdAndBebeIdAndTipoAlimentacionAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId,
+                        lactancia, inicioDia, finDia);
+        long biberonDia = biberon == null ? 0 :
+                repo.countByUsuarioIdAndBebeIdAndTipoAlimentacionAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId,
+                        biberon, inicioDia, finDia);
+        long solidosDia = solidos == null ? 0 :
+                repo.countByUsuarioIdAndBebeIdAndTipoAlimentacionAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId,
+                        solidos, inicioDia, finDia);
+
+        long lactanciaSemana = lactancia == null ? 0 :
+                repo.countByUsuarioIdAndBebeIdAndTipoAlimentacionAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId,
+                        lactancia, inicioSemana, finSemana);
+        long biberonSemana = biberon == null ? 0 :
+                repo.countByUsuarioIdAndBebeIdAndTipoAlimentacionAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId,
+                        biberon, inicioSemana, finSemana);
+        long solidosSemana = solidos == null ? 0 :
+                repo.countByUsuarioIdAndBebeIdAndTipoAlimentacionAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId,
+                        solidos, inicioSemana, finSemana);
 
         AlimentacionStatsResponse r = new AlimentacionStatsResponse();
         r.setLactanciaDia(lactanciaDia);
