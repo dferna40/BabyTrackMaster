@@ -30,7 +30,10 @@ export default function WelcomeBanner() {
   let birthdayMessage;
 
   if (activeBaby) {
-    const [y, m, d] = activeBaby.fechaNacimiento.split('-').map(Number);
+    const [y, m, d] = activeBaby.fechaNacimiento
+      .slice(0, 10)
+      .split('-')
+      .map(Number);
     const birthDate = new Date(y, m - 1, d);
 
     const todayDate = new Date(
