@@ -20,7 +20,7 @@ export const listarRecientes = (usuarioId, bebeId, limit) => {
 
 export const obtenerEstadisticas = (usuarioId, bebeId) => {
   return axios.get(
-    `${API_ALIMENTACION_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/estadisticas`
+    `${API_ALIMENTACION_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/stats`
   );
 };
 
