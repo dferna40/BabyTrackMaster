@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import MuiToolbar from '@mui/material/Toolbar';
 import { tabsClasses } from '@mui/material/Tabs';
-import Typography from '@mui/material/Typography';
+import SelectContent from './SelectContent';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import SideMenuMobile from './SideMenuMobile';
 import MenuButton from './MenuButton';
@@ -61,12 +61,12 @@ export default function AppNavbar() {
           <Stack
             direction="row"
             spacing={1}
-            sx={{ justifyContent: 'center', mr: 'auto', alignItems: 'center' }}
+            sx={{ justifyContent: 'center', mr: 'auto', alignItems: 'center', flexGrow: 1 }}
           >
             <CustomIcon />
-            <Typography variant="h4" component="h1" sx={{ color: 'text.primary' }}>
-              Panel
-            </Typography>
+            <Box sx={{ flexGrow: 1 }}>
+              <SelectContent />
+            </Box>
           </Stack>
           <ColorModeIconDropdown />
           <MenuButton aria-label="menú" onClick={toggleDrawer(true)}>

@@ -39,10 +39,9 @@ export default function SelectContent() {
       onChange={handleChange}
       displayEmpty
       inputProps={{ 'aria-label': 'Seleccionar bebé' }}
-      fullWidth
       sx={{
         maxHeight: 56,
-        width: 215,
+        width: { xs: 150, sm: 215 },
         '&.MuiList-root': {
           p: '8px',
         },
