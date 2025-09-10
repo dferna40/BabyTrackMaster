@@ -84,7 +84,10 @@ export default function Alimentacion() {
   const fetchEstadisticas = () => {
     if (!bebeId || !usuarioId) return;
     obtenerEstadisticas(usuarioId, bebeId)
-      .then((res) => setWeeklyStats(res.data?.weekly || res.data || Array(7).fill(0)))
+      .then((res) => {
+        const weekly = res.data?.weekly ?? [];
+        setWeeklyStats(Array.from({ length: 7 }, (_, i) => weekly[i] ?? 0));
+      })
       .catch((err) => console.error('Error fetching estadisticas:', err));
   };
 
