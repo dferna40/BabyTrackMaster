@@ -22,6 +22,11 @@ export default function UpcomingAppointmentsCard({ appointments = [], error }) {
   const getTipoColor = (tipo) =>
     COLOR_BY_TIPO[tipo?.toLowerCase()] || 'default';
 
+  const now = dayjs();
+  const upcomingAppointments = appointments.filter((c) =>
+    dayjs(`${c.fecha}T${c.hora}`).isAfter(now)
+  );
+
   return (
     <Card variant="outlined" sx={{ height: '100%' }}>
       <CardContent>
@@ -32,17 +37,16 @@ export default function UpcomingAppointmentsCard({ appointments = [], error }) {
           <Typography variant="body2" color="error">
             {error}
           </Typography>
-        ) : appointments.length > 0 ? (
+        ) : upcomingAppointments.length > 0 ? (
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            {appointments.map((c) => {
+            {upcomingAppointments.map((c) => {
               const appointmentDate = dayjs(`${c.fecha}T${c.hora}`);
-              const today = dayjs();
               let formattedDate;
-              if (appointmentDate.isSame(today, 'day')) {
+              if (appointmentDate.isSame(now, 'day')) {
                 formattedDate = `Hoy ${appointmentDate.format('hh:mm A')}`;
-              } else if (appointmentDate.isSame(today.add(1, 'day'), 'day')) {
+              } else if (appointmentDate.isSame(now.add(1, 'day'), 'day')) {
                 formattedDate = `Mañana ${appointmentDate.format('hh:mm A')}`;
-              } else if (appointmentDate.isSame(today, 'week')) {
+              } else if (appointmentDate.isSame(now, 'week')) {
                 formattedDate = appointmentDate.format('dddd hh:mm A');
                 formattedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
               } else {
