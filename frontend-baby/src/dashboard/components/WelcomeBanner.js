@@ -27,7 +27,16 @@ export default function WelcomeBanner() {
     month: 'long',
   });
 
-  const birthDate = activeBaby ? new Date(activeBaby.fechaNacimiento) : null;
+  // Parse birth date manually to avoid timezone shifts when using the
+  // Date constructor with a `YYYY-MM-DD` string. Splitting the string and
+  // creating the date with numeric arguments ensures the local timezone is
+  // respected and allows `getMonth()` and `getDate()` to work as expected.
+  const birthDate = activeBaby
+    ? (() => {
+        const [y, m, d] = activeBaby.fechaNacimiento.split('-').map(Number);
+        return new Date(y, m - 1, d);
+      })()
+    : null;
   let birthdayMessage;
 
   if (activeBaby && birthDate) {
