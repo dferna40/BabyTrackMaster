@@ -12,16 +12,15 @@ import dayjs from 'dayjs';
 export default function UpcomingAppointmentsCard({ appointments = [], error }) {
   const navigate = useNavigate();
 
-  const getTipoColor = (tipo) => {
-    switch (tipo?.toLowerCase()) {
-      case 'consulta':
-        return 'success';
-      case 'vacuna':
-        return 'warning';
-      default:
-        return 'default';
-    }
+  const COLOR_BY_TIPO = {
+    consulta: 'success',
+    vacuna: 'warning',
+    urgencia: 'error',
+    // agregar más según catálogos de la API
   };
+
+  const getTipoColor = (tipo) =>
+    COLOR_BY_TIPO[tipo?.toLowerCase()] || 'default';
 
   return (
     <Card variant="outlined" sx={{ height: '100%' }}>
@@ -60,7 +59,7 @@ export default function UpcomingAppointmentsCard({ appointments = [], error }) {
                     </Box>
                     <Chip
                       label={c.tipoNombre || c.tipo?.nombre}
-                      color={getTipoColor(c.tipoNombre)}
+                      color={getTipoColor(c.tipoNombre || c.tipo?.nombre)}
                       size="small"
                     />
                   </CardContent>
