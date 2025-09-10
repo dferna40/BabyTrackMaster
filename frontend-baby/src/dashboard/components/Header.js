@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
-import Search from './Search';
 
 export default function Header() {
   return (
@@ -17,7 +16,6 @@ export default function Header() {
         gap: 1,
       }}
     >
-      <Search />
       <ColorModeIconDropdown />
     </Stack>
   );
