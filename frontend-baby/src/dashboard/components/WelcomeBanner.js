@@ -27,6 +27,30 @@ export default function WelcomeBanner() {
     month: 'long',
   });
 
+  const birthDate = activeBaby ? new Date(activeBaby.fechaNacimiento) : null;
+  let birthdayMessage;
+
+  if (activeBaby && birthDate) {
+    const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const nextBirthday = new Date(
+      today.getFullYear(),
+      birthDate.getMonth(),
+      birthDate.getDate(),
+    );
+    if (nextBirthday < todayDate) {
+      nextBirthday.setFullYear(today.getFullYear() + 1);
+    }
+    const diffDays = Math.round(
+      (nextBirthday - todayDate) / (1000 * 60 * 60 * 24),
+    );
+    if (diffDays === 1) {
+      birthdayMessage = `Mañana es el cumpleaños de ${activeBaby.nombre}`;
+    } else if (diffDays === 0) {
+      const edad = today.getFullYear() - birthDate.getFullYear();
+      birthdayMessage = `¡¡¡Felicidades ${activeBaby.nombre} has cumplido ${edad}!!!`;
+    }
+  }
+
   const summary = activeBaby
     ? `Hoy es ${formattedDate}. Recuerda las actividades de ${activeBaby.nombre}.`
     : `Hoy es ${formattedDate}.`;
@@ -57,6 +81,9 @@ export default function WelcomeBanner() {
               {greeting}
             </Typography>
             <Typography color="inherit">{summary}</Typography>
+            {birthdayMessage && (
+              <Typography color="inherit">{birthdayMessage}</Typography>
+            )}
           </Box>
           <IconButton color="inherit">
             <FavoriteBorderIcon color="primary" />
