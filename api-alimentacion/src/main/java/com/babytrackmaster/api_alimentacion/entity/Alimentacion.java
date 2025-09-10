@@ -64,7 +64,7 @@ public class Alimentacion {
             fechaHora = now;
         }
         createdAt = now;
-        updatedAt = now;
+        //updatedAt = now;
     }
 
     @PreUpdate
