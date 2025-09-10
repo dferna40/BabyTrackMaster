@@ -1,8 +1,10 @@
 package com.babytrackmaster.api_alimentacion.service.impl;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -49,7 +51,6 @@ public class AlimentacionServiceImpl implements AlimentacionService {
         Alimentacion a = repo.findByIdAndUsuarioIdAndBebeIdAndEliminadoFalse(id, usuarioId, bebeId)
                 .orElseThrow(() -> new IllegalArgumentException("Alimentacion no encontrada: " + id));
         a.setEliminado(true);
-        a.setUpdatedAt(new Date());
         repo.save(a);
     }
 
@@ -77,27 +78,13 @@ public class AlimentacionServiceImpl implements AlimentacionService {
 
     @Transactional(readOnly = true)
     public AlimentacionStatsResponse stats(Long usuarioId, Long bebeId) {
-        Date now = new Date();
-        Calendar cal = Calendar.getInstance();
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime inicioDia = now.toLocalDate().atStartOfDay();
+        LocalDateTime finDia = inicioDia.plusDays(1);
 
-        cal.setTime(now);
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        Date inicioDia = cal.getTime();
-        cal.add(Calendar.DAY_OF_MONTH, 1);
-        Date finDia = cal.getTime();
-
-        cal.setTime(now);
-        cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        Date inicioSemana = cal.getTime();
-        cal.add(Calendar.WEEK_OF_YEAR, 1);
-        Date finSemana = cal.getTime();
+        DayOfWeek firstDow = WeekFields.ISO.getFirstDayOfWeek();
+        LocalDateTime inicioSemana = now.toLocalDate().with(TemporalAdjusters.previousOrSame(firstDow)).atStartOfDay();
+        LocalDateTime finSemana = inicioSemana.plusWeeks(1);
 
         List<Alimentacion> registrosSemana = repo
                 .findByUsuarioIdAndBebeIdAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId, inicioSemana, finSemana);
@@ -105,21 +92,25 @@ public class AlimentacionServiceImpl implements AlimentacionService {
         for (int i = 0; i < 7; i++) {
             weekly.add(0L);
         }
-        Calendar calAux = Calendar.getInstance();
         for (Alimentacion a : registrosSemana) {
-            calAux.setTime(a.getFechaHora());
-            int day = calAux.get(Calendar.DAY_OF_WEEK);
-            int index = day == Calendar.SUNDAY ? 6 : day - Calendar.MONDAY;
+            DayOfWeek day = a.getFechaHora().getDayOfWeek();
+            int index = day.getValue() - 1; // ISO: Monday=1
             weekly.set(index, weekly.get(index) + 1);
         }
 
-        long lactanciaDia = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId, TipoAlimentacion.LACTANCIA, inicioDia, finDia);
-        long biberonDia = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId, TipoAlimentacion.BIBERON, inicioDia, finDia);
-        long solidosDia = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId, TipoAlimentacion.SOLIDOS, inicioDia, finDia);
+        long lactanciaDia = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId,
+                TipoAlimentacion.LACTANCIA, inicioDia, finDia);
+        long biberonDia = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId,
+                TipoAlimentacion.BIBERON, inicioDia, finDia);
+        long solidosDia = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId,
+                TipoAlimentacion.SOLIDOS, inicioDia, finDia);
 
-        long lactanciaSemana = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId, TipoAlimentacion.LACTANCIA, inicioSemana, finSemana);
-        long biberonSemana = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId, TipoAlimentacion.BIBERON, inicioSemana, finSemana);
-        long solidosSemana = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId, TipoAlimentacion.SOLIDOS, inicioSemana, finSemana);
+        long lactanciaSemana = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId,
+                TipoAlimentacion.LACTANCIA, inicioSemana, finSemana);
+        long biberonSemana = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId,
+                TipoAlimentacion.BIBERON, inicioSemana, finSemana);
+        long solidosSemana = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId,
+                TipoAlimentacion.SOLIDOS, inicioSemana, finSemana);
 
         AlimentacionStatsResponse r = new AlimentacionStatsResponse();
         r.setLactanciaDia(lactanciaDia);

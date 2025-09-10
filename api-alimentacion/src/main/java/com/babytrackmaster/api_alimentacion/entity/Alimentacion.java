@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -26,9 +26,8 @@ public class Alimentacion {
     @Column(nullable = false, length = 20)
     private TipoAlimentacion tipo;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "fecha_hora", nullable = false)
-    private Date fechaHora;
+    private LocalDateTime fechaHora;
 
     // Lactancia
     private String lado; // IZQ/DER
@@ -52,11 +51,24 @@ public class Alimentacion {
     @Column(nullable = false)
     private Boolean eliminado = false;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at", nullable = false)
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        if (fechaHora == null) {
+            fechaHora = now;
+        }
+        createdAt = now;
+        updatedAt = now;
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 }

@@ -1,6 +1,6 @@
 package com.babytrackmaster.api_alimentacion.dto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.babytrackmaster.api_alimentacion.entity.TipoAlimentacion;
 import com.babytrackmaster.api_alimentacion.entity.TipoLactancia;
@@ -16,7 +16,7 @@ public class AlimentacionResponse {
     private Long bebeId;
     @Schema(allowableValues = {"lactancia", "biberon", "solidos"})
     private TipoAlimentacion tipo;
-    private Date fechaHora;
+    private LocalDateTime fechaHora;
     private String lado;
     private Integer duracionMin;
     private TipoLactancia tipoLactancia;
@@ -27,6 +27,6 @@ public class AlimentacionResponse {
     private String cantidad;
     private Integer cantidadOtrosAlimentos;
     private String observaciones;
-    private Date createdAt;
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

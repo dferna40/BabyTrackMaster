@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS alimentacion (
     usuario_id BIGINT NOT NULL,
     bebe_id BIGINT NOT NULL,
     tipo VARCHAR(20) NOT NULL,
-    fecha_hora TIMESTAMP NOT NULL,
+    fecha_hora TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     lado VARCHAR(10),
     duracion_min INT,
     tipo_lactancia_id BIGINT,
@@ -29,6 +29,6 @@ CREATE TABLE IF NOT EXISTS alimentacion (
     cantidad_otros_alimentos INT,
     observaciones VARCHAR(255),
     eliminado BOOLEAN NOT NULL,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

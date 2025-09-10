@@ -1,6 +1,6 @@
 package com.babytrackmaster.api_alimentacion.dto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.babytrackmaster.api_alimentacion.entity.TipoAlimentacion;
 import com.babytrackmaster.api_alimentacion.entity.TipoLactancia;
@@ -15,7 +15,7 @@ public class AlimentacionRequest {
     @NotNull
     @Schema(allowableValues = {"lactancia", "biberon", "solidos"})
     private TipoAlimentacion tipo;
-    private Date fechaHora;
+    private LocalDateTime fechaHora;
 
     // Lactancia
     private String lado;
