@@ -24,16 +24,38 @@ export const obtenerEstadisticas = (usuarioId, bebeId) => {
   );
 };
 
+const buildPayload = (data) => {
+  const payload = {
+    ...data,
+    tipoAlimentacion: data.tipoAlimentacionId
+      ? { id: data.tipoAlimentacionId }
+      : undefined,
+    tipoLactancia: data.tipoLactanciaId
+      ? { id: data.tipoLactanciaId }
+      : undefined,
+    tipoBiberon: data.tipoBiberonId ? { id: data.tipoBiberonId } : undefined,
+    tipoAlimentacionSolido: data.tipoAlimentacionSolidoId
+      ? { id: data.tipoAlimentacionSolidoId }
+      : undefined,
+    alimentacionOtros: data.alimentacionOtros,
+  };
+  delete payload.tipoAlimentacionId;
+  delete payload.tipoLactanciaId;
+  delete payload.tipoBiberonId;
+  delete payload.tipoAlimentacionSolidoId;
+  return payload;
+};
+
 export const crearRegistro = (usuarioId, bebeId, data) =>
   axios.post(
     `${API_ALIMENTACION_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}`,
-    data
+    buildPayload(data)
   );
 
 export const actualizarRegistro = (usuarioId, bebeId, id, data) =>
   axios.put(
     `${API_ALIMENTACION_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/${id}`,
-    data
+    buildPayload(data)
   );
 
 export const eliminarRegistro = (usuarioId, bebeId, id) =>
@@ -43,3 +65,12 @@ export const eliminarRegistro = (usuarioId, bebeId, id) =>
 
 export const listarTiposLactancia = () =>
   axios.get(`${API_ALIMENTACION_ENDPOINT}/tipos-lactancia`);
+
+export const listarTiposAlimentacion = () =>
+  axios.get(`${API_ALIMENTACION_ENDPOINT}/tipos-alimentacion`);
+
+export const listarTiposBiberon = () =>
+  axios.get(`${API_ALIMENTACION_ENDPOINT}/tipos-biberon`);
+
+export const listarTiposAlimentacionSolidos = () =>
+  axios.get(`${API_ALIMENTACION_ENDPOINT}/tipos-alimentacion-solido`);
