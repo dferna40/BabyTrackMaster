@@ -51,7 +51,7 @@ export default function SideMenu() {
             component="img"
             src="/baby-logo.png"
             alt="BabyTrackMaster"
-            sx={{ width: 56, height: 56 }}
+            sx={{ width: 120, height: 'auto' }}
           />
         </Box>
         <SelectContent />
