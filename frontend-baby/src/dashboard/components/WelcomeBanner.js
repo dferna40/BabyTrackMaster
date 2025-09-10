@@ -27,31 +27,32 @@ export default function WelcomeBanner() {
     month: 'long',
   });
 
-  // Parse birth date manually to avoid timezone shifts when using the
-  // Date constructor with a `YYYY-MM-DD` string. Splitting the string and
-  // creating the date with numeric arguments ensures the local timezone is
-  // respected and allows `getMonth()` and `getDate()` to work as expected.
-  const birthDate = activeBaby
-    ? (() => {
-        const [y, m, d] = activeBaby.fechaNacimiento.split('-').map(Number);
-        return new Date(y, m - 1, d);
-      })()
-    : null;
   let birthdayMessage;
 
-  if (activeBaby && birthDate) {
-    const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const nextBirthday = new Date(
+  if (activeBaby) {
+    const [y, m, d] = activeBaby.fechaNacimiento.split('-').map(Number);
+    const birthDate = new Date(y, m - 1, d);
+
+    const todayDate = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+    );
+
+    let nextBirthday = new Date(
       today.getFullYear(),
       birthDate.getMonth(),
       birthDate.getDate(),
     );
+
     if (nextBirthday < todayDate) {
       nextBirthday.setFullYear(today.getFullYear() + 1);
     }
+
     const diffDays = Math.round(
       (nextBirthday - todayDate) / (1000 * 60 * 60 * 24),
     );
+
     if (diffDays === 1) {
       birthdayMessage = `Mañana es el cumpleaños de ${activeBaby.nombre}`;
     } else if (diffDays === 0) {
