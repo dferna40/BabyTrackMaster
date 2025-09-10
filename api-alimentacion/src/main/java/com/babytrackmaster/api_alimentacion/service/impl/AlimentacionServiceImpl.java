@@ -99,6 +99,20 @@ public class AlimentacionServiceImpl implements AlimentacionService {
         cal.add(Calendar.WEEK_OF_YEAR, 1);
         Date finSemana = cal.getTime();
 
+        List<Alimentacion> registrosSemana = repo
+                .findByUsuarioIdAndBebeIdAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId, inicioSemana, finSemana);
+        List<Long> weekly = new ArrayList<>(7);
+        for (int i = 0; i < 7; i++) {
+            weekly.add(0L);
+        }
+        Calendar calAux = Calendar.getInstance();
+        for (Alimentacion a : registrosSemana) {
+            calAux.setTime(a.getFechaHora());
+            int day = calAux.get(Calendar.DAY_OF_WEEK);
+            int index = day == Calendar.SUNDAY ? 6 : day - Calendar.MONDAY;
+            weekly.set(index, weekly.get(index) + 1);
+        }
+
         long lactanciaDia = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId, TipoAlimentacion.LACTANCIA, inicioDia, finDia);
         long biberonDia = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId, TipoAlimentacion.BIBERON, inicioDia, finDia);
         long solidosDia = repo.countByUsuarioIdAndBebeIdAndTipoAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId, TipoAlimentacion.SOLIDOS, inicioDia, finDia);
@@ -114,6 +128,7 @@ public class AlimentacionServiceImpl implements AlimentacionService {
         r.setLactanciaSemana(lactanciaSemana);
         r.setBiberonSemana(biberonSemana);
         r.setSolidosSemana(solidosSemana);
+        r.setWeekly(weekly);
         long total = lactanciaDia + biberonDia;
         if (total > 0) {
             r.setPorcentajeLactancia((double) lactanciaDia * 100d / total);
