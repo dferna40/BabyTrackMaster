@@ -72,7 +72,25 @@ export default function UpcomingAppointmentsCard({ appointments = [], error }) {
             No hay citas próximas.
           </Typography>
         )}
-        <Button size="small" sx={{ mt: 2 }} onClick={() => navigate('/dashboard/citas')}>
+        <Button
+          size="small"
+          variant="outlined"
+          fullWidth
+          color="inherit"
+          sx={{
+            mt: 2,
+            bgcolor: '#fff',
+            borderColor: '#e0e6ed',
+            color: 'text.primary',
+            '&:hover': {
+              bgcolor: '#F48872',
+              borderColor: '#F48872',
+              color: '#fff',
+              boxShadow: '0px 4px 8px rgba(0,0,0,0.2)',
+            },
+          }}
+          onClick={() => navigate('/dashboard/citas')}
+        >
           Ver todas las citas
         </Button>
       </CardContent>
