@@ -1,6 +1,5 @@
 package com.babytrackmaster.api_alimentacion.mapper;
 
-import java.util.Date;
 
 import com.babytrackmaster.api_alimentacion.dto.AlimentacionRequest;
 import com.babytrackmaster.api_alimentacion.dto.AlimentacionResponse;
@@ -13,8 +12,7 @@ public class AlimentacionMapper {
         a.setUsuarioId(usuarioId);
         a.setBebeId(bebeId);
         a.setTipo(req.getTipo());
-        Date now = new Date();
-        a.setFechaHora(req.getFechaHora() != null ? req.getFechaHora() : now);
+        a.setFechaHora(req.getFechaHora());
         a.setLado(req.getLado());
         a.setDuracionMin(req.getDuracionMin());
         a.setTipoLactancia(req.getTipoLactancia());
@@ -25,15 +23,15 @@ public class AlimentacionMapper {
         a.setCantidad(req.getCantidad());
         a.setCantidadOtrosAlimentos(req.getCantidadOtrosAlimentos());
         a.setObservaciones(req.getObservaciones());
-        a.setCreatedAt(now);
-        a.setUpdatedAt(now);
         a.setEliminado(false);
         return a;
     }
 
     public static void copyToEntity(AlimentacionRequest req, Alimentacion a) {
         a.setTipo(req.getTipo());
-        a.setFechaHora(req.getFechaHora() != null ? req.getFechaHora() : a.getFechaHora());
+        if (req.getFechaHora() != null) {
+            a.setFechaHora(req.getFechaHora());
+        }
         a.setLado(req.getLado());
         a.setDuracionMin(req.getDuracionMin());
         a.setTipoLactancia(req.getTipoLactancia());
@@ -44,7 +42,6 @@ public class AlimentacionMapper {
         a.setCantidad(req.getCantidad());
         a.setCantidadOtrosAlimentos(req.getCantidadOtrosAlimentos());
         a.setObservaciones(req.getObservaciones());
-        a.setUpdatedAt(new Date());
     }
 
     public static AlimentacionResponse toResponse(Alimentacion a) {
