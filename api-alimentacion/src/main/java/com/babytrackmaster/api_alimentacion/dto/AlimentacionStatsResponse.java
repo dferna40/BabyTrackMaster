@@ -1,5 +1,7 @@
 package com.babytrackmaster.api_alimentacion.dto;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -12,4 +14,8 @@ public class AlimentacionStatsResponse {
     private long solidosSemana;
     private double porcentajeLactancia;
     private double porcentajeBiberon;
+    /**
+     * Total de registros por día de la semana (lunes a domingo).
+     */
+    private List<Long> weekly;
 }
