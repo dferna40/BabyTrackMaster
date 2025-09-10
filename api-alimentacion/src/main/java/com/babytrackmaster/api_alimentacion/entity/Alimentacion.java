@@ -22,9 +22,9 @@ public class Alimentacion {
     @Column(name = "bebe_id", nullable = false)
     private Long bebeId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private TipoAlimentacion tipo;
+    @ManyToOne
+    @JoinColumn(name = "tipo_alimentacion_id", nullable = false)
+    private TipoAlimentacion tipoAlimentacion;
 
     @Column(name = "fecha_hora", nullable = false)
     private LocalDateTime fechaHora;
@@ -38,14 +38,19 @@ public class Alimentacion {
     private TipoLactancia tipoLactancia;
 
     // Biberon
-    private String tipoLeche;
+    @ManyToOne
+    @JoinColumn(name = "tipo_biberon_id")
+    private TipoLecheBiberon tipoBiberon;
     private Integer cantidadMl;
     private Integer cantidadLecheFormula;
 
     // Solidos
-    private String alimento;
+    @ManyToOne
+    @JoinColumn(name = "tipo_alimentacion_solido_id")
+    private TipoAlimentacionSolido tipoAlimentacionSolido;
     private String cantidad;
     private Integer cantidadOtrosAlimentos;
+    private String alimentacionOtros;
     private String observaciones;
 
     @Column(nullable = false)

@@ -5,13 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Catálogo de tipos de alimentación (Lactancia, Biberón, Sólidos, ...).
+ * Catálogo de tipos de leche utilizados en el biberón.
  */
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "tipo_alimentacion")
-public class TipoAlimentacion {
+@Table(name = "tipo_leche_biberon")
+public class TipoLecheBiberon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

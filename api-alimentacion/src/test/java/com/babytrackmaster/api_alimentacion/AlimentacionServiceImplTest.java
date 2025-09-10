@@ -6,7 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,9 @@ import com.babytrackmaster.api_alimentacion.entity.TipoAlimentacion;
 import com.babytrackmaster.api_alimentacion.mapper.AlimentacionMapper;
 import com.babytrackmaster.api_alimentacion.repository.AlimentacionRepository;
 import com.babytrackmaster.api_alimentacion.repository.TipoLactanciaRepository;
+import com.babytrackmaster.api_alimentacion.repository.TipoAlimentacionRepository;
+import com.babytrackmaster.api_alimentacion.repository.TipoLecheBiberonRepository;
+import com.babytrackmaster.api_alimentacion.repository.TipoAlimentacionSolidoRepository;
 import com.babytrackmaster.api_alimentacion.service.AlimentacionService;
 
 @SpringBootTest
@@ -31,14 +34,26 @@ class AlimentacionServiceImplTest {
     @MockBean
     private TipoLactanciaRepository tipoLactanciaRepo;
 
+    @MockBean
+    private TipoAlimentacionRepository tipoAlimentacionRepo;
+
+    @MockBean
+    private TipoLecheBiberonRepository tipoLecheBiberonRepo;
+
+    @MockBean
+    private TipoAlimentacionSolidoRepository tipoAlimentacionSolidoRepo;
+
     @Autowired
     private AlimentacionService service;
 
     @Test
     void crearGuardaYDevuelve() {
         AlimentacionRequest req = new AlimentacionRequest();
-        req.setTipo(TipoAlimentacion.from("biberon"));
-        req.setFechaHora(new Date());
+        TipoAlimentacion tipo = new TipoAlimentacion();
+        tipo.setId(2L);
+        tipo.setNombre("Biberón");
+        req.setTipoAlimentacion(tipo);
+        req.setFechaHora(LocalDateTime.now());
         req.setCantidadMl(120);
 
         Alimentacion saved = AlimentacionMapper.toEntity(req, 1L, 2L);
@@ -54,7 +69,10 @@ class AlimentacionServiceImplTest {
     @Test
     void crearConFechaHoraNullAsignaFechaActual() {
         AlimentacionRequest req = new AlimentacionRequest();
-        req.setTipo(TipoAlimentacion.BIBERON);
+        TipoAlimentacion tipo = new TipoAlimentacion();
+        tipo.setId(2L);
+        tipo.setNombre("Biberón");
+        req.setTipoAlimentacion(tipo);
         req.setCantidadMl(80);
 
         Alimentacion saved = AlimentacionMapper.toEntity(req, 1L, 2L);

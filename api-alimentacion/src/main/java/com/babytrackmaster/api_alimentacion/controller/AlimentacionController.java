@@ -17,6 +17,9 @@ import com.babytrackmaster.api_alimentacion.dto.AlimentacionRequest;
 import com.babytrackmaster.api_alimentacion.dto.AlimentacionResponse;
 import com.babytrackmaster.api_alimentacion.dto.AlimentacionStatsResponse;
 import com.babytrackmaster.api_alimentacion.entity.TipoLactancia;
+import com.babytrackmaster.api_alimentacion.entity.TipoAlimentacion;
+import com.babytrackmaster.api_alimentacion.entity.TipoLecheBiberon;
+import com.babytrackmaster.api_alimentacion.entity.TipoAlimentacionSolido;
 import com.babytrackmaster.api_alimentacion.service.AlimentacionService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -92,5 +95,23 @@ public class AlimentacionController {
     @GetMapping("/tipos-lactancia")
     public ResponseEntity<List<TipoLactancia>> tiposLactancia() {
         return ResponseEntity.ok(service.listarTiposLactancia());
+    }
+
+    @Operation(summary = "Listar tipos de alimentación")
+    @GetMapping("/tipos-alimentacion")
+    public ResponseEntity<List<TipoAlimentacion>> tiposAlimentacion() {
+        return ResponseEntity.ok(service.listarTiposAlimentacion());
+    }
+
+    @Operation(summary = "Listar tipos de leche para biberón")
+    @GetMapping("/tipos-biberon")
+    public ResponseEntity<List<TipoLecheBiberon>> tiposBiberon() {
+        return ResponseEntity.ok(service.listarTiposBiberon());
+    }
+
+    @Operation(summary = "Listar tipos de alimentación sólida")
+    @GetMapping("/tipos-alimentacion-solido")
+    public ResponseEntity<List<TipoAlimentacionSolido>> tiposAlimentacionSolido() {
+        return ResponseEntity.ok(service.listarTiposAlimentacionSolido());
     }
 }
