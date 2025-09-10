@@ -10,6 +10,7 @@ import SelectContent from './SelectContent';
 import MenuContent from './MenuContent';
 import OptionsMenu from './OptionsMenu';
 import { AuthContext } from '../../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -45,12 +46,14 @@ export default function SideMenu() {
           p: 1.5,
         }}
       >
-        <Box
-          component="img"
-          src="/baby-logo.png"
-          alt="BabyTrackMaster"
-          sx={{ width: 40, height: 40, mb: 1 }}
-        />
+        <Box component={Link} to="/dashboard" sx={{ mb: 1, display: 'flex' }}>
+          <Box
+            component="img"
+            src="/baby-logo.png"
+            alt="BabyTrackMaster"
+            sx={{ width: 56, height: 56 }}
+          />
+        </Box>
         <SelectContent />
       </Box>
       <Divider />
