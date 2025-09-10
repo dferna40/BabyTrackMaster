@@ -10,6 +10,7 @@ import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import SideMenuMobile from './SideMenuMobile';
 import MenuButton from './MenuButton';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
+import { Link } from 'react-router-dom';
 
 const Toolbar = styled(MuiToolbar)({
   width: '100%',
@@ -80,11 +81,13 @@ export default function AppNavbar() {
 
 export function CustomIcon() {
   return (
-    <Box
-      component="img"
-      src="/baby-logo.png"
-      alt="BabyTrackMaster"
-      sx={{ width: '3rem', height: '3rem' }}
-    />
+    <Box component={Link} to="/dashboard" sx={{ display: 'inline-flex' }}>
+      <Box
+        component="img"
+        src="/baby-logo.png"
+        alt="BabyTrackMaster"
+        sx={{ width: '4rem', height: '4rem' }}
+      />
+    </Box>
   );
 }
