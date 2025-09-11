@@ -46,4 +46,32 @@ describe('RecentCareCard', () => {
       expect(screen.getByText('Pipi')).toBeInTheDocument();
     });
   });
+
+  it('muestra la duración introducida para registros de sueño', async () => {
+    listarRecientes.mockResolvedValue({
+      data: [
+        {
+          id: 2,
+          tipoNombre: 'Sueño',
+          inicio: '2024-01-01T10:00',
+          duracion: '90',
+          duracionMin: null,
+          fin: null,
+        },
+      ],
+    });
+
+    render(
+      <AuthContext.Provider value={{ user: { id: 1 } }}>
+        <BabyContext.Provider value={{ activeBaby: { id: 2 } }}>
+          <RecentCareCard />
+        </BabyContext.Provider>
+      </AuthContext.Provider>
+    );
+
+    await waitFor(() => expect(listarRecientes).toHaveBeenCalled());
+    await waitFor(() => {
+      expect(screen.getByText('1h 30m')).toBeInTheDocument();
+    });
+  });
 });
