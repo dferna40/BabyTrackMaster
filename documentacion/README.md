@@ -13,3 +13,9 @@ Carpeta para la **documentación funcional y técnica** del proyecto.
 ## Tecnologías y formatos
 - Markdown (`.md`), PDF, DOCX
 - Herramientas: Draw.io / Excalidraw / Figma (wireframes), PlantUML (diagramas), Swagger/OpenAPI (APIs)
+
+## Campos de alimentación
+
+| Campo                     | Tipo | Descripción                                                                 |
+|---------------------------|------|-----------------------------------------------------------------------------|
+| `cantidad_alimento_solido` | INT  | Cantidad en gramos del alimento sólido ingerido por el bebé en cada registro. |
