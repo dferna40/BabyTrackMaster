@@ -22,6 +22,13 @@ export const listarPorBebeYTipo = (usuarioId, bebeId, tipoId, limit) => {
   );
 };
 
+export const listarUltimosPorTipo = (usuarioId, bebeId, tipoId, limit) => {
+  return axios.get(
+    `${API_CRECIMIENTOS_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/tipo/${tipoId}/ultimos`,
+    { params: { limit } }
+  );
+};
+
 export const crearRegistro = (usuarioId, data) => {
   return axios.post(`${API_CRECIMIENTOS_ENDPOINT}/usuario/${usuarioId}`, data);
 };

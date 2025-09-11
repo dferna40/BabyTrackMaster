@@ -14,6 +14,7 @@ public interface CrecimientoService {
     CrecimientoResponse obtener(Long usuarioId, Long id);
     List<CrecimientoResponse> listarPorBebe(Long usuarioId, Long bebeId, Integer limit);
     List<CrecimientoResponse> listarPorBebeYTipo(Long usuarioId, Long bebeId, Long tipoId, Integer limit);
+    List<CrecimientoResponse> listarUltimosPorTipo(Long usuarioId, Long bebeId, Long tipoId, Integer limit);
     List<CrecimientoResponse> listarPorRango(Long usuarioId, Long bebeId, Date desde, Date hasta);
     CrecimientoStatsResponse obtenerEstadisticas(Long usuarioId, Long bebeId, Long tipoId, Date desde, Date hasta);
 }
