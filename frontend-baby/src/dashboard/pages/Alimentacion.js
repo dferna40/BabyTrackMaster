@@ -232,7 +232,7 @@ export default function Alimentacion() {
       'Hora',
       'Tipo lactancia',
       'Lado',
-      'Cantidad sólido (g)',
+      'Cantidad alimento sólido (g)',
       'Cantidad leche fórmula (ml)',
       'Cantidad otros alimentos (ml)',
       'Duración (min)',
