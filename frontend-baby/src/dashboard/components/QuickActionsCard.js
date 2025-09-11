@@ -24,21 +24,24 @@ import {
 import { listarRecientes as listarAlimentacionRecientes } from '../../services/alimentacionService';
 import { listarRecientes as listarGastosRecientes } from '../../services/gastosService';
 
+const initialActionsData = {
+  pecho: { last: null, today: 0 },
+  biberon: { last: null, today: 0 },
+  panal: { last: null, today: 0 },
+  sueno: { last: null, today: 0 },
+  bano: { last: null, today: 0 },
+  gasto: { last: null, today: 0 },
+};
+
 export default function QuickActionsCard() {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const { activeBaby } = useContext(BabyContext);
 
-  const [actionsData, setActionsData] = useState({
-    pecho: { last: null, today: 0 },
-    biberon: { last: null, today: 0 },
-    panal: { last: null, today: 0 },
-    sueno: { last: null, today: 0 },
-    bano: { last: null, today: 0 },
-    gasto: { last: null, today: 0 },
-  });
+  const [actionsData, setActionsData] = useState(initialActionsData);
 
   useEffect(() => {
+    setActionsData(initialActionsData);
     if (user?.id && activeBaby?.id) {
       const usuarioId = user.id;
       const bebeId = activeBaby.id;
@@ -95,13 +98,19 @@ export default function QuickActionsCard() {
             setActionsData((prev) => ({
               ...prev,
               pecho: {
-                last: lastPecho || prev.pecho.last,
+                last: lastPecho,
                 today: todayPecho,
               },
               biberon: {
-                last: lastBiberon || prev.biberon.last,
+                last: lastBiberon,
                 today: todayBiberon,
               },
+            }));
+          } else {
+            setActionsData((prev) => ({
+              ...prev,
+              pecho: { ...initialActionsData.pecho },
+              biberon: { ...initialActionsData.biberon },
             }));
           }
         })
@@ -111,23 +120,25 @@ export default function QuickActionsCard() {
 
       listarCuidadosRecientes(usuarioId, bebeId, 20)
         .then(({ data }) => {
-          const updates = {};
-          data.forEach((item) => {
-            if (item.tipoNombre === 'Pañal' && !updates.panal) {
-              updates.panal = dayjs(item.inicio);
-            }
-            if (item.tipoNombre === 'Sueño' && !updates.sueno) {
-              updates.sueno = dayjs(item.inicio);
-            }
-            if (item.tipoNombre === 'Baño' && !updates.bano) {
-              updates.bano = dayjs(item.inicio);
-            }
-          });
+          const updates = { panal: null, sueno: null, bano: null };
+          if (Array.isArray(data)) {
+            data.forEach((item) => {
+              if (item.tipoNombre === 'Pañal' && !updates.panal) {
+                updates.panal = dayjs(item.inicio);
+              }
+              if (item.tipoNombre === 'Sueño' && !updates.sueno) {
+                updates.sueno = dayjs(item.inicio);
+              }
+              if (item.tipoNombre === 'Baño' && !updates.bano) {
+                updates.bano = dayjs(item.inicio);
+              }
+            });
+          }
           setActionsData((prev) => ({
             ...prev,
-            panal: { ...prev.panal, last: updates.panal || prev.panal.last },
-            sueno: { ...prev.sueno, last: updates.sueno || prev.sueno.last },
-            bano: { ...prev.bano, last: updates.bano || prev.bano.last },
+            panal: { ...prev.panal, last: updates.panal },
+            sueno: { ...prev.sueno, last: updates.sueno },
+            bano: { ...prev.bano, last: updates.bano },
           }));
         })
         .catch(() => {
@@ -149,9 +160,14 @@ export default function QuickActionsCard() {
             setActionsData((prev) => ({
               ...prev,
               gasto: {
-                last: last || prev.gasto.last,
+                last,
                 today: todayTotal,
               },
+            }));
+          } else {
+            setActionsData((prev) => ({
+              ...prev,
+              gasto: { ...initialActionsData.gasto },
             }));
           }
         })
