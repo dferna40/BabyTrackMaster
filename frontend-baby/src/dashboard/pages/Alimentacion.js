@@ -232,10 +232,10 @@ export default function Alimentacion() {
       'Hora',
       'Tipo lactancia',
       'Lado',
+      'Duración (min)',
+      'Alimento sólido',
       'Cantidad alimento sólido (g)',
       'Cantidad leche fórmula (ml)',
-      'Cantidad otros alimentos (ml)',
-      'Duración (min)',
       'Observaciones',
     ],
     biberon: ['Hora', 'Tipo', 'Cantidad (ml)', 'Observaciones'],
@@ -243,9 +243,9 @@ export default function Alimentacion() {
   };
 
   const getNombreSolido = (registro) =>
-    registro.alimentacionOtros ||
-    registro.tipoAlimentacionSolido?.nombre ||
-    '';
+    registro.tipoAlimentacionSolido?.nombre === 'Otros'
+      ? registro.alimentacionOtros || ''
+      : registro.tipoAlimentacionSolido?.nombre || '';
 
   const handleExportCsv = () => {
     const current = selectedSlug;
@@ -257,10 +257,10 @@ export default function Alimentacion() {
           ...base,
           r.tipoLactancia?.nombre || '',
           r.lado || '',
+          r.duracionMin ?? 0,
+          getNombreSolido(r) || '',
           r.cantidadAlimentoSolido ?? 0,
           r.cantidadLecheFormula ?? 0,
-          r.cantidadOtrosAlimentos ?? 0,
-          r.duracionMin ?? 0,
           r.observaciones || '',
         ];
       }
@@ -296,10 +296,10 @@ export default function Alimentacion() {
           ...base,
           r.tipoLactancia?.nombre || '',
           r.lado || '',
+          r.duracionMin ?? 0,
+          getNombreSolido(r) || '',
           r.cantidadAlimentoSolido ?? 0,
           r.cantidadLecheFormula ?? 0,
-          r.cantidadOtrosAlimentos ?? 0,
-          r.duracionMin ?? 0,
           r.observaciones || '',
         ];
       }
@@ -375,16 +375,14 @@ export default function Alimentacion() {
                         <TableCell>{r.tipoLactancia?.nombre}</TableCell>
                         <TableCell>{r.lado}</TableCell>
                         <TableCell sx={{ fontWeight: 600 }}>
+                          {r.duracionMin}
+                        </TableCell>
+                        <TableCell>{alimento}</TableCell>
+                        <TableCell sx={{ fontWeight: 600 }}>
                           {r.cantidadAlimentoSolido}
                         </TableCell>
                         <TableCell sx={{ fontWeight: 600 }}>
                           {r.cantidadLecheFormula}
-                        </TableCell>
-                        <TableCell sx={{ fontWeight: 600 }}>
-                          {r.cantidadOtrosAlimentos ?? 0}
-                        </TableCell>
-                        <TableCell sx={{ fontWeight: 600 }}>
-                          {r.duracionMin}
                         </TableCell>
                         <TableCell>{r.observaciones}</TableCell>
                       </>
