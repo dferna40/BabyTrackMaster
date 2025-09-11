@@ -78,6 +78,11 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
   };
 
   const handleInicioChange = (newValue) => {
+    if (newValue && dayjs(newValue).isAfter(dayjs())) {
+      setErrors((prev) => ({ ...prev, inicio: 'La fecha no puede ser futura' }));
+      return;
+    }
+    setErrors((prev) => ({ ...prev, inicio: undefined }));
     setFormData((prev) => ({ ...prev, inicio: newValue }));
   };
 
@@ -90,6 +95,9 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
   const handleSubmit = () => {
     if (!formData.inicio) return;
     const newErrors = {};
+    if (formData.inicio && dayjs(formData.inicio).isAfter(dayjs())) {
+      newErrors.inicio = 'La fecha no puede ser futura';
+    }
     if (isSueno && (!formData.duracion || Number(formData.duracion) <= 0)) {
       newErrors.duracion = 'La duración debe ser mayor a 0';
     }
@@ -113,11 +121,19 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
       <DialogContent>
         <Stack sx={{ mt: 1 }}>
           <FormControl fullWidth sx={{ mb: 2 }}>
-            <FormLabel sx={{ mb: 1 }}>Inicio</FormLabel>
-            <DateTimePicker
+          <FormLabel sx={{ mb: 1 }}>Inicio</FormLabel>
+          <DateTimePicker
               value={formData.inicio}
               onChange={handleInicioChange}
-              slotProps={{ textField: { fullWidth: true, required: true } }}
+              disableFuture
+              slotProps={{
+                textField: {
+                  fullWidth: true,
+                  required: true,
+                  error: !!errors.inicio,
+                  helperText: errors.inicio,
+                },
+              }}
             />
           </FormControl>
           <FormControl fullWidth sx={{ mb: 2 }}>
