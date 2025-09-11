@@ -73,9 +73,10 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
 
   useEffect(() => {
     if (initialData) {
+      const fechaHora = initialData.fechaHora || initialData.inicio;
       setFormData({
         tipoAlimentacionId: initialData.tipoAlimentacion?.id || '',
-        inicio: initialData.inicio ? dayjs(initialData.inicio) : null,
+        inicio: fechaHora ? dayjs(fechaHora) : null,
         lado: initialData.lado || '',
         duracionMin: initialData.duracionMin || '',
         tipoLactanciaId: initialData.tipoLactancia?.id || '',
