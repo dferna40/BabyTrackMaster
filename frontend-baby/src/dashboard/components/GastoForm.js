@@ -87,6 +87,13 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
       }));
       return;
     }
+    if (formData.fecha.isAfter(dayjs(), 'day')) {
+      setErrors((prev) => ({
+        ...prev,
+        fecha: "La fecha no puede ser futura",
+      }));
+      return;
+    }
     const data = {
       ...formData,
       fecha: formData.fecha ? formData.fecha.format("YYYY-MM-DD") : "",
@@ -104,7 +111,15 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
               <DatePicker
                 value={formData.fecha}
                 onChange={handleDateChange}
-                slotProps={{ textField: { fullWidth: true, required: true, error: Boolean(errors.fecha), helperText: errors.fecha } }}
+                disableFuture
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    required: true,
+                    error: Boolean(errors.fecha),
+                    helperText: errors.fecha,
+                  },
+                }}
               />
             </FormControl>
             <FormControl fullWidth sx={{ mb: 2 }}>
