@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -141,19 +143,7 @@ public class CuidadoServiceImpl implements CuidadoService {
 
         double horasSueno = 0d;
         for (Cuidado c : suenos) {
-            if (c.getDuracion() != null) {
-                try {
-                    horasSueno += Double.parseDouble(c.getDuracion()) / 60d;
-                } catch (NumberFormatException e) {
-                    if (c.getInicio() != null && c.getFin() != null) {
-                        long diff = c.getFin().getTime() - c.getInicio().getTime();
-                        horasSueno += diff / (1000d * 60d * 60d);
-                    }
-                }
-            } else if (c.getInicio() != null && c.getFin() != null) {
-                long diff = c.getFin().getTime() - c.getInicio().getTime();
-                horasSueno += diff / (1000d * 60d * 60d);
-            }
+            horasSueno += parseDurationToHours(c.getDuracion(), c.getInicio(), c.getFin());
         }
 
         int numBanosTotal = numBanos.size();
@@ -168,5 +158,36 @@ public class CuidadoServiceImpl implements CuidadoService {
         resp.setPanales(numPanalesTotal);
         resp.setBanos(numBanosTotal);
         return resp;
+    }
+
+    private double parseDurationToHours(String duracion, Date inicio, Date fin) {
+        if (duracion != null) {
+            String val = duracion.trim().toLowerCase();
+            try {
+                Matcher m = Pattern.compile("^(?:\\d+h)?(?:\\d+m)?$").matcher(val);
+                if (m.matches()) {
+                    int horas = 0;
+                    int minutos = 0;
+                    Matcher h = Pattern.compile("(\\d+)h").matcher(val);
+                    if (h.find()) {
+                        horas = Integer.parseInt(h.group(1));
+                    }
+                    Matcher min = Pattern.compile("(\\d+)m").matcher(val);
+                    if (min.find()) {
+                        minutos = Integer.parseInt(min.group(1));
+                    }
+                    return horas + minutos / 60d;
+                }
+                if (val.matches("^\\d+(?:\\.\\d+)?$")) {
+                    return Double.parseDouble(val) / 60d;
+                }
+            } catch (NumberFormatException ignored) {
+            }
+        }
+        if (inicio != null && fin != null) {
+            long diff = fin.getTime() - inicio.getTime();
+            return diff / (1000d * 60d * 60d);
+        }
+        return 0d;
     }
 }

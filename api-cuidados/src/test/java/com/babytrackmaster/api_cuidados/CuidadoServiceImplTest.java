@@ -37,6 +37,7 @@ class CuidadoServiceImplTest {
 
     private Date baseDate;
     private Cuidado panalGuardado;
+    private TipoCuidado tipoSueno;
 
     @BeforeEach
     void setUp() {
@@ -45,14 +46,14 @@ class CuidadoServiceImplTest {
         tipoPanalRepo.deleteAll();
         baseDate = date(2024,3,10,0,0);
 
-        TipoCuidado sueno = saveTipo("Sue\u00f1o");
+        tipoSueno = saveTipo("Sue\u00f1o");
         TipoCuidado panal = saveTipo("Pa\u00f1al");
         TipoCuidado bano = saveTipo("Ba\u00f1o");
         TipoPanal pipi = saveTipoPanal("PIPI");
 
-        createCuidado(sueno, null, date(2024,3,10,0,0), date(2024,3,10,4,0), "120");
-        createCuidado(sueno, null, date(2024,3,10,10,0), date(2024,3,10,10,30), "90");
-        createCuidado(sueno, null, date(2024,3,10,16,0), date(2024,3,10,18,0), null);
+        createCuidado(tipoSueno, null, date(2024,3,10,0,0), date(2024,3,10,4,0), "120");
+        createCuidado(tipoSueno, null, date(2024,3,10,10,0), date(2024,3,10,10,30), "90");
+        createCuidado(tipoSueno, null, date(2024,3,10,16,0), date(2024,3,10,18,0), null);
         panalGuardado = createCuidado(panal, pipi, date(2024,3,10,3,0), date(2024,3,10,3,5), null, 2);
         createCuidado(panal, pipi, date(2024,3,10,7,0), date(2024,3,10,7,5), null, 1);
         createCuidado(panal, pipi, date(2024,3,10,13,0), date(2024,3,10,13,7), null, 1);
@@ -65,6 +66,13 @@ class CuidadoServiceImplTest {
         assertEquals(5.5, resp.getHorasSueno(), 0.001);
         assertEquals(3, resp.getPanales());
         assertEquals(1, resp.getBanos());
+    }
+
+    @Test
+    void testDuracionFormatoHorasMinutos() {
+        createCuidado(tipoSueno, null, date(2024,3,10,20,0), date(2024,3,10,23,0), "5h30m");
+        QuickStatsResponse resp = service.obtenerEstadisticasRapidas(1L,1L, baseDate);
+        assertEquals(11.0, resp.getHorasSueno(), 0.001);
     }
 
     @Test
