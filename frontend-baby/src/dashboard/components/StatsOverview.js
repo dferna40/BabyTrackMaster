@@ -13,12 +13,13 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import { AuthContext } from '../../context/AuthContext';
 import { BabyContext } from '../../context/BabyContext';
 import { obtenerStatsRapidas } from '../../services/cuidadosService';
-import { listarRecientes as listarAlimentacionRecientes } from '../../services/alimentacionService';
+import { listarRecientes } from '../../services/alimentacionService';
 import {
   listarUltimosPorTipo,
   listarTipos,
 } from '../../services/crecimientoService';
 import { parseDurationToHours } from '../../utils/duration';
+import formatTimeAgo from '../../utils/formatTimeAgo';
 
 export default function StatsOverview() {
   const theme = useTheme();
@@ -66,19 +67,22 @@ export default function StatsOverview() {
           /* ignore errors */
         });
 
-      listarAlimentacionRecientes(user.id, activeBaby.id, 1)
+      listarRecientes(user.id, activeBaby.id, 1)
         .then(({ data }) => {
           if (Array.isArray(data) && data.length > 0) {
             const last = data[0];
-            const date = new Date(
-              last.fecha || last.date || last.fechaHora || last.createdAt
-            );
-            const diffMs = Date.now() - date.getTime();
-            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-            setStats((prev) => ({
-              ...prev,
-              lastBottle: `Hace ${diffHours}h`,
-            }));
+            const date =
+              last.fecha || last.date || last.fechaHora || last.createdAt;
+            if (date) {
+              setStats((prev) => ({
+                ...prev,
+                lastBottle: formatTimeAgo(date),
+              }));
+            } else {
+              setStats((prev) => ({ ...prev, lastBottle: 'Sin datos' }));
+            }
+          } else {
+            setStats((prev) => ({ ...prev, lastBottle: 'Sin datos' }));
           }
         })
         .catch(() => {
