@@ -3,6 +3,7 @@ import { API_CUIDADOS_URL } from '../config';
 
 const API_CUIDADOS_ENDPOINT = `${API_CUIDADOS_URL}/api/v1/cuidados`;
 const API_TIPOS_CUIDADO_ENDPOINT = `${API_CUIDADOS_URL}/api/v1/tipos-cuidado`;
+const API_TIPOS_PANAL_ENDPOINT = `${API_CUIDADOS_URL}/api/v1/tipos-panal`;
 
 export const listarPorBebe = (usuarioId, bebeId, page, size) => {
   const params = {};
@@ -29,13 +30,15 @@ export const obtenerStatsRapidas = (usuarioId, bebeId) =>
   );
 
 export const crearCuidado = (usuarioId, data) => {
-  return axios.post(`${API_CUIDADOS_ENDPOINT}/usuario/${usuarioId}`, data);
+  const payload = { ...data, tipoPanalId: data.tipoPanalId };
+  return axios.post(`${API_CUIDADOS_ENDPOINT}/usuario/${usuarioId}`, payload);
 };
 
 export const actualizarCuidado = (usuarioId, id, data) => {
+  const payload = { ...data, tipoPanalId: data.tipoPanalId };
   return axios.put(
     `${API_CUIDADOS_ENDPOINT}/usuario/${usuarioId}/${id}`,
-    data
+    payload
   );
 };
 
@@ -45,5 +48,9 @@ export const eliminarCuidado = (usuarioId, id) => {
 
 export const listarTipos = () => {
   return axios.get(`${API_TIPOS_CUIDADO_ENDPOINT}`);
+};
+
+export const listarTiposPanal = () => {
+  return axios.get(`${API_TIPOS_PANAL_ENDPOINT}`);
 };
 
