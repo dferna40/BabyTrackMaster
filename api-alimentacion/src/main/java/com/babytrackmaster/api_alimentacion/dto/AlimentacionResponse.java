@@ -25,6 +25,7 @@ public class AlimentacionResponse {
     private Integer cantidadMl;
     private Integer cantidadLecheFormula;
     private TipoAlimentacionSolido tipoAlimentacionSolido;
+    private Integer cantidadAlimentoSolido;
     private String cantidad;
     private Integer cantidadOtrosAlimentos;
     private String alimentacionOtros;

@@ -48,6 +48,7 @@ public class Alimentacion {
     @ManyToOne
     @JoinColumn(name = "tipo_alimentacion_solido_id")
     private TipoAlimentacionSolido tipoAlimentacionSolido;
+    private Integer cantidadAlimentoSolido;
     private String cantidad;
     private Integer cantidadOtrosAlimentos;
     private String alimentacionOtros;

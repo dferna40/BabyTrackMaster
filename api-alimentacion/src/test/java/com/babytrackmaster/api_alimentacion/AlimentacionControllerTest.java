@@ -81,8 +81,10 @@ class AlimentacionControllerTest {
         req.setTipoAlimentacion(tipo);
         req.setFechaHora(LocalDateTime.now());
         req.setCantidadMl(100);
+        req.setCantidadAlimentoSolido(3);
         AlimentacionResponse resp = new AlimentacionResponse();
         resp.setId(1L);
+        resp.setCantidadAlimentoSolido(3);
         when(service.crear(any(Long.class), any(Long.class), any(AlimentacionRequest.class))).thenReturn(resp);
 
         String json = mapper.writeValueAsString(req);
@@ -101,8 +103,10 @@ class AlimentacionControllerTest {
         tipo.setNombre("Biberón");
         req.setTipoAlimentacion(tipo);
         req.setCantidadMl(100);
+        req.setCantidadAlimentoSolido(3);
         AlimentacionResponse resp = new AlimentacionResponse();
         resp.setId(1L);
+        resp.setCantidadAlimentoSolido(3);
         resp.setFechaHora(LocalDateTime.now());
         when(service.crear(any(Long.class), any(Long.class), any(AlimentacionRequest.class))).thenReturn(resp);
 

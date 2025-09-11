@@ -55,6 +55,7 @@ class AlimentacionServiceImplTest {
         req.setTipoAlimentacion(tipo);
         req.setFechaHora(LocalDateTime.now());
         req.setCantidadMl(120);
+        req.setCantidadAlimentoSolido(2);
 
         Alimentacion saved = AlimentacionMapper.toEntity(req, 1L, 2L);
         saved.setId(5L);
@@ -63,6 +64,7 @@ class AlimentacionServiceImplTest {
 
         AlimentacionResponse resp = service.crear(1L, 2L, req);
         assertEquals(5L, resp.getId());
+        assertEquals(2, resp.getCantidadAlimentoSolido());
         verify(repo).save(any(Alimentacion.class));
     }
 
@@ -82,6 +84,22 @@ class AlimentacionServiceImplTest {
 
         AlimentacionResponse resp = service.crear(1L, 2L, req);
         assertNotNull(resp.getFechaHora());
+        verify(repo).save(any(Alimentacion.class));
+    }
+    
+    @Test
+    void actualizarCantidadAlimentoSolido() {
+        AlimentacionRequest req = new AlimentacionRequest();
+        req.setCantidadAlimentoSolido(5);
+        Alimentacion existente = new Alimentacion();
+        existente.setId(7L);
+        existente.setUsuarioId(1L);
+        existente.setBebeId(2L);
+        existente.setCantidadAlimentoSolido(2);
+        when(repo.findByIdAndUsuarioIdAndBebeIdAndEliminadoFalse(7L,1L,2L)).thenReturn(java.util.Optional.of(existente));
+        when(repo.save(any(Alimentacion.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        AlimentacionResponse resp = service.actualizar(1L,2L,7L, req);
+        assertEquals(5, resp.getCantidadAlimentoSolido());
         verify(repo).save(any(Alimentacion.class));
     }
 }
