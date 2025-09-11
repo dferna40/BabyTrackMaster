@@ -84,9 +84,13 @@ export default function QuickActionsCard() {
                 (sum, item) => sum + Number(item.duracionMin || 0),
                 0,
               );
-            const todayBiberon = biberonItems.filter((item) =>
-              getDate(item).isSame(now, 'day'),
-            ).length;
+            const todayBiberon = biberonItems.reduce(
+              (sum, item) =>
+                getDate(item).isSame(now, 'day')
+                  ? sum + Number(item.cantidadMl || 0)
+                  : sum,
+              0,
+            );
 
             setActionsData((prev) => ({
               ...prev,
@@ -182,7 +186,7 @@ export default function QuickActionsCard() {
       icon: LocalDrinkIcon,
       path: '/dashboard/alimentacion',
       state: { tipo: 'biberon', disableTipo: true },
-      unit: '',
+      unit: 'ml',
       color: 'primary',
     },
     {
