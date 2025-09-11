@@ -33,7 +33,7 @@ const tipoOptions = [
 export default function RutinaForm({ open, onClose, onSubmit, initialData }) {
   const [formData, setFormData] = useState({
     dia: '',
-    hora: '',
+    hora: null,
     tipo: '',
   });
 
@@ -41,18 +41,17 @@ export default function RutinaForm({ open, onClose, onSubmit, initialData }) {
     if (initialData) {
       setFormData({
         dia: initialData.dia || '',
-        hora: initialData.hora || '',
+        hora: initialData.hora ? dayjs(initialData.hora, 'HH:mm') : null,
         tipo: initialData.tipo || '',
       });
     } else {
-      setFormData({ dia: '', hora: '', tipo: '' });
+      setFormData({ dia: '', hora: null, tipo: '' });
     }
   }, [initialData, open]);
 
   const handleChange = (nameOrEvent, value) => {
     if (typeof nameOrEvent === 'string') {
-      const val = value && dayjs.isDayjs(value) ? value.format('HH:mm') : value;
-      setFormData((prev) => ({ ...prev, [nameOrEvent]: val }));
+      setFormData((prev) => ({ ...prev, [nameOrEvent]: value }));
     } else {
       const { name, value: val } = nameOrEvent.target;
       setFormData((prev) => ({ ...prev, [name]: val }));
@@ -61,7 +60,11 @@ export default function RutinaForm({ open, onClose, onSubmit, initialData }) {
 
   const handleSubmit = () => {
     if (!formData.dia || !formData.hora || !formData.tipo) return;
-    onSubmit(formData);
+    onSubmit({
+      dia: formData.dia,
+      hora: formData.hora.format('HH:mm'),
+      tipo: formData.tipo,
+    });
   };
 
   const isValid = formData.dia && formData.hora && formData.tipo;
@@ -89,7 +92,7 @@ export default function RutinaForm({ open, onClose, onSubmit, initialData }) {
             <FormControl fullWidth sx={{ mb: 2 }}>
               <FormLabel sx={{ mb: 1 }}>Hora</FormLabel>
               <TimePicker
-                value={formData.hora ? dayjs(formData.hora, 'HH:mm') : null}
+                value={formData.hora}
                 onChange={(newValue) => handleChange('hora', newValue)}
                 ampm={false}
               />
