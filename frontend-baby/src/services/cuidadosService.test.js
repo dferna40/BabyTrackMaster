@@ -31,22 +31,22 @@ describe('cuidadosService', () => {
 
     expect(axios.get).toHaveBeenCalledWith(
       `${API_CUIDADOS_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/stats`,
-      { params: {} }
+      { params: { fecha: undefined } }
     );
   });
 
-  it('obtenerStatsRapidas incluye fechaMillis cuando se proporciona', () => {
+  it('obtenerStatsRapidas incluye fecha cuando se proporciona', () => {
     axios.get.mockResolvedValue({});
     const usuarioId = 1;
     const bebeId = 2;
-    const fechaMillis = 123;
+    const fecha = 123;
     const API_CUIDADOS_ENDPOINT = `${API_CUIDADOS_URL}/api/v1/cuidados`;
 
-    obtenerStatsRapidas(usuarioId, bebeId, fechaMillis);
+    obtenerStatsRapidas(usuarioId, bebeId, fecha);
 
     expect(axios.get).toHaveBeenCalledWith(
       `${API_CUIDADOS_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/stats`,
-      { params: { fechaMillis } }
+      { params: { fecha } }
     );
   });
 

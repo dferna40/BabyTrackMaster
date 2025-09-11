@@ -8,7 +8,7 @@ import lombok.Data;
 public class QuickStatsResponse {
     @Schema(example = "8.0", description = "Horas totales de sueño")
     private double horasSueno;
-    @Schema(example = "5", description = "Cantidad de pañales")
+    @Schema(example = "5", description = "Cantidad total de pañales del día")
     private int panales;
     @Schema(example = "1", description = "Cantidad de baños")
     private int banos;
