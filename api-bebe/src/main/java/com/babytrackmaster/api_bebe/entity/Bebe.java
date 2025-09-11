@@ -90,7 +90,7 @@ public class Bebe {
     private String observaciones;
 
     @Lob
-    @Column(name = "imagen_bebe")
+    @Column(name = "imagen_bebe", columnDefinition = "LONGBLOB")
     private byte[] imagenBebe;
 
     @Column(nullable = false)
