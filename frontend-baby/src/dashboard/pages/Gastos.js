@@ -273,7 +273,7 @@ export default function Gastos() {
         Gastos
       </Typography>
       <Typography variant="h6" gutterBottom>
-        Total del mes: {totalMes.toFixed(2)}
+        Total del mes: {totalMes.toFixed(2)} €
       </Typography>
 
       <TableContainer sx={{ mb: 4 }}>
