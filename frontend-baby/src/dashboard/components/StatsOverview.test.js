@@ -1,0 +1,77 @@
+import { render, screen, waitFor } from '@testing-library/react';
+import StatsOverview from './StatsOverview';
+import { AuthContext } from '../../context/AuthContext';
+import { BabyContext } from '../../context/BabyContext';
+import { obtenerStatsRapidas } from '../../services/cuidadosService';
+import { listarRecientes } from '../../services/alimentacionService';
+import { listarTipos } from '../../services/crecimientoService';
+
+jest.mock('../../services/cuidadosService', () => ({
+  obtenerStatsRapidas: jest.fn(),
+}));
+
+jest.mock('../../services/alimentacionService', () => ({
+  listarRecientes: jest.fn(),
+}));
+
+jest.mock('../../services/crecimientoService', () => ({
+  listarTipos: jest.fn(),
+  listarUltimosPorTipo: jest.fn(),
+}));
+
+jest.mock('axios', () => ({
+  __esModule: true,
+  default: {
+    get: jest.fn(),
+    post: jest.fn(),
+  },
+}));
+
+describe('StatsOverview', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.useRealTimers();
+  });
+
+  const renderComponent = () =>
+    render(
+      <AuthContext.Provider value={{ user: { id: 1 } }}>
+        <BabyContext.Provider value={{ activeBaby: { id: 2 } }}>
+          <StatsOverview />
+        </BabyContext.Provider>
+      </AuthContext.Provider>
+    );
+
+  it('muestra el tiempo transcurrido desde el último biberón', async () => {
+    const now = new Date('2024-01-01T12:00:00Z');
+    jest.useFakeTimers().setSystemTime(now);
+    obtenerStatsRapidas.mockResolvedValue({ data: {} });
+    listarTipos.mockResolvedValue({ data: [] });
+    const lastDate = new Date(
+      now.getTime() - (2 * 60 + 15) * 60 * 1000
+    ).toISOString();
+    listarRecientes.mockResolvedValue({ data: [{ fecha: lastDate }] });
+
+    renderComponent();
+
+    await waitFor(() => expect(listarRecientes).toHaveBeenCalled());
+    await waitFor(() => {
+      expect(screen.getByText('Hace 2h 15m')).toBeInTheDocument();
+    });
+  });
+
+  it('muestra "Sin datos" cuando no hay registros', async () => {
+    jest.useFakeTimers().setSystemTime(new Date('2024-01-01T12:00:00Z'));
+    obtenerStatsRapidas.mockResolvedValue({ data: {} });
+    listarTipos.mockResolvedValue({ data: [] });
+    listarRecientes.mockResolvedValue({ data: [] });
+
+    renderComponent();
+
+    await waitFor(() => expect(listarRecientes).toHaveBeenCalled());
+    await waitFor(() => {
+      expect(screen.getByText('Sin datos')).toBeInTheDocument();
+    });
+  });
+});
+
