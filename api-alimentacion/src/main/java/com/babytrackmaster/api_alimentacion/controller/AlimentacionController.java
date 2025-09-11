@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.babytrackmaster.api_alimentacion.dto.AlimentacionRequest;
@@ -87,8 +88,9 @@ public class AlimentacionController {
     @GetMapping("/usuario/{usuarioId}/bebe/{bebeId}/stats")
     public ResponseEntity<AlimentacionStatsResponse> stats(
             @PathVariable Long usuarioId,
-            @PathVariable Long bebeId) {
-        return ResponseEntity.ok(service.stats(usuarioId, bebeId));
+            @PathVariable Long bebeId,
+            @RequestParam(required = false) Long tipoAlimentacionId) {
+        return ResponseEntity.ok(service.stats(usuarioId, bebeId, tipoAlimentacionId));
     }
 
     @Operation(summary = "Listar tipos de lactancia")

@@ -107,7 +107,7 @@ public class AlimentacionServiceImpl implements AlimentacionService {
     }
 
     @Transactional(readOnly = true)
-    public AlimentacionStatsResponse stats(Long usuarioId, Long bebeId) {
+    public AlimentacionStatsResponse stats(Long usuarioId, Long bebeId, Long tipoAlimentacionId) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime inicioDia = now.toLocalDate().atStartOfDay();
         LocalDateTime finDia = inicioDia.plusDays(1);
@@ -116,8 +116,9 @@ public class AlimentacionServiceImpl implements AlimentacionService {
         LocalDateTime inicioSemana = now.toLocalDate().with(TemporalAdjusters.previousOrSame(firstDow)).atStartOfDay();
         LocalDateTime finSemana = inicioSemana.plusWeeks(1);
 
-        List<Alimentacion> registrosSemana = repo
-                .findByUsuarioIdAndBebeIdAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId, inicioSemana, finSemana);
+        List<Alimentacion> registrosSemana = tipoAlimentacionId == null
+                ? repo.findByUsuarioIdAndBebeIdAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId, inicioSemana, finSemana)
+                : repo.findByUsuarioIdAndBebeIdAndTipoAlimentacionIdAndFechaHoraBetweenAndEliminadoFalse(usuarioId, bebeId, tipoAlimentacionId, inicioSemana, finSemana);
         List<Long> weekly = new ArrayList<>(7);
         for (int i = 0; i < 7; i++) {
             weekly.add(0L);
