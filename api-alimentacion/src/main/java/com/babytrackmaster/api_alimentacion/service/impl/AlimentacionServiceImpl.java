@@ -7,6 +7,8 @@ import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -79,6 +81,18 @@ public class AlimentacionServiceImpl implements AlimentacionService {
     @Transactional(readOnly = true)
     public List<AlimentacionResponse> listar(Long usuarioId, Long bebeId) {
         List<Alimentacion> list = repo.findByUsuarioIdAndBebeIdAndEliminadoFalseOrderByFechaHoraDesc(usuarioId, bebeId);
+        List<AlimentacionResponse> resp = new ArrayList<>();
+        for (Alimentacion a : list) {
+            resp.add(AlimentacionMapper.toResponse(a));
+        }
+        return resp;
+    }
+
+    @Transactional(readOnly = true)
+    public List<AlimentacionResponse> listarRecientes(Long usuarioId, Long bebeId, Integer limit) {
+        int lim = (limit != null) ? limit : 5;
+        List<Alimentacion> list = repo.findByUsuarioIdAndBebeIdAndEliminadoFalse(usuarioId, bebeId,
+                PageRequest.of(0, lim, Sort.by("fechaHora").descending()));
         List<AlimentacionResponse> resp = new ArrayList<>();
         for (Alimentacion a : list) {
             resp.add(AlimentacionMapper.toResponse(a));
