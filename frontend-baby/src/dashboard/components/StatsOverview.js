@@ -18,6 +18,7 @@ import {
   listarUltimosPorTipo,
   listarTipos,
 } from '../../services/crecimientoService';
+import { parseDurationToHours } from '../../utils/duration';
 
 export default function StatsOverview() {
   const theme = useTheme();
@@ -30,10 +31,12 @@ export default function StatsOverview() {
 
   const [stats, setStats] = useState({
     lastBottle: 'Hace 2h',
-    sleepHours: 0,
+    sleep: { hours: 0, diff: 0 },
     diapers: { count: 0, diff: 0 },
     weight: { value: '0 kg', diff: undefined, diffValue: 0 },
   });
+
+  const formatHours = (h) => (h % 1 === 0 ? h : h.toFixed(1));
 
   useEffect(() => {
     if (user?.id && activeBaby?.id) {
@@ -45,9 +48,14 @@ export default function StatsOverview() {
         .then(([hoy, ayer]) => {
           const hoyData = hoy.data || {};
           const ayerData = ayer.data || {};
+          const todaySleep = parseDurationToHours(hoyData.horasSueno);
+          const yesterdaySleep = parseDurationToHours(ayerData.horasSueno);
           setStats((prev) => ({
             ...prev,
-            sleepHours: hoyData.horasSueno || 0,
+            sleep: {
+              hours: todaySleep,
+              diff: todaySleep - yesterdaySleep,
+            },
             diapers: {
               count: hoyData.panales || 0,
               diff: (hoyData.panales || 0) - (ayerData.panales || 0),
@@ -138,7 +146,20 @@ export default function StatsOverview() {
               <HotelIcon />
               <Box>
                 <Typography variant="subtitle2">Horas de sueño</Typography>
-                <Typography variant="h6">{stats.sleepHours}h</Typography>
+                <Stack direction="row" spacing={1} alignItems="baseline">
+                  <Typography variant="h6">
+                    {formatHours(stats.sleep.hours)}h
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    (
+                    {stats.sleep.diff > 0
+                      ? `${formatHours(stats.sleep.diff)} más que ayer`
+                      : stats.sleep.diff < 0
+                      ? `${formatHours(Math.abs(stats.sleep.diff))} menos que ayer`
+                      : 'Igual que ayer'}
+                    )
+                  </Typography>
+                </Stack>
               </Box>
             </Stack>
           </CardContent>

@@ -26,9 +26,13 @@ describe('QuickStatsCard', () => {
   });
 
   it('muestra estadísticas obtenidas del servicio', async () => {
-    obtenerStatsRapidas.mockResolvedValue({
-      data: { horasSueno: 8, panales: 5, banos: 1 },
-    });
+    obtenerStatsRapidas
+      .mockResolvedValueOnce({
+        data: { horasSueno: '8h', panales: 5, banos: 1 },
+      })
+      .mockResolvedValueOnce({
+        data: { horasSueno: '7h', panales: 4, banos: 1 },
+      });
 
     render(
       <AuthContext.Provider value={{ user: { id: 1 } }}>
@@ -38,18 +42,25 @@ describe('QuickStatsCard', () => {
       </AuthContext.Provider>
     );
 
-    expect(obtenerStatsRapidas).toHaveBeenCalledWith(1, 2);
+    expect(obtenerStatsRapidas).toHaveBeenNthCalledWith(1, 1, 2);
+    expect(obtenerStatsRapidas).toHaveBeenNthCalledWith(
+      2,
+      1,
+      2,
+      expect.any(Number)
+    );
 
     await waitFor(() => {
       expect(screen.getByText('8h')).toBeInTheDocument();
+      expect(screen.getByText('1 más que ayer')).toBeInTheDocument();
       expect(screen.getByText('5')).toBeInTheDocument();
-      expect(screen.getByText('1')).toBeInTheDocument();
+      expect(screen.getAllByText('1').length).toBeGreaterThan(0);
     });
   });
 
   it('muestra mensaje cuando el servicio devuelve valores por defecto', async () => {
     obtenerStatsRapidas.mockResolvedValue({
-      data: { horasSueno: 0, panales: 0, banos: 0 },
+      data: { horasSueno: '0h', panales: 0, banos: 0 },
     });
 
     render(
@@ -60,7 +71,13 @@ describe('QuickStatsCard', () => {
       </AuthContext.Provider>
     );
 
-    expect(obtenerStatsRapidas).toHaveBeenCalledWith(1, 2);
+    expect(obtenerStatsRapidas).toHaveBeenNthCalledWith(1, 1, 2);
+    expect(obtenerStatsRapidas).toHaveBeenNthCalledWith(
+      2,
+      1,
+      2,
+      expect.any(Number)
+    );
 
     await waitFor(() => {
       expect(
