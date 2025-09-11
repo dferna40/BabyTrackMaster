@@ -64,6 +64,13 @@ export default function Alimentacion() {
   );
   const selectedSlug = normalize(selectedTipo?.nombre);
 
+  const chartColorMap = {
+    biberon: '#FFC6FF', // pastel pink
+    lactancia: '#A2D2FF', // pastel blue
+    solidos: '#FFD8B5', // pastel orange
+  };
+  const chartColor = chartColorMap[selectedSlug] || '#CDEAC0';
+
   const filtered = useMemo(
     () => registros.filter((r) => r.tipoAlimentacion?.id === tab),
     [registros, tab]
@@ -457,10 +464,9 @@ export default function Alimentacion() {
                 scaleType: 'band',
                 data: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
               }]}
-              series={[{ data: weeklyStats }]}
+              series={[{ data: weeklyStats, color: chartColor }]}
               margin={{ left: 30, right: 10, top: 20, bottom: 20 }}
               grid={{ horizontal: true }}
-              colors={Object.values(theme.palette.chart)}
               borderRadius={8}
             />
           </CardContent>
