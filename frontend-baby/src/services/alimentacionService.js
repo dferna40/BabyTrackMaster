@@ -28,8 +28,16 @@ export const obtenerEstadisticas = (usuarioId, bebeId, tipoAlimentacionId) => {
 };
 
 const buildPayload = (data) => {
+  const cantidadAlimentoSolido = Number(data.cantidadAlimentoSolido);
   const payload = {
     ...data,
+    cantidadAlimentoSolido:
+      data.cantidadAlimentoSolido === undefined ||
+      data.cantidadAlimentoSolido === null ||
+      data.cantidadAlimentoSolido === '' ||
+      Number.isNaN(cantidadAlimentoSolido)
+        ? undefined
+        : cantidadAlimentoSolido,
     tipoAlimentacion: data.tipoAlimentacionId
       ? { id: data.tipoAlimentacionId }
       : undefined,
