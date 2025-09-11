@@ -74,6 +74,10 @@ export default function CrecimientoForm({ open, onClose, onSubmit, initialData }
 
   const handleSubmit = () => {
     if (!formData.fecha) return;
+    if (formData.fecha.isAfter(dayjs(), 'day')) {
+      alert('La fecha no puede ser posterior a hoy.');
+      return;
+    }
     const payload = {
       ...formData,
       fecha: formData.fecha ? formData.fecha.format('YYYY-MM-DD') : '',
@@ -94,6 +98,7 @@ export default function CrecimientoForm({ open, onClose, onSubmit, initialData }
             <DatePicker
               value={formData.fecha}
               onChange={handleFechaChange}
+              disableFuture
               slotProps={{ textField: { fullWidth: true, required: true } }}
             />
           </FormControl>
