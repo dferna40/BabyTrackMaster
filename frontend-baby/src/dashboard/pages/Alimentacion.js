@@ -243,9 +243,9 @@ export default function Alimentacion() {
   };
 
   const getNombreSolido = (registro) =>
-    registro.tipoAlimentacionSolido?.nombre === 'Otros'
-      ? registro.alimentacionOtros
-      : registro.tipoAlimentacionSolido?.nombre;
+    registro.alimentacionOtros ||
+    registro.tipoAlimentacionSolido?.nombre ||
+    '';
 
   const handleExportCsv = () => {
     const current = selectedSlug;
@@ -273,7 +273,7 @@ export default function Alimentacion() {
           r.observaciones || '',
         ];
       }
-      return [...base, alimento, r.cantidadMl, r.observaciones || ''];
+      return [...base, alimento, r.cantidad, r.observaciones || ''];
     });
     const csvContent = [headers, ...rows].map((e) => e.join(',')).join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -312,7 +312,7 @@ export default function Alimentacion() {
           r.observaciones || '',
         ];
       }
-      return [...base, alimento, r.cantidadMl, r.observaciones || ''];
+      return [...base, alimento, r.cantidad, r.observaciones || ''];
     });
     const doc = new jsPDF();
     autoTable(doc, {
@@ -395,7 +395,7 @@ export default function Alimentacion() {
                     {selectedSlug === 'solidos' && (
                       <>
                         <TableCell>{alimento}</TableCell>
-                        <TableCell sx={{ fontWeight: 600 }}>{r.cantidadMl}</TableCell>
+                        <TableCell sx={{ fontWeight: 600 }}>{r.cantidad}</TableCell>
                         <TableCell>{r.observaciones}</TableCell>
                       </>
                     )}
