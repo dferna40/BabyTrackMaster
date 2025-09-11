@@ -242,17 +242,23 @@ export default function Alimentacion() {
     solidos: ['Hora', 'Alimento', 'Cantidad (g)', 'Observaciones'],
   };
 
+  const getNombreSolido = (registro) =>
+    registro.tipoAlimentacionSolido?.nombre === 'Otros'
+      ? registro.alimentacionOtros
+      : registro.tipoAlimentacionSolido?.nombre;
+
   const handleExportCsv = () => {
     const current = selectedSlug;
     const headers = headersMap[current];
     const rows = filtered.map((r) => {
       const base = [dayjs(r.inicio).format('DD/MM/YYYY HH:mm')];
+      const alimento = getNombreSolido(r) || '';
       if (current === 'lactancia') {
         return [
           ...base,
           r.tipoLactancia?.nombre || '',
           r.lado || '',
-          r.alimento || '',
+          alimento,
           r.cantidadLecheFormula || '',
           r.cantidadOtrosAlimentos || '',
           r.duracionMin || '',
@@ -262,7 +268,7 @@ export default function Alimentacion() {
       if (current === 'biberon') {
         return [...base, r.tipoLeche, r.cantidadMl, r.observaciones || ''];
       }
-      return [...base, r.alimento, r.cantidadMl, r.observaciones || ''];
+      return [...base, alimento, r.cantidadMl, r.observaciones || ''];
     });
     const csvContent = [headers, ...rows].map((e) => e.join(',')).join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -280,12 +286,13 @@ export default function Alimentacion() {
     const headers = headersMap[current];
     const rows = filtered.map((r) => {
       const base = [dayjs(r.inicio).format('DD/MM/YYYY HH:mm')];
+      const alimento = getNombreSolido(r) || '';
       if (current === 'lactancia') {
         return [
           ...base,
           r.tipoLactancia?.nombre || '',
           r.lado || '',
-          r.alimento || '',
+          alimento,
           r.cantidadLecheFormula || '',
           r.cantidadOtrosAlimentos || '',
           r.duracionMin || '',
@@ -295,7 +302,7 @@ export default function Alimentacion() {
       if (current === 'biberon') {
         return [...base, r.tipoLeche, r.cantidadMl, r.observaciones || ''];
       }
-      return [...base, r.alimento, r.cantidadMl, r.observaciones || ''];
+      return [...base, alimento, r.cantidadMl, r.observaciones || ''];
     });
     const doc = new jsPDF();
     autoTable(doc, {
@@ -346,60 +353,63 @@ export default function Alimentacion() {
           <TableBody>
             {filtered
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((r) => (
-                <TableRow key={r.id}>
-                  <TableCell>
-                    {dayjs(r.inicio).format('DD/MM/YYYY HH:mm')}
-                  </TableCell>
-                  {selectedSlug === 'lactancia' && (
-                    <>
-                      <TableCell>{r.tipoLactancia?.nombre}</TableCell>
-                      <TableCell>{r.lado}</TableCell>
-                      <TableCell>{r.alimento}</TableCell>
-                      <TableCell sx={{ fontWeight: 600 }}>
-                        {r.cantidadLecheFormula}
-                      </TableCell>
-                      <TableCell sx={{ fontWeight: 600 }}>
-                        {r.cantidadOtrosAlimentos}
-                      </TableCell>
-                      <TableCell sx={{ fontWeight: 600 }}>{r.duracionMin}</TableCell>
-                      <TableCell>{r.observaciones}</TableCell>
-                    </>
-                  )}
-                  {selectedSlug === 'biberon' && (
-                    <>
-                      <TableCell>{r.tipoLeche}</TableCell>
-                      <TableCell sx={{ fontWeight: 600 }}>{r.cantidadMl}</TableCell>
-                      <TableCell>{r.observaciones}</TableCell>
-                    </>
-                  )}
-                  {selectedSlug === 'solidos' && (
-                    <>
-                      <TableCell>{r.alimento}</TableCell>
-                      <TableCell sx={{ fontWeight: 600 }}>{r.cantidadMl}</TableCell>
-                      <TableCell>{r.observaciones}</TableCell>
-                    </>
-                  )}
-                  <TableCell align="center">
-                    <IconButton
-                      size="small"
-                      aria-label="edit"
-                      onClick={() => handleEdit(r)}
-                      sx={{ color: '#0d6efd' }}
-                    >
-                      <EditIcon fontSize="small" />
-                    </IconButton>
-                    <IconButton
-                      size="small"
-                      aria-label="delete"
-                      onClick={() => handleDelete(r.id)}
-                      sx={{ color: '#dc3545' }}
-                    >
-                      <DeleteIcon fontSize="small" />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
+              .map((r) => {
+                const alimento = getNombreSolido(r);
+                return (
+                  <TableRow key={r.id}>
+                    <TableCell>
+                      {dayjs(r.inicio).format('DD/MM/YYYY HH:mm')}
+                    </TableCell>
+                    {selectedSlug === 'lactancia' && (
+                      <>
+                        <TableCell>{r.tipoLactancia?.nombre}</TableCell>
+                        <TableCell>{r.lado}</TableCell>
+                        <TableCell>{alimento}</TableCell>
+                        <TableCell sx={{ fontWeight: 600 }}>
+                          {r.cantidadLecheFormula}
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 600 }}>
+                          {r.cantidadOtrosAlimentos}
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 600 }}>{r.duracionMin}</TableCell>
+                        <TableCell>{r.observaciones}</TableCell>
+                      </>
+                    )}
+                    {selectedSlug === 'biberon' && (
+                      <>
+                        <TableCell>{r.tipoLeche}</TableCell>
+                        <TableCell sx={{ fontWeight: 600 }}>{r.cantidadMl}</TableCell>
+                        <TableCell>{r.observaciones}</TableCell>
+                      </>
+                    )}
+                    {selectedSlug === 'solidos' && (
+                      <>
+                        <TableCell>{alimento}</TableCell>
+                        <TableCell sx={{ fontWeight: 600 }}>{r.cantidadMl}</TableCell>
+                        <TableCell>{r.observaciones}</TableCell>
+                      </>
+                    )}
+                    <TableCell align="center">
+                      <IconButton
+                        size="small"
+                        aria-label="edit"
+                        onClick={() => handleEdit(r)}
+                        sx={{ color: '#0d6efd' }}
+                      >
+                        <EditIcon fontSize="small" />
+                      </IconButton>
+                      <IconButton
+                        size="small"
+                        aria-label="delete"
+                        onClick={() => handleDelete(r.id)}
+                        sx={{ color: '#dc3545' }}
+                      >
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
         <TablePagination
