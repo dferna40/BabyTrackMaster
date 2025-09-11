@@ -60,19 +60,20 @@ export default function QuickActionsCard() {
         .then(({ data }) => {
           if (Array.isArray(data) && data.length > 0) {
             const now = dayjs();
-            const getDate = (item) =>
-              dayjs(
-                item.inicio ||
-                  item.fecha ||
-                  item.date ||
-                  item.fechaHora ||
-                  item.createdAt,
-              );
+            const getDate = (item) => dayjs(item.fechaHora);
 
-            const pechoItems = data.filter((item) => item.tipo === 'lactancia');
-            const biberonItems = data.filter((item) => item.tipo === 'biberon');
+            const pechoItems = data.filter(
+              (item) =>
+                item.tipoAlimentacion?.nombre.toLowerCase() === 'lactancia',
+            );
+            const biberonItems = data.filter(
+              (item) =>
+                item.tipoAlimentacion?.nombre.toLowerCase() === 'biberón',
+            );
 
-            const lastPecho = pechoItems[0] ? getDate(pechoItems[0]) : null;
+            const lastPecho = pechoItems[0]
+              ? getDate(pechoItems[0])
+              : null;
             const lastBiberon = biberonItems[0]
               ? getDate(biberonItems[0])
               : null;
@@ -130,14 +131,7 @@ export default function QuickActionsCard() {
         .then(({ data }) => {
           if (Array.isArray(data) && data.length > 0) {
             const now = dayjs();
-            const getDate = (item) =>
-              dayjs(
-                item.fecha ||
-                  item.inicio ||
-                  item.date ||
-                  item.fechaHora ||
-                  item.createdAt,
-              );
+            const getDate = (item) => dayjs(item.fechaHora);
             const last = getDate(data[0]);
             const todayTotal = data.reduce((sum, item) => {
               const date = getDate(item);
