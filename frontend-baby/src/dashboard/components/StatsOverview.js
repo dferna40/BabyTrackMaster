@@ -37,12 +37,21 @@ export default function StatsOverview() {
 
   useEffect(() => {
     if (user?.id && activeBaby?.id) {
-      obtenerStatsRapidas(user.id, activeBaby.id)
-        .then(({ data }) => {
+      const yesterdayMillis = Date.now() - 24 * 60 * 60 * 1000;
+      Promise.all([
+        obtenerStatsRapidas(user.id, activeBaby.id),
+        obtenerStatsRapidas(user.id, activeBaby.id, yesterdayMillis),
+      ])
+        .then(([hoy, ayer]) => {
+          const hoyData = hoy.data || {};
+          const ayerData = ayer.data || {};
           setStats((prev) => ({
             ...prev,
-            sleepHours: data.horasSueno || 0,
-            diapers: { ...prev.diapers, count: data.panales || 0 },
+            sleepHours: hoyData.horasSueno || 0,
+            diapers: {
+              count: hoyData.panales || 0,
+              diff: (hoyData.panales || 0) - (ayerData.panales || 0),
+            },
           }));
         })
         .catch(() => {
@@ -67,11 +76,6 @@ export default function StatsOverview() {
         .catch(() => {
           /* ignore errors */
         });
-
-      setStats((prev) => ({
-        ...prev,
-        diapers: { ...prev.diapers, diff: 1 },
-      }));
 
       listarTipos()
         .then(({ data }) => {
@@ -150,7 +154,13 @@ export default function StatsOverview() {
                 <Stack direction="row" spacing={1} alignItems="baseline">
                   <Typography variant="h6">{stats.diapers.count}</Typography>
                   <Typography variant="body2" color="text.secondary">
-                    ({stats.diapers.diff >= 0 ? '+' : ''}{stats.diapers.diff})
+                    (
+                    {stats.diapers.diff > 0
+                      ? `${stats.diapers.diff} más que ayer`
+                      : stats.diapers.diff < 0
+                      ? `${Math.abs(stats.diapers.diff)} menos que ayer`
+                      : 'Igual que ayer'}
+                    )
                   </Typography>
                 </Stack>
               </Box>

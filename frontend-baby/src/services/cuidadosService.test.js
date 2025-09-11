@@ -21,7 +21,7 @@ describe('cuidadosService', () => {
     jest.clearAllMocks();
   });
 
-  it('obtenerStatsRapidas realiza la llamada HTTP correcta', () => {
+  it('obtenerStatsRapidas realiza la llamada HTTP correcta sin fecha', () => {
     axios.get.mockResolvedValue({});
     const usuarioId = 1;
     const bebeId = 2;
@@ -30,7 +30,23 @@ describe('cuidadosService', () => {
     obtenerStatsRapidas(usuarioId, bebeId);
 
     expect(axios.get).toHaveBeenCalledWith(
-      `${API_CUIDADOS_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/stats`
+      `${API_CUIDADOS_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/stats`,
+      { params: {} }
+    );
+  });
+
+  it('obtenerStatsRapidas incluye fechaMillis cuando se proporciona', () => {
+    axios.get.mockResolvedValue({});
+    const usuarioId = 1;
+    const bebeId = 2;
+    const fechaMillis = 123;
+    const API_CUIDADOS_ENDPOINT = `${API_CUIDADOS_URL}/api/v1/cuidados`;
+
+    obtenerStatsRapidas(usuarioId, bebeId, fechaMillis);
+
+    expect(axios.get).toHaveBeenCalledWith(
+      `${API_CUIDADOS_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/stats`,
+      { params: { fechaMillis } }
     );
   });
 
