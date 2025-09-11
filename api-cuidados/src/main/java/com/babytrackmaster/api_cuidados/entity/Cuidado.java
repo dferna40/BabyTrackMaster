@@ -39,8 +39,9 @@ public class Cuidado {
     @Column(name="cantidad_ml")
     private Integer cantidadMl;
 
-    @Column(name="tipo_panal", length=20)
-    private String tipoPanal; // PIPI/CACA/MIXTO
+    @ManyToOne
+    @JoinColumn(name = "tipo_panal")
+    private TipoPanal tipoPanal;
 
     @Column(length=120)
     private String medicamento;

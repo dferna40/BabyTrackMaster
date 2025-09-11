@@ -15,8 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.babytrackmaster.api_cuidados.dto.QuickStatsResponse;
 import com.babytrackmaster.api_cuidados.entity.Cuidado;
 import com.babytrackmaster.api_cuidados.entity.TipoCuidado;
+import com.babytrackmaster.api_cuidados.entity.TipoPanal;
 import com.babytrackmaster.api_cuidados.repository.CuidadoRepository;
 import com.babytrackmaster.api_cuidados.repository.TipoCuidadoRepository;
+import com.babytrackmaster.api_cuidados.repository.TipoPanalRepository;
 import com.babytrackmaster.api_cuidados.service.CuidadoService;
 
 @SpringBootTest
@@ -28,6 +30,8 @@ class CuidadoServiceImplTest {
     @Autowired
     private TipoCuidadoRepository tipoRepo;
     @Autowired
+    private TipoPanalRepository tipoPanalRepo;
+    @Autowired
     private CuidadoRepository cuidadoRepo;
 
     private Date baseDate;
@@ -36,19 +40,21 @@ class CuidadoServiceImplTest {
     void setUp() {
         cuidadoRepo.deleteAll();
         tipoRepo.deleteAll();
+        tipoPanalRepo.deleteAll();
         baseDate = date(2024,3,10,0,0);
 
         TipoCuidado sueno = saveTipo("Sue\u00f1o");
         TipoCuidado panal = saveTipo("Pa\u00f1al");
         TipoCuidado bano = saveTipo("Ba\u00f1o");
+        TipoPanal pipi = saveTipoPanal("PIPI");
 
-        createCuidado(sueno, date(2024,3,10,0,0), date(2024,3,10,4,0), "120");
-        createCuidado(sueno, date(2024,3,10,10,0), date(2024,3,10,10,30), "90");
-        createCuidado(sueno, date(2024,3,10,16,0), date(2024,3,10,18,0), null);
-        createCuidado(panal, date(2024,3,10,3,0), date(2024,3,10,3,5));
-        createCuidado(panal, date(2024,3,10,7,0), date(2024,3,10,7,5));
-        createCuidado(panal, date(2024,3,10,13,0), date(2024,3,10,13,7));
-        createCuidado(bano, date(2024,3,10,18,0), date(2024,3,10,18,20));
+        createCuidado(sueno, null, date(2024,3,10,0,0), date(2024,3,10,4,0), "120");
+        createCuidado(sueno, null, date(2024,3,10,10,0), date(2024,3,10,10,30), "90");
+        createCuidado(sueno, null, date(2024,3,10,16,0), date(2024,3,10,18,0), null);
+        createCuidado(panal, pipi, date(2024,3,10,3,0), date(2024,3,10,3,5));
+        createCuidado(panal, pipi, date(2024,3,10,7,0), date(2024,3,10,7,5));
+        createCuidado(panal, pipi, date(2024,3,10,13,0), date(2024,3,10,13,7));
+        createCuidado(bano, null, date(2024,3,10,18,0), date(2024,3,10,18,20));
     }
 
     @Test
@@ -68,11 +74,21 @@ class CuidadoServiceImplTest {
         return tipoRepo.save(t);
     }
 
-    private Cuidado createCuidado(TipoCuidado tipo, Date inicio, Date fin, String duracion) {
+    private TipoPanal saveTipoPanal(String nombre) {
+        TipoPanal t = new TipoPanal();
+        Date now = new Date();
+        t.setNombre(nombre);
+        t.setCreatedAt(now);
+        t.setUpdatedAt(now);
+        return tipoPanalRepo.save(t);
+    }
+
+    private Cuidado createCuidado(TipoCuidado tipo, TipoPanal tipoPanal, Date inicio, Date fin, String duracion) {
         Cuidado c = new Cuidado();
         c.setBebeId(1L);
         c.setUsuarioId(1L);
         c.setTipo(tipo);
+        c.setTipoPanal(tipoPanal);
         c.setInicio(inicio);
         c.setFin(fin);
         c.setDuracion(duracion);
@@ -82,8 +98,8 @@ class CuidadoServiceImplTest {
         return cuidadoRepo.save(c);
     }
 
-    private Cuidado createCuidado(TipoCuidado tipo, Date inicio, Date fin) {
-        return createCuidado(tipo, inicio, fin, null);
+    private Cuidado createCuidado(TipoCuidado tipo, TipoPanal tipoPanal, Date inicio, Date fin) {
+        return createCuidado(tipo, tipoPanal, inicio, fin, null);
     }
 
     private Date date(int year,int month,int day,int hour,int minute) {

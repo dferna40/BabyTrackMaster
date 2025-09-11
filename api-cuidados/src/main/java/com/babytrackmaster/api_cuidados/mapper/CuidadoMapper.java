@@ -6,22 +6,30 @@ import com.babytrackmaster.api_cuidados.dto.CuidadoRequest;
 import com.babytrackmaster.api_cuidados.dto.CuidadoResponse;
 import com.babytrackmaster.api_cuidados.entity.Cuidado;
 import com.babytrackmaster.api_cuidados.entity.TipoCuidado;
+import com.babytrackmaster.api_cuidados.entity.TipoPanal;
 import com.babytrackmaster.api_cuidados.repository.TipoCuidadoRepository;
+import com.babytrackmaster.api_cuidados.repository.TipoPanalRepository;
 
 public class CuidadoMapper {
 
-    public static Cuidado toEntity(CuidadoRequest req, Long usuarioId, TipoCuidadoRepository tipoRepo) {
+    public static Cuidado toEntity(CuidadoRequest req, Long usuarioId, TipoCuidadoRepository tipoRepo, TipoPanalRepository tipoPanalRepo) {
         Cuidado c = new Cuidado();
         c.setBebeId(req.getBebeId());
         c.setUsuarioId(usuarioId);
         TipoCuidado tipo = tipoRepo.findById(req.getTipoId())
                 .orElseThrow(() -> new IllegalArgumentException("Tipo de cuidado no encontrado: " + req.getTipoId()));
         c.setTipo(tipo);
+        if (req.getTipoPanalId() != null) {
+            TipoPanal tp = tipoPanalRepo.findById(req.getTipoPanalId())
+                    .orElseThrow(() -> new IllegalArgumentException("Tipo de pañal no encontrado: " + req.getTipoPanalId()));
+            c.setTipoPanal(tp);
+        } else {
+            c.setTipoPanal(null);
+        }
         c.setInicio(req.getInicio());
         c.setFin(req.getFin());
         c.setDuracion(req.getDuracion());
         c.setCantidadMl(req.getCantidadMl());
-        c.setTipoPanal(req.getTipoPanal());
         c.setMedicamento(req.getMedicamento());
         c.setDosis(req.getDosis());
         c.setObservaciones(req.getObservaciones());
@@ -32,17 +40,23 @@ public class CuidadoMapper {
         return c;
     }
 
-    public static void copyToEntity(CuidadoRequest req, Cuidado c, Long usuarioId, TipoCuidadoRepository tipoRepo) {
+    public static void copyToEntity(CuidadoRequest req, Cuidado c, Long usuarioId, TipoCuidadoRepository tipoRepo, TipoPanalRepository tipoPanalRepo) {
         c.setBebeId(req.getBebeId());
         c.setUsuarioId(usuarioId);
         TipoCuidado tipo = tipoRepo.findById(req.getTipoId())
                 .orElseThrow(() -> new IllegalArgumentException("Tipo de cuidado no encontrado: " + req.getTipoId()));
         c.setTipo(tipo);
+        if (req.getTipoPanalId() != null) {
+            TipoPanal tp = tipoPanalRepo.findById(req.getTipoPanalId())
+                    .orElseThrow(() -> new IllegalArgumentException("Tipo de pañal no encontrado: " + req.getTipoPanalId()));
+            c.setTipoPanal(tp);
+        } else {
+            c.setTipoPanal(null);
+        }
         c.setInicio(req.getInicio());
         c.setFin(req.getFin());
         c.setDuracion(req.getDuracion());
         c.setCantidadMl(req.getCantidadMl());
-        c.setTipoPanal(req.getTipoPanal());
         c.setMedicamento(req.getMedicamento());
         c.setDosis(req.getDosis());
         c.setObservaciones(req.getObservaciones());
@@ -62,7 +76,10 @@ public class CuidadoMapper {
         r.setFin(c.getFin());
         r.setDuracion(c.getDuracion());
         r.setCantidadMl(c.getCantidadMl());
-        r.setTipoPanal(c.getTipoPanal());
+        if (c.getTipoPanal() != null) {
+            r.setTipoPanalId(c.getTipoPanal().getId());
+            r.setTipoPanalNombre(c.getTipoPanal().getNombre());
+        }
         r.setMedicamento(c.getMedicamento());
         r.setDosis(c.getDosis());
         r.setObservaciones(c.getObservaciones());

@@ -10,13 +10,16 @@ import org.springframework.context.annotation.Configuration;
 import lombok.RequiredArgsConstructor;
 
 import com.babytrackmaster.api_cuidados.entity.TipoCuidado;
+import com.babytrackmaster.api_cuidados.entity.TipoPanal;
 import com.babytrackmaster.api_cuidados.repository.TipoCuidadoRepository;
+import com.babytrackmaster.api_cuidados.repository.TipoPanalRepository;
 
 @Configuration
 @RequiredArgsConstructor
 public class DataInitializer {
 
     private final TipoCuidadoRepository tipoCuidadoRepository;
+    private final TipoPanalRepository tipoPanalRepository;
    
 
     @Bean
@@ -29,6 +32,13 @@ public class DataInitializer {
                     createTipoCuidado("Baño")
                 ));
             }
+            if (tipoPanalRepository.count() == 0) {
+                tipoPanalRepository.saveAll(List.of(
+                    createTipoPanal("PIPI"),
+                    createTipoPanal("CACA"),
+                    createTipoPanal("MIXTO")
+                ));
+            }
         };
     }
 
@@ -39,5 +49,14 @@ public class DataInitializer {
         tc.setCreatedAt(now);
         tc.setUpdatedAt(now);
         return tc;
+    }
+
+    private TipoPanal createTipoPanal(String nombre) {
+        TipoPanal tp = new TipoPanal();
+        Date now = new Date();
+        tp.setNombre(nombre);
+        tp.setCreatedAt(now);
+        tp.setUpdatedAt(now);
+        return tp;
     }
 }

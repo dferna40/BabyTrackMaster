@@ -21,7 +21,8 @@ public class CuidadoResponse {
     private String duracion;
     @Schema(example = "120")
     private Integer cantidadMl;
-    private String tipoPanal;
+    private Long tipoPanalId;
+    private String tipoPanalNombre;
     private String medicamento;
     private String dosis;
     private String observaciones;
