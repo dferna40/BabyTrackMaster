@@ -32,6 +32,7 @@ import {
   actualizarRegistro,
   eliminarRegistro,
   listarTiposLactancia,
+  listarTiposAlimentacion,
 } from '../../services/alimentacionService';
 import { addButton } from '../../theme/buttonStyles';
 import AlimentacionForm from '../components/AlimentacionForm';
@@ -39,9 +40,8 @@ import { BabyContext } from '../../context/BabyContext';
 import { AuthContext } from '../../context/AuthContext';
 
 export default function Alimentacion() {
-  const tabLabels = ['Lactancia', 'Biberón', 'Sólidos'];
-  const tabValues = ['lactancia', 'biberon', 'solidos'];
-  const [tab, setTab] = useState(0);
+  const [tiposAlimentacion, setTiposAlimentacion] = useState([]);
+  const [tab, setTab] = useState(null);
   const [registros, setRegistros] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -55,18 +55,43 @@ export default function Alimentacion() {
   const location = useLocation();
   const theme = useTheme();
 
+  const normalize = (str) =>
+    str?.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+  const selectedTipo = useMemo(
+    () => tiposAlimentacion.find((t) => t.id === tab),
+    [tiposAlimentacion, tab]
+  );
+  const selectedSlug = normalize(selectedTipo?.nombre);
+
   const filtered = useMemo(
-    () => registros.filter((r) => r.tipo === tabValues[tab]),
+    () => registros.filter((r) => r.tipoAlimentacion?.id === tab),
     [registros, tab]
   );
 
+  const lactanciaId = useMemo(
+    () =>
+      tiposAlimentacion.find((t) => normalize(t.nombre) === 'lactancia')?.id,
+    [tiposAlimentacion]
+  );
+  const biberonId = useMemo(
+    () =>
+      tiposAlimentacion.find((t) => normalize(t.nombre) === 'biberon')?.id,
+    [tiposAlimentacion]
+  );
   const lactanciaCount = useMemo(
-    () => registros.filter((r) => r.tipo === 'lactancia').length,
-    [registros]
+    () =>
+      (lactanciaId
+        ? registros.filter((r) => r.tipoAlimentacion?.id === lactanciaId).length
+        : 0),
+    [registros, lactanciaId]
   );
   const biberonCount = useMemo(
-    () => registros.filter((r) => r.tipo === 'biberon').length,
-    [registros]
+    () =>
+      (biberonId
+        ? registros.filter((r) => r.tipoAlimentacion?.id === biberonId).length
+        : 0),
+    [registros, biberonId]
   );
 
   const handleTabChange = (event, newValue) => {
@@ -99,18 +124,31 @@ export default function Alimentacion() {
   }, [bebeId]);
 
   useEffect(() => {
+    listarTiposAlimentacion()
+      .then((res) => {
+        setTiposAlimentacion(res.data);
+        setTab(res.data[0]?.id ?? null);
+      })
+      .catch((err) =>
+        console.error('Error fetching tipos alimentacion:', err)
+      );
+  }, []);
+
+  useEffect(() => {
     const state = location.state;
-    if (!state?.tipo) return;
+    if (!state?.tipo || tiposAlimentacion.length === 0) return;
 
     const { tipo, tipoLactancia, disableTipo, disableTipoLactancia } = state;
-    const index = tabValues.indexOf(tipo);
-    if (index !== -1) {
-      setTab(index);
+    const found = tiposAlimentacion.find(
+      (t) => normalize(t.nombre) === tipo.toLowerCase()
+    );
+    if (found) {
+      setTab(found.id);
     }
 
     const openWithSelected = (tipoLactanciaData) => {
       setSelected({
-        tipo,
+        tipoAlimentacion: found ? { id: found.id } : undefined,
         tipoLactancia: tipoLactanciaData,
         disableTipo,
         disableTipoLactancia,
@@ -121,11 +159,11 @@ export default function Alimentacion() {
     if (tipoLactancia && typeof tipoLactancia === 'string') {
       listarTiposLactancia()
         .then((res) => {
-          const found = res.data?.find(
+          const tl = res.data?.find(
             (t) => t.nombre?.toLowerCase() === tipoLactancia.toLowerCase()
           );
-          if (found) {
-            openWithSelected(found);
+          if (tl) {
+            openWithSelected(tl);
           } else {
             openWithSelected({ nombre: tipoLactancia });
           }
@@ -137,10 +175,10 @@ export default function Alimentacion() {
     } else {
       openWithSelected(tipoLactancia);
     }
-  }, [location.state]);
+  }, [location.state, tiposAlimentacion]);
 
   const handleAdd = () => {
-    setSelected({ tipo: tabValues[tab] });
+    setSelected({ tipoAlimentacion: { id: tab } });
     setOpenForm(true);
   };
 
@@ -202,7 +240,7 @@ export default function Alimentacion() {
   };
 
   const handleExportCsv = () => {
-    const current = tabValues[tab];
+    const current = selectedSlug;
     const headers = headersMap[current];
     const rows = filtered.map((r) => {
       const base = [dayjs(r.inicio).format('DD/MM/YYYY HH:mm')];
@@ -235,7 +273,7 @@ export default function Alimentacion() {
   };
 
   const handleExportPdf = () => {
-    const current = tabValues[tab];
+    const current = selectedSlug;
     const headers = headersMap[current];
     const rows = filtered.map((r) => {
       const base = [dayjs(r.inicio).format('DD/MM/YYYY HH:mm')];
@@ -287,8 +325,8 @@ export default function Alimentacion() {
         Alimentación
       </Typography>
       <Tabs value={tab} onChange={handleTabChange} sx={{ mb: 2 }}>
-        {tabLabels.map((label) => (
-          <Tab key={label} label={label} />
+        {tiposAlimentacion.map((t) => (
+          <Tab key={t.id} label={t.nombre} value={t.id} />
         ))}
       </Tabs>
 
@@ -296,7 +334,7 @@ export default function Alimentacion() {
         <Table size="small">
           <TableHead>
             <TableRow>
-              {headersMap[tabValues[tab]].map((h) => (
+              {headersMap[selectedSlug]?.map((h) => (
                 <TableCell key={h}>{h}</TableCell>
               ))}
               <TableCell align="center">Acciones</TableCell>
@@ -310,7 +348,7 @@ export default function Alimentacion() {
                   <TableCell>
                     {dayjs(r.inicio).format('DD/MM/YYYY HH:mm')}
                   </TableCell>
-                  {tabValues[tab] === 'lactancia' && (
+                  {selectedSlug === 'lactancia' && (
                     <>
                       <TableCell>{r.tipoLactancia?.nombre}</TableCell>
                       <TableCell>{r.lado}</TableCell>
@@ -325,14 +363,14 @@ export default function Alimentacion() {
                       <TableCell>{r.observaciones}</TableCell>
                     </>
                   )}
-                  {tabValues[tab] === 'biberon' && (
+                  {selectedSlug === 'biberon' && (
                     <>
                       <TableCell>{r.tipoLeche}</TableCell>
                       <TableCell sx={{ fontWeight: 600 }}>{r.cantidadMl}</TableCell>
                       <TableCell>{r.observaciones}</TableCell>
                     </>
                   )}
-                  {tabValues[tab] === 'solidos' && (
+                  {selectedSlug === 'solidos' && (
                     <>
                       <TableCell>{r.alimento}</TableCell>
                       <TableCell sx={{ fontWeight: 600 }}>{r.cantidadMl}</TableCell>
