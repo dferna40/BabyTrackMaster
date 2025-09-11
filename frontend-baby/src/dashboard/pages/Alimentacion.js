@@ -257,7 +257,7 @@ export default function Alimentacion() {
           ...base,
           r.tipoLactancia?.nombre || '',
           r.lado || '',
-          r.cantidad ?? 0,
+          r.cantidadAlimentoSolido ?? 0,
           r.cantidadLecheFormula ?? 0,
           r.cantidadOtrosAlimentos ?? 0,
           r.duracionMin ?? 0,
@@ -296,7 +296,7 @@ export default function Alimentacion() {
           ...base,
           r.tipoLactancia?.nombre || '',
           r.lado || '',
-          r.cantidad ?? 0,
+          r.cantidadAlimentoSolido ?? 0,
           r.cantidadLecheFormula ?? 0,
           r.cantidadOtrosAlimentos ?? 0,
           r.duracionMin ?? 0,
@@ -375,7 +375,7 @@ export default function Alimentacion() {
                         <TableCell>{r.tipoLactancia?.nombre}</TableCell>
                         <TableCell>{r.lado}</TableCell>
                         <TableCell sx={{ fontWeight: 600 }}>
-                          {r.cantidad}
+                          {r.cantidadAlimentoSolido}
                         </TableCell>
                         <TableCell sx={{ fontWeight: 600 }}>
                           {r.cantidadLecheFormula}

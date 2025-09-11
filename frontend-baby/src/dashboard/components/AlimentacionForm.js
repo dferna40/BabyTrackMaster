@@ -35,6 +35,7 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
     cantidadLecheFormula: '',
     tipoAlimentacionSolidoId: '',
     cantidad: '',
+    cantidadAlimentoSolido: '',
     cantidadOtrosAlimentos: '',
     alimentacionOtros: '',
     observaciones: '',
@@ -86,6 +87,7 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
         tipoAlimentacionSolidoId:
           initialData.tipoAlimentacionSolido?.id || '',
         cantidad: initialData.cantidad || '',
+        cantidadAlimentoSolido: initialData.cantidadAlimentoSolido || '',
         cantidadOtrosAlimentos: initialData.cantidadOtrosAlimentos || '',
         alimentacionOtros: initialData.alimentacionOtros || '',
         observaciones: initialData.observaciones || '',
@@ -102,6 +104,7 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
         cantidadLecheFormula: '',
         tipoAlimentacionSolidoId: '',
         cantidad: '',
+        cantidadAlimentoSolido: '',
         cantidadOtrosAlimentos: '',
         alimentacionOtros: '',
         observaciones: '',
@@ -171,6 +174,10 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
           newErrors.tipoAlimentacionSolidoId = 'Requerido';
         if (isSolidoOtros && !formData.alimentacionOtros)
           newErrors.alimentacionOtros = 'Requerido';
+        if (!formData.cantidadAlimentoSolido)
+          newErrors.cantidadAlimentoSolido = 'Requerido';
+        else if (isNaN(Number(formData.cantidadAlimentoSolido)))
+          newErrors.cantidadAlimentoSolido = 'Debe ser numérico';
       }
       if (
         selectedTipoLactancia?.includes('mixta') &&
@@ -216,6 +223,9 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
         : undefined,
       cantidadOtrosAlimentos: formData.cantidadOtrosAlimentos
         ? Number(formData.cantidadOtrosAlimentos)
+        : undefined,
+      cantidadAlimentoSolido: formData.cantidadAlimentoSolido
+        ? Number(formData.cantidadAlimentoSolido)
         : undefined,
       tipoAlimentacionId: formData.tipoAlimentacionId
         ? Number(formData.tipoAlimentacionId)
@@ -453,6 +463,21 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
               </FormControl>
             </>
           )}
+          {selectedTipo === 'lactancia' &&
+            selectedTipoLactancia?.includes('complementaria') && (
+              <FormControl fullWidth sx={{ mb: 2 }}>
+                <FormLabel sx={{ mb: 1 }}>Cantidad alimento sólido (g)</FormLabel>
+                <TextField
+                  type="number"
+                  name="cantidadAlimentoSolido"
+                  value={formData.cantidadAlimentoSolido}
+                  onChange={handleChange}
+                  error={!!errors.cantidadAlimentoSolido}
+                  helperText={errors.cantidadAlimentoSolido}
+                  inputProps={{ min: 0 }}
+                />
+              </FormControl>
+            )}
           <FormControl fullWidth sx={{ mb: 2 }}>
             <FormLabel sx={{ mb: 1 }}>Observaciones</FormLabel>
             <TextField
