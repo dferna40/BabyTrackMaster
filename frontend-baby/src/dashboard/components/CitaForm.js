@@ -36,7 +36,7 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
     if (initialData) {
       setFormData({
         fecha: initialData.fecha ? dayjs(initialData.fecha) : null,
-        hora: initialData.hora ? dayjs(`1970-01-01T${initialData.hora}`) : null,
+        hora: initialData.hora ? dayjs(initialData.hora, 'HH:mm') : null,
         motivo: initialData.motivo || '',
         tipoId: initialData.tipoId || '',
         centroMedico: initialData.centroMedico || '',
