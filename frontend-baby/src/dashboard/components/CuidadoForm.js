@@ -16,6 +16,34 @@ import dayjs from 'dayjs';
 import { listarTipos, listarTiposPanal } from '../../services/cuidadosService';
 import { saveButton, cancelButton } from '../../theme/buttonStyles';
 
+const duracionOptions = [
+  '15m',
+  '30m',
+  '1h',
+  '1h30m',
+  '2h',
+  '2h30m',
+  '3h',
+  '3h30m',
+  '4h',
+  '4h30m',
+  '5h',
+  '5h30m',
+  '6h',
+  '6h30m',
+  '7h',
+  '7h30m',
+  '8h',
+  '8h30m',
+  '9h',
+  '9h30m',
+  '10h',
+  '10h30m',
+  '11h',
+  '11h30m',
+  '12h',
+];
+
 export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
   const disableTipo = initialData?.disableTipo;
   const [formData, setFormData] = useState({
@@ -37,7 +65,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
         inicio: initialData.inicio ? dayjs(initialData.inicio) : null,
         tipoId: initialData.tipoId || "",
         cantidadMl: initialData.cantidadMl || "",
-        duracion: initialData.duracion || "",
+        duracion: initialData.duracion ? String(initialData.duracion) : "",
         observaciones: initialData.observaciones || "",
         tipoPanalId: initialData.tipoPanalId || "",
         cantidadPanal: initialData.cantidadPanal || "",
@@ -68,7 +96,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     const sanitizedValue =
-      ["cantidadMl", "duracion", "cantidadPanal"].includes(name)
+      ["cantidadMl", "cantidadPanal"].includes(name)
         ? String(Math.max(0, Number(value)))
         : value;
     setFormData((prev) => ({
@@ -98,8 +126,8 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
     if (formData.inicio && dayjs(formData.inicio).isAfter(dayjs())) {
       newErrors.inicio = 'La fecha no puede ser futura';
     }
-    if (isSueno && (!formData.duracion || Number(formData.duracion) <= 0)) {
-      newErrors.duracion = 'La duración debe ser mayor a 0';
+    if (isSueno && !formData.duracion) {
+      newErrors.duracion = 'La duración es obligatoria';
     }
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
@@ -156,15 +184,20 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
             <FormControl fullWidth sx={{ mb: 2 }} error={!!errors.duracion}>
               <FormLabel sx={{ mb: 1 }}>Duración</FormLabel>
               <TextField
-                type="number"
+                select
                 name="duracion"
                 value={formData.duracion}
                 onChange={handleChange}
-                inputProps={{ min: 0 }}
                 error={!!errors.duracion}
-              />
+              >
+                {duracionOptions.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
               <FormHelperText>
-                {errors.duracion || 'duración en minutos'}
+                {errors.duracion || 'Selecciona la duración'}
               </FormHelperText>
             </FormControl>
           ) : isPanal ? null : (
