@@ -78,9 +78,12 @@ export default function QuickActionsCard() {
               ? getDate(biberonItems[0])
               : null;
 
-            const todayPecho = pechoItems.filter((item) =>
-              getDate(item).isSame(now, 'day'),
-            ).length;
+            const todayPecho = pechoItems
+              .filter((item) => getDate(item).isSame(now, 'day'))
+              .reduce(
+                (sum, item) => sum + Number(item.duracionMin || 0),
+                0,
+              );
             const todayBiberon = biberonItems.filter((item) =>
               getDate(item).isSame(now, 'day'),
             ).length;
@@ -170,7 +173,7 @@ export default function QuickActionsCard() {
         disableTipo: true,
         disableTipoLactancia: true,
       },
-      unit: '',
+      unit: 'min',
       color: 'primary',
     },
     {
