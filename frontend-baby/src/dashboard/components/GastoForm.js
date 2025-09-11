@@ -21,6 +21,7 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
     categoriaId: "",
     descripcion: "",
     precio: "",
+    categoriaNombre: "",
   });
   const [categorias, setCategorias] = useState([]);
   const [errors, setErrors] = useState({});
@@ -32,6 +33,7 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
         categoriaId: initialData.categoriaId || "",
         descripcion: initialData.descripcion || "",
         precio: initialData.precio || "",
+        categoriaNombre: initialData.categoriaNombre || "",
       });
     } else {
       setFormData({
@@ -39,6 +41,7 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
         categoriaId: "",
         descripcion: "",
         precio: "",
+        categoriaNombre: "",
       });
     }
     setErrors({});
@@ -54,6 +57,10 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
       });
   }, []);
 
+  const selectedCategoriaNombre =
+    categorias.find((option) => option.id === formData.categoriaId)?.nombre?.trim().toLowerCase() || "";
+  const isCategoriaOtros = selectedCategoriaNombre === "otros";
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "precio") {
@@ -62,6 +69,22 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
         ...prev,
         precio: val >= 0 ? "" : "El precio no puede ser negativo",
       }));
+    }
+    if (name === "categoriaId") {
+      const selectedName =
+        categorias.find((option) => option.id === value)?.nombre?.trim().toLowerCase() || "";
+      setFormData((prev) => ({
+        ...prev,
+        categoriaId: value,
+        ...(selectedName !== "otros" ? { categoriaNombre: "" } : {}),
+      }));
+      if (selectedName !== "otros") {
+        setErrors((prev) => ({ ...prev, categoriaNombre: "" }));
+      }
+      return;
+    }
+    if (name === "categoriaNombre") {
+      setErrors((prev) => ({ ...prev, categoriaNombre: "" }));
     }
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -94,10 +117,17 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
       }));
       return;
     }
+    if (isCategoriaOtros && !formData.categoriaNombre) {
+      setErrors((prev) => ({ ...prev, categoriaNombre: "Debe especificar la categoría" }));
+      return;
+    }
     const data = {
       ...formData,
       fecha: formData.fecha ? formData.fecha.format("YYYY-MM-DD") : "",
     };
+    if (!isCategoriaOtros) {
+      delete data.categoriaNombre;
+    }
     onSubmit(data);
   };
 
@@ -137,18 +167,20 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
                 ))}
               </TextField>
             </FormControl>
+            {isCategoriaOtros && (
+              <FormControl fullWidth sx={{ mb: 2 }}>
+                <FormLabel sx={{ mb: 1 }}>Especificar</FormLabel>
+                <TextField
+                  name="categoriaNombre"
+                  value={formData.categoriaNombre}
+                  onChange={handleChange}
+                  error={Boolean(errors.categoriaNombre)}
+                  helperText={errors.categoriaNombre}
+                />
+              </FormControl>
+            )}
             <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Descripción</FormLabel>
-              <TextField
-                multiline
-                rows={3}
-                name="descripcion"
-                value={formData.descripcion}
-                onChange={handleChange}
-              />
-            </FormControl>
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Precio</FormLabel>
+              <FormLabel sx={{ mb: 1 }}>Precio (€)</FormLabel>
               <TextField
                 type="number"
                 name="precio"
@@ -157,6 +189,16 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
                 inputProps={{ min: 0 }}
                 error={Boolean(errors.precio)}
                 helperText={errors.precio}
+              />
+            </FormControl>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormLabel sx={{ mb: 1 }}>Descripción</FormLabel>
+              <TextField
+                multiline
+                rows={3}
+                name="descripcion"
+                value={formData.descripcion}
+                onChange={handleChange}
               />
             </FormControl>
           </Stack>
