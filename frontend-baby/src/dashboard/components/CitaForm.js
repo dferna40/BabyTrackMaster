@@ -96,6 +96,13 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
       alert('La hora es obligatoria');
       return;
     }
+    const selectedDateTime = formData.fecha
+      .hour(formData.hora.hour())
+      .minute(formData.hora.minute());
+    if (selectedDateTime.isBefore(dayjs())) {
+      alert('La fecha y hora no pueden ser anteriores al momento actual');
+      return;
+    }
     const {
       fecha,
       hora,
@@ -133,6 +140,7 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
                 onChange={(newValue) => handleChange('fecha', newValue)}
                 slotProps={{ textField: { fullWidth: true, required: true } }}
                 format="YYYY-MM-DD"
+                minDate={dayjs()}
               />
             </FormControl>
             <FormControl fullWidth sx={{ mb: 2 }}>
@@ -142,6 +150,11 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
                 onChange={(newValue) => handleChange('hora', newValue)}
                 slotProps={{ textField: { fullWidth: true, required: true } }}
                 format="HH:mm"
+                minTime={
+                  formData.fecha && formData.fecha.isSame(dayjs(), 'day')
+                    ? dayjs()
+                    : null
+                }
               />
             </FormControl>
             <FormControl fullWidth sx={{ mb: 2 }}>
