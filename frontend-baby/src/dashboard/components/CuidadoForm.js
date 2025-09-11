@@ -10,6 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import FormHelperText from '@mui/material/FormHelperText';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { listarTipos, listarTiposPanal } from '../../services/cuidadosService';
@@ -28,6 +29,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
   });
   const [tipoOptions, setTipoOptions] = useState([]);
   const [tipoPanalOptions, setTipoPanalOptions] = useState([]);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (initialData) {
@@ -51,6 +53,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
         cantidadPanal: "",
       });
     }
+    setErrors({});
   }, [initialData, open]);
 
   useEffect(() => {
@@ -78,8 +81,20 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
     setFormData((prev) => ({ ...prev, inicio: newValue }));
   };
 
+  const selectedTipo = tipoOptions.find(
+    (option) => Number(option.id) === Number(formData.tipoId),
+  );
+  const isSueno = selectedTipo?.nombre === "Sueño";
+  const isPanal = selectedTipo?.nombre === "Pañal";
+
   const handleSubmit = () => {
     if (!formData.inicio) return;
+    const newErrors = {};
+    if (isSueno && (!formData.duracion || Number(formData.duracion) <= 0)) {
+      newErrors.duracion = 'La duración debe ser mayor a 0';
+    }
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return;
     const payload = {
       ...formData,
       cantidadPanal: formData.cantidadPanal,
@@ -87,12 +102,6 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
     };
     onSubmit(payload);
   };
-
-  const selectedTipo = tipoOptions.find(
-    (option) => Number(option.id) === Number(formData.tipoId),
-  );
-  const isSueno = selectedTipo?.nombre === "Sueño";
-  const isPanal = selectedTipo?.nombre === "Pañal";
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
@@ -128,7 +137,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
             </TextField>
           </FormControl>
           {isSueno ? (
-            <FormControl fullWidth sx={{ mb: 2 }}>
+            <FormControl fullWidth sx={{ mb: 2 }} error={!!errors.duracion}>
               <FormLabel sx={{ mb: 1 }}>Duración</FormLabel>
               <TextField
                 type="number"
@@ -136,7 +145,11 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
                 value={formData.duracion}
                 onChange={handleChange}
                 inputProps={{ min: 0 }}
+                error={!!errors.duracion}
               />
+              <FormHelperText>
+                {errors.duracion || 'duración en minutos'}
+              </FormHelperText>
             </FormControl>
           ) : isPanal ? null : (
             <FormControl fullWidth sx={{ mb: 2 }}>
