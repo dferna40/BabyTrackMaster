@@ -10,7 +10,12 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Box from '@mui/material/Box';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import { listarRecientes } from '../../services/cuidadosService';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export default function RecentCareCard() {
   const [recentCare, setRecentCare] = useState([]);
@@ -32,7 +37,7 @@ export default function RecentCareCard() {
   };
 
   const formatTimeAgo = (inicio) => {
-    const diffMinutes = dayjs().diff(dayjs(inicio), 'minute');
+    const diffMinutes = dayjs().diff(dayjs.utc(inicio).local(), 'minute');
     const hours = Math.floor(diffMinutes / 60);
     const minutes = diffMinutes % 60;
     const hoursStr = hours ? `${hours}h ` : '';

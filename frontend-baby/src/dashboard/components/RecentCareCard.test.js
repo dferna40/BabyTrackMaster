@@ -19,6 +19,7 @@ jest.mock('axios', () => ({
 describe('RecentCareCard', () => {
   afterEach(() => {
     jest.clearAllMocks();
+    jest.useRealTimers();
   });
 
   it('muestra tipoPanalNombre para cuidados de pañal', async () => {
@@ -73,5 +74,36 @@ describe('RecentCareCard', () => {
     await waitFor(() => {
       expect(screen.getByText('1h 30m')).toBeInTheDocument();
     });
+  });
+
+  it('normaliza el tiempo al convertir desde UTC a la hora local', async () => {
+    const originalTZ = process.env.TZ;
+    process.env.TZ = 'America/Mexico_City';
+    jest.useFakeTimers().setSystemTime(new Date('2024-07-22T06:30:00-05:00'));
+    listarRecientes.mockResolvedValue({
+      data: [
+        {
+          id: 3,
+          tipoNombre: 'Pañal',
+          inicio: '2024-07-22T10:00:00',
+          tipoPanalNombre: 'Pipi',
+        },
+      ],
+    });
+
+    render(
+      <AuthContext.Provider value={{ user: { id: 1 } }}>
+        <BabyContext.Provider value={{ activeBaby: { id: 2 } }}>
+          <RecentCareCard />
+        </BabyContext.Provider>
+      </AuthContext.Provider>
+    );
+
+    await waitFor(() => expect(listarRecientes).toHaveBeenCalled());
+    await waitFor(() => {
+      expect(screen.getByText('Hace 1h 30m')).toBeInTheDocument();
+    });
+
+    process.env.TZ = originalTZ;
   });
 });
