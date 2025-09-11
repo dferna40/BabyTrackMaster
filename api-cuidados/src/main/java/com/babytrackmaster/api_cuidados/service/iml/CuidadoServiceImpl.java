@@ -16,6 +16,7 @@ import com.babytrackmaster.api_cuidados.entity.Cuidado;
 import com.babytrackmaster.api_cuidados.mapper.CuidadoMapper;
 import com.babytrackmaster.api_cuidados.repository.CuidadoRepository;
 import com.babytrackmaster.api_cuidados.repository.TipoCuidadoRepository;
+import com.babytrackmaster.api_cuidados.repository.TipoPanalRepository;
 import com.babytrackmaster.api_cuidados.service.CuidadoService;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -26,14 +27,16 @@ public class CuidadoServiceImpl implements CuidadoService {
 
     private final CuidadoRepository repo;
     private final TipoCuidadoRepository tipoRepo;
+    private final TipoPanalRepository tipoPanalRepo;
 
-    public CuidadoServiceImpl(CuidadoRepository repo, TipoCuidadoRepository tipoRepo) {
+    public CuidadoServiceImpl(CuidadoRepository repo, TipoCuidadoRepository tipoRepo, TipoPanalRepository tipoPanalRepo) {
         this.repo = repo;
         this.tipoRepo = tipoRepo;
+        this.tipoPanalRepo = tipoPanalRepo;
     }
 
     public CuidadoResponse crear(Long usuarioId, CuidadoRequest request) {
-        Cuidado c = CuidadoMapper.toEntity(request, usuarioId, tipoRepo);
+        Cuidado c = CuidadoMapper.toEntity(request, usuarioId, tipoRepo, tipoPanalRepo);
         c = repo.save(c);
         return CuidadoMapper.toResponse(c);
     }
@@ -43,7 +46,7 @@ public class CuidadoServiceImpl implements CuidadoService {
         if (c == null) {
             throw new IllegalArgumentException("Cuidado no encontrado: " + id);
         }
-        CuidadoMapper.copyToEntity(request, c, usuarioId, tipoRepo);
+        CuidadoMapper.copyToEntity(request, c, usuarioId, tipoRepo, tipoPanalRepo);
         c = repo.save(c);
         return CuidadoMapper.toResponse(c);
     }

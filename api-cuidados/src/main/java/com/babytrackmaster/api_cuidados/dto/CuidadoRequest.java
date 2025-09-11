@@ -18,7 +18,8 @@ public class CuidadoRequest {
     private Date fin;
     private String duracion;
     private Integer cantidadMl;
-    private String tipoPanal;
+    @Schema(example = "1", description = "ID del tipo de pañal")
+    private Long tipoPanalId;
     private String medicamento;
     private String dosis;
     private String observaciones;
