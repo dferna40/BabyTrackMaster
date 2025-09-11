@@ -52,6 +52,13 @@ export default function Cuidados() {
   const normalize = (str) =>
     str?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
+  const formatDurationMinutes = (minutes) => {
+    if (isNaN(minutes)) return "-";
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}h ${mins}m`;
+  };
+
   const filteredCuidados = useMemo(
     () =>
       tipos[tab]
@@ -179,7 +186,7 @@ export default function Cuidados() {
       dayjs(cuidado.inicio).format("DD/MM/YYYY HH:mm"),
       cuidado.tipoNombre,
       cuidado.tipoNombre === "Sueño"
-        ? cuidado.duracion ?? "-"
+        ? formatDurationMinutes(Number(cuidado.duracion))
         : cuidado.tipoNombre === "Pañal"
         ? cuidado.tipoPanalNombre ?? "-"
         : cuidado.cantidadMl ?? "-",
@@ -211,7 +218,7 @@ export default function Cuidados() {
       dayjs(cuidado.inicio).format("DD/MM/YYYY HH:mm"),
       cuidado.tipoNombre,
       cuidado.tipoNombre === "Sueño"
-        ? cuidado.duracion ?? "-"
+        ? formatDurationMinutes(Number(cuidado.duracion))
         : cuidado.tipoNombre === "Pañal"
         ? cuidado.tipoPanalNombre ?? "-"
         : cuidado.cantidadMl ?? "-",
@@ -276,7 +283,7 @@ export default function Cuidados() {
                   <TableCell>{cuidado.tipoNombre}</TableCell>
                   <TableCell sx={{ fontWeight: 600 }}>
                     {cuidado.tipoNombre === "Sueño"
-                      ? cuidado.duracion ?? "-"
+                      ? formatDurationMinutes(Number(cuidado.duracion))
                       : cuidado.tipoNombre === "Pañal"
                       ? cuidado.tipoPanalNombre ?? "-"
                       : cuidado.cantidadMl ?? "-"}
