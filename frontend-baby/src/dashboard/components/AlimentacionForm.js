@@ -35,7 +35,6 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
     cantidadLecheFormula: '',
     tipoAlimentacionSolidoId: '',
     cantidad: '',
-    alimento: '',
     cantidadOtrosAlimentos: '',
     alimentacionOtros: '',
     observaciones: '',
@@ -86,7 +85,6 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
         tipoAlimentacionSolidoId:
           initialData.tipoAlimentacionSolido?.id || '',
         cantidad: initialData.cantidad || '',
-        alimento: initialData.alimento || '',
         cantidadOtrosAlimentos: initialData.cantidadOtrosAlimentos || '',
         alimentacionOtros: initialData.alimentacionOtros || '',
         observaciones: initialData.observaciones || '',
@@ -103,7 +101,6 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
         cantidadLecheFormula: '',
         tipoAlimentacionSolidoId: '',
         cantidad: '',
-        alimento: '',
         cantidadOtrosAlimentos: '',
         alimentacionOtros: '',
         observaciones: '',
@@ -168,8 +165,12 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
       if (!formData.tipoLactanciaId) newErrors.tipoLactanciaId = 'Requerido';
       if (!formData.lado) newErrors.lado = 'Requerido';
       if (!formData.duracionMin) newErrors.duracionMin = 'Requerido';
-      if (selectedTipoLactancia?.includes('complementaria') && !formData.alimento)
-        newErrors.alimento = 'Requerido';
+      if (selectedTipoLactancia?.includes('complementaria')) {
+        if (!formData.tipoAlimentacionSolidoId)
+          newErrors.tipoAlimentacionSolidoId = 'Requerido';
+        if (isSolidoOtros && !formData.alimentacionOtros)
+          newErrors.alimentacionOtros = 'Requerido';
+      }
       if (
         selectedTipoLactancia?.includes('mixta') &&
         !formData.cantidadLecheFormula
@@ -313,16 +314,37 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
                 />
               </FormControl>
               {selectedTipoLactancia?.includes('complementaria') && (
-                <FormControl fullWidth sx={{ mb: 2 }}>
-                  <FormLabel sx={{ mb: 1 }}>Sólido</FormLabel>
-                  <TextField
-                    name="alimento"
-                    value={formData.alimento}
-                    onChange={handleChange}
-                    error={!!errors.alimento}
-                    helperText={errors.alimento}
-                  />
-                </FormControl>
+                <>
+                  <FormControl fullWidth sx={{ mb: 2 }}>
+                    <FormLabel sx={{ mb: 1 }}>Sólido</FormLabel>
+                    <TextField
+                      select
+                      name="tipoAlimentacionSolidoId"
+                      value={formData.tipoAlimentacionSolidoId}
+                      onChange={handleChange}
+                      error={!!errors.tipoAlimentacionSolidoId}
+                      helperText={errors.tipoAlimentacionSolidoId}
+                    >
+                      {tiposSolidos.map((t) => (
+                        <MenuItem key={t.id} value={t.id}>
+                          {t.nombre}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </FormControl>
+                  {isSolidoOtros && (
+                    <FormControl fullWidth sx={{ mb: 2 }}>
+                      <FormLabel sx={{ mb: 1 }}>Especificar</FormLabel>
+                      <TextField
+                        name="alimentacionOtros"
+                        value={formData.alimentacionOtros}
+                        onChange={handleChange}
+                        error={!!errors.alimentacionOtros}
+                        helperText={errors.alimentacionOtros}
+                      />
+                    </FormControl>
+                  )}
+                </>
               )}
               {selectedTipoLactancia?.includes('mixta') && (
                 <FormControl fullWidth sx={{ mb: 2 }}>
