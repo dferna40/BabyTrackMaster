@@ -20,6 +20,8 @@ public class CuidadoRequest {
     private Integer cantidadMl;
     @Schema(example = "1", description = "ID del tipo de pañal")
     private Long tipoPanalId;
+    @Schema(example = "2", description = "Cantidad de pañales")
+    private Integer cantidadPanal;
     private String medicamento;
     private String dosis;
     private String observaciones;

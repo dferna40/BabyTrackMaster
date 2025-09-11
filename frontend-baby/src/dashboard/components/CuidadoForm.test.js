@@ -26,7 +26,7 @@ describe('CuidadoForm', () => {
     jest.clearAllMocks();
   });
 
-  it('renderiza selector de tipo de pañal y envía tipoPanalId', async () => {
+  it('renderiza selector de tipo de pañal y envía tipoPanalId y cantidadPanal', async () => {
     const onSubmit = jest.fn();
     render(
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -52,11 +52,15 @@ describe('CuidadoForm', () => {
     await userEvent.click(tipoPanalSelect);
     await userEvent.click(screen.getByRole('option', { name: 'Pipi' }));
 
+    const spinbuttons = screen.getAllByRole('spinbutton');
+    const cantidadInput = spinbuttons[spinbuttons.length - 1];
+    await userEvent.type(cantidadInput, '2');
+
     await userEvent.click(screen.getByRole('button', { name: 'Guardar' }));
 
     await waitFor(() =>
       expect(onSubmit).toHaveBeenCalledWith(
-        expect.objectContaining({ tipoPanalId: 10 })
+        expect.objectContaining({ tipoPanalId: 10, cantidadPanal: '2' })
       )
     );
   });

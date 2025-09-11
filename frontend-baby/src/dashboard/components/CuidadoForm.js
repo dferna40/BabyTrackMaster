@@ -24,6 +24,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
     duracion: "",
     observaciones: "",
     tipoPanalId: "",
+    cantidadPanal: "",
   });
   const [tipoOptions, setTipoOptions] = useState([]);
   const [tipoPanalOptions, setTipoPanalOptions] = useState([]);
@@ -37,6 +38,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
         duracion: initialData.duracion || "",
         observaciones: initialData.observaciones || "",
         tipoPanalId: initialData.tipoPanalId || "",
+        cantidadPanal: initialData.cantidadPanal || "",
       });
     } else {
       setFormData({
@@ -46,6 +48,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
         duracion: "",
         observaciones: "",
         tipoPanalId: "",
+        cantidadPanal: "",
       });
     }
   }, [initialData, open]);
@@ -62,7 +65,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     const sanitizedValue =
-      ["cantidadMl", "duracion"].includes(name)
+      ["cantidadMl", "duracion", "cantidadPanal"].includes(name)
         ? String(Math.max(0, Number(value)))
         : value;
     setFormData((prev) => ({
@@ -79,6 +82,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
     if (!formData.inicio) return;
     const payload = {
       ...formData,
+      cantidadPanal: formData.cantidadPanal,
       inicio: formData.inicio
         ? formData.inicio.format("YYYY-MM-DDTHH:mm")
         : "",
@@ -149,21 +153,33 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
             </FormControl>
           )}
           {isPanal && (
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Tipo pañal</FormLabel>
-              <TextField
-                select
-                name="tipoPanalId"
-                value={formData.tipoPanalId}
-                onChange={handleChange}
-              >
-                {tipoPanalOptions.map((option) => (
-                  <MenuItem key={option.id} value={option.id}>
-                    {option.nombre}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </FormControl>
+            <>
+              <FormControl fullWidth sx={{ mb: 2 }}>
+                <FormLabel sx={{ mb: 1 }}>Tipo pañal</FormLabel>
+                <TextField
+                  select
+                  name="tipoPanalId"
+                  value={formData.tipoPanalId}
+                  onChange={handleChange}
+                >
+                  {tipoPanalOptions.map((option) => (
+                    <MenuItem key={option.id} value={option.id}>
+                      {option.nombre}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </FormControl>
+              <FormControl fullWidth sx={{ mb: 2 }}>
+                <FormLabel sx={{ mb: 1 }}>Cantidad pañal</FormLabel>
+                <TextField
+                  type="number"
+                  name="cantidadPanal"
+                  value={formData.cantidadPanal}
+                  onChange={handleChange}
+                  inputProps={{ min: 0 }}
+                />
+              </FormControl>
+            </>
           )}
           <FormControl fullWidth sx={{ mb: 2 }}>
             <FormLabel sx={{ mb: 1 }}>Observaciones</FormLabel>

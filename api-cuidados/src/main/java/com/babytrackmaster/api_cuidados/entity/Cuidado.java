@@ -43,6 +43,9 @@ public class Cuidado {
     @JoinColumn(name = "tipo_panal")
     private TipoPanal tipoPanal;
 
+    @Column(name = "cantidad_panal")
+    private Integer cantidadPanal;
+
     @Column(length=120)
     private String medicamento;
 

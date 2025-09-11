@@ -23,6 +23,8 @@ public class CuidadoResponse {
     private Integer cantidadMl;
     private Long tipoPanalId;
     private String tipoPanalNombre;
+    @Schema(example = "2")
+    private Integer cantidadPanal;
     private String medicamento;
     private String dosis;
     private String observaciones;

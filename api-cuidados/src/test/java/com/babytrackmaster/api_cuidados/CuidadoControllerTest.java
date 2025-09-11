@@ -39,6 +39,7 @@ class CuidadoControllerTest {
     private CuidadoRepository cuidadoRepo;
 
     private Date baseDate;
+    private Cuidado panalGuardado;
 
     @BeforeEach
     void setUp() {
@@ -54,9 +55,9 @@ class CuidadoControllerTest {
 
         createCuidado(sueno, null, date(2024,3,10,0,0), date(2024,3,10,2,0));
         createCuidado(sueno, null, date(2024,3,10,10,0), date(2024,3,10,11,30));
-        createCuidado(panal, pipi, date(2024,3,10,3,0), date(2024,3,10,3,5));
-        createCuidado(panal, pipi, date(2024,3,10,7,0), date(2024,3,10,7,5));
-        createCuidado(panal, pipi, date(2024,3,10,13,0), date(2024,3,10,13,7));
+        panalGuardado = createCuidado(panal, pipi, date(2024,3,10,3,0), date(2024,3,10,3,5), 2);
+        createCuidado(panal, pipi, date(2024,3,10,7,0), date(2024,3,10,7,5), 1);
+        createCuidado(panal, pipi, date(2024,3,10,13,0), date(2024,3,10,13,7), 1);
         createCuidado(bano, null, date(2024,3,10,18,0), date(2024,3,10,18,20));
     }
 
@@ -68,6 +69,13 @@ class CuidadoControllerTest {
             .andExpect(jsonPath("$.horasSueno", closeTo(3.5, 0.01)))
             .andExpect(jsonPath("$.panales").value(3))
             .andExpect(jsonPath("$.banos").value(1));
+    }
+
+    @Test
+    void obtenerIncluyeCantidadPanal() throws Exception {
+        mockMvc.perform(get("/api/v1/cuidados/usuario/1/" + panalGuardado.getId()))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.cantidadPanal").value(2));
     }
 
     private TipoCuidado saveTipo(String nombre) {
@@ -88,18 +96,23 @@ class CuidadoControllerTest {
         return tipoPanalRepo.save(t);
     }
 
-    private Cuidado createCuidado(TipoCuidado tipo, TipoPanal tipoPanal, Date inicio, Date fin) {
+    private Cuidado createCuidado(TipoCuidado tipo, TipoPanal tipoPanal, Date inicio, Date fin, Integer cantidadPanal) {
         Cuidado c = new Cuidado();
         c.setBebeId(1L);
         c.setUsuarioId(1L);
         c.setTipo(tipo);
         c.setTipoPanal(tipoPanal);
+        c.setCantidadPanal(cantidadPanal);
         c.setInicio(inicio);
         c.setFin(fin);
         Date now = new Date();
         c.setCreatedAt(now);
         c.setUpdatedAt(now);
         return cuidadoRepo.save(c);
+    }
+
+    private Cuidado createCuidado(TipoCuidado tipo, TipoPanal tipoPanal, Date inicio, Date fin) {
+        return createCuidado(tipo, tipoPanal, inicio, fin, null);
     }
 
     private Date date(int year,int month,int day,int hour,int minute) {
