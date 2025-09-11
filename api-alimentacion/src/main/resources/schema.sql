@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS alimentacion (
     cantidad_ml INT,
     cantidad_leche_formula INT,
     tipo_alimentacion_solido_id BIGINT,
+    cantidad_alimento_solido INT,
     cantidad VARCHAR(50),
     cantidad_otros_alimentos INT,
     alimentacion_otros VARCHAR(100),

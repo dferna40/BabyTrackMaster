@@ -20,6 +20,7 @@ public class AlimentacionMapper {
         a.setCantidadMl(req.getCantidadMl());
         a.setCantidadLecheFormula(req.getCantidadLecheFormula());
         a.setTipoAlimentacionSolido(req.getTipoAlimentacionSolido());
+        a.setCantidadAlimentoSolido(req.getCantidadAlimentoSolido());
         a.setCantidad(req.getCantidad());
         a.setCantidadOtrosAlimentos(req.getCantidadOtrosAlimentos());
         a.setAlimentacionOtros(req.getAlimentacionOtros());
@@ -40,6 +41,7 @@ public class AlimentacionMapper {
         a.setCantidadMl(req.getCantidadMl());
         a.setCantidadLecheFormula(req.getCantidadLecheFormula());
         a.setTipoAlimentacionSolido(req.getTipoAlimentacionSolido());
+        a.setCantidadAlimentoSolido(req.getCantidadAlimentoSolido());
         a.setCantidad(req.getCantidad());
         a.setCantidadOtrosAlimentos(req.getCantidadOtrosAlimentos());
         a.setAlimentacionOtros(req.getAlimentacionOtros());
@@ -60,6 +62,7 @@ public class AlimentacionMapper {
         r.setCantidadMl(a.getCantidadMl());
         r.setCantidadLecheFormula(a.getCantidadLecheFormula());
         r.setTipoAlimentacionSolido(a.getTipoAlimentacionSolido());
+        r.setCantidadAlimentoSolido(a.getCantidadAlimentoSolido());
         r.setCantidad(a.getCantidad());
         r.setCantidadOtrosAlimentos(a.getCantidadOtrosAlimentos());
         r.setAlimentacionOtros(a.getAlimentacionOtros());

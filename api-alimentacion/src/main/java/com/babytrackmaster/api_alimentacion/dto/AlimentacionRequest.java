@@ -30,6 +30,7 @@ public class AlimentacionRequest {
 
     // Solidos
     private TipoAlimentacionSolido tipoAlimentacionSolido;
+    private Integer cantidadAlimentoSolido;
     private String cantidad;
     private Integer cantidadOtrosAlimentos;
     private String alimentacionOtros;
