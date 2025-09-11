@@ -13,7 +13,7 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import { AuthContext } from '../../context/AuthContext';
 import { BabyContext } from '../../context/BabyContext';
 import { obtenerStatsRapidas } from '../../services/cuidadosService';
-import { listarRecientes } from '../../services/alimentacionService';
+import { obtenerUltimoBiberon } from '../../services/alimentacionService';
 import {
   listarUltimosPorTipo,
   listarTipos,
@@ -31,7 +31,7 @@ export default function StatsOverview() {
   const { activeBaby } = useContext(BabyContext);
 
   const [stats, setStats] = useState({
-    lastBottle: 'Hace 2h',
+    lastBottle: 'Sin datos',
     sleep: { hours: 0, diff: 0 },
     diapers: { count: 0, diff: 0 },
     weight: { value: '0 kg', diff: undefined, diffValue: 0 },
@@ -67,26 +67,20 @@ export default function StatsOverview() {
           /* ignore errors */
         });
 
-      listarRecientes(user.id, activeBaby.id, 1)
+      obtenerUltimoBiberon(user.id, activeBaby.id)
         .then(({ data }) => {
-          if (Array.isArray(data) && data.length > 0) {
-            const last = data[0];
-            const date =
-              last.fecha || last.date || last.fechaHora || last.createdAt;
-            if (date) {
-              setStats((prev) => ({
-                ...prev,
-                lastBottle: formatTimeAgo(date),
-              }));
-            } else {
-              setStats((prev) => ({ ...prev, lastBottle: 'Sin datos' }));
-            }
+          const date = data?.fechaHora || data;
+          if (date) {
+            setStats((prev) => ({
+              ...prev,
+              lastBottle: formatTimeAgo(date),
+            }));
           } else {
             setStats((prev) => ({ ...prev, lastBottle: 'Sin datos' }));
           }
         })
         .catch(() => {
-          /* ignore errors */
+          setStats((prev) => ({ ...prev, lastBottle: 'Sin datos' }));
         });
 
       listarTipos()
