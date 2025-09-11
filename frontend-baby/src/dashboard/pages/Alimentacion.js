@@ -232,7 +232,7 @@ export default function Alimentacion() {
       'Hora',
       'Tipo lactancia',
       'Lado',
-      'Sólido (g)',
+      'Cantidad sólido (g)',
       'Cantidad leche fórmula (ml)',
       'Cantidad otros alimentos (ml)',
       'Duración (min)',
@@ -252,16 +252,15 @@ export default function Alimentacion() {
     const headers = headersMap[current];
     const rows = filtered.map((r) => {
       const base = [dayjs(r.inicio).format('DD/MM/YYYY HH:mm')];
-      const alimento = getNombreSolido(r) || '';
       if (current === 'lactancia') {
         return [
           ...base,
           r.tipoLactancia?.nombre || '',
           r.lado || '',
-          alimento,
-          r.cantidadLecheFormula || '',
-          r.cantidadOtrosAlimentos || '',
-          r.duracionMin || '',
+          r.cantidad ?? 0,
+          r.cantidadLecheFormula ?? 0,
+          r.cantidadOtrosAlimentos ?? 0,
+          r.duracionMin ?? 0,
           r.observaciones || '',
         ];
       }
@@ -273,7 +272,8 @@ export default function Alimentacion() {
           r.observaciones || '',
         ];
       }
-      return [...base, alimento, r.cantidad, r.observaciones || ''];
+      const alimento = getNombreSolido(r) || '';
+      return [...base, alimento, r.cantidad ?? 0, r.observaciones || ''];
     });
     const csvContent = [headers, ...rows].map((e) => e.join(',')).join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -291,16 +291,15 @@ export default function Alimentacion() {
     const headers = headersMap[current];
     const rows = filtered.map((r) => {
       const base = [dayjs(r.inicio).format('DD/MM/YYYY HH:mm')];
-      const alimento = getNombreSolido(r) || '';
       if (current === 'lactancia') {
         return [
           ...base,
           r.tipoLactancia?.nombre || '',
           r.lado || '',
-          alimento,
-          r.cantidadLecheFormula || '',
-          r.cantidadOtrosAlimentos || '',
-          r.duracionMin || '',
+          r.cantidad ?? 0,
+          r.cantidadLecheFormula ?? 0,
+          r.cantidadOtrosAlimentos ?? 0,
+          r.duracionMin ?? 0,
           r.observaciones || '',
         ];
       }
@@ -312,7 +311,8 @@ export default function Alimentacion() {
           r.observaciones || '',
         ];
       }
-      return [...base, alimento, r.cantidad, r.observaciones || ''];
+      const alimento = getNombreSolido(r) || '';
+      return [...base, alimento, r.cantidad ?? 0, r.observaciones || ''];
     });
     const doc = new jsPDF();
     autoTable(doc, {
@@ -374,14 +374,18 @@ export default function Alimentacion() {
                       <>
                         <TableCell>{r.tipoLactancia?.nombre}</TableCell>
                         <TableCell>{r.lado}</TableCell>
-                        <TableCell>{alimento}</TableCell>
+                        <TableCell sx={{ fontWeight: 600 }}>
+                          {r.cantidad}
+                        </TableCell>
                         <TableCell sx={{ fontWeight: 600 }}>
                           {r.cantidadLecheFormula}
                         </TableCell>
                         <TableCell sx={{ fontWeight: 600 }}>
-                          {r.cantidadOtrosAlimentos}
+                          {r.cantidadOtrosAlimentos ?? 0}
                         </TableCell>
-                        <TableCell sx={{ fontWeight: 600 }}>{r.duracionMin}</TableCell>
+                        <TableCell sx={{ fontWeight: 600 }}>
+                          {r.duracionMin}
+                        </TableCell>
                         <TableCell>{r.observaciones}</TableCell>
                       </>
                     )}
