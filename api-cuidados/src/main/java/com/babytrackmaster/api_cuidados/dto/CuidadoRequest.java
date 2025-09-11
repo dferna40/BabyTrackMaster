@@ -16,7 +16,7 @@ public class CuidadoRequest {
     @NotNull private Date inicio;
 
     private Date fin;
-    private String duracion;
+    private Integer duracion;
     private Integer cantidadMl;
     @Schema(example = "1", description = "ID del tipo de pañal")
     private Long tipoPanalId;

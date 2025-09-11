@@ -28,7 +28,7 @@ public class CuidadoMapper {
         }
         c.setInicio(req.getInicio());
         c.setFin(req.getFin());
-        c.setDuracion(req.getDuracion());
+        c.setDuracion(req.getDuracion()); // duración en minutos
         c.setCantidadMl(req.getCantidadMl());
         c.setCantidadPanal(req.getCantidadPanal());
         c.setMedicamento(req.getMedicamento());
@@ -56,7 +56,7 @@ public class CuidadoMapper {
         }
         c.setInicio(req.getInicio());
         c.setFin(req.getFin());
-        c.setDuracion(req.getDuracion());
+        c.setDuracion(req.getDuracion()); // duración en minutos
         c.setCantidadMl(req.getCantidadMl());
         c.setCantidadPanal(req.getCantidadPanal());
         c.setMedicamento(req.getMedicamento());
