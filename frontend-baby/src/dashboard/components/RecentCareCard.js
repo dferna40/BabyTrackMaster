@@ -57,13 +57,16 @@ export default function RecentCareCard() {
         return item.tipoPanalNombre || '';
       case 'Sueño':
       case 'Dormir': {
+        if (item.duracion != null) {
+          return item.duracion;
+        }
         const durationMin =
-          item.duracionMin ??
-          (item.fin
-            ? dayjs.utc(item.fin)
+          item.fin
+            ? dayjs
+                .utc(item.fin)
                 .local()
                 .diff(dayjs.utc(item.inicio).local(), 'minute')
-            : 0);
+            : 0;
         const hours = Math.floor(durationMin / 60);
         const minutes = durationMin % 60;
         return `${hours}h ${minutes}m`;

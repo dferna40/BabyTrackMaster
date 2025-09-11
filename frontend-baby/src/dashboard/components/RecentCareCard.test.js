@@ -48,7 +48,36 @@ describe('RecentCareCard', () => {
     });
   });
 
-  it('calcula la duración usando inicio y fin en UTC para registros de sueño', async () => {
+  it('muestra la duración proporcionada por la API para registros de sueño', async () => {
+    const fin = new Date().toISOString();
+    const inicio = new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString();
+    listarRecientes.mockResolvedValue({
+      data: [
+        {
+          id: 4,
+          tipoNombre: 'Sueño',
+          inicio,
+          fin,
+          duracion: '1h 30m',
+        },
+      ],
+    });
+
+    render(
+      <AuthContext.Provider value={{ user: { id: 1 } }}>
+        <BabyContext.Provider value={{ activeBaby: { id: 2 } }}>
+          <RecentCareCard />
+        </BabyContext.Provider>
+      </AuthContext.Provider>
+    );
+
+    await waitFor(() => expect(listarRecientes).toHaveBeenCalled());
+    await waitFor(() => {
+      expect(screen.getByText('1h 30m')).toBeInTheDocument();
+    });
+  });
+
+  it('calcula la duración usando inicio y fin en UTC cuando no se recibe duración', async () => {
     const fin = new Date().toISOString();
     const inicio = new Date(Date.now() - 90 * 60 * 1000).toISOString();
     listarRecientes.mockResolvedValue({
@@ -58,7 +87,7 @@ describe('RecentCareCard', () => {
           tipoNombre: 'Sueño',
           inicio,
           fin,
-          duracionMin: null,
+          duracion: null,
         },
       ],
     });
