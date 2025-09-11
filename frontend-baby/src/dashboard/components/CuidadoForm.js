@@ -12,7 +12,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
-import { listarTipos } from '../../services/cuidadosService';
+import { listarTipos, listarTiposPanal } from '../../services/cuidadosService';
 import { saveButton, cancelButton } from '../../theme/buttonStyles';
 
 export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
@@ -23,8 +23,10 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
     cantidadMl: "",
     duracion: "",
     observaciones: "",
+    tipoPanalId: "",
   });
   const [tipoOptions, setTipoOptions] = useState([]);
+  const [tipoPanalOptions, setTipoPanalOptions] = useState([]);
 
   useEffect(() => {
     if (initialData) {
@@ -34,6 +36,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
         cantidadMl: initialData.cantidadMl || "",
         duracion: initialData.duracion || "",
         observaciones: initialData.observaciones || "",
+        tipoPanalId: initialData.tipoPanalId || "",
       });
     } else {
       setFormData({
@@ -42,6 +45,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
         cantidadMl: "",
         duracion: "",
         observaciones: "",
+        tipoPanalId: "",
       });
     }
   }, [initialData, open]);
@@ -50,6 +54,9 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
     listarTipos()
       .then((response) => setTipoOptions(response.data))
       .catch((err) => console.error("Error fetching tipos cuidado:", err));
+    listarTiposPanal()
+      .then((response) => setTipoPanalOptions(response.data))
+      .catch((err) => console.error("Error fetching tipos panal:", err));
   }, []);
 
   const handleChange = (e) => {
@@ -83,6 +90,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
     (option) => Number(option.id) === Number(formData.tipoId),
   );
   const isSueno = selectedTipo?.nombre === "Sueño";
+  const isPanal = selectedTipo?.nombre === "Pañal";
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
@@ -128,7 +136,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
                 inputProps={{ min: 0 }}
               />
             </FormControl>
-          ) : (
+          ) : isPanal ? null : (
             <FormControl fullWidth sx={{ mb: 2 }}>
               <FormLabel sx={{ mb: 1 }}>Cantidad</FormLabel>
               <TextField
@@ -138,6 +146,23 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
                 onChange={handleChange}
                 inputProps={{ min: 0 }}
               />
+            </FormControl>
+          )}
+          {isPanal && (
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormLabel sx={{ mb: 1 }}>Tipo pañal</FormLabel>
+              <TextField
+                select
+                name="tipoPanalId"
+                value={formData.tipoPanalId}
+                onChange={handleChange}
+              >
+                {tipoPanalOptions.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.nombre}
+                  </MenuItem>
+                ))}
+              </TextField>
             </FormControl>
           )}
           <FormControl fullWidth sx={{ mb: 2 }}>

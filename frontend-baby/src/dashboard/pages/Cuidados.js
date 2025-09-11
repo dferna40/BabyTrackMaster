@@ -61,6 +61,7 @@ export default function Cuidados() {
   );
 
   const isSueno = tipos[tab]?.nombre === "Sueño";
+  const isPanal = tipos[tab]?.nombre === "Pañal";
 
   useEffect(() => {
     const stats = Array(7).fill(0);
@@ -162,7 +163,7 @@ export default function Cuidados() {
     const headers = [
       "Hora",
       "Tipo",
-      isSueno ? "Duración" : "Cantidad",
+      isSueno ? "Duración" : isPanal ? "Tipo pañal" : "Cantidad",
       "Nota",
     ];
     const rows = filteredCuidados.map((cuidado) => [
@@ -170,6 +171,8 @@ export default function Cuidados() {
       cuidado.tipoNombre,
       cuidado.tipoNombre === "Sueño"
         ? cuidado.duracion ?? "-"
+        : cuidado.tipoNombre === "Pañal"
+        ? cuidado.tipoPanalNombre ?? "-"
         : cuidado.cantidadMl ?? "-",
       cuidado.observaciones ?? "",
     ]);
@@ -192,7 +195,7 @@ export default function Cuidados() {
     const tableColumn = [
       "Hora",
       "Tipo",
-      isSueno ? "Duración" : "Cantidad",
+      isSueno ? "Duración" : isPanal ? "Tipo pañal" : "Cantidad",
       "Nota",
     ];
     const tableRows = filteredCuidados.map((cuidado) => [
@@ -200,6 +203,8 @@ export default function Cuidados() {
       cuidado.tipoNombre,
       cuidado.tipoNombre === "Sueño"
         ? cuidado.duracion ?? "-"
+        : cuidado.tipoNombre === "Pañal"
+        ? cuidado.tipoPanalNombre ?? "-"
         : cuidado.cantidadMl ?? "-",
       cuidado.observaciones ?? "",
     ]);
@@ -244,7 +249,9 @@ export default function Cuidados() {
             <TableRow>
               <TableCell>Hora</TableCell>
               <TableCell>Tipo</TableCell>
-              <TableCell>{isSueno ? "Duración" : "Cantidad"}</TableCell>
+              <TableCell>
+                {isSueno ? "Duración" : isPanal ? "Tipo pañal" : "Cantidad"}
+              </TableCell>
               <TableCell>Nota</TableCell>
               <TableCell align="center">Acciones</TableCell>
             </TableRow>
@@ -261,6 +268,8 @@ export default function Cuidados() {
                   <TableCell sx={{ fontWeight: 600 }}>
                     {cuidado.tipoNombre === "Sueño"
                       ? cuidado.duracion ?? "-"
+                      : cuidado.tipoNombre === "Pañal"
+                      ? cuidado.tipoPanalNombre ?? "-"
                       : cuidado.cantidadMl ?? "-"}
                   </TableCell>
                   <TableCell>{cuidado.observaciones}</TableCell>

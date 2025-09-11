@@ -49,7 +49,7 @@ export default function RecentCareCard() {
         return quantity ? `${quantity}ml` : '';
       }
       case 'Pañal':
-        return 'Limpio';
+        return item.tipoPanalNombre || '';
       case 'Sueño':
       case 'Dormir': {
         const durationMin =
