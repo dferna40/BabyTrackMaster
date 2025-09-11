@@ -170,6 +170,8 @@ export default function AnadirBebe() {
                     label="Fecha de nacimiento"
                     value={formData.fechaNacimiento}
                     onChange={handleDateChange}
+                    disableFuture
+                    maxDate={dayjs().subtract(1, 'day')}
                     disabled={loading}
                     slotProps={{
                       textField: {
