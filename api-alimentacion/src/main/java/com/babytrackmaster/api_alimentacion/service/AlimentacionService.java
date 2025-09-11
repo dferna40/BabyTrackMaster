@@ -16,6 +16,7 @@ public interface AlimentacionService {
     void eliminar(Long usuarioId, Long bebeId, Long id);
     AlimentacionResponse obtener(Long usuarioId, Long bebeId, Long id);
     List<AlimentacionResponse> listar(Long usuarioId, Long bebeId);
+    List<AlimentacionResponse> listarRecientes(Long usuarioId, Long bebeId, Integer limit);
     AlimentacionResponse obtenerUltimoBiberon(Long usuarioId, Long bebeId);
     AlimentacionStatsResponse stats(Long usuarioId, Long bebeId, Long tipoAlimentacionId);
     List<TipoLactancia> listarTiposLactancia();

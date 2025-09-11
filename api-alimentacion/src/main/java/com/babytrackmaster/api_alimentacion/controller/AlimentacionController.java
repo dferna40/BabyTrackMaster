@@ -85,6 +85,15 @@ public class AlimentacionController {
         return ResponseEntity.ok(service.listar(usuarioId, bebeId));
     }
 
+    @Operation(summary = "Listar registros recientes de alimentación")
+    @GetMapping("/usuario/{usuarioId}/bebe/{bebeId}/recientes")
+    public ResponseEntity<List<AlimentacionResponse>> listarRecientes(
+            @PathVariable Long usuarioId,
+            @PathVariable Long bebeId,
+            @RequestParam(value = "limit", required = false) Integer limit) {
+        return ResponseEntity.ok(service.listarRecientes(usuarioId, bebeId, limit));
+    }
+
     @Operation(summary = "Obtener último biberón")
     @GetMapping("/usuario/{usuarioId}/bebe/{bebeId}/ultimo-biberon")
     public ResponseEntity<Map<String, Object>> obtenerUltimoBiberon(
