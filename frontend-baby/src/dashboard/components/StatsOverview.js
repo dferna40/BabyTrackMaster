@@ -21,6 +21,13 @@ import {
 import { parseDurationToHours } from '../../utils/duration';
 import formatTimeAgo from '../../utils/formatTimeAgo';
 
+const initialStats = {
+  lastBottle: 'Sin datos',
+  sleep: { hours: 0, diff: 0 },
+  diapers: { count: 0, diff: 0 },
+  weight: { value: '0 kg', diff: undefined, diffValue: 0 },
+};
+
 export default function StatsOverview() {
   const theme = useTheme();
   const cardBg = theme.vars
@@ -30,17 +37,13 @@ export default function StatsOverview() {
   const { user } = useContext(AuthContext);
   const { activeBaby } = useContext(BabyContext);
 
-  const [stats, setStats] = useState({
-    lastBottle: 'Sin datos',
-    sleep: { hours: 0, diff: 0 },
-    diapers: { count: 0, diff: 0 },
-    weight: { value: '0 kg', diff: undefined, diffValue: 0 },
-  });
+  const [stats, setStats] = useState(initialStats);
 
   const formatHours = (h) => (h % 1 === 0 ? h : h.toFixed(1));
 
   useEffect(() => {
     if (user?.id && activeBaby?.id) {
+      setStats(initialStats);
       const yesterdayMillis = Date.now() - 24 * 60 * 60 * 1000;
       Promise.all([
         obtenerStatsRapidas(user.id, activeBaby.id),
@@ -64,7 +67,11 @@ export default function StatsOverview() {
           }));
         })
         .catch(() => {
-          /* ignore errors */
+          setStats((prev) => ({
+            ...prev,
+            sleep: initialStats.sleep,
+            diapers: initialStats.diapers,
+          }));
         });
 
       obtenerUltimoBiberon(user.id, activeBaby.id)
@@ -76,11 +83,17 @@ export default function StatsOverview() {
               lastBottle: formatTimeAgo(date),
             }));
           } else {
-            setStats((prev) => ({ ...prev, lastBottle: 'Sin datos' }));
+            setStats((prev) => ({
+              ...prev,
+              lastBottle: initialStats.lastBottle,
+            }));
           }
         })
         .catch(() => {
-          setStats((prev) => ({ ...prev, lastBottle: 'Sin datos' }));
+          setStats((prev) => ({
+            ...prev,
+            lastBottle: initialStats.lastBottle,
+          }));
         });
 
       listarTipos()
@@ -109,15 +122,31 @@ export default function StatsOverview() {
                       diffValue: difference ?? 0,
                     },
                   }));
+                } else {
+                  setStats((prev) => ({
+                    ...prev,
+                    weight: initialStats.weight,
+                  }));
                 }
               })
               .catch(() => {
-                /* ignore errors */
+                setStats((prev) => ({
+                  ...prev,
+                  weight: initialStats.weight,
+                }));
               });
+          } else {
+            setStats((prev) => ({
+              ...prev,
+              weight: initialStats.weight,
+            }));
           }
         })
         .catch(() => {
-          /* ignore errors */
+          setStats((prev) => ({
+            ...prev,
+            weight: initialStats.weight,
+          }));
         });
     }
   }, [user, activeBaby]);
