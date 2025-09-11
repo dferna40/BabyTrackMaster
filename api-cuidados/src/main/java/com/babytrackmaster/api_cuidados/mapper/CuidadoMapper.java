@@ -30,6 +30,7 @@ public class CuidadoMapper {
         c.setFin(req.getFin());
         c.setDuracion(req.getDuracion());
         c.setCantidadMl(req.getCantidadMl());
+        c.setCantidadPanal(req.getCantidadPanal());
         c.setMedicamento(req.getMedicamento());
         c.setDosis(req.getDosis());
         c.setObservaciones(req.getObservaciones());
@@ -57,6 +58,7 @@ public class CuidadoMapper {
         c.setFin(req.getFin());
         c.setDuracion(req.getDuracion());
         c.setCantidadMl(req.getCantidadMl());
+        c.setCantidadPanal(req.getCantidadPanal());
         c.setMedicamento(req.getMedicamento());
         c.setDosis(req.getDosis());
         c.setObservaciones(req.getObservaciones());
@@ -76,6 +78,7 @@ public class CuidadoMapper {
         r.setFin(c.getFin());
         r.setDuracion(c.getDuracion());
         r.setCantidadMl(c.getCantidadMl());
+        r.setCantidadPanal(c.getCantidadPanal());
         if (c.getTipoPanal() != null) {
             r.setTipoPanalId(c.getTipoPanal().getId());
             r.setTipoPanalNombre(c.getTipoPanal().getNombre());

@@ -37,3 +37,6 @@ ALTER TABLE cuidados
 ALTER TABLE cuidados
     ADD CONSTRAINT fk_cuidados_tipo_panal FOREIGN KEY (tipo_panal) REFERENCES tipo_panal(id);
 
+ALTER TABLE cuidados
+    ADD COLUMN cantidad_panal INT;
+
