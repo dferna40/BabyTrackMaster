@@ -64,4 +64,29 @@ describe('CuidadoForm', () => {
       )
     );
   });
+
+  it('envía la fecha en formato ISO al guardar', async () => {
+    const onSubmit = jest.fn();
+    render(
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <CuidadoForm
+          open
+          onClose={() => {}}
+          onSubmit={onSubmit}
+          initialData={{ inicio: '2024-01-01T10:00:00Z', tipoId: 1 }}
+        />
+      </LocalizationProvider>
+    );
+
+    await waitFor(() => expect(listarTipos).toHaveBeenCalled());
+
+    await userEvent.click(screen.getByRole('button', { name: 'Guardar' }));
+
+    const expected = new Date('2024-01-01T10:00:00.000Z').toISOString();
+    await waitFor(() =>
+      expect(onSubmit).toHaveBeenCalledWith(
+        expect.objectContaining({ inicio: expected })
+      )
+    );
+  });
 });

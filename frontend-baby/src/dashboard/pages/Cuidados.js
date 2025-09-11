@@ -23,7 +23,6 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { BarChart } from "@mui/x-charts/BarChart";
-import { useTheme } from "@mui/material/styles";
 import {
   listarPorBebe,
   crearCuidado,
@@ -50,7 +49,8 @@ export default function Cuidados() {
   const bebeId = activeBaby?.id;
   const [weeklyStats, setWeeklyStats] = useState(Array(7).fill(0));
   const location = useLocation();
-  const theme = useTheme();
+  const normalize = (str) =>
+    str?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
   const filteredCuidados = useMemo(
     () =>
@@ -60,8 +60,17 @@ export default function Cuidados() {
     [cuidados, tab, tipos],
   );
 
-  const isSueno = tipos[tab]?.nombre === "Sueño";
-  const isPanal = tipos[tab]?.nombre === "Pañal";
+  const selectedTipo = tipos[tab];
+  const selectedSlug = normalize(selectedTipo?.nombre);
+  const chartColorMap = {
+    bano: "#FFC6FF", // pastel pink
+    panal: "#A2D2FF", // pastel blue
+    sueno: "#FFD8B5", // pastel orange
+  };
+  const chartColor = chartColorMap[selectedSlug] || "#CDEAC0";
+
+  const isSueno = selectedTipo?.nombre === "Sueño";
+  const isPanal = selectedTipo?.nombre === "Pañal";
 
   useEffect(() => {
     const stats = Array(7).fill(0);
@@ -329,10 +338,9 @@ export default function Cuidados() {
                 data: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
               },
             ]}
-            series={[{ data: weeklyStats }]}
+            series={[{ data: weeklyStats, color: chartColor }]}
             margin={{ left: 30, right: 10, top: 20, bottom: 20 }}
             grid={{ horizontal: true }}
-            colors={Object.values(theme.palette.chart)}
             borderRadius={8}
           />
         </CardContent>

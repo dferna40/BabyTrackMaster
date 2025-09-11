@@ -83,9 +83,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
     const payload = {
       ...formData,
       cantidadPanal: formData.cantidadPanal,
-      inicio: formData.inicio
-        ? formData.inicio.format("YYYY-MM-DDTHH:mm")
-        : "",
+      inicio: formData.inicio ? formData.inicio.toISOString() : null,
     };
     onSubmit(payload);
   };
