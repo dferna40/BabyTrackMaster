@@ -14,6 +14,7 @@ public interface CrecimientoRepository extends JpaRepository<Crecimiento, Long> 
     List<Crecimiento> findByBebeIdAndUsuarioIdAndEliminadoFalseOrderByFechaDesc(Long bebeId, Long usuarioId);
     List<Crecimiento> findByBebeIdAndUsuarioIdAndEliminadoFalse(Long bebeId, Long usuarioId, Pageable pageable);
     List<Crecimiento> findByBebeIdAndTipo_IdAndUsuarioIdAndEliminadoFalseOrderByFechaDesc(Long bebeId, Long tipoId, Long usuarioId);
+    List<Crecimiento> findByBebeIdAndTipo_IdAndUsuarioIdAndEliminadoFalse(Long bebeId, Long tipoId, Long usuarioId, Pageable pageable);
     List<Crecimiento> findByBebeIdAndUsuarioIdAndFechaBetweenAndEliminadoFalseOrderByFechaDesc(Long bebeId, Long usuarioId, Date desde, Date hasta);
     List<Crecimiento> findByBebeIdAndUsuarioIdAndTipo_IdAndEliminadoFalseAndFechaBetween(Long bebeId, Long usuarioId, Long tipoId, Date desde, Date hasta);
 }

@@ -82,8 +82,14 @@ public class CrecimientoServiceImpl implements CrecimientoService {
     }
 
     @Transactional(readOnly = true)
-    public List<CrecimientoResponse> listarPorBebeYTipo(Long usuarioId, Long bebeId, Long tipoId) {
-        List<Crecimiento> list = repo.findByBebeIdAndTipo_IdAndUsuarioIdAndEliminadoFalseOrderByFechaDesc(bebeId, tipoId, usuarioId);
+    public List<CrecimientoResponse> listarPorBebeYTipo(Long usuarioId, Long bebeId, Long tipoId, Integer limit) {
+        List<Crecimiento> list;
+        if (limit != null) {
+            list = repo.findByBebeIdAndTipo_IdAndUsuarioIdAndEliminadoFalse(bebeId, tipoId, usuarioId,
+                    PageRequest.of(0, limit, Sort.by("fecha").descending()));
+        } else {
+            list = repo.findByBebeIdAndTipo_IdAndUsuarioIdAndEliminadoFalseOrderByFechaDesc(bebeId, tipoId, usuarioId);
+        }
         List<CrecimientoResponse> resp = new ArrayList<>();
         for (Crecimiento c : list) {
             resp.add(CrecimientoMapper.toResponse(c));
