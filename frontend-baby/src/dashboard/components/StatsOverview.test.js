@@ -3,7 +3,7 @@ import StatsOverview from './StatsOverview';
 import { AuthContext } from '../../context/AuthContext';
 import { BabyContext } from '../../context/BabyContext';
 import { obtenerStatsRapidas } from '../../services/cuidadosService';
-import { listarRecientes } from '../../services/alimentacionService';
+import { obtenerUltimoBiberon } from '../../services/alimentacionService';
 import { listarTipos } from '../../services/crecimientoService';
 
 jest.mock('../../services/cuidadosService', () => ({
@@ -11,7 +11,7 @@ jest.mock('../../services/cuidadosService', () => ({
 }));
 
 jest.mock('../../services/alimentacionService', () => ({
-  listarRecientes: jest.fn(),
+  obtenerUltimoBiberon: jest.fn(),
 }));
 
 jest.mock('../../services/crecimientoService', () => ({
@@ -50,11 +50,13 @@ describe('StatsOverview', () => {
     const lastDate = new Date(
       now.getTime() - (2 * 60 + 15) * 60 * 1000
     ).toISOString();
-    listarRecientes.mockResolvedValue({ data: [{ fecha: lastDate }] });
+    obtenerUltimoBiberon.mockResolvedValue({
+      data: { fechaHora: lastDate },
+    });
 
     renderComponent();
 
-    await waitFor(() => expect(listarRecientes).toHaveBeenCalled());
+    await waitFor(() => expect(obtenerUltimoBiberon).toHaveBeenCalled());
     await waitFor(() => {
       expect(screen.getByText('Hace 2h 15m')).toBeInTheDocument();
     });
@@ -64,11 +66,11 @@ describe('StatsOverview', () => {
     jest.useFakeTimers().setSystemTime(new Date('2024-01-01T12:00:00Z'));
     obtenerStatsRapidas.mockResolvedValue({ data: {} });
     listarTipos.mockResolvedValue({ data: [] });
-    listarRecientes.mockResolvedValue({ data: [] });
+    obtenerUltimoBiberon.mockResolvedValue({ data: {} });
 
     renderComponent();
 
-    await waitFor(() => expect(listarRecientes).toHaveBeenCalled());
+    await waitFor(() => expect(obtenerUltimoBiberon).toHaveBeenCalled());
     await waitFor(() => {
       expect(screen.getByText('Sin datos')).toBeInTheDocument();
     });

@@ -87,6 +87,15 @@ public class AlimentacionServiceImpl implements AlimentacionService {
     }
 
     @Transactional(readOnly = true)
+    public AlimentacionResponse obtenerUltimoBiberon(Long usuarioId, Long bebeId) {
+        return repo
+                .findFirstByUsuarioIdAndBebeIdAndTipoAlimentacionNombreIgnoreCaseAndEliminadoFalseOrderByFechaHoraDesc(
+                        usuarioId, bebeId, "biberón")
+                .map(AlimentacionMapper::toResponse)
+                .orElse(null);
+    }
+
+    @Transactional(readOnly = true)
     public List<TipoLactancia> listarTiposLactancia() {
         return tipoLactanciaRepo.findAll();
     }

@@ -18,6 +18,11 @@ export const listarRecientes = (usuarioId, bebeId, limit) => {
   );
 };
 
+export const obtenerUltimoBiberon = (usuarioId, bebeId) =>
+  axios.get(
+    `${API_ALIMENTACION_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/ultimo-biberon`
+  );
+
 export const obtenerEstadisticas = (usuarioId, bebeId, tipoAlimentacionId) => {
   const params = {};
   if (tipoAlimentacionId !== undefined) params.tipoAlimentacionId = tipoAlimentacionId;

@@ -1,6 +1,7 @@
 package com.babytrackmaster.api_alimentacion.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,6 +83,18 @@ public class AlimentacionController {
             @PathVariable Long usuarioId,
             @PathVariable Long bebeId) {
         return ResponseEntity.ok(service.listar(usuarioId, bebeId));
+    }
+
+    @Operation(summary = "Obtener último biberón")
+    @GetMapping("/usuario/{usuarioId}/bebe/{bebeId}/ultimo-biberon")
+    public ResponseEntity<Map<String, Object>> obtenerUltimoBiberon(
+            @PathVariable Long usuarioId,
+            @PathVariable Long bebeId) {
+        AlimentacionResponse resp = service.obtenerUltimoBiberon(usuarioId, bebeId);
+        if (resp == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(Map.of("fechaHora", resp.getFechaHora()));
     }
 
     @Operation(summary = "Obtener estadísticas de alimentación")
