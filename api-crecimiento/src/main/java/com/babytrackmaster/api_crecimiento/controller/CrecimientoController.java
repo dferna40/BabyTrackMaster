@@ -88,6 +88,16 @@ public class CrecimientoController {
         return ResponseEntity.ok(service.listarPorBebeYTipo(usuarioId, bebeId, tipoId, limit));
     }
 
+    @Operation(summary = "Listar las últimas mediciones por tipo")
+    @GetMapping("/usuario/{usuarioId}/bebe/{bebeId}/tipo/{tipoId}/ultimos")
+    public ResponseEntity<List<CrecimientoResponse>> listarUltimosPorTipo(
+            @PathVariable Long usuarioId,
+            @PathVariable Long bebeId,
+            @PathVariable Long tipoId,
+            @RequestParam("limit") Integer limit) {
+        return ResponseEntity.ok(service.listarUltimosPorTipo(usuarioId, bebeId, tipoId, limit));
+    }
+
     @Operation(summary = "Listar registros por rango de fechas")
     @GetMapping("/usuario/{usuarioId}/bebe/{bebeId}/rango")
     public ResponseEntity<List<CrecimientoResponse>> listarPorRango(

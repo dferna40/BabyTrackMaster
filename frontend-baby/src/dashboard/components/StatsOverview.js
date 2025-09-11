@@ -15,7 +15,7 @@ import { BabyContext } from '../../context/BabyContext';
 import { obtenerStatsRapidas } from '../../services/cuidadosService';
 import { listarRecientes as listarAlimentacionRecientes } from '../../services/alimentacionService';
 import {
-  listarPorBebeYTipo,
+  listarUltimosPorTipo,
   listarTipos,
 } from '../../services/crecimientoService';
 
@@ -79,7 +79,7 @@ export default function StatsOverview() {
             t.nombre?.toLowerCase().includes('peso')
           );
           if (peso) {
-            listarPorBebeYTipo(user.id, activeBaby.id, peso.id, 2)
+            listarUltimosPorTipo(user.id, activeBaby.id, peso.id, 2)
               .then(({ data: registros }) => {
                 if (Array.isArray(registros) && registros.length > 0) {
                   const valorActual = registros[0].valor;

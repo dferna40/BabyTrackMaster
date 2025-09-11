@@ -98,6 +98,17 @@ public class CrecimientoServiceImpl implements CrecimientoService {
     }
 
     @Transactional(readOnly = true)
+    public List<CrecimientoResponse> listarUltimosPorTipo(Long usuarioId, Long bebeId, Long tipoId, Integer limit) {
+        List<Crecimiento> list = repo.findByBebeIdAndTipo_IdAndUsuarioIdAndEliminadoFalse(bebeId, tipoId, usuarioId,
+                PageRequest.of(0, limit, Sort.by("fecha").descending()));
+        List<CrecimientoResponse> resp = new ArrayList<>();
+        for (Crecimiento c : list) {
+            resp.add(CrecimientoMapper.toResponse(c));
+        }
+        return resp;
+    }
+
+    @Transactional(readOnly = true)
     public List<CrecimientoResponse> listarPorRango(Long usuarioId, Long bebeId, Date desde, Date hasta) {
         List<Crecimiento> list = repo.findByBebeIdAndUsuarioIdAndFechaBetweenAndEliminadoFalseOrderByFechaDesc(bebeId, usuarioId, desde, hasta);
         List<CrecimientoResponse> resp = new ArrayList<>();
