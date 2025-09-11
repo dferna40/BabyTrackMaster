@@ -24,12 +24,12 @@ export const listarRecientes = (usuarioId, bebeId, limit = 5) => {
   );
 };
 
-export const obtenerStatsRapidas = (usuarioId, bebeId, fechaMillis) => {
-  const params = {};
-  if (fechaMillis !== undefined) params.fechaMillis = fechaMillis;
+export const obtenerStatsRapidas = (usuarioId, bebeId, fecha) => {
   return axios.get(
     `${API_CUIDADOS_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/stats`,
-    { params }
+    {
+      params: { fecha },
+    }
   );
 };
 

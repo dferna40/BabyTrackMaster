@@ -157,7 +157,11 @@ public class CuidadoServiceImpl implements CuidadoService {
         }
 
         int numBanosTotal = numBanos.size();
-        int numPanalesTotal = numPanales.size();
+        int numPanalesTotal = 0;
+        for (Cuidado c : numPanales) {
+            Integer cant = c.getCantidadPanal();
+            numPanalesTotal += (cant != null) ? cant : 1;
+        }
 
         QuickStatsResponse resp = new QuickStatsResponse();
         resp.setHorasSueno(horasSueno);
