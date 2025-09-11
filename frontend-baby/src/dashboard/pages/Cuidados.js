@@ -174,24 +174,30 @@ export default function Cuidados() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  // Exporta datos con las mismas columnas para todos los tipos.
+  // Exporta datos con columnas específicas según el tipo seleccionado.
   const handleExportCsv = () => {
-    const headers = [
-      "Hora",
-      "Tipo",
-      isSueno ? "Duración" : isPanal ? "Tipo pañal" : "Cantidad",
-      "Nota",
-    ];
-    const rows = filteredCuidados.map((cuidado) => [
-      dayjs(cuidado.inicio).format("DD/MM/YYYY HH:mm"),
-      cuidado.tipoNombre,
-      cuidado.tipoNombre === "Sueño"
-        ? formatDurationMinutes(Number(cuidado.duracion))
-        : cuidado.tipoNombre === "Pañal"
-        ? cuidado.tipoPanalNombre ?? "-"
-        : cuidado.cantidadMl ?? "-",
-      cuidado.observaciones ?? "",
-    ]);
+    const headers = ["Hora", "Tipo"];
+    if (isSueno) headers.push("Duración");
+    else if (isPanal) headers.push("Tipo pañal", "Cantidad");
+    else headers.push("Cantidad");
+    headers.push("Nota");
+
+    const rows = filteredCuidados.map((cuidado) => {
+      const row = [
+        dayjs(cuidado.inicio).format("DD/MM/YYYY HH:mm"),
+        cuidado.tipoNombre,
+      ];
+      if (cuidado.tipoNombre === "Sueño") {
+        row.push(formatDurationMinutes(Number(cuidado.duracion)));
+      } else if (cuidado.tipoNombre === "Pañal") {
+        row.push(cuidado.tipoPanalNombre ?? "-");
+        row.push(cuidado.cantidadPanal ?? "-");
+      } else {
+        row.push(cuidado.cantidadMl ?? "-");
+      }
+      row.push(cuidado.observaciones ?? "");
+      return row;
+    });
     const csvContent = [headers, ...rows].map((e) => e.join(",")).join("\n");
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
@@ -208,22 +214,28 @@ export default function Cuidados() {
 
   const handleExportPdf = () => {
     const doc = new jsPDF();
-    const tableColumn = [
-      "Hora",
-      "Tipo",
-      isSueno ? "Duración" : isPanal ? "Tipo pañal" : "Cantidad",
-      "Nota",
-    ];
-    const tableRows = filteredCuidados.map((cuidado) => [
-      dayjs(cuidado.inicio).format("DD/MM/YYYY HH:mm"),
-      cuidado.tipoNombre,
-      cuidado.tipoNombre === "Sueño"
-        ? formatDurationMinutes(Number(cuidado.duracion))
-        : cuidado.tipoNombre === "Pañal"
-        ? cuidado.tipoPanalNombre ?? "-"
-        : cuidado.cantidadMl ?? "-",
-      cuidado.observaciones ?? "",
-    ]);
+    const tableColumn = ["Hora", "Tipo"];
+    if (isSueno) tableColumn.push("Duración");
+    else if (isPanal) tableColumn.push("Tipo pañal", "Cantidad");
+    else tableColumn.push("Cantidad");
+    tableColumn.push("Nota");
+
+    const tableRows = filteredCuidados.map((cuidado) => {
+      const row = [
+        dayjs(cuidado.inicio).format("DD/MM/YYYY HH:mm"),
+        cuidado.tipoNombre,
+      ];
+      if (cuidado.tipoNombre === "Sueño") {
+        row.push(formatDurationMinutes(Number(cuidado.duracion)));
+      } else if (cuidado.tipoNombre === "Pañal") {
+        row.push(cuidado.tipoPanalNombre ?? "-");
+        row.push(cuidado.cantidadPanal ?? "-");
+      } else {
+        row.push(cuidado.cantidadMl ?? "-");
+      }
+      row.push(cuidado.observaciones ?? "");
+      return row;
+    });
     autoTable(doc, {
       head: [tableColumn],
       body: tableRows,
@@ -265,9 +277,14 @@ export default function Cuidados() {
             <TableRow>
               <TableCell>Hora</TableCell>
               <TableCell>Tipo</TableCell>
-              <TableCell>
-                {isSueno ? "Duración" : isPanal ? "Tipo pañal" : "Cantidad"}
-              </TableCell>
+              {isPanal ? (
+                <>
+                  <TableCell>Tipo pañal</TableCell>
+                  <TableCell>Cantidad</TableCell>
+                </>
+              ) : (
+                <TableCell>{isSueno ? "Duración" : "Cantidad"}</TableCell>
+              )}
               <TableCell>Nota</TableCell>
               <TableCell align="center">Acciones</TableCell>
             </TableRow>
@@ -281,13 +298,22 @@ export default function Cuidados() {
                     {dayjs(cuidado.inicio).format("DD/MM/YYYY HH:mm")}
                   </TableCell>
                   <TableCell>{cuidado.tipoNombre}</TableCell>
-                  <TableCell sx={{ fontWeight: 600 }}>
-                    {cuidado.tipoNombre === "Sueño"
-                      ? formatDurationMinutes(Number(cuidado.duracion))
-                      : cuidado.tipoNombre === "Pañal"
-                      ? cuidado.tipoPanalNombre ?? "-"
-                      : cuidado.cantidadMl ?? "-"}
-                  </TableCell>
+                  {cuidado.tipoNombre === "Pañal" ? (
+                    <>
+                      <TableCell sx={{ fontWeight: 600 }}>
+                        {cuidado.tipoPanalNombre ?? "-"}
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: 600 }}>
+                        {cuidado.cantidadPanal ?? "-"}
+                      </TableCell>
+                    </>
+                  ) : (
+                    <TableCell sx={{ fontWeight: 600 }}>
+                      {cuidado.tipoNombre === "Sueño"
+                        ? formatDurationMinutes(Number(cuidado.duracion))
+                        : cuidado.cantidadMl ?? "-"}
+                    </TableCell>
+                  )}
                   <TableCell>{cuidado.observaciones}</TableCell>
                   <TableCell align="center">
                     <IconButton
