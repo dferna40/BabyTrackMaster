@@ -17,7 +17,7 @@ export const listarPorBebe = (usuarioId, bebeId, page, size) => {
 
 export const listarRecientes = (usuarioId, bebeId, limit = 5) => {
   return axios.get(
-    `${API_CUIDADOS_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}`,
+    `${API_CUIDADOS_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/recientes`,
     {
       params: { limit },
     }

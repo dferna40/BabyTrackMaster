@@ -13,6 +13,7 @@ public interface CuidadoService {
     void eliminar(Long usuarioId, Long id);
     CuidadoResponse obtener(Long usuarioId, Long id);
     List<CuidadoResponse> listarPorBebe(Long usuarioId, Long bebeId, Integer limit);
+    List<CuidadoResponse> listarRecientes(Long usuarioId, Long bebeId, Date since, Integer limit);
     List<CuidadoResponse> listarPorBebeYTipo(Long usuarioId, Long bebeId, Long tipoId);
     List<CuidadoResponse> listarPorRango(Long usuarioId, Long bebeId, Date desde, Date hasta);
     QuickStatsResponse obtenerEstadisticasRapidas(Long usuarioId, Long bebeId, Date fecha);

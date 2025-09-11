@@ -27,7 +27,7 @@ describe('RecentCareCard', () => {
         {
           id: 1,
           tipoNombre: 'Pañal',
-          inicio: '2024-01-01T10:00',
+          inicio: new Date().toISOString(),
           tipoPanalNombre: 'Pipi',
         },
       ],
@@ -53,7 +53,7 @@ describe('RecentCareCard', () => {
         {
           id: 2,
           tipoNombre: 'Sueño',
-          inicio: '2024-01-01T10:00',
+          inicio: new Date().toISOString(),
           duracion: '90',
           duracionMin: null,
           fin: null,
