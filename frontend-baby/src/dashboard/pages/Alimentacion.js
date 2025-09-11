@@ -97,6 +97,7 @@ export default function Alimentacion() {
   const handleTabChange = (event, newValue) => {
     setTab(newValue);
     setPage(0);
+    fetchEstadisticas(newValue);
   };
 
   const fetchRegistros = () => {
@@ -106,9 +107,9 @@ export default function Alimentacion() {
       .catch((err) => console.error('Error fetching alimentacion:', err));
   };
 
-  const fetchEstadisticas = () => {
+  const fetchEstadisticas = (tipoId) => {
     if (!bebeId || !usuarioId) return;
-    obtenerEstadisticas(usuarioId, bebeId)
+    obtenerEstadisticas(usuarioId, bebeId, tipoId)
       .then((res) => {
         const weekly = res.data?.weekly ?? [];
         setWeeklyStats(Array.from({ length: 7 }, (_, i) => weekly[i] ?? 0));
@@ -119,15 +120,17 @@ export default function Alimentacion() {
   useEffect(() => {
     if (bebeId) {
       fetchRegistros();
-      fetchEstadisticas();
+      if (tab) fetchEstadisticas(tab);
     }
-  }, [bebeId]);
+  }, [bebeId, tab]);
 
   useEffect(() => {
     listarTiposAlimentacion()
       .then((res) => {
         setTiposAlimentacion(res.data);
-        setTab(res.data[0]?.id ?? null);
+        const firstId = res.data[0]?.id ?? null;
+        setTab(firstId);
+        if (firstId) fetchEstadisticas(firstId);
       })
       .catch((err) =>
         console.error('Error fetching tipos alimentacion:', err)
@@ -193,7 +196,7 @@ export default function Alimentacion() {
       eliminarRegistro(usuarioId, bebeId, id)
         .then(() => {
           fetchRegistros();
-          fetchEstadisticas();
+          fetchEstadisticas(tab);
         })
         .catch((err) => console.error('Error deleting registro:', err));
     }
@@ -210,7 +213,7 @@ export default function Alimentacion() {
         setOpenForm(false);
         setSelected(null);
         fetchRegistros();
-        fetchEstadisticas();
+        fetchEstadisticas(tab);
       })
       .catch((err) => console.error('Error saving registro:', err));
   };

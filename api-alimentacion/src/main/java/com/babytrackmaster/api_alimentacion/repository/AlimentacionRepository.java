@@ -13,5 +13,6 @@ public interface AlimentacionRepository extends JpaRepository<Alimentacion, Long
     Optional<Alimentacion> findByIdAndUsuarioIdAndBebeIdAndEliminadoFalse(Long id, Long usuarioId, Long bebeId);
     List<Alimentacion> findByUsuarioIdAndBebeIdAndEliminadoFalseOrderByFechaHoraDesc(Long usuarioId, Long bebeId);
     List<Alimentacion> findByUsuarioIdAndBebeIdAndFechaHoraBetweenAndEliminadoFalse(Long usuarioId, Long bebeId, LocalDateTime desde, LocalDateTime hasta);
+    List<Alimentacion> findByUsuarioIdAndBebeIdAndTipoAlimentacionIdAndFechaHoraBetweenAndEliminadoFalse(Long usuarioId, Long bebeId, Long tipoAlimentacionId, LocalDateTime desde, LocalDateTime hasta);
     long countByUsuarioIdAndBebeIdAndTipoAlimentacionAndFechaHoraBetweenAndEliminadoFalse(Long usuarioId, Long bebeId, TipoAlimentacion tipoAlimentacion, LocalDateTime desde, LocalDateTime hasta);
 }
