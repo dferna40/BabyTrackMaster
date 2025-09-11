@@ -31,7 +31,7 @@ export default function Diario() {
   const [texto, setTexto] = useState('');
   const [emocion, setEmocion] = useState('neutral');
   const [fecha, setFecha] = useState(dayjs());
-  const [fechaError, setFechaError] = useState(false);
+  const [fechaError, setFechaError] = useState('');
   const [etiqueta, setEtiqueta] = useState('');
   const [etiquetas, setEtiquetas] = useState([]);
   const [entradas, setEntradas] = useState([]);
@@ -51,7 +51,11 @@ export default function Diario() {
   const handleAdd = () => {
     if (!texto.trim() || !activeBaby || !user) return;
     if (!fecha) {
-      setFechaError(true);
+      setFechaError('La fecha es requerida');
+      return;
+    }
+    if (fecha.isAfter(dayjs(), 'day')) {
+      setFechaError('La fecha no puede ser futura');
       return;
     }
     const payload = {
@@ -68,7 +72,7 @@ export default function Diario() {
         setTexto('');
         setEmocion('neutral');
         setFecha(dayjs());
-        setFechaError(false);
+        setFechaError('');
         setEtiquetas([]);
         return listarEntradas(user.id, activeBaby.id).then((data) =>
           setEntradas(data)
@@ -130,14 +134,15 @@ export default function Diario() {
               value={fecha}
               onChange={(newValue) => {
                 setFecha(newValue);
-                setFechaError(false);
+                setFechaError('');
               }}
+              disableFuture
               slotProps={{
                 textField: {
                   required: true,
                   InputLabelProps: { shrink: true },
-                  error: fechaError,
-                  helperText: fechaError ? 'La fecha es requerida' : undefined,
+                  error: Boolean(fechaError),
+                  helperText: fechaError || undefined,
                 },
               }}
             />
@@ -190,6 +195,7 @@ export default function Diario() {
             label="Fecha"
             value={filtroFecha}
             onChange={(newValue) => setFiltroFecha(newValue)}
+            disableFuture
             slotProps={{ textField: { InputLabelProps: { shrink: true } } }}
           />
           <TextField
