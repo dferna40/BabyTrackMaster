@@ -163,6 +163,8 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
   const validate = () => {
     const newErrors = {};
     if (!formData.inicio) newErrors.inicio = 'Requerido';
+    else if (formData.inicio.isAfter(dayjs()))
+      newErrors.inicio = 'No puede ser futura';
     if (!formData.tipoAlimentacionId)
       newErrors.tipoAlimentacionId = 'Requerido';
     if (selectedTipo === 'lactancia') {
@@ -275,7 +277,14 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
             <DateTimePicker
               value={formData.inicio}
               onChange={handleInicioChange}
-              slotProps={{ textField: { fullWidth: true, error: !!errors.inicio, helperText: errors.inicio } }}
+              maxDateTime={dayjs()}
+              slotProps={{
+                textField: {
+                  fullWidth: true,
+                  error: !!errors.inicio,
+                  helperText: errors.inicio,
+                },
+              }}
             />
           </FormControl>
           {selectedTipo === 'lactancia' && (
