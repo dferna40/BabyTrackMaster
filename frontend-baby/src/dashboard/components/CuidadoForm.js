@@ -189,6 +189,13 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
                 value={formData.duracion}
                 onChange={handleChange}
                 error={!!errors.duracion}
+                SelectProps={{
+                  MenuProps: {
+                    PaperProps: {
+                      style: { maxHeight: 200, overflowY: 'auto' },
+                    },
+                  },
+                }}
               >
                 {duracionOptions.map((option) => (
                   <MenuItem key={option} value={option}>
