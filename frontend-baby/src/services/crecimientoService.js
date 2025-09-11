@@ -13,6 +13,15 @@ export const listarPorBebe = (usuarioId, bebeId, limit) => {
   );
 };
 
+export const listarPorBebeYTipo = (usuarioId, bebeId, tipoId, limit) => {
+  const params = {};
+  if (limit !== undefined) params.limit = limit;
+  return axios.get(
+    `${API_CRECIMIENTOS_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}/tipo/${tipoId}`,
+    { params }
+  );
+};
+
 export const crearRegistro = (usuarioId, data) => {
   return axios.post(`${API_CRECIMIENTOS_ENDPOINT}/usuario/${usuarioId}`, data);
 };

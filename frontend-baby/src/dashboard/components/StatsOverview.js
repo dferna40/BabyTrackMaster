@@ -14,6 +14,10 @@ import { AuthContext } from '../../context/AuthContext';
 import { BabyContext } from '../../context/BabyContext';
 import { obtenerStatsRapidas } from '../../services/cuidadosService';
 import { listarRecientes as listarAlimentacionRecientes } from '../../services/alimentacionService';
+import {
+  listarPorBebeYTipo,
+  listarTipos,
+} from '../../services/crecimientoService';
 
 export default function StatsOverview() {
   const theme = useTheme();
@@ -28,7 +32,7 @@ export default function StatsOverview() {
     lastBottle: 'Hace 2h',
     sleepHours: 0,
     diapers: { count: 0, diff: 0 },
-    weight: { value: 0, diff: 0 },
+    weight: { value: '0 kg', diff: undefined, diffValue: 0 },
   });
 
   useEffect(() => {
@@ -64,12 +68,47 @@ export default function StatsOverview() {
           /* ignore errors */
         });
 
-      // Sample values for demo purposes
       setStats((prev) => ({
         ...prev,
         diapers: { ...prev.diapers, diff: 1 },
-        weight: { value: 6.2, diff: 0.2 },
       }));
+
+      listarTipos()
+        .then(({ data }) => {
+          const peso = data.find((t) =>
+            t.nombre?.toLowerCase().includes('peso')
+          );
+          if (peso) {
+            listarPorBebeYTipo(user.id, activeBaby.id, peso.id, 2)
+              .then(({ data: registros }) => {
+                if (Array.isArray(registros) && registros.length > 0) {
+                  const valorActual = registros[0].valor;
+                  const valorAnterior = registros[1]?.valor;
+                  const difference =
+                    valorAnterior !== undefined
+                      ? valorActual - valorAnterior
+                      : undefined;
+                  setStats((prev) => ({
+                    ...prev,
+                    weight: {
+                      value: `${valorActual.toFixed(1)} kg`,
+                      diff:
+                        valorAnterior !== undefined
+                          ? `${difference >= 0 ? '+' : ''}${difference.toFixed(1)} kg`
+                          : undefined,
+                      diffValue: difference ?? 0,
+                    },
+                  }));
+                }
+              })
+              .catch(() => {
+                /* ignore errors */
+              });
+          }
+        })
+        .catch(() => {
+          /* ignore errors */
+        });
     }
   }, [user, activeBaby]);
 
@@ -123,14 +162,16 @@ export default function StatsOverview() {
         <Card sx={{ backgroundColor: cardBg, color: theme.palette.text.primary }}>
           <CardContent>
             <Stack direction="row" spacing={2} alignItems="center">
-              <TrendingUpIcon color={stats.weight.diff >= 0 ? 'success' : 'error'} />
+              <TrendingUpIcon color={stats.weight.diffValue >= 0 ? 'success' : 'error'} />
               <Box>
                 <Typography variant="subtitle2">Peso actual</Typography>
                 <Stack direction="row" spacing={1} alignItems="baseline">
-                  <Typography variant="h6">{stats.weight.value} kg</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    ({stats.weight.diff >= 0 ? '+' : ''}{stats.weight.diff} kg)
-                  </Typography>
+                  <Typography variant="h6">{stats.weight.value}</Typography>
+                  {stats.weight.diff !== undefined && (
+                    <Typography variant="body2" color="text.secondary">
+                      ({stats.weight.diff})
+                    </Typography>
+                  )}
                 </Stack>
               </Box>
             </Stack>

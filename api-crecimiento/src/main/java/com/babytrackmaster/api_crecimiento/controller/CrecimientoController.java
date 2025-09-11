@@ -83,8 +83,9 @@ public class CrecimientoController {
     public ResponseEntity<List<CrecimientoResponse>> listarPorBebeYTipo(
             @PathVariable Long usuarioId,
             @PathVariable Long bebeId,
-            @PathVariable Long tipoId) {
-        return ResponseEntity.ok(service.listarPorBebeYTipo(usuarioId, bebeId, tipoId));
+            @PathVariable Long tipoId,
+            @RequestParam(value = "limit", required = false) Integer limit) {
+        return ResponseEntity.ok(service.listarPorBebeYTipo(usuarioId, bebeId, tipoId, limit));
     }
 
     @Operation(summary = "Listar registros por rango de fechas")
