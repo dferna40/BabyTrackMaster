@@ -48,16 +48,17 @@ describe('RecentCareCard', () => {
     });
   });
 
-  it('muestra la duración introducida para registros de sueño', async () => {
+  it('calcula la duración usando inicio y fin en UTC para registros de sueño', async () => {
+    const fin = new Date().toISOString();
+    const inicio = new Date(Date.now() - 90 * 60 * 1000).toISOString();
     listarRecientes.mockResolvedValue({
       data: [
         {
           id: 2,
           tipoNombre: 'Sueño',
-          inicio: new Date().toISOString(),
-          duracion: '90',
+          inicio,
+          fin,
           duracionMin: null,
-          fin: null,
         },
       ],
     });

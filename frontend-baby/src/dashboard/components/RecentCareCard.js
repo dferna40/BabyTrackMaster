@@ -57,15 +57,13 @@ export default function RecentCareCard() {
         return item.tipoPanalNombre || '';
       case 'Sueño':
       case 'Dormir': {
-        if (item.duracionMin == null && !item.fin) {
-          const totalMin = parseInt(item.duracion, 10);
-          const hours = Math.floor(totalMin / 60);
-          const minutes = totalMin % 60;
-          return `${hours}h ${minutes}m`;
-        }
         const durationMin =
           item.duracionMin ??
-          (item.fin ? dayjs(item.fin).diff(dayjs(item.inicio), 'minute') : 0);
+          (item.fin
+            ? dayjs.utc(item.fin)
+                .local()
+                .diff(dayjs.utc(item.inicio).local(), 'minute')
+            : 0);
         const hours = Math.floor(durationMin / 60);
         const minutes = durationMin % 60;
         return `${hours}h ${minutes}m`;
