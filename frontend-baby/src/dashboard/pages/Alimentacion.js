@@ -266,7 +266,12 @@ export default function Alimentacion() {
         ];
       }
       if (current === 'biberon') {
-        return [...base, r.tipoLeche, r.cantidadMl, r.observaciones || ''];
+        return [
+          ...base,
+          r.tipoBiberon?.nombre,
+          r.cantidadMl,
+          r.observaciones || '',
+        ];
       }
       return [...base, alimento, r.cantidadMl, r.observaciones || ''];
     });
@@ -300,7 +305,12 @@ export default function Alimentacion() {
         ];
       }
       if (current === 'biberon') {
-        return [...base, r.tipoLeche, r.cantidadMl, r.observaciones || ''];
+        return [
+          ...base,
+          r.tipoBiberon?.nombre,
+          r.cantidadMl,
+          r.observaciones || '',
+        ];
       }
       return [...base, alimento, r.cantidadMl, r.observaciones || ''];
     });
@@ -377,7 +387,7 @@ export default function Alimentacion() {
                     )}
                     {selectedSlug === 'biberon' && (
                       <>
-                        <TableCell>{r.tipoLeche}</TableCell>
+                        <TableCell>{r.tipoBiberon?.nombre}</TableCell>
                         <TableCell sx={{ fontWeight: 600 }}>{r.cantidadMl}</TableCell>
                         <TableCell>{r.observaciones}</TableCell>
                       </>
