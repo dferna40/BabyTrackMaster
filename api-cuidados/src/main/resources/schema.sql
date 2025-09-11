@@ -26,7 +26,7 @@ INSERT INTO tipo_panal (nombre, created_at, updated_at) VALUES
 ('MIXTO', NOW(), NOW());
 
 ALTER TABLE cuidados
-    ADD COLUMN duracion VARCHAR(50);
+    ADD COLUMN duracion INT;
 
 ALTER TABLE cuidados
     ADD CONSTRAINT fk_cuidados_tipo FOREIGN KEY (tipo) REFERENCES tipo_cuidado(id);

@@ -50,8 +50,8 @@ class CuidadoServiceImplTest {
         TipoCuidado bano = saveTipo("Ba\u00f1o");
         TipoPanal pipi = saveTipoPanal("PIPI");
 
-        createCuidado(sueno, null, date(2024,3,10,0,0), date(2024,3,10,4,0), "120");
-        createCuidado(sueno, null, date(2024,3,10,10,0), date(2024,3,10,10,30), "90");
+        createCuidado(sueno, null, date(2024,3,10,0,0), date(2024,3,10,4,0), 120);
+        createCuidado(sueno, null, date(2024,3,10,10,0), date(2024,3,10,10,30), 90);
         createCuidado(sueno, null, date(2024,3,10,16,0), date(2024,3,10,18,0), null);
         panalGuardado = createCuidado(panal, pipi, date(2024,3,10,3,0), date(2024,3,10,3,5), null, 2);
         createCuidado(panal, pipi, date(2024,3,10,7,0), date(2024,3,10,7,5), null, 1);
@@ -91,7 +91,7 @@ class CuidadoServiceImplTest {
         return tipoPanalRepo.save(t);
     }
 
-    private Cuidado createCuidado(TipoCuidado tipo, TipoPanal tipoPanal, Date inicio, Date fin, String duracion, Integer cantidadPanal) {
+    private Cuidado createCuidado(TipoCuidado tipo, TipoPanal tipoPanal, Date inicio, Date fin, Integer duracion, Integer cantidadPanal) {
         Cuidado c = new Cuidado();
         c.setBebeId(1L);
         c.setUsuarioId(1L);
@@ -107,7 +107,7 @@ class CuidadoServiceImplTest {
         return cuidadoRepo.save(c);
     }
 
-    private Cuidado createCuidado(TipoCuidado tipo, TipoPanal tipoPanal, Date inicio, Date fin, String duracion) {
+    private Cuidado createCuidado(TipoCuidado tipo, TipoPanal tipoPanal, Date inicio, Date fin, Integer duracion) {
         return createCuidado(tipo, tipoPanal, inicio, fin, duracion, null);
     }
 

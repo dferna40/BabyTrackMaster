@@ -129,14 +129,7 @@ public class CuidadoServiceImpl implements CuidadoService {
         double horasSueno = 0d;
         for (Cuidado c : suenos) {
             if (c.getDuracion() != null) {
-                try {
-                    horasSueno += Double.parseDouble(c.getDuracion()) / 60d;
-                } catch (NumberFormatException e) {
-                    if (c.getInicio() != null && c.getFin() != null) {
-                        long diff = c.getFin().getTime() - c.getInicio().getTime();
-                        horasSueno += diff / (1000d * 60d * 60d);
-                    }
-                }
+                horasSueno += c.getDuracion() / 60d;
             } else if (c.getInicio() != null && c.getFin() != null) {
                 long diff = c.getFin().getTime() - c.getInicio().getTime();
                 horasSueno += diff / (1000d * 60d * 60d);
