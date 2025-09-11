@@ -76,7 +76,13 @@ export default function RecentCareCard() {
   useEffect(() => {
     if (bebeId && usuarioId) {
       listarRecientes(usuarioId, bebeId, 3)
-        .then((response) => setRecentCare(response.data))
+        .then((response) => {
+          const cutoff = dayjs().subtract(120, 'hour');
+          const filtered = response.data.filter((cuidado) =>
+            dayjs(cuidado.inicio).isAfter(cutoff)
+          );
+          setRecentCare(filtered);
+        })
         .catch((error) => console.error('Error fetching recent care:', error));
     }
   }, [bebeId, usuarioId]);

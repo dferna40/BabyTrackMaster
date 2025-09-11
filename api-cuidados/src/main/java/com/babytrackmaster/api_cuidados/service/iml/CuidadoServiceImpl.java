@@ -87,6 +87,19 @@ public class CuidadoServiceImpl implements CuidadoService {
     }
 
     @Transactional(readOnly = true)
+    public List<CuidadoResponse> listarRecientes(Long usuarioId, Long bebeId, Date since, Integer limit) {
+        Date from = (since != null) ? since
+                : new Date(System.currentTimeMillis() - 120L * 60 * 60 * 1000);
+        List<Cuidado> list = repo.findByBebeIdAndUsuarioIdAndInicioAfterAndEliminadoFalse(bebeId, usuarioId, from,
+                PageRequest.of(0, limit, Sort.by("inicio").descending()));
+        List<CuidadoResponse> resp = new ArrayList<>();
+        for (Cuidado c : list) {
+            resp.add(CuidadoMapper.toResponse(c));
+        }
+        return resp;
+    }
+
+    @Transactional(readOnly = true)
     public List<CuidadoResponse> listarPorBebeYTipo(Long usuarioId, Long bebeId, Long tipoId) {
         List<Cuidado> list = repo.findByBebeIdAndTipo_IdAndUsuarioIdAndEliminadoFalseOrderByInicioDesc(bebeId, tipoId, usuarioId);
         List<CuidadoResponse> resp = new ArrayList<CuidadoResponse>();
