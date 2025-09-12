@@ -169,12 +169,12 @@ export default function QuickActionsCard() {
         });
 
       listarGastosRecientes(usuarioId, bebeId, 20)
-        .then(({ data }) => {
-          if (Array.isArray(data) && data.length > 0) {
+        .then((gastos) => {
+          if (Array.isArray(gastos) && gastos.length > 0) {
             const now = dayjs();
             const getDate = (item) => dayjs(item.fechaHora);
-            const last = getDate(data[0]);
-            const todayTotal = data.reduce((sum, item) => {
+            const last = getDate(gastos[0]);
+            const todayTotal = gastos.reduce((sum, item) => {
               const date = getDate(item);
               return date.isSame(now, 'day')
                 ? sum + Number(item.cantidad || 0)
