@@ -43,6 +43,26 @@ describe('Citas', () => {
     jest.clearAllMocks();
   });
 
+  it('muestra mensaje cuando no se han registrado citas', async () => {
+    listar.mockResolvedValue({ data: [] });
+    listarTipos.mockResolvedValue({ data: [] });
+    listarEstados.mockResolvedValue({ data: [] });
+
+    render(
+      <AuthContext.Provider value={{ user: { id: 1 } }}>
+        <BabyContext.Provider value={{ activeBaby: { id: 1 } }}>
+          <Citas />
+        </BabyContext.Provider>
+      </AuthContext.Provider>
+    );
+
+    await waitFor(() => expect(listar).toHaveBeenCalled());
+
+    expect(
+      await screen.findByText('No se han registrado citas')
+    ).toBeInTheDocument();
+  });
+
   it('muestra mensaje cuando no hay citas en la semana', async () => {
     listar.mockResolvedValue({ data: [] });
     listarTipos.mockResolvedValue({ data: [] });
