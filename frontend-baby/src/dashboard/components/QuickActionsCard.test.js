@@ -132,5 +132,29 @@ describe('QuickActionsCard', () => {
       expect(screen.getByText('Hoy: 3')).toBeInTheDocument();
     });
   });
+
+  it('muestra el total de gastos del día con el símbolo €', async () => {
+    const now = dayjs();
+    listarAlimentacionRecientes.mockResolvedValue({ data: [] });
+    obtenerStatsRapidas.mockResolvedValue({ data: {} });
+    listarCuidadosRecientes.mockResolvedValue({ data: [] });
+    listarGastosRecientes.mockResolvedValue([
+      { fechaHora: now.toISOString(), cantidad: 20 },
+      { fechaHora: now.toISOString(), cantidad: 20 },
+      { fechaHora: now.subtract(1, 'day').toISOString(), cantidad: 10 },
+    ]);
+
+    render(
+      <AuthContext.Provider value={{ user: { id: 1 } }}>
+        <BabyContext.Provider value={{ activeBaby: { id: 2 } }}>
+          <QuickActionsCard />
+        </BabyContext.Provider>
+      </AuthContext.Provider>,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('Hoy: 40€')).toBeInTheDocument();
+    });
+  });
 });
 

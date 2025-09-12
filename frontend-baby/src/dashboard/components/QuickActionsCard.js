@@ -261,7 +261,7 @@ export default function QuickActionsCard() {
       icon: AttachMoneyIcon,
       path: '/dashboard/gastos',
       state: { openForm: true },
-      unit: '',
+      unit: '€',
       color: 'warning',
     },
   ];
@@ -287,7 +287,14 @@ export default function QuickActionsCard() {
             const Icon = action.icon;
             const info = actionsData[action.key];
             const last = info.last ? info.last.fromNow() : '-';
-            const today = `${info.today}${action.unit}`;
+            const formattedToday =
+              action.key === 'gasto'
+                ? Number(info.today)
+                    .toFixed(2)
+                    .replace(/\.00$/, '')
+                    .replace(/(\.\d)0$/, '$1')
+                : info.today;
+            const today = `${formattedToday}${action.unit}`;
 
             return (
               <Grid item xs={6} md={3} key={action.key}>
