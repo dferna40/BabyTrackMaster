@@ -360,11 +360,15 @@ export default function Citas() {
         </>
       )}
 
-      {view === 'week' && citasSemana.length === 0 ? (
+      {tableData.length === 0 ? (
         <Box
           sx={{ display: 'flex', justifyContent: 'center', mt: 4, width: '100%' }}
         >
-          <Typography>No hay citas para esta semana</Typography>
+          <Typography>
+            {view === 'week'
+              ? 'No hay citas para esta semana'
+              : 'No se han registrado citas'}
+          </Typography>
         </Box>
       ) : (
         <TableContainer sx={{ mb: 4 }}>
