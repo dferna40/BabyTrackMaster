@@ -146,7 +146,11 @@ public class CuidadoServiceImpl implements CuidadoService {
             horasSueno += parseDurationToHours(c.getDuracion(), c.getInicio(), c.getFin());
         }
 
-        int numBanosTotal = numBanos.size();
+        int numBanosTotal = 0;
+        for (Cuidado c : numBanos) {
+            Integer cant = c.getCantidadMl();
+            numBanosTotal += (cant != null) ? cant : 1;
+        }
         int numPanalesTotal = 0;
         for (Cuidado c : numPanales) {
             Integer cant = c.getCantidadPanal();

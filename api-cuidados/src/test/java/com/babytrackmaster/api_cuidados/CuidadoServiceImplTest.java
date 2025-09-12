@@ -38,6 +38,7 @@ class CuidadoServiceImplTest {
     private Date baseDate;
     private Cuidado panalGuardado;
     private TipoCuidado tipoSueno;
+    private TipoCuidado tipoBano;
 
     @BeforeEach
     void setUp() {
@@ -48,7 +49,7 @@ class CuidadoServiceImplTest {
 
         tipoSueno = saveTipo("Sue\u00f1o");
         TipoCuidado panal = saveTipo("Pa\u00f1al");
-        TipoCuidado bano = saveTipo("Ba\u00f1o");
+        tipoBano = saveTipo("Ba\u00f1o");
         TipoPanal pipi = saveTipoPanal("PIPI");
 
         createCuidado(tipoSueno, null, date(2024,3,10,0,0), date(2024,3,10,4,0), "120");
@@ -57,7 +58,7 @@ class CuidadoServiceImplTest {
         panalGuardado = createCuidado(panal, pipi, date(2024,3,10,3,0), date(2024,3,10,3,5), null, 2);
         createCuidado(panal, pipi, date(2024,3,10,7,0), date(2024,3,10,7,5), null, 1);
         createCuidado(panal, pipi, date(2024,3,10,13,0), date(2024,3,10,13,7), null, 1);
-        createCuidado(bano, null, date(2024,3,10,18,0), date(2024,3,10,18,20));
+        createCuidado(tipoBano, null, date(2024,3,10,18,0), date(2024,3,10,18,20));
     }
 
     @Test
@@ -79,6 +80,18 @@ class CuidadoServiceImplTest {
     void obtenerDevuelveCantidadPanal() {
         CuidadoResponse resp = service.obtener(1L, panalGuardado.getId());
         assertEquals(2, resp.getCantidadPanal());
+    }
+
+    @Test
+    void quickStatsSumaCantidadMlDeBanos() {
+        Cuidado b1 = createCuidado(tipoBano, null, date(2024,3,10,19,0), date(2024,3,10,19,10));
+        b1.setCantidadMl(2);
+        cuidadoRepo.save(b1);
+        Cuidado b2 = createCuidado(tipoBano, null, date(2024,3,10,20,0), date(2024,3,10,20,15));
+        b2.setCantidadMl(3);
+        cuidadoRepo.save(b2);
+        QuickStatsResponse resp = service.obtenerEstadisticasRapidas(1L,1L, baseDate);
+        assertEquals(6, resp.getBanos());
     }
 
     private TipoCuidado saveTipo(String nombre) {
