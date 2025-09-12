@@ -43,7 +43,15 @@ export default function StatsOverview() {
 
   useEffect(() => {
     if (user?.id && activeBaby?.id) {
-      setStats(initialStats);
+      const defaultWeight =
+        activeBaby.pesoNacer !== undefined && activeBaby.pesoNacer !== null
+          ? {
+              value: `${parseFloat(activeBaby.pesoNacer).toFixed(1)} kg`,
+              diff: undefined,
+              diffValue: 0,
+            }
+          : initialStats.weight;
+      setStats({ ...initialStats, weight: defaultWeight });
       const yesterdayMillis = Date.now() - 24 * 60 * 60 * 1000;
       Promise.all([
         obtenerStatsRapidas(user.id, activeBaby.id),
@@ -125,27 +133,27 @@ export default function StatsOverview() {
                 } else {
                   setStats((prev) => ({
                     ...prev,
-                    weight: initialStats.weight,
+                    weight: defaultWeight,
                   }));
                 }
               })
               .catch(() => {
                 setStats((prev) => ({
                   ...prev,
-                  weight: initialStats.weight,
+                  weight: defaultWeight,
                 }));
               });
           } else {
             setStats((prev) => ({
               ...prev,
-              weight: initialStats.weight,
+              weight: defaultWeight,
             }));
           }
         })
         .catch(() => {
           setStats((prev) => ({
             ...prev,
-            weight: initialStats.weight,
+            weight: defaultWeight,
           }));
         });
     }
