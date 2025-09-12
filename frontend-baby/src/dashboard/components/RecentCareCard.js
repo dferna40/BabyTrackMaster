@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { BabyContext } from '../../context/BabyContext';
 import { AuthContext } from '../../context/AuthContext';
 import Card from '@mui/material/Card';
@@ -19,6 +19,7 @@ dayjs.extend(timezone);
 
 export default function RecentCareCard() {
   const [recentCare, setRecentCare] = useState([]);
+  const [, setTick] = useState(0);
   const { activeBaby } = React.useContext(BabyContext);
   const { user } = React.useContext(AuthContext);
   const usuarioId = user?.id;
@@ -79,19 +80,40 @@ export default function RecentCareCard() {
     }
   };
 
-  useEffect(() => {
+  const fetchRecentCare = useCallback(() => {
+    const limit = recentCare.length || 3;
     if (bebeId && usuarioId) {
-      listarRecientes(usuarioId, bebeId, 3)
+      listarRecientes(usuarioId, bebeId, limit)
         .then((response) => {
           const cutoff = dayjs().subtract(120, 'hour');
           const filtered = response.data.filter((cuidado) =>
             dayjs(cuidado.inicio).isAfter(cutoff)
           );
-          setRecentCare(filtered);
+          setRecentCare((prev) => {
+            if (prev.length === 0) {
+              return filtered;
+            }
+            return prev.map(
+              (item) => filtered.find((f) => f.id === item.id) || item
+            );
+          });
         })
         .catch((error) => console.error('Error fetching recent care:', error));
     }
-  }, [bebeId, usuarioId]);
+  }, [bebeId, usuarioId, recentCare.length]);
+
+  useEffect(() => {
+    fetchRecentCare();
+  }, [fetchRecentCare]);
+
+  useEffect(() => {
+    if (!bebeId || !usuarioId) return;
+    const intervalId = setInterval(() => {
+      fetchRecentCare();
+      setTick((t) => t + 1);
+    }, 15000);
+    return () => clearInterval(intervalId);
+  }, [bebeId, usuarioId, fetchRecentCare]);
 
   return (
     <Card variant="outlined" sx={{ height: '100%' }}>
