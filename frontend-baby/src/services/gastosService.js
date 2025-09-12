@@ -14,12 +14,13 @@ export const listarPorBebe = (usuarioId, bebeId, page = 0, size = 10) => {
 };
 
 export const listarRecientes = (usuarioId, bebeId, limit = 5) => {
-  return axios.get(
-    `${API_GASTOS_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}`,
-    {
-      params: { limit },
-    }
-  );
+  return axios
+    .get(`${API_GASTOS_ENDPOINT}/usuario/${usuarioId}/bebe/${bebeId}`,
+      {
+        params: { page: 0, size: limit },
+      },
+    )
+    .then((response) => response.data.content);
 };
 
 export const crearGasto = (usuarioId, data) => {

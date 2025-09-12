@@ -74,7 +74,7 @@ describe('QuickActionsCard', () => {
     });
     obtenerStatsRapidas.mockResolvedValue({ data: {} });
     listarCuidadosRecientes.mockResolvedValue({ data: [] });
-    listarGastosRecientes.mockResolvedValue({ data: [] });
+    listarGastosRecientes.mockResolvedValue([]);
 
     render(
       <AuthContext.Provider value={{ user: { id: 1 } }}>
@@ -118,7 +118,7 @@ describe('QuickActionsCard', () => {
           },
         ],
       });
-    listarGastosRecientes.mockResolvedValue({ data: [] });
+    listarGastosRecientes.mockResolvedValue([]);
 
     render(
       <AuthContext.Provider value={{ user: { id: 1 } }}>
