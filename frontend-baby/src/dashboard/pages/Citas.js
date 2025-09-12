@@ -360,84 +360,92 @@ export default function Citas() {
         </>
       )}
 
-      <TableContainer sx={{ mb: 4 }}>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>Fecha</TableCell>
-              <TableCell>Hora</TableCell>
-              <TableCell>Motivo</TableCell>
-              <TableCell>Tipo</TableCell>
-              <TableCell>Estado</TableCell>
-              {view !== 'week' && <TableCell>Centro médico</TableCell>}
-              <TableCell align="center">Acciones</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {tableData
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((cita) => (
-                <TableRow key={cita.id}>
-                  <TableCell>
-                    {dayjs(cita.fecha).format('DD/MM/YYYY')}
-                  </TableCell>
-                  <TableCell>
-                    {dayjs(`${cita.fecha}T${cita.hora}`).format('HH:mm')}
-                  </TableCell>
-                  <TableCell>{cita.motivo}</TableCell>
-                  <TableCell>
-                    {cita.tipoNombre ||
-                      tipos.find((t) => Number(t.id) === Number(cita.tipoId))?.nombre}
-                  </TableCell>
-                  <TableCell>
-                    <Chip
-                      label={cita.estadoNombre}
-                      color={getEstadoColor(cita.estadoNombre)}
-                      size="small"
-                    />
-                  </TableCell>
-                  {view !== 'week' && (
-                    <TableCell>{cita.centroMedico || '-'}</TableCell>
-                  )}
-                  <TableCell align="center">
-                    <IconButton
-                      size="small"
-                      aria-label="reminder"
-                      onClick={() => handleRecordatorio(cita.id)}
-                      sx={{ color: '#6c757d' }}
-                    >
-                      <NotificationsActiveIcon fontSize="small" />
-                    </IconButton>
-                    <IconButton
-                      size="small"
-                      aria-label="edit"
-                      onClick={() => handleEdit(cita)}
-                      sx={{ color: '#0d6efd' }}
-                    >
-                      <EditIcon fontSize="small" />
-                    </IconButton>
-                    <IconButton
-                      size="small"
-                      aria-label="estado"
-                      onClick={(e) => handleOpenEstadoMenu(e, cita.id)}
-                      sx={{ color: '#6c757d' }}
-                    >
-                      <MoreVertIcon fontSize="small" />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-        <TablePagination
-          component="div"
-          count={tableData.length}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </TableContainer>
+      {view === 'week' && citasSemana.length === 0 ? (
+        <Box
+          sx={{ display: 'flex', justifyContent: 'center', mt: 4, width: '100%' }}
+        >
+          <Typography>No hay citas para esta semana</Typography>
+        </Box>
+      ) : (
+        <TableContainer sx={{ mb: 4 }}>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>Fecha</TableCell>
+                <TableCell>Hora</TableCell>
+                <TableCell>Motivo</TableCell>
+                <TableCell>Tipo</TableCell>
+                <TableCell>Estado</TableCell>
+                {view !== 'week' && <TableCell>Centro médico</TableCell>}
+                <TableCell align="center">Acciones</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {tableData
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((cita) => (
+                  <TableRow key={cita.id}>
+                    <TableCell>
+                      {dayjs(cita.fecha).format('DD/MM/YYYY')}
+                    </TableCell>
+                    <TableCell>
+                      {dayjs(`${cita.fecha}T${cita.hora}`).format('HH:mm')}
+                    </TableCell>
+                    <TableCell>{cita.motivo}</TableCell>
+                    <TableCell>
+                      {cita.tipoNombre ||
+                        tipos.find((t) => Number(t.id) === Number(cita.tipoId))?.nombre}
+                    </TableCell>
+                    <TableCell>
+                      <Chip
+                        label={cita.estadoNombre}
+                        color={getEstadoColor(cita.estadoNombre)}
+                        size="small"
+                      />
+                    </TableCell>
+                    {view !== 'week' && (
+                      <TableCell>{cita.centroMedico || '-'}</TableCell>
+                    )}
+                    <TableCell align="center">
+                      <IconButton
+                        size="small"
+                        aria-label="reminder"
+                        onClick={() => handleRecordatorio(cita.id)}
+                        sx={{ color: '#6c757d' }}
+                      >
+                        <NotificationsActiveIcon fontSize="small" />
+                      </IconButton>
+                      <IconButton
+                        size="small"
+                        aria-label="edit"
+                        onClick={() => handleEdit(cita)}
+                        sx={{ color: '#0d6efd' }}
+                      >
+                        <EditIcon fontSize="small" />
+                      </IconButton>
+                      <IconButton
+                        size="small"
+                        aria-label="estado"
+                        onClick={(e) => handleOpenEstadoMenu(e, cita.id)}
+                        sx={{ color: '#6c757d' }}
+                      >
+                        <MoreVertIcon fontSize="small" />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+          <TablePagination
+            component="div"
+            count={tableData.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </TableContainer>
+      )}
       <Menu
         anchorEl={menuAnchor}
         open={Boolean(menuAnchor)}
