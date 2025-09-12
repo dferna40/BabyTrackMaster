@@ -23,6 +23,7 @@ import {
 } from '../../services/cuidadosService';
 import { listarRecientes as listarAlimentacionRecientes } from '../../services/alimentacionService';
 import { listarRecientes as listarGastosRecientes } from '../../services/gastosService';
+import { parseDurationToHours } from '../../utils/duration';
 
 const initialActionsData = {
   pecho: { last: null, today: 0 },
@@ -47,14 +48,38 @@ export default function QuickActionsCard() {
       const bebeId = activeBaby.id;
 
       obtenerStatsRapidas(usuarioId, bebeId)
-        .then(({ data }) =>
+        .then(({ data }) => {
           setActionsData((prev) => ({
             ...prev,
             panal: { ...prev.panal, today: data.panales || 0 },
             sueno: { ...prev.sueno, today: data.horasSueno || 0 },
-            bano: { ...prev.bano, today: data.banos || 0 },
-          }))
-        )
+          }));
+
+          listarCuidadosRecientes(usuarioId, bebeId, 20)
+            .then(({ data: cuidados }) => {
+              const now = dayjs();
+              const total = Array.isArray(cuidados)
+                ? cuidados
+                    .filter(
+                      (item) =>
+                        item.tipoNombre === 'Baño' &&
+                        dayjs(item.inicio).isSame(now, 'day'),
+                    )
+                    .reduce(
+                      (sum, item) =>
+                        sum + parseDurationToHours(item.duracion),
+                      0,
+                    )
+                : 0;
+              setActionsData((prev) => ({
+                ...prev,
+                bano: { ...prev.bano, today: total },
+              }));
+            })
+            .catch(() => {
+              /* ignore errors */
+            });
+        })
         .catch(() => {
           /* ignore errors */
         });
@@ -220,7 +245,7 @@ export default function QuickActionsCard() {
       icon: BathtubIcon,
       path: '/dashboard/cuidados',
       state: { tipo: 'Baño', disableTipo: true },
-      unit: '',
+      unit: 'h',
       color: 'info',
     },
     {

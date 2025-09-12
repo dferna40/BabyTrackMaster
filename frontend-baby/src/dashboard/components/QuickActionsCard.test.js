@@ -92,5 +92,45 @@ describe('QuickActionsCard', () => {
       expect(screen.getByText('Hoy: 150ml')).toBeInTheDocument();
     });
   });
+
+  it('suma correctamente las horas de baño del día de hoy', async () => {
+    const now = dayjs();
+    listarAlimentacionRecientes.mockResolvedValue({ data: [] });
+    obtenerStatsRapidas.mockResolvedValue({ data: {} });
+    listarCuidadosRecientes
+      .mockResolvedValueOnce({ data: [] })
+      .mockResolvedValueOnce({
+        data: [
+          {
+            tipoNombre: 'Baño',
+            inicio: now.toISOString(),
+            duracion: '30m',
+          },
+          {
+            tipoNombre: 'Baño',
+            inicio: now.toISOString(),
+            duracion: '3h00m',
+          },
+          {
+            tipoNombre: 'Baño',
+            inicio: now.subtract(1, 'day').toISOString(),
+            duracion: '15m',
+          },
+        ],
+      });
+    listarGastosRecientes.mockResolvedValue({ data: [] });
+
+    render(
+      <AuthContext.Provider value={{ user: { id: 1 } }}>
+        <BabyContext.Provider value={{ activeBaby: { id: 2 } }}>
+          <QuickActionsCard />
+        </BabyContext.Provider>
+      </AuthContext.Provider>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('Hoy: 3.5h')).toBeInTheDocument();
+    });
+  });
 });
 
