@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
@@ -22,7 +22,7 @@ import { parseDurationToHours } from '../../utils/duration';
 import formatTimeAgo from '../../utils/formatTimeAgo';
 
 const initialStats = {
-  lastBottle: 'Sin datos',
+  lastBottleDate: null,
   sleep: { hours: 0, diff: 0 },
   diapers: { count: 0, diff: 0 },
   weight: { value: '0 kg', diff: undefined, diffValue: 0 },
@@ -38,6 +38,8 @@ export default function StatsOverview() {
   const { activeBaby } = useContext(BabyContext);
 
   const [stats, setStats] = useState(initialStats);
+  const [lastBottleAgo, setLastBottleAgo] = useState('Sin datos');
+  const lastBottleRef = useRef(null);
 
   const formatHours = (h) => (h % 1 === 0 ? h : h.toFixed(1));
 
@@ -85,23 +87,10 @@ export default function StatsOverview() {
       obtenerUltimoBiberon(user.id, activeBaby.id)
         .then(({ data }) => {
           const date = data?.fechaHora || data;
-          if (date) {
-            setStats((prev) => ({
-              ...prev,
-              lastBottle: formatTimeAgo(date),
-            }));
-          } else {
-            setStats((prev) => ({
-              ...prev,
-              lastBottle: initialStats.lastBottle,
-            }));
-          }
+          setStats((prev) => ({ ...prev, lastBottleDate: date || null }));
         })
         .catch(() => {
-          setStats((prev) => ({
-            ...prev,
-            lastBottle: initialStats.lastBottle,
-          }));
+          setStats((prev) => ({ ...prev, lastBottleDate: null }));
         });
 
       listarTipos()
@@ -159,6 +148,68 @@ export default function StatsOverview() {
     }
   }, [user, activeBaby]);
 
+  useEffect(() => {
+    lastBottleRef.current = stats.lastBottleDate;
+    if (stats.lastBottleDate) {
+      setLastBottleAgo(formatTimeAgo(stats.lastBottleDate));
+    } else {
+      setLastBottleAgo('Sin datos');
+    }
+  }, [stats.lastBottleDate]);
+
+  useEffect(() => {
+    if (user?.id && activeBaby?.id) {
+      const intervalId = setInterval(() => {
+        if (lastBottleRef.current) {
+          setLastBottleAgo(formatTimeAgo(lastBottleRef.current));
+        } else {
+          setLastBottleAgo('Sin datos');
+        }
+
+        const yesterdayMillis = Date.now() - 24 * 60 * 60 * 1000;
+        Promise.all([
+          obtenerStatsRapidas(user.id, activeBaby.id),
+          obtenerStatsRapidas(user.id, activeBaby.id, yesterdayMillis),
+        ])
+          .then(([hoy, ayer]) => {
+            const hoyData = hoy.data || {};
+            const ayerData = ayer.data || {};
+            const todaySleep = parseDurationToHours(hoyData.horasSueno);
+            const yesterdaySleep = parseDurationToHours(ayerData.horasSueno);
+            setStats((prev) => ({
+              ...prev,
+              sleep: {
+                hours: todaySleep,
+                diff: todaySleep - yesterdaySleep,
+              },
+              diapers: {
+                count: hoyData.panales || 0,
+                diff: (hoyData.panales || 0) - (ayerData.panales || 0),
+              },
+            }));
+          })
+          .catch(() => {
+            setStats((prev) => ({
+              ...prev,
+              sleep: initialStats.sleep,
+              diapers: initialStats.diapers,
+            }));
+          });
+
+        obtenerUltimoBiberon(user.id, activeBaby.id)
+          .then(({ data }) => {
+            const date = data?.fechaHora || data;
+            setStats((prev) => ({ ...prev, lastBottleDate: date || null }));
+          })
+          .catch(() => {
+            setStats((prev) => ({ ...prev, lastBottleDate: null }));
+          });
+      }, 15000);
+
+      return () => clearInterval(intervalId);
+    }
+  }, [user, activeBaby]);
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -168,7 +219,7 @@ export default function StatsOverview() {
               <LocalDrinkIcon />
               <Box>
                 <Typography variant="subtitle2">Último biberón</Typography>
-                <Typography variant="h6">{stats.lastBottle}</Typography>
+                <Typography variant="h6">{lastBottleAgo}</Typography>
               </Box>
             </Stack>
           </CardContent>
