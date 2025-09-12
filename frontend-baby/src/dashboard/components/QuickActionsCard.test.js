@@ -93,7 +93,7 @@ describe('QuickActionsCard', () => {
     });
   });
 
-  it('suma correctamente las horas de baño del día de hoy', async () => {
+  it('suma correctamente los baños del día de hoy', async () => {
     const now = dayjs();
     listarAlimentacionRecientes.mockResolvedValue({ data: [] });
     obtenerStatsRapidas.mockResolvedValue({ data: {} });
@@ -104,17 +104,17 @@ describe('QuickActionsCard', () => {
           {
             tipoNombre: 'Baño',
             inicio: now.toISOString(),
-            duracion: '30m',
+            cantidadMl: 1,
           },
           {
             tipoNombre: 'Baño',
             inicio: now.toISOString(),
-            duracion: '3h00m',
+            cantidadMl: 2,
           },
           {
             tipoNombre: 'Baño',
             inicio: now.subtract(1, 'day').toISOString(),
-            duracion: '15m',
+            cantidadMl: 5,
           },
         ],
       });
@@ -125,11 +125,11 @@ describe('QuickActionsCard', () => {
         <BabyContext.Provider value={{ activeBaby: { id: 2 } }}>
           <QuickActionsCard />
         </BabyContext.Provider>
-      </AuthContext.Provider>
+      </AuthContext.Provider>,
     );
 
     await waitFor(() => {
-      expect(screen.getByText('Hoy: 3.5h')).toBeInTheDocument();
+      expect(screen.getByText('Hoy: 3')).toBeInTheDocument();
     });
   });
 });

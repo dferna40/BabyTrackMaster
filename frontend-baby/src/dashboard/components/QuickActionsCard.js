@@ -23,7 +23,6 @@ import {
 } from '../../services/cuidadosService';
 import { listarRecientes as listarAlimentacionRecientes } from '../../services/alimentacionService';
 import { listarRecientes as listarGastosRecientes } from '../../services/gastosService';
-import { parseDurationToHours } from '../../utils/duration';
 
 const initialActionsData = {
   pecho: { last: null, today: 0 },
@@ -66,8 +65,7 @@ export default function QuickActionsCard() {
                         dayjs(item.inicio).isSame(now, 'day'),
                     )
                     .reduce(
-                      (sum, item) =>
-                        sum + parseDurationToHours(item.duracion),
+                      (sum, item) => sum + Number(item.cantidadMl || 0),
                       0,
                     )
                 : 0;
@@ -245,7 +243,7 @@ export default function QuickActionsCard() {
       icon: BathtubIcon,
       path: '/dashboard/cuidados',
       state: { tipo: 'Baño', disableTipo: true },
-      unit: 'h',
+      unit: '',
       color: 'info',
     },
     {
