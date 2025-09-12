@@ -139,9 +139,9 @@ describe('QuickActionsCard', () => {
     obtenerStatsRapidas.mockResolvedValue({ data: {} });
     listarCuidadosRecientes.mockResolvedValue({ data: [] });
     listarGastosRecientes.mockResolvedValue([
-      { fechaHora: now.toISOString(), cantidad: 20 },
-      { fechaHora: now.toISOString(), cantidad: 20 },
-      { fechaHora: now.subtract(1, 'day').toISOString(), cantidad: 10 },
+      { fecha: now.toISOString(), cantidad: 20 },
+      { fecha: now.toISOString(), cantidad: 20 },
+      { fecha: now.subtract(1, 'day').toISOString(), cantidad: 10 },
     ]);
 
     render(
@@ -154,6 +154,11 @@ describe('QuickActionsCard', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Hoy: 40€')).toBeInTheDocument();
+    });
+
+    const lastText = `Última vez: ${dayjs(now.toISOString()).fromNow()}`;
+    await waitFor(() => {
+      expect(screen.getByText(lastText)).toBeInTheDocument();
     });
   });
 });

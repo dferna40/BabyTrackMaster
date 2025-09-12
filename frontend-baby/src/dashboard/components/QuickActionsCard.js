@@ -176,7 +176,7 @@ export default function QuickActionsCard() {
         .then((gastos) => {
           if (Array.isArray(gastos) && gastos.length > 0) {
             const now = dayjs();
-            const getDate = (item) => dayjs(item.fechaHora);
+            const getDate = (item) => dayjs(item.fecha);
             const last = getDate(gastos[0]);
             const todayTotal = gastos.reduce((sum, item) => {
               const date = getDate(item);
