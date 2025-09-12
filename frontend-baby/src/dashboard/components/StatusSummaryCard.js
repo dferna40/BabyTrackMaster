@@ -29,7 +29,9 @@ export default function StatusSummaryCard() {
   });
 
   useEffect(() => {
-    if (user?.id && activeBaby?.id) {
+    let intervalId;
+
+    const fetchEvents = () => {
       Promise.all([
         listarCuidadosRecientes(user.id, activeBaby.id, 20),
         listarAlimentacionRecientes(user.id, activeBaby.id, 20),
@@ -48,7 +50,18 @@ export default function StatusSummaryCard() {
         .catch(() =>
           setEvents({ feeding: null, diaper: null, sleep: null, bath: null })
         );
+    };
+
+    if (user?.id && activeBaby?.id) {
+      fetchEvents();
+      intervalId = setInterval(fetchEvents, 15000);
     }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
   }, [user, activeBaby]);
 
   const formatTime = (event) =>
