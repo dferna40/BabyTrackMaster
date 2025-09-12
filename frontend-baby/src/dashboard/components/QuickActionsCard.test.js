@@ -97,27 +97,25 @@ describe('QuickActionsCard', () => {
     const now = dayjs();
     listarAlimentacionRecientes.mockResolvedValue({ data: [] });
     obtenerStatsRapidas.mockResolvedValue({ data: {} });
-    listarCuidadosRecientes
-      .mockResolvedValueOnce({ data: [] })
-      .mockResolvedValueOnce({
-        data: [
-          {
-            tipoNombre: 'Baño',
-            inicio: now.toISOString(),
-            cantidadMl: 1,
-          },
-          {
-            tipoNombre: 'Baño',
-            inicio: now.toISOString(),
-            cantidadMl: 2,
-          },
-          {
-            tipoNombre: 'Baño',
-            inicio: now.subtract(1, 'day').toISOString(),
-            cantidadMl: 5,
-          },
-        ],
-      });
+    listarCuidadosRecientes.mockResolvedValue({
+      data: [
+        {
+          tipoNombre: 'Baño',
+          inicio: now.toISOString(),
+          cantidadMl: 1,
+        },
+        {
+          tipoNombre: 'Baño',
+          inicio: now.toISOString(),
+          cantidadMl: 2,
+        },
+        {
+          tipoNombre: 'Baño',
+          inicio: now.subtract(1, 'day').toISOString(),
+          cantidadMl: 5,
+        },
+      ],
+    });
     listarGastosRecientes.mockResolvedValue([]);
 
     render(

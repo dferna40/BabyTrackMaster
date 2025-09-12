@@ -63,30 +63,44 @@ export default function QuickActionsCard() {
             panal: { ...prev.panal, today: data.panales || 0 },
             sueno: { ...prev.sueno, today: data.horasSueno || 0 },
           }));
+        })
+        .catch(() => {
+          /* ignore errors */
+        });
 
-          listarCuidadosRecientes(usuarioId, bebeId, 20)
-            .then(({ data: cuidados }) => {
-              const now = dayjs();
-              const total = Array.isArray(cuidados)
-                ? cuidados
-                    .filter(
-                      (item) =>
-                        item.tipoNombre === 'Baño' &&
-                        dayjs(item.inicio).isSame(now, 'day'),
-                    )
-                    .reduce(
-                      (sum, item) => sum + Number(item.cantidadMl || 0),
-                      0,
-                    )
-                : 0;
-              setActionsData((prev) => ({
-                ...prev,
-                bano: { ...prev.bano, today: total },
-              }));
-            })
-            .catch(() => {
-              /* ignore errors */
+      listarCuidadosRecientes(usuarioId, bebeId, 20)
+        .then(({ data }) => {
+          const cuidados = data;
+          const now = dayjs();
+          let totalBano = 0;
+          const updates = { panal: null, sueno: null, bano: null };
+
+          if (Array.isArray(cuidados)) {
+            cuidados.forEach((item) => {
+              if (item.tipoNombre === 'Baño') {
+                const inicio = dayjs(item.inicio);
+                if (inicio.isSame(now, 'day')) {
+                  totalBano += Number(item.cantidadMl || 0);
+                }
+                if (!updates.bano) {
+                  updates.bano = inicio;
+                }
+              }
+              if (item.tipoNombre === 'Pañal' && !updates.panal) {
+                updates.panal = dayjs(item.inicio);
+              }
+              if (item.tipoNombre === 'Sueño' && !updates.sueno) {
+                updates.sueno = dayjs(item.inicio);
+              }
             });
+          }
+
+          setActionsData((prev) => ({
+            ...prev,
+            bano: { last: updates.bano, today: totalBano },
+            panal: { ...prev.panal, last: updates.panal },
+            sueno: { ...prev.sueno, last: updates.sueno },
+          }));
         })
         .catch(() => {
           /* ignore errors */
@@ -140,33 +154,6 @@ export default function QuickActionsCard() {
               },
             }));
           }
-        })
-        .catch(() => {
-          /* ignore errors */
-        });
-
-      listarCuidadosRecientes(usuarioId, bebeId, 20)
-        .then(({ data }) => {
-          const updates = { panal: null, sueno: null, bano: null };
-          if (Array.isArray(data)) {
-            data.forEach((item) => {
-              if (item.tipoNombre === 'Pañal' && !updates.panal) {
-                updates.panal = dayjs(item.inicio);
-              }
-              if (item.tipoNombre === 'Sueño' && !updates.sueno) {
-                updates.sueno = dayjs(item.inicio);
-              }
-              if (item.tipoNombre === 'Baño' && !updates.bano) {
-                updates.bano = dayjs(item.inicio);
-              }
-            });
-          }
-          setActionsData((prev) => ({
-            ...prev,
-            panal: { ...prev.panal, last: updates.panal },
-            sueno: { ...prev.sueno, last: updates.sueno },
-            bano: { ...prev.bano, last: updates.bano },
-          }));
         })
         .catch(() => {
           /* ignore errors */
