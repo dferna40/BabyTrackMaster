@@ -39,9 +39,19 @@ export default function QuickActionsCard() {
   const { activeBaby } = useContext(BabyContext);
 
   const [actionsData, setActionsData] = useState(initialActionsData);
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTick((t) => t + 1);
+    }, 15000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     setActionsData(initialActionsData);
+  }, [user, activeBaby]);
+
+  useEffect(() => {
     if (user?.id && activeBaby?.id) {
       const usuarioId = user.id;
       const bebeId = activeBaby.id;
@@ -129,12 +139,6 @@ export default function QuickActionsCard() {
                 today: todayBiberon,
               },
             }));
-          } else {
-            setActionsData((prev) => ({
-              ...prev,
-              pecho: { ...initialActionsData.pecho },
-              biberon: { ...initialActionsData.biberon },
-            }));
           }
         })
         .catch(() => {
@@ -187,18 +191,13 @@ export default function QuickActionsCard() {
                 today: todayTotal,
               },
             }));
-          } else {
-            setActionsData((prev) => ({
-              ...prev,
-              gasto: { ...initialActionsData.gasto },
-            }));
           }
         })
         .catch(() => {
           /* ignore errors */
         });
     }
-  }, [user, activeBaby]);
+  }, [user, activeBaby, tick]);
 
   const handleNavigate = (path, state) => () => {
     navigate(path, { state });
