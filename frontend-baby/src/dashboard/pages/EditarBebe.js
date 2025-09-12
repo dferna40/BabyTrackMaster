@@ -252,7 +252,7 @@ export default function EditarBebe() {
                     label="Peso al nacer (kg)"
                     name="pesoNacer"
                     type="number"
-                    inputProps={{ min: 0 }}
+                    inputProps={{ min: 0, step: 0.01 }}
                     InputLabelProps={{ shrink: true }}
                     fullWidth
                     value={formData.pesoNacer}
