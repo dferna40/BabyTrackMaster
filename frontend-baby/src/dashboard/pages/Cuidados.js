@@ -264,114 +264,121 @@ export default function Cuidados() {
           <Tab key={t.id} label={t.nombre} />
         ))}
       </Tabs>
-
-      <TableContainer sx={{ mb: 4 }}>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>Hora</TableCell>
-              <TableCell>Tipo</TableCell>
-              {isPanal ? (
-                <>
-                  <TableCell>Tipo pañal</TableCell>
-                  <TableCell>Cantidad</TableCell>
-                </>
-              ) : (
-                <TableCell>{isSueno ? "Duración" : "Cantidad"}</TableCell>
-              )}
-              <TableCell>Nota</TableCell>
-              <TableCell align="center">Acciones</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredCuidados
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((cuidado) => (
-                <TableRow key={cuidado.id}>
-                  <TableCell>
-                    {dayjs(cuidado.inicio).format("DD/MM/YYYY HH:mm")}
-                  </TableCell>
-                  <TableCell>{cuidado.tipoNombre}</TableCell>
-                  {cuidado.tipoNombre === "Pañal" ? (
+      {filteredCuidados.length > 0 ? (
+        <>
+          <TableContainer sx={{ mb: 4 }}>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Hora</TableCell>
+                  <TableCell>Tipo</TableCell>
+                  {isPanal ? (
                     <>
-                      <TableCell sx={{ fontWeight: 600 }}>
-                        {cuidado.tipoPanalNombre ?? "-"}
-                      </TableCell>
-                      <TableCell sx={{ fontWeight: 600 }}>
-                        {cuidado.cantidadPanal ?? "-"}
-                      </TableCell>
+                      <TableCell>Tipo pañal</TableCell>
+                      <TableCell>Cantidad</TableCell>
                     </>
                   ) : (
-                    <TableCell sx={{ fontWeight: 600 }}>
-                      {cuidado.tipoNombre === "Sueño"
-                        ? cuidado.duracion
-                        : cuidado.cantidadMl ?? "-"}
-                    </TableCell>
+                    <TableCell>{isSueno ? "Duración" : "Cantidad"}</TableCell>
                   )}
-                  <TableCell>{cuidado.observaciones}</TableCell>
-                  <TableCell align="center">
-                    <IconButton
-                      size="small"
-                      aria-label="edit"
-                      onClick={() => handleEdit(cuidado)}
-                      sx={{ color: '#0d6efd' }}
-                    >
-                      <EditIcon fontSize="small" />
-                    </IconButton>
-                    <IconButton
-                      size="small"
-                      aria-label="delete"
-                      onClick={() => handleDelete(cuidado.id)}
-                      sx={{ color: '#dc3545' }}
-                    >
-                      <DeleteIcon fontSize="small" />
-                    </IconButton>
-                  </TableCell>
+                  <TableCell>Nota</TableCell>
+                  <TableCell align="center">Acciones</TableCell>
                 </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-        <TablePagination
-          component="div"
-          count={filteredCuidados.length}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </TableContainer>
+              </TableHead>
+              <TableBody>
+                {filteredCuidados
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((cuidado) => (
+                    <TableRow key={cuidado.id}>
+                      <TableCell>
+                        {dayjs(cuidado.inicio).format("DD/MM/YYYY HH:mm")}
+                      </TableCell>
+                      <TableCell>{cuidado.tipoNombre}</TableCell>
+                      {cuidado.tipoNombre === "Pañal" ? (
+                        <>
+                          <TableCell sx={{ fontWeight: 600 }}>
+                            {cuidado.tipoPanalNombre ?? "-"}
+                          </TableCell>
+                          <TableCell sx={{ fontWeight: 600 }}>
+                            {cuidado.cantidadPanal ?? "-"}
+                          </TableCell>
+                        </>
+                      ) : (
+                        <TableCell sx={{ fontWeight: 600 }}>
+                          {cuidado.tipoNombre === "Sueño"
+                            ? cuidado.duracion
+                            : cuidado.cantidadMl ?? "-"}
+                        </TableCell>
+                      )}
+                      <TableCell>{cuidado.observaciones}</TableCell>
+                      <TableCell align="center">
+                        <IconButton
+                          size="small"
+                          aria-label="edit"
+                          onClick={() => handleEdit(cuidado)}
+                          sx={{ color: '#0d6efd' }}
+                        >
+                          <EditIcon fontSize="small" />
+                        </IconButton>
+                        <IconButton
+                          size="small"
+                          aria-label="delete"
+                          onClick={() => handleDelete(cuidado.id)}
+                          sx={{ color: '#dc3545' }}
+                        >
+                          <DeleteIcon fontSize="small" />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+            <TablePagination
+              component="div"
+              count={filteredCuidados.length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </TableContainer>
 
-      {filteredCuidados.length > 0 && (
-        <Box sx={{ mb: 4, display: "flex", gap: 2 }}>
-          <Button variant="outlined" onClick={handleExportPdf}>
-            Exportar PDF
-          </Button>
-          <Button variant="outlined" onClick={handleExportCsv}>
-            Exportar CSV
-          </Button>
-        </Box>
-      )}
+          <Box sx={{ mb: 4, display: "flex", gap: 2 }}>
+            <Button variant="outlined" onClick={handleExportPdf}>
+              Exportar PDF
+            </Button>
+            <Button variant="outlined" onClick={handleExportCsv}>
+              Exportar CSV
+            </Button>
+          </Box>
 
-      <Card variant="outlined">
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            Estadísticas de cuidados
+          <Card variant="outlined">
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                Estadísticas de cuidados
+              </Typography>
+              <BarChart
+                height={250}
+                xAxis={[
+                  {
+                    scaleType: "band",
+                    data: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
+                  },
+                ]}
+                series={[{ data: weeklyStats, color: chartColor }]}
+                margin={{ left: 30, right: 10, top: 20, bottom: 20 }}
+                grid={{ horizontal: true }}
+                borderRadius={8}
+              />
+            </CardContent>
+          </Card>
+        </>
+      ) : (
+        tipos[tab] && (
+          <Typography>
+            Aún no se han insertado datos de {tipos[tab].nombre.toLowerCase()}
           </Typography>
-          <BarChart
-            height={250}
-            xAxis={[
-              {
-                scaleType: "band",
-                data: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
-              },
-            ]}
-            series={[{ data: weeklyStats, color: chartColor }]}
-            margin={{ left: 30, right: 10, top: 20, bottom: 20 }}
-            grid={{ horizontal: true }}
-            borderRadius={8}
-          />
-        </CardContent>
-      </Card>
+        )
+      )}
       <CuidadoForm
         open={openForm}
         onClose={() => setOpenForm(false)}
