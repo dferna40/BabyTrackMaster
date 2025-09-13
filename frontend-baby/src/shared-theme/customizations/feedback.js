@@ -1,5 +1,5 @@
 import { alpha } from '@mui/material/styles';
-import { gray, orange } from '../themePrimitives';
+import { gray, chartPastel } from '../themePrimitives';
 
 /* eslint-disable import/prefer-default-export */
 export const feedbackCustomizations = {
@@ -7,15 +7,15 @@ export const feedbackCustomizations = {
     styleOverrides: {
       root: ({ theme }) => ({
         borderRadius: 10,
-        backgroundColor: orange[100],
+        backgroundColor: chartPastel.babyBlue,
         color: (theme.vars || theme).palette.text.primary,
-        border: `1px solid ${alpha(orange[300], 0.5)}`,
+        border: `1px solid ${alpha(chartPastel.babyBlue, 0.5)}`,
         '& .MuiAlert-icon': {
-          color: orange[500],
+          color: chartPastel.babyBlue,
         },
         ...theme.applyStyles('dark', {
-          backgroundColor: `${alpha(orange[900], 0.5)}`,
-          border: `1px solid ${alpha(orange[800], 0.5)}`,
+          backgroundColor: `${alpha(chartPastel.babyBlue, 0.2)}`,
+          border: `1px solid ${alpha(chartPastel.babyBlue, 0.3)}`,
         }),
       }),
     },
