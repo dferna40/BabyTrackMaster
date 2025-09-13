@@ -324,7 +324,7 @@ export default function EditarBebe() {
 
             <Box component={Paper} sx={{ p: 2, mb: 2 }}>
               <Typography variant="h6" gutterBottom>
-                Salud
+                Datos de salud
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
@@ -510,7 +510,7 @@ export default function EditarBebe() {
           <Grid item xs={12} md={4}>
             <Box component={Paper} sx={{ p: 2, textAlign: 'center' }}>
               <Typography variant="h6" gutterBottom>
-                Foto/Identidad
+                Foto del bebé
               </Typography>
               <Stack spacing={2} alignItems="center">
                 <Avatar src={preview} sx={{ width: 120, height: 120 }} />

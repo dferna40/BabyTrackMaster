@@ -288,7 +288,7 @@ export default function AnadirBebe() {
 
             <Box component={Paper} sx={{ p: 2, mb: 2 }}>
               <Typography variant="h6" gutterBottom>
-                Salud
+                Datos de salud
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
