@@ -64,6 +64,7 @@ export default function Rutinas() {
   const [selectedRutina, setSelectedRutina] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('error');
   const { activeBaby } = React.useContext(BabyContext);
   const { user } = React.useContext(AuthContext);
   const usuarioId = user?.id;
@@ -113,6 +114,7 @@ export default function Rutinas() {
       .then(() => {
         fetchRutinas();
         setSnackbarMessage('Registro eliminado');
+        setSnackbarSeverity('error');
         setOpenSnackbar(true);
       })
       .catch((error) => {
@@ -139,6 +141,11 @@ export default function Rutinas() {
     request
       .then(() => {
         setOpenForm(false);
+        if (selectedRutina) {
+          setSnackbarMessage('Registro actualizado');
+          setSnackbarSeverity('success');
+          setOpenSnackbar(true);
+        }
         setSelectedRutina(null);
         fetchRutinas();
       })
@@ -300,8 +307,12 @@ export default function Rutinas() {
       >
         <Alert
           onClose={handleCloseSnackbar}
-          severity="error"
-          sx={{ bgcolor: '#ffcdd2', color: '#b71c1c' }}
+          severity={snackbarSeverity}
+          sx={
+            snackbarSeverity === 'success'
+              ? { bgcolor: '#bbdefb', color: '#0d47a1' }
+              : { bgcolor: '#ffcdd2', color: '#b71c1c' }
+          }
         >
           {snackbarMessage}
         </Alert>
