@@ -4,7 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { BabyContext } from '../../context/BabyContext';
 import { obtenerStatsRapidas } from '../../services/cuidadosService';
 import { obtenerUltimoBiberon } from '../../services/alimentacionService';
-import { listarTipos } from '../../services/crecimientoService';
+import { listarTipos, listarUltimosPorTipo } from '../../services/crecimientoService';
 
 jest.mock('../../services/cuidadosService', () => ({
   obtenerStatsRapidas: jest.fn(),
@@ -74,6 +74,42 @@ describe('StatsOverview', () => {
     await waitFor(() => {
       expect(screen.getByText('Sin datos')).toBeInTheDocument();
     });
+  });
+
+  it('muestra flecha hacia arriba cuando el peso aumenta', async () => {
+    obtenerStatsRapidas.mockResolvedValue({ data: {} });
+    listarTipos.mockResolvedValue({ data: [{ id: 1, nombre: 'Peso' }] });
+    listarUltimosPorTipo.mockResolvedValue({
+      data: [
+        { valor: 5.5 },
+        { valor: 4.0 },
+      ],
+    });
+    obtenerUltimoBiberon.mockResolvedValue({ data: {} });
+
+    renderComponent();
+
+    await waitFor(() => expect(listarUltimosPorTipo).toHaveBeenCalled());
+    const icon = await screen.findByTestId('TrendingUpIcon');
+    expect(icon).toHaveClass('MuiSvgIcon-colorSuccess');
+  });
+
+  it('muestra flecha hacia abajo cuando el peso disminuye', async () => {
+    obtenerStatsRapidas.mockResolvedValue({ data: {} });
+    listarTipos.mockResolvedValue({ data: [{ id: 1, nombre: 'Peso' }] });
+    listarUltimosPorTipo.mockResolvedValue({
+      data: [
+        { valor: 4.0 },
+        { valor: 5.5 },
+      ],
+    });
+    obtenerUltimoBiberon.mockResolvedValue({ data: {} });
+
+    renderComponent();
+
+    await waitFor(() => expect(listarUltimosPorTipo).toHaveBeenCalled());
+    const icon = await screen.findByTestId('TrendingDownIcon');
+    expect(icon).toHaveClass('MuiSvgIcon-colorError');
   });
 });
 

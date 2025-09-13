@@ -10,6 +10,7 @@ import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
 import HotelIcon from '@mui/icons-material/Hotel';
 import BabyChangingStationIcon from '@mui/icons-material/BabyChangingStation';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import { AuthContext } from '../../context/AuthContext';
 import { BabyContext } from '../../context/BabyContext';
 import { obtenerStatsRapidas } from '../../services/cuidadosService';
@@ -279,7 +280,11 @@ export default function StatsOverview() {
         <Card sx={{ backgroundColor: cardBg, color: theme.palette.text.primary }}>
           <CardContent>
             <Stack direction="row" spacing={2} alignItems="center">
-              <TrendingUpIcon color={stats.weight.diffValue >= 0 ? 'success' : 'error'} />
+              {stats.weight.diffValue >= 0 ? (
+                <TrendingUpIcon color="success" />
+              ) : (
+                <TrendingDownIcon color="error" />
+              )}
               <Box>
                 <Typography variant="subtitle2">Peso actual</Typography>
                 <Stack direction="row" spacing={1} alignItems="baseline">
