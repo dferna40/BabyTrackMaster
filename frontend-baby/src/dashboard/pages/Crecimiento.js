@@ -73,6 +73,7 @@ export default function Crecimiento() {
   const [selectedRegistro, setSelectedRegistro] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("error");
   const [tipos, setTipos] = useState([]);
   const { activeBaby } = React.useContext(BabyContext);
   const { user } = React.useContext(AuthContext);
@@ -148,6 +149,7 @@ export default function Crecimiento() {
       .then(() => {
         fetchRegistros();
         setSnackbarMessage("Registro eliminado");
+        setSnackbarSeverity("error");
         setOpenSnackbar(true);
       })
       .catch((err) => console.error("Error deleting registro:", err));
@@ -156,7 +158,8 @@ export default function Crecimiento() {
   const handleFormSubmit = (data) => {
     if (!bebeId || !usuarioId) return;
     const payload = { ...data, bebeId };
-    const request = selectedRegistro
+    const isUpdate = Boolean(selectedRegistro);
+    const request = isUpdate
       ? actualizarRegistro(usuarioId, selectedRegistro.id, payload)
       : crearRegistro(usuarioId, payload);
 
@@ -165,6 +168,11 @@ export default function Crecimiento() {
         setOpenForm(false);
         setSelectedRegistro(null);
         fetchRegistros();
+        if (isUpdate) {
+          setSnackbarMessage("Registro actualizado");
+          setSnackbarSeverity("success");
+          setOpenSnackbar(true);
+        }
       })
       .catch((err) => console.error("Error saving registro:", err));
   };
@@ -326,8 +334,11 @@ export default function Crecimiento() {
       >
         <Alert
           onClose={handleCloseSnackbar}
-          severity="error"
-          sx={{ bgcolor: '#ffcdd2', color: '#b71c1c' }}
+          severity={snackbarSeverity}
+          sx={{
+            bgcolor: snackbarSeverity === "success" ? "#bbdefb" : "#ffcdd2",
+            color: snackbarSeverity === "success" ? "#0d47a1" : "#b71c1c",
+          }}
         >
           {snackbarMessage}
         </Alert>
