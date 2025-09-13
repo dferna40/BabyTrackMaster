@@ -62,6 +62,8 @@ export default function Citas() {
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [menuCitaId, setMenuCitaId] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('error');
   const [openRecordatorioDialog, setOpenRecordatorioDialog] = useState(false);
   const [recordatorioId, setRecordatorioId] = useState(null);
   const [minutosAntelacion, setMinutosAntelacion] = useState(30);
@@ -95,11 +97,15 @@ export default function Citas() {
         } else {
           console.error('Invalid citas response:', response.data);
           setCitas([]);
+          setSnackbarMessage('Error al cargar citas');
+          setSnackbarSeverity('error');
           setOpenSnackbar(true);
         }
       })
       .catch((error) => {
         console.error('Error fetching citas:', error);
+        setSnackbarMessage('Error al cargar citas');
+        setSnackbarSeverity('error');
         setOpenSnackbar(true);
       });
   };
@@ -205,7 +211,8 @@ export default function Citas() {
 
   const handleFormSubmit = (data) => {
     if (!bebeId || !usuarioId) return;
-    const request = selectedCita
+    const isUpdate = Boolean(selectedCita);
+    const request = isUpdate
       ? actualizarCita(selectedCita.id, { ...data, bebeId })
       : crearCita({ ...data, bebeId });
 
@@ -214,6 +221,11 @@ export default function Citas() {
         setOpenForm(false);
         setSelectedCita(null);
         fetchCitas();
+        if (isUpdate) {
+          setSnackbarMessage('Registro actualizado');
+          setSnackbarSeverity('success');
+          setOpenSnackbar(true);
+        }
       })
       .catch((error) => console.error('Error saving cita:', error));
   };
@@ -511,10 +523,15 @@ export default function Citas() {
       >
         <Alert
           onClose={handleCloseSnackbar}
-          severity="error"
-          sx={{ width: '100%' }}
+          severity={snackbarSeverity}
+          sx={{
+            width: '100%',
+            ...(snackbarSeverity === 'success' && {
+              backgroundColor: '#bbdefb',
+            }),
+          }}
         >
-          Error al cargar citas
+          {snackbarMessage}
         </Alert>
       </Snackbar>
     </Box>
