@@ -1,6 +1,7 @@
 import React, { useRef, useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -132,7 +133,8 @@ export default function AnadirBebe() {
   };
 
   return (
-    <Box
+    <Container maxWidth="md">
+      <Box
         component="form"
         id="add-baby"
         onSubmit={handleSubmit}
@@ -141,329 +143,326 @@ export default function AnadirBebe() {
         <Typography variant="h4" sx={{ mb: 2 }}>
           Añadir bebé
         </Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={8}>
-            <Box component={Paper} sx={{ p: 2, mb: 2 }}>
-              <Typography variant="h6" gutterBottom>
-                Datos básicos
-              </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    required
-                    label="Nombre del bebé"
-                    name="nombre"
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    value={formData.nombre}
-                    onChange={handleChange}
-                    disabled={loading}
-                    variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <DatePicker
-                    label="Fecha de nacimiento"
-                    value={formData.fechaNacimiento}
-                    onChange={handleDateChange}
-                    disableFuture
-                    maxDate={dayjs().subtract(1, 'day')}
-                    disabled={loading}
-                    slotProps={{
-                      textField: {
-                        required: true,
-                        variant: 'outlined',
-                        sx: {
-                          '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                          '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+        <Paper sx={{ p: 3 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={8}>
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="h6" sx={{ mb: 2 }}>
+                  Datos básicos
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      label="Nombre del bebé"
+                      name="nombre"
+                      InputLabelProps={{ shrink: true }}
+                      fullWidth
+                      value={formData.nombre}
+                      onChange={handleChange}
+                      disabled={loading}
+                      variant="outlined"
+                      sx={{
+                        '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                        '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <DatePicker
+                      label="Fecha de nacimiento"
+                      value={formData.fechaNacimiento}
+                      onChange={handleDateChange}
+                      disableFuture
+                      maxDate={dayjs().subtract(1, 'day')}
+                      disabled={loading}
+                      slotProps={{
+                        textField: {
+                          required: true,
+                          variant: 'outlined',
+                          sx: {
+                            '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                            '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                          },
+                          fullWidth: true,
+                          disabled: loading,
+                          InputLabelProps: { shrink: true },
                         },
-                        fullWidth: true,
-                        disabled: loading,
-                        InputLabelProps: { shrink: true },
-                      },
-                    }}
-                  />
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <FormControl required>
+                      <FormLabel required>Sexo</FormLabel>
+                      <RadioGroup
+                        row
+                        name="sexo"
+                        value={formData.sexo}
+                        onChange={handleChange}
+                      >
+                        <FormControlLabel value="M" control={<Radio />} label="M" disabled={loading} />
+                        <FormControlLabel value="F" control={<Radio />} label="F" disabled={loading} />
+                        <FormControlLabel value="ND" control={<Radio />} label="ND" disabled={loading} />
+                      </RadioGroup>
+                    </FormControl>
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControl required>
-                    <FormLabel required>Sexo</FormLabel>
-                    <RadioGroup
-                      row
-                      name="sexo"
-                      value={formData.sexo}
-                      onChange={handleChange}
-                    >
-                      <FormControlLabel value="M" control={<Radio />} label="M" disabled={loading} />
-                      <FormControlLabel value="F" control={<Radio />} label="F" disabled={loading} />
-                      <FormControlLabel value="ND" control={<Radio />} label="ND" disabled={loading} />
-                    </RadioGroup>
-                  </FormControl>
-                </Grid>
-              </Grid>
-            </Box>
-
-            <Box component={Paper} sx={{ p: 2, mb: 2 }}>
-              <Typography variant="h6" gutterBottom>
-                Datos de nacimiento
-              </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Peso al nacer (kg)"
-                    name="pesoNacer"
-                    type="number"
-                    inputProps={{ min: 0, step: 0.01 }}
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    value={formData.pesoNacer}
-                    onChange={handleChange}
-                    disabled={loading}
-                    variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Talla al nacer (cm)"
-                    name="tallaNacer"
-                    type="number"
-                    inputProps={{ min: 0 }}
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    value={formData.tallaNacer}
-                    onChange={handleChange}
-                    disabled={loading}
-                    variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Perímetro craneal al nacer (cm)"
-                    name="perimetroCranealNacer"
-                    type="number"
-                    inputProps={{ min: 0 }}
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    value={formData.perimetroCranealNacer}
-                    onChange={handleChange}
-                    disabled={loading}
-                    variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Semanas de gestación"
-                    name="semanasGestacion"
-                    type="number"
-                    inputProps={{ min: 0 }}
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    value={formData.semanasGestacion}
-                    onChange={handleChange}
-                    disabled={loading}
-                    variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
-                  />
-                </Grid>
-              </Grid>
-            </Box>
-
-            <Box component={Paper} sx={{ p: 2, mb: 2 }}>
-              <Typography variant="h6" gutterBottom>
-                Datos de salud
-              </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <FormControl
-                    fullWidth
-                    variant="outlined"
-                    sx={{
-
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-
-                      minWidth: 160,
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: 'divider',
-                        borderRadius: 1,
-                      },
-
-                    }}
-                  >
-                    <InputLabel id="grupo-sanguineo-label" shrink>Grupo sanguíneo</InputLabel>
-                    <Select
-                      labelId="grupo-sanguineo-label"
-                      label="Grupo sanguíneo"
-                      name="tipoGrupoSanguineoId"
-                      value={formData.tipoGrupoSanguineoId}
+              </Box>
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="h6" sx={{ mb: 2 }}>
+                  Datos de nacimiento
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Peso al nacer (kg)"
+                      name="pesoNacer"
+                      type="number"
+                      inputProps={{ min: 0, step: 0.01 }}
+                      InputLabelProps={{ shrink: true }}
+                      fullWidth
+                      value={formData.pesoNacer}
                       onChange={handleChange}
                       disabled={loading}
+                      variant="outlined"
+                      sx={{
+                        '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                        '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Talla al nacer (cm)"
+                      name="tallaNacer"
+                      type="number"
+                      inputProps={{ min: 0 }}
+                      InputLabelProps={{ shrink: true }}
                       fullWidth
-                    >
-                      {gruposSanguineos.map((grupo) => (
-                        <MenuItem key={grupo.id} value={grupo.id}>
-                          {grupo.nombre}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControl
-                    fullWidth
-                    variant="outlined"
-                    sx={{
-
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-
-                      minWidth: 160,
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: 'divider',
-                        borderRadius: 1,
-                      },
-
-                    }}
-                  >
-                    <InputLabel id="alergias-label" shrink>Alergias</InputLabel>
-                    <Select
-                      labelId="alergias-label"
-                      label="Alergias"
-                      name="tipoAlergiaId"
-                      value={formData.tipoAlergiaId}
+                      value={formData.tallaNacer}
                       onChange={handleChange}
                       disabled={loading}
+                      variant="outlined"
+                      sx={{
+                        '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                        '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Perímetro craneal al nacer (cm)"
+                      name="perimetroCranealNacer"
+                      type="number"
+                      inputProps={{ min: 0 }}
+                      InputLabelProps={{ shrink: true }}
                       fullWidth
+                      value={formData.perimetroCranealNacer}
+                      onChange={handleChange}
+                      disabled={loading}
+                      variant="outlined"
+                      sx={{
+                        '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                        '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Semanas de gestación"
+                      name="semanasGestacion"
+                      type="number"
+                      inputProps={{ min: 0 }}
+                      InputLabelProps={{ shrink: true }}
+                      fullWidth
+                      value={formData.semanasGestacion}
+                      onChange={handleChange}
+                      disabled={loading}
+                      variant="outlined"
+                      sx={{
+                        '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                        '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="h6" sx={{ mb: 2 }}>
+                  Datos de salud
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <FormControl
+                      fullWidth
+                      variant="outlined"
+                      sx={{
+
+                        '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                        '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+
+                        minWidth: 160,
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: 'divider',
+                          borderRadius: 1,
+                        },
+
+                      }}
                     >
-                      {alergiasOptions.map((alergia) => (
-                        <MenuItem key={alergia.id} value={alergia.id}>
-                          {alergia.nombre}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <TextField
-                    label="Medicaciones"
-                    name="medicaciones"
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    value={formData.medicaciones}
-                    onChange={handleChange}
-                    disabled={loading}
-                    variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
-                  />
-                </Grid>
-              </Grid>
-            </Box>
+                      <InputLabel id="grupo-sanguineo-label" shrink>Grupo sanguíneo</InputLabel>
+                      <Select
+                        labelId="grupo-sanguineo-label"
+                        label="Grupo sanguíneo"
+                        name="tipoGrupoSanguineoId"
+                        value={formData.tipoGrupoSanguineoId}
+                        onChange={handleChange}
+                        disabled={loading}
+                        fullWidth
+                      >
+                        {gruposSanguineos.map((grupo) => (
+                          <MenuItem key={grupo.id} value={grupo.id}>
+                            {grupo.nombre}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <FormControl
+                      fullWidth
+                      variant="outlined"
+                      sx={{
 
-            <Box component={Paper} sx={{ p: 2, mb: 2 }}>
-              <Typography variant="h6" gutterBottom>
-                Datos clínicos
-              </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Número SS"
-                    name="numeroSs"
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    value={formData.numeroSs}
-                    onChange={handleChange}
-                    disabled={loading}
-                    variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Pediatra"
-                    name="pediatra"
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    value={formData.pediatra}
-                    onChange={handleChange}
-                    disabled={loading}
-                    variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Centro médico"
-                    name="centroMedico"
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    value={formData.centroMedico}
-                    onChange={handleChange}
-                    disabled={loading}
-                    variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Número centro médico"
-                    name="telefonoCentroMedico"
-                    InputLabelProps={{ shrink: true }}
-                    fullWidth
-                    value={formData.telefonoCentroMedico}
-                    onChange={handleChange}
-                    disabled={loading}
-                    variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
-                  />
-                </Grid>
-              </Grid>
-            </Box>
+                        '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                        '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
 
-            <Box component={Paper} sx={{ p: 2, mb: 2 }}>
-              <Typography variant="h6" gutterBottom>
-                Observaciones
-              </Typography>
-              <TextField
-                multiline
-                rows={4}
-                name="observaciones"
-                fullWidth
-                value={formData.observaciones}
-                onChange={handleChange}
-                disabled={loading}
+                        minWidth: 160,
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: 'divider',
+                          borderRadius: 1,
+                        },
+
+                      }}
+                    >
+                      <InputLabel id="alergias-label" shrink>Alergias</InputLabel>
+                      <Select
+                        labelId="alergias-label"
+                        label="Alergias"
+                        name="tipoAlergiaId"
+                        value={formData.tipoAlergiaId}
+                        onChange={handleChange}
+                        disabled={loading}
+                        fullWidth
+                      >
+                        {alergiasOptions.map((alergia) => (
+                          <MenuItem key={alergia.id} value={alergia.id}>
+                            {alergia.nombre}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} sm={12}>
+                    <TextField
+                      label="Medicaciones"
+                      name="medicaciones"
+                      InputLabelProps={{ shrink: true }}
+                      fullWidth
+                      value={formData.medicaciones}
+                      onChange={handleChange}
+                      disabled={loading}
+                      variant="outlined"
+                      sx={{
+                        '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                        '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="h6" sx={{ mb: 2 }}>
+                  Datos clínicos
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Número SS"
+                      name="numeroSs"
+                      InputLabelProps={{ shrink: true }}
+                      fullWidth
+                      value={formData.numeroSs}
+                      onChange={handleChange}
+                      disabled={loading}
+                      variant="outlined"
+                      sx={{
+                        '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                        '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Pediatra"
+                      name="pediatra"
+                      InputLabelProps={{ shrink: true }}
+                      fullWidth
+                      value={formData.pediatra}
+                      onChange={handleChange}
+                      disabled={loading}
+                      variant="outlined"
+                      sx={{
+                        '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                        '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Centro médico"
+                      name="centroMedico"
+                      InputLabelProps={{ shrink: true }}
+                      fullWidth
+                      value={formData.centroMedico}
+                      onChange={handleChange}
+                      disabled={loading}
+                      variant="outlined"
+                      sx={{
+                        '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                        '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Número centro médico"
+                      name="telefonoCentroMedico"
+                      InputLabelProps={{ shrink: true }}
+                      fullWidth
+                      value={formData.telefonoCentroMedico}
+                      onChange={handleChange}
+                      disabled={loading}
+                      variant="outlined"
+                      sx={{
+                        '& .MuiOutlinedInput-root': { borderRadius: 1 },
+                        '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+              <Box>
+                <Typography variant="h6" sx={{ mb: 2 }}>
+                  Observaciones
+                </Typography>
+                <TextField
+                  multiline
+                  rows={4}
+                  name="observaciones"
+                  fullWidth
+                  value={formData.observaciones}
+                  onChange={handleChange}
+                  disabled={loading}
                   variant="outlined"
                   sx={{
                     '& .MuiOutlinedInput-root': { borderRadius: 1 },
@@ -472,35 +471,34 @@ export default function AnadirBebe() {
                 />
               </Box>
             </Grid>
-
-          <Grid item xs={12} md={4}>
-            <Box component={Paper} sx={{ p: 2, textAlign: 'center' }}>
-              <Typography variant="h6" gutterBottom>
-                Foto del bebé
-              </Typography>
-              <Stack spacing={2} alignItems="center">
-                <Avatar src={preview} sx={{ width: 120, height: 120 }} />
-                <input
-                  type="file"
-                  accept="image/*"
-                  ref={fileInputRef}
-                  style={{ display: 'none' }}
-                  onChange={handlePhotoChange}
-                  disabled={loading}
-                />
-                <Button
-                  variant="contained"
-                  onClick={() => fileInputRef.current && fileInputRef.current.click()}
-                  disabled={loading}
-                  sx={primaryButton}
-                >
-                  Subir foto
-                </Button>
-              </Stack>
-            </Box>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="h6" sx={{ mb: 2 }}>
+                  Foto del bebé
+                </Typography>
+                <Stack spacing={2} alignItems="center">
+                  <Avatar src={preview} sx={{ width: 120, height: 120 }} />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                    onChange={handlePhotoChange}
+                    disabled={loading}
+                  />
+                  <Button
+                    variant="contained"
+                    onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                    disabled={loading}
+                    sx={primaryButton}
+                  >
+                    Subir foto
+                  </Button>
+                </Stack>
+              </Box>
+            </Grid>
           </Grid>
-        </Grid>
-
+        </Paper>
         <Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ mt: 2 }}>
           <Button
             variant="contained"
@@ -533,6 +531,7 @@ export default function AnadirBebe() {
           </Alert>
         </Snackbar>
       </Box>
+    </Container>
   );
 }
 
