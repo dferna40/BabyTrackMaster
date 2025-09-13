@@ -23,6 +23,7 @@ import { BabyContext } from '../../context/BabyContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import { outlinedTextField } from '../../theme/inputStyles';
 
 export default function EditarBebe() {
   const navigate = useNavigate();
@@ -195,10 +196,7 @@ export default function EditarBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
+                    sx={outlinedTextField}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -213,10 +211,7 @@ export default function EditarBebe() {
                       textField: {
                         required: true,
                         variant: 'outlined',
-                        sx: {
-                          '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                          '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                        },
+                        sx: outlinedTextField,
                         fullWidth: true,
                         disabled: loading,
                         InputLabelProps: { shrink: true },
@@ -259,10 +254,7 @@ export default function EditarBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
+                    sx={outlinedTextField}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -277,10 +269,7 @@ export default function EditarBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
+                    sx={outlinedTextField}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -295,10 +284,7 @@ export default function EditarBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
+                    sx={outlinedTextField}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -313,10 +299,7 @@ export default function EditarBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
+                    sx={outlinedTextField}
                   />
                 </Grid>
               </Grid>
@@ -331,15 +314,7 @@ export default function EditarBebe() {
                   <FormControl
                     fullWidth
                     variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                      minWidth: 160,
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: 'divider',
-                        borderRadius: 1,
-                      },
-                    }}
+                    sx={{ ...outlinedTextField, minWidth: 160 }}
                   >
                     <InputLabel id="grupo-sanguineo-label" shrink>
                       Grupo sanguíneo
@@ -365,15 +340,7 @@ export default function EditarBebe() {
                   <FormControl
                     fullWidth
                     variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                      minWidth: 160,
-                      '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: 'divider',
-                        borderRadius: 1,
-                      },
-                    }}
+                    sx={{ ...outlinedTextField, minWidth: 160 }}
                   >
                     <InputLabel id="alergias-label" shrink>
                       Alergias
@@ -405,10 +372,7 @@ export default function EditarBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
+                    sx={outlinedTextField}
                   />
                 </Grid>
               </Grid>
@@ -429,10 +393,7 @@ export default function EditarBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
+                    sx={outlinedTextField}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -445,10 +406,7 @@ export default function EditarBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
+                    sx={outlinedTextField}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -461,10 +419,7 @@ export default function EditarBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
+                    sx={outlinedTextField}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -477,10 +432,7 @@ export default function EditarBebe() {
                     onChange={handleChange}
                     disabled={loading}
                     variant="outlined"
-                    sx={{
-                      '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                    }}
+                    sx={outlinedTextField}
                   />
                 </Grid>
               </Grid>
@@ -499,10 +451,7 @@ export default function EditarBebe() {
                 onChange={handleChange}
                 disabled={loading}
                 variant="outlined"
-                sx={{
-                  '& .MuiOutlinedInput-root': { borderRadius: 1 },
-                  '& .MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
-                }}
+                sx={outlinedTextField}
               />
             </Box>
           </Grid>
