@@ -50,6 +50,7 @@ export default function Gastos() {
   const [selectedGasto, setSelectedGasto] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("error");
   const [categoryFilter, setCategoryFilter] = useState("0");
   const [categorias, setCategorias] = useState([]);
   const [monthFilter, setMonthFilter] = useState(dayjs().format("YYYY-MM"));
@@ -145,6 +146,7 @@ export default function Gastos() {
       .then(() => {
         fetchGastos();
         setSnackbarMessage("Registro eliminado");
+        setSnackbarSeverity("error");
         setOpenSnackbar(true);
       })
       .catch((error) => {
@@ -155,7 +157,8 @@ export default function Gastos() {
   const handleFormSubmit = (data) => {
     if (!bebeId || !usuarioId) return;
     const payload = { ...data, bebeId };
-    const request = selectedGasto
+    const isUpdate = Boolean(selectedGasto);
+    const request = isUpdate
       ? actualizarGasto(usuarioId, selectedGasto.id, payload)
       : crearGasto(usuarioId, payload);
 
@@ -164,6 +167,11 @@ export default function Gastos() {
         handleCloseForm();
         setSelectedGasto(null);
         fetchGastos();
+        if (isUpdate) {
+          setSnackbarMessage("Registro actualizado");
+          setSnackbarSeverity("success");
+          setOpenSnackbar(true);
+        }
       })
       .catch((error) => {
         console.error("Error saving gasto:", error);
@@ -399,8 +407,11 @@ export default function Gastos() {
       >
         <Alert
           onClose={handleCloseSnackbar}
-          severity="error"
-          sx={{ bgcolor: '#ffcdd2', color: '#b71c1c' }}
+          severity={snackbarSeverity}
+          sx={{
+            bgcolor: snackbarSeverity === 'success' ? '#A2D2FF' : '#ffcdd2',
+            color: snackbarSeverity === 'success' ? '#004085' : '#b71c1c',
+          }}
         >
           {snackbarMessage}
         </Alert>
