@@ -144,7 +144,7 @@ export default function CuidadoForm({ open, onClose, onSubmit, initialData }) {
       <DialogTitle>
         {initialData && initialData.id
           ? "Editar cuidado"
-          : "Añadir nuevo cuidado"}
+          : "Registrar cuidado"}
       </DialogTitle>
       <DialogContent>
         <Stack sx={{ mt: 1 }}>

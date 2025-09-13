@@ -133,7 +133,9 @@ export default function GastoForm({ open, onClose, onSubmit, initialData }) {
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-        <DialogTitle>{initialData && initialData.id ? 'Editar gasto' : 'Añadir nuevo gasto'}</DialogTitle>
+        <DialogTitle>
+          {initialData && initialData.id ? 'Editar gasto' : 'Registrar gasto'}
+        </DialogTitle>
         <DialogContent>
           <Stack sx={{ mt: 1 }}>
             <FormControl fullWidth sx={{ mb: 2 }}>

@@ -130,7 +130,9 @@ export default function CitaForm({ open, onClose, onSubmit, initialData }) {
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-        <DialogTitle>{initialData && initialData.id ? 'Editar cita' : 'Añadir cita'}</DialogTitle>
+        <DialogTitle>
+          {initialData && initialData.id ? 'Editar cita' : 'Registrar cita'}
+        </DialogTitle>
         <DialogContent>
           <Stack sx={{ mt: 1 }}>
             <FormControl fullWidth sx={{ mb: 2 }}>

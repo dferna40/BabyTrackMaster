@@ -250,7 +250,9 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>
-        {initialData && initialData.id ? 'Editar registro' : 'Añadir registro'}
+        {initialData && initialData.id
+          ? 'Editar registro'
+          : 'Registrar alimentación'}
       </DialogTitle>
       <DialogContent>
         <Stack sx={{ mt: 1 }}>
