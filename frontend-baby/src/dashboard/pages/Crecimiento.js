@@ -213,7 +213,6 @@ export default function Crecimiento() {
           <Tab key={t.id} label={t.nombre} />
         ))}
       </Tabs>
-
       <TableContainer sx={{ mb: 4 }}>
         <Table size="small">
           <TableHead>
@@ -257,46 +256,83 @@ export default function Crecimiento() {
                     </IconButton>
                   </TableCell>
                 </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-        <TablePagination
-          component="div"
-          count={filteredRegistros.length}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </TableContainer>
-
-      <Card variant="outlined">
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            {labels.chartTitle}
+              </TableHead>
+              <TableBody>
+                {filteredRegistros
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((registro) => (
+                    <TableRow key={registro.id}>
+                      <TableCell>
+                        {dayjs(registro.fecha).format("DD/MM/YYYY")}
+                      </TableCell>
+                      <TableCell>{registro.tipoNombre}</TableCell>
+                      <TableCell sx={{ fontWeight: 600 }}>
+                        {registro.valor} {registro.unidad || ""}
+                      </TableCell>
+                      <TableCell>{registro.observaciones}</TableCell>
+                      <TableCell align="center">
+                        <IconButton
+                          size="small"
+                          aria-label="edit"
+                          onClick={() => handleEdit(registro)}
+                          sx={{ color: "#0d6efd" }}
+                        >
+                          <EditIcon fontSize="small" />
+                        </IconButton>
+                        <IconButton
+                          size="small"
+                          aria-label="delete"
+                          onClick={() => handleDelete(registro.id)}
+                          sx={{ color: "#dc3545" }}
+                        >
+                          <DeleteIcon fontSize="small" />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+            <TablePagination
+              component="div"
+              count={filteredRegistros.length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </TableContainer>
+          <Card variant="outlined">
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                Evolución
+              </Typography>
+              <LineChart
+                height={300}
+                xAxis={[
+                  {
+                    scaleType: "point",
+                    data: chartData.map((d) => d.x),
+                  },
+                ]}
+                series={[
+                  { data: chartData.map((d) => d.y), label: "Valor" },
+                  ...(chartData.some((d) => d.p !== undefined)
+                    ? [{ data: chartData.map((d) => d.p), label: "Percentil OMS" }]
+                    : []),
+                ]}
+                margin={{ left: 40, right: 20, top: 20, bottom: 20 }}
+                grid={{ horizontal: true }}
+              />
+            </CardContent>
+          </Card>
+        </>
+      ) : (
+        tipos[tab] && (
+          <Typography>
+            Aún no se han insertado datos de {tipos[tab].nombre.toLowerCase()}
           </Typography>
-          <LineChart
-            height={300}
-            xAxis={[
-              {
-                scaleType: "point",
-                data: chartData.map((d) => d.x),
-              },
-            ]}
-            series={[
-              {
-                data: chartData.map((d) => d.y),
-                label: labels.seriesLabel || "Valor",
-              },
-              ...(chartData.some((d) => d.p !== undefined)
-                ? [{ data: chartData.map((d) => d.p), label: "Percentil OMS" }]
-                : []),
-            ]}
-            margin={{ left: 40, right: 20, top: 20, bottom: 20 }}
-            grid={{ horizontal: true }}
-          />
-        </CardContent>
-      </Card>
+        )
+      )}
       <CrecimientoForm
         open={openForm}
         onClose={() => setOpenForm(false)}
