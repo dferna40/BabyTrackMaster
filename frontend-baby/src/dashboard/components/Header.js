@@ -1,5 +1,7 @@
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
+import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
+import MenuButton from './MenuButton';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
 
 export default function Header() {
@@ -16,6 +18,9 @@ export default function Header() {
         gap: 1,
       }}
     >
+      <MenuButton showBadge>
+        <NotificationsRoundedIcon />
+      </MenuButton>
       <ColorModeIconDropdown />
     </Stack>
   );
