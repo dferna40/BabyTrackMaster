@@ -213,6 +213,8 @@ export default function Crecimiento() {
           <Tab key={t.id} label={t.nombre} />
         ))}
       </Tabs>
+        {filteredRegistros.length > 0 ? (
+          <>
       <TableContainer sx={{ mb: 4 }}>
         <Table size="small">
           <TableHead>
@@ -256,40 +258,7 @@ export default function Crecimiento() {
                     </IconButton>
                   </TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {filteredRegistros
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((registro) => (
-                    <TableRow key={registro.id}>
-                      <TableCell>
-                        {dayjs(registro.fecha).format("DD/MM/YYYY")}
-                      </TableCell>
-                      <TableCell>{registro.tipoNombre}</TableCell>
-                      <TableCell sx={{ fontWeight: 600 }}>
-                        {registro.valor} {registro.unidad || ""}
-                      </TableCell>
-                      <TableCell>{registro.observaciones}</TableCell>
-                      <TableCell align="center">
-                        <IconButton
-                          size="small"
-                          aria-label="edit"
-                          onClick={() => handleEdit(registro)}
-                          sx={{ color: "#0d6efd" }}
-                        >
-                          <EditIcon fontSize="small" />
-                        </IconButton>
-                        <IconButton
-                          size="small"
-                          aria-label="delete"
-                          onClick={() => handleDelete(registro.id)}
-                          sx={{ color: "#dc3545" }}
-                        >
-                          <DeleteIcon fontSize="small" />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                ))}
               </TableBody>
             </Table>
             <TablePagination
