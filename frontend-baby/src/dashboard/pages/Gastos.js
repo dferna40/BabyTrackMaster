@@ -17,6 +17,8 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -46,6 +48,8 @@ export default function Gastos() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [openForm, setOpenForm] = useState(false);
   const [selectedGasto, setSelectedGasto] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("0");
   const [categorias, setCategorias] = useState([]);
   const [monthFilter, setMonthFilter] = useState(dayjs().format("YYYY-MM"));
@@ -137,13 +141,15 @@ export default function Gastos() {
 
   const handleDelete = (id) => {
     if (!bebeId || !usuarioId) return;
-    if (window.confirm("¿Eliminar gasto?")) {
-      eliminarGasto(usuarioId, id)
-        .then(() => fetchGastos())
-        .catch((error) => {
-          console.error("Error deleting gasto:", error);
-        });
-    }
+    eliminarGasto(usuarioId, id)
+      .then(() => {
+        fetchGastos();
+        setSnackbarMessage("Registro eliminado");
+        setOpenSnackbar(true);
+      })
+      .catch((error) => {
+        console.error("Error deleting gasto:", error);
+      });
   };
 
   const handleFormSubmit = (data) => {
@@ -171,6 +177,11 @@ export default function Gastos() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setOpenSnackbar(false);
   };
 
   const handleExportCsv = () => {
@@ -381,6 +392,19 @@ export default function Gastos() {
         onSubmit={handleFormSubmit}
         initialData={selectedGasto}
       />
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="error"
+          sx={{ bgcolor: '#ffcdd2', color: '#b71c1c' }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

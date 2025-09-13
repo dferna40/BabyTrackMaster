@@ -16,6 +16,8 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -47,6 +49,8 @@ export default function Alimentacion() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [openForm, setOpenForm] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
   const { activeBaby } = React.useContext(BabyContext);
   const { user } = React.useContext(AuthContext);
   const bebeId = activeBaby?.id;
@@ -199,14 +203,14 @@ export default function Alimentacion() {
 
   const handleDelete = (id) => {
     if (!bebeId || !usuarioId) return;
-    if (window.confirm('¿Eliminar registro?')) {
-      eliminarRegistro(usuarioId, bebeId, id)
-        .then(() => {
-          fetchRegistros();
-          fetchEstadisticas(tab);
-        })
-        .catch((err) => console.error('Error deleting registro:', err));
-    }
+    eliminarRegistro(usuarioId, bebeId, id)
+      .then(() => {
+        fetchRegistros();
+        fetchEstadisticas(tab);
+        setSnackbarMessage('Registro eliminado');
+        setOpenSnackbar(true);
+      })
+      .catch((err) => console.error('Error deleting registro:', err));
   };
 
   const handleFormSubmit = (data) => {
@@ -232,6 +236,11 @@ export default function Alimentacion() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setOpenSnackbar(false);
   };
 
   const headersMap = {
@@ -506,6 +515,19 @@ export default function Alimentacion() {
         onSubmit={handleFormSubmit}
         initialData={selected}
       />
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="error"
+          sx={{ bgcolor: '#ffcdd2', color: '#b71c1c' }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
