@@ -550,12 +550,8 @@ export default function EditarBebe() {
           autoHideDuration={6000}
           onClose={handleCloseSnackbar}
         >
-          <Alert
-            onClose={handleCloseSnackbar}
-            severity="success"
-            sx={{ width: '100%' }}
-          >
-            Bebé actualizado correctamente
+          <Alert onClose={handleCloseSnackbar} severity="info">
+            Registro actualizado
           </Alert>
         </Snackbar>
     </Box>
