@@ -276,99 +276,105 @@ export default function Gastos() {
         Total del mes: {totalMes.toFixed(2)} €
       </Typography>
 
-      <TableContainer sx={{ mb: 4 }}>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>Fecha</TableCell>
-              <TableCell>Categoría</TableCell>
-              <TableCell>Precio €</TableCell>
-              <TableCell>Descripción</TableCell>
-              <TableCell align="center">Acciones</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredGastos
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((gasto) => (
-                <TableRow key={gasto.id}>
-                  <TableCell>
-                    {dayjs(gasto.fecha).format("DD/MM/YYYY")}
-                  </TableCell>
-                  <TableCell>
-                    {gasto.categoriaNombre ||
-                      categorias.find(
-                        (c) => Number(c.id) === Number(gasto.categoriaId),
-                      )?.nombre}
-                  </TableCell>
-                  <TableCell sx={{ fontWeight: 600 }}>
-                    {Number(gasto.cantidad).toFixed(2)}
-                  </TableCell>
-                  <TableCell>{gasto.descripcion}</TableCell>
-                  
-                  <TableCell align="center">
-                    <IconButton
-                      size="small"
-                      aria-label="edit"
-                      onClick={() => handleEdit(gasto)}
-                      sx={{ color: '#0d6efd' }}
-                    >
-                      <EditIcon fontSize="small" />
-                    </IconButton>
-                    <IconButton
-                      size="small"
-                      aria-label="delete"
-                      onClick={() => handleDelete(gasto.id)}
-                      sx={{ color: "#dc3545" }}
-                    >
-                      <DeleteIcon fontSize="small" />
-                    </IconButton>
-                  </TableCell>
+      {filteredGastos.length > 0 ? (
+        <>
+          <TableContainer sx={{ mb: 4 }}>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Fecha</TableCell>
+                  <TableCell>Categoría</TableCell>
+                  <TableCell>Precio €</TableCell>
+                  <TableCell>Descripción</TableCell>
+                  <TableCell align="center">Acciones</TableCell>
                 </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-        <TablePagination
-          component="div"
-          count={filteredGastos.length}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </TableContainer>
-      {filteredGastos.length > 0 && (
-        <Box sx={{ mb: 4, display: "flex", gap: 2 }}>
-          <Button variant="outlined" onClick={handleExportPdf}>
-            Exportar PDF
-          </Button>
-          <Button variant="outlined" onClick={handleExportCsv}>
-            Exportar CSV
-          </Button>
-        </Box>
-      )}
+              </TableHead>
+              <TableBody>
+                {filteredGastos
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((gasto) => (
+                    <TableRow key={gasto.id}>
+                      <TableCell>
+                        {dayjs(gasto.fecha).format("DD/MM/YYYY")}
+                      </TableCell>
+                      <TableCell>
+                        {gasto.categoriaNombre ||
+                          categorias.find(
+                            (c) => Number(c.id) === Number(gasto.categoriaId),
+                          )?.nombre}
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: 600 }}>
+                        {Number(gasto.cantidad).toFixed(2)}
+                      </TableCell>
+                      <TableCell>{gasto.descripcion}</TableCell>
 
-      <Card variant="outlined">
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            Gastos por día de la semana
-          </Typography>
-          <BarChart
-            colors={Object.values(colors)}
-            borderRadius={8}
-            height={250}
-            xAxis={[
-              {
-                scaleType: "band",
-                data: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
-              },
-            ]}
-            series={[{ data: weeklyStats }]}
-            margin={{ left: 30, right: 10, top: 20, bottom: 20 }}
-            grid={{ horizontal: true }}
-          />
-        </CardContent>
-      </Card>
+                      <TableCell align="center">
+                        <IconButton
+                          size="small"
+                          aria-label="edit"
+                          onClick={() => handleEdit(gasto)}
+                          sx={{ color: '#0d6efd' }}
+                        >
+                          <EditIcon fontSize="small" />
+                        </IconButton>
+                        <IconButton
+                          size="small"
+                          aria-label="delete"
+                          onClick={() => handleDelete(gasto.id)}
+                          sx={{ color: "#dc3545" }}
+                        >
+                          <DeleteIcon fontSize="small" />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+            <TablePagination
+              component="div"
+              count={filteredGastos.length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </TableContainer>
+          <Box sx={{ mb: 4, display: "flex", gap: 2 }}>
+            <Button variant="outlined" onClick={handleExportPdf}>
+              Exportar PDF
+            </Button>
+            <Button variant="outlined" onClick={handleExportCsv}>
+              Exportar CSV
+            </Button>
+          </Box>
+
+          <Card variant="outlined">
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                Gastos por día de la semana
+              </Typography>
+              <BarChart
+                colors={Object.values(colors)}
+                borderRadius={8}
+                height={250}
+                xAxis={[
+                  {
+                    scaleType: "band",
+                    data: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
+                  },
+                ]}
+                series={[{ data: weeklyStats }]}
+                margin={{ left: 30, right: 10, top: 20, bottom: 20 }}
+                grid={{ horizontal: true }}
+              />
+            </CardContent>
+          </Card>
+        </>
+      ) : (
+        <Typography>
+          Aún no se han insertado datos de gastos
+        </Typography>
+      )}
       <GastoForm
         open={openForm}
         onClose={handleCloseForm}

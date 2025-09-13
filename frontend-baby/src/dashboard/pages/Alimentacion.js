@@ -357,140 +357,148 @@ export default function Alimentacion() {
         ))}
       </Tabs>
 
-      <TableContainer sx={{ mb: 4 }}>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              {headersMap[selectedSlug]?.map((h) => (
-                <TableCell key={h}>{h}</TableCell>
-              ))}
-              <TableCell align="center">Acciones</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filtered
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((r) => {
-                const alimento = getNombreSolido(r);
-                return (
-                  <TableRow key={r.id}>
-                    <TableCell>
-                      {dayjs(r.fechaHora).format('DD/MM/YYYY HH:mm')}
-                    </TableCell>
-                    {selectedSlug === 'lactancia' && (
-                      <>
-                        <TableCell>{r.tipoLactancia?.nombre}</TableCell>
-                        <TableCell>{r.lado}</TableCell>
-                        <TableCell sx={{ fontWeight: 600 }}>
-                          {r.duracionMin}
+      {filtered.length > 0 ? (
+        <>
+          <TableContainer sx={{ mb: 4 }}>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  {headersMap[selectedSlug]?.map((h) => (
+                    <TableCell key={h}>{h}</TableCell>
+                  ))}
+                  <TableCell align="center">Acciones</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filtered
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((r) => {
+                    const alimento = getNombreSolido(r);
+                    return (
+                      <TableRow key={r.id}>
+                        <TableCell>
+                          {dayjs(r.fechaHora).format('DD/MM/YYYY HH:mm')}
                         </TableCell>
-                        <TableCell>{alimento}</TableCell>
-                        <TableCell sx={{ fontWeight: 600 }}>
-                          {r.cantidadAlimentoSolido}
+                        {selectedSlug === 'lactancia' && (
+                          <>
+                            <TableCell>{r.tipoLactancia?.nombre}</TableCell>
+                            <TableCell>{r.lado}</TableCell>
+                            <TableCell sx={{ fontWeight: 600 }}>
+                              {r.duracionMin}
+                            </TableCell>
+                            <TableCell>{alimento}</TableCell>
+                            <TableCell sx={{ fontWeight: 600 }}>
+                              {r.cantidadAlimentoSolido}
+                            </TableCell>
+                            <TableCell sx={{ fontWeight: 600 }}>
+                              {r.cantidadLecheFormula}
+                            </TableCell>
+                            <TableCell>{r.observaciones}</TableCell>
+                          </>
+                        )}
+                        {selectedSlug === 'biberon' && (
+                          <>
+                            <TableCell>{r.tipoBiberon?.nombre}</TableCell>
+                            <TableCell sx={{ fontWeight: 600 }}>{r.cantidadMl}</TableCell>
+                            <TableCell>{r.observaciones}</TableCell>
+                          </>
+                        )}
+                        {selectedSlug === 'solidos' && (
+                          <>
+                            <TableCell>{alimento}</TableCell>
+                            <TableCell sx={{ fontWeight: 600 }}>{r.cantidad}</TableCell>
+                            <TableCell>{r.observaciones}</TableCell>
+                          </>
+                        )}
+                        <TableCell align="center">
+                          <IconButton
+                            size="small"
+                            aria-label="edit"
+                            onClick={() => handleEdit(r)}
+                            sx={{ color: '#0d6efd' }}
+                          >
+                            <EditIcon fontSize="small" />
+                          </IconButton>
+                          <IconButton
+                            size="small"
+                            aria-label="delete"
+                            onClick={() => handleDelete(r.id)}
+                            sx={{ color: '#dc3545' }}
+                          >
+                            <DeleteIcon fontSize="small" />
+                          </IconButton>
                         </TableCell>
-                        <TableCell sx={{ fontWeight: 600 }}>
-                          {r.cantidadLecheFormula}
-                        </TableCell>
-                        <TableCell>{r.observaciones}</TableCell>
-                      </>
-                    )}
-                    {selectedSlug === 'biberon' && (
-                      <>
-                        <TableCell>{r.tipoBiberon?.nombre}</TableCell>
-                        <TableCell sx={{ fontWeight: 600 }}>{r.cantidadMl}</TableCell>
-                        <TableCell>{r.observaciones}</TableCell>
-                      </>
-                    )}
-                    {selectedSlug === 'solidos' && (
-                      <>
-                        <TableCell>{alimento}</TableCell>
-                        <TableCell sx={{ fontWeight: 600 }}>{r.cantidad}</TableCell>
-                        <TableCell>{r.observaciones}</TableCell>
-                      </>
-                    )}
-                    <TableCell align="center">
-                      <IconButton
-                        size="small"
-                        aria-label="edit"
-                        onClick={() => handleEdit(r)}
-                        sx={{ color: '#0d6efd' }}
-                      >
-                        <EditIcon fontSize="small" />
-                      </IconButton>
-                      <IconButton
-                        size="small"
-                        aria-label="delete"
-                        onClick={() => handleDelete(r.id)}
-                        sx={{ color: '#dc3545' }}
-                      >
-                        <DeleteIcon fontSize="small" />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-        <TablePagination
-          component="div"
-          count={filtered.length}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </TableContainer>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+            <TablePagination
+              component="div"
+              count={filtered.length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </TableContainer>
 
-      {filtered.length > 0 && (
-        <Box sx={{ mb: 4, display: 'flex', gap: 2 }}>
-          <Button variant="outlined" onClick={handleExportPdf}>
-            Exportar PDF
-          </Button>
-          <Button variant="outlined" onClick={handleExportCsv}>
-            Exportar CSV
-          </Button>
-        </Box>
+          <Box sx={{ mb: 4, display: 'flex', gap: 2 }}>
+            <Button variant="outlined" onClick={handleExportPdf}>
+              Exportar PDF
+            </Button>
+            <Button variant="outlined" onClick={handleExportCsv}>
+              Exportar CSV
+            </Button>
+          </Box>
+
+          <Stack spacing={2}>
+            <Card variant="outlined">
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Totales por día de la semana
+                </Typography>
+                <BarChart
+                  height={250}
+                  xAxis={[{
+                    scaleType: 'band',
+                    data: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
+                  }]}
+                  series={[{ data: weeklyStats, color: chartColor }]}
+                  margin={{ left: 30, right: 10, top: 20, bottom: 20 }}
+                  grid={{ horizontal: true }}
+                  borderRadius={8}
+                />
+              </CardContent>
+            </Card>
+            <Card variant="outlined">
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Comparativa lactancia vs biberón
+                </Typography>
+                <BarChart
+                  height={250}
+                  xAxis={[{ scaleType: 'band', data: ['Lactancia', 'Biberón'] }]}
+                  series={[
+                    { data: [lactanciaCount, 0], color: theme.palette.chart.babyBlue },
+                    { data: [0, biberonCount], color: theme.palette.chart.babyPink },
+                  ]}
+                  margin={{ left: 30, right: 10, top: 20, bottom: 20 }}
+                  grid={{ horizontal: true }}
+                  colors={Object.values(theme.palette.chart)}
+                  borderRadius={8}
+                />
+              </CardContent>
+            </Card>
+          </Stack>
+        </>
+      ) : (
+        selectedTipo && (
+          <Typography>
+            Aún no se han insertado datos de {selectedTipo.nombre.toLowerCase()}
+          </Typography>
+        )
       )}
-
-      <Stack spacing={2}>
-        <Card variant="outlined">
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-              Totales por día de la semana
-            </Typography>
-            <BarChart
-              height={250}
-              xAxis={[{
-                scaleType: 'band',
-                data: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
-              }]}
-              series={[{ data: weeklyStats, color: chartColor }]}
-              margin={{ left: 30, right: 10, top: 20, bottom: 20 }}
-              grid={{ horizontal: true }}
-              borderRadius={8}
-            />
-          </CardContent>
-        </Card>
-        <Card variant="outlined">
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-              Comparativa lactancia vs biberón
-            </Typography>
-            <BarChart
-              height={250}
-              xAxis={[{ scaleType: 'band', data: ['Lactancia', 'Biberón'] }]}
-              series={[
-                { data: [lactanciaCount, 0], color: theme.palette.chart.babyBlue },
-                { data: [0, biberonCount], color: theme.palette.chart.babyPink },
-              ]}
-              margin={{ left: 30, right: 10, top: 20, bottom: 20 }}
-              grid={{ horizontal: true }}
-              colors={Object.values(theme.palette.chart)}
-              borderRadius={8}
-            />
-          </CardContent>
-        </Card>
-      </Stack>
 
       <AlimentacionForm
         open={openForm}
