@@ -1,8 +1,9 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { styled } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+import Avatar from '@mui/material/Avatar';
 import MuiToolbar from '@mui/material/Toolbar';
 import { tabsClasses } from '@mui/material/Tabs';
 import SelectContent from './SelectContent';
@@ -11,6 +12,7 @@ import SideMenuMobile from './SideMenuMobile';
 import MenuButton from './MenuButton';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
 import { Link } from 'react-router-dom';
+import { BabyContext } from '../../context/BabyContext';
 
 const Toolbar = styled(MuiToolbar)({
   width: '100%',
@@ -30,6 +32,7 @@ const Toolbar = styled(MuiToolbar)({
 
 export default function AppNavbar() {
   const [open, setOpen] = React.useState(false);
+  const { activeBaby } = useContext(BabyContext);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -69,6 +72,18 @@ export default function AppNavbar() {
             </Box>
           </Stack>
           <ColorModeIconDropdown />
+          <Avatar
+            component={Link}
+            to="/dashboard/editar-bebe"
+            src={
+              activeBaby?.imagenBebe
+                ? `data:image/*;base64,${activeBaby.imagenBebe}`
+                : undefined
+            }
+          >
+            {!activeBaby?.imagenBebe &&
+              activeBaby?.nombre?.[0]?.toUpperCase()}
+          </Avatar>
           <MenuButton aria-label="menú" onClick={toggleDrawer(true)}>
             <MenuRoundedIcon />
           </MenuButton>
