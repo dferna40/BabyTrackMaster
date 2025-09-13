@@ -46,6 +46,7 @@ export default function Cuidados() {
   const [selectedCuidado, setSelectedCuidado] = useState(null);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('error');
   const [tipos, setTipos] = useState([]);
   const { activeBaby } = React.useContext(BabyContext);
   const { user } = React.useContext(AuthContext);
@@ -141,6 +142,7 @@ export default function Cuidados() {
       .then(() => {
         fetchCuidados();
         setSnackbarMessage('Registro eliminado');
+        setSnackbarSeverity('error');
         setOpenSnackbar(true);
       })
       .catch((error) => {
@@ -151,7 +153,8 @@ export default function Cuidados() {
   const handleFormSubmit = (data) => {
     if (!bebeId || !usuarioId) return;
     const payload = { ...data, bebeId };
-    const request = selectedCuidado
+    const isUpdate = !!selectedCuidado;
+    const request = isUpdate
       ? actualizarCuidado(usuarioId, selectedCuidado.id, payload)
       : crearCuidado(usuarioId, payload);
 
@@ -160,6 +163,11 @@ export default function Cuidados() {
         setOpenForm(false);
         setSelectedCuidado(null);
         fetchCuidados();
+        if (isUpdate) {
+          setSnackbarMessage('Registro actualizado');
+          setSnackbarSeverity('success');
+          setOpenSnackbar(true);
+        }
       })
       .catch((error) => {
         console.error("Error saving cuidado:", error);
@@ -403,8 +411,11 @@ export default function Cuidados() {
       >
         <Alert
           onClose={handleCloseSnackbar}
-          severity="error"
-          sx={{ bgcolor: '#ffcdd2', color: '#b71c1c' }}
+          severity={snackbarSeverity}
+          sx={{
+            bgcolor: snackbarSeverity === 'success' ? '#A2D2FF' : '#ffcdd2',
+            color: snackbarSeverity === 'success' ? '#004085' : '#b71c1c',
+          }}
         >
           {snackbarMessage}
         </Alert>
