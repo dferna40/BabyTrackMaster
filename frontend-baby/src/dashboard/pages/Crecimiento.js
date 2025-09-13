@@ -17,6 +17,8 @@ import TablePagination from "@mui/material/TablePagination";
 import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 import dayjs from "dayjs";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -69,6 +71,8 @@ export default function Crecimiento() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [openForm, setOpenForm] = useState(false);
   const [selectedRegistro, setSelectedRegistro] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
   const [tipos, setTipos] = useState([]);
   const { activeBaby } = React.useContext(BabyContext);
   const { user } = React.useContext(AuthContext);
@@ -140,11 +144,13 @@ export default function Crecimiento() {
 
   const handleDelete = (id) => {
     if (!bebeId || !usuarioId) return;
-    if (window.confirm("¿Eliminar registro?")) {
-      eliminarRegistro(usuarioId, id)
-        .then(() => fetchRegistros())
-        .catch((err) => console.error("Error deleting registro:", err));
-    }
+    eliminarRegistro(usuarioId, id)
+      .then(() => {
+        fetchRegistros();
+        setSnackbarMessage("Registro eliminado");
+        setOpenSnackbar(true);
+      })
+      .catch((err) => console.error("Error deleting registro:", err));
   };
 
   const handleFormSubmit = (data) => {
@@ -170,6 +176,11 @@ export default function Crecimiento() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") return;
+    setOpenSnackbar(false);
   };
 
   return (
@@ -308,6 +319,19 @@ export default function Crecimiento() {
         onSubmit={handleFormSubmit}
         initialData={selectedRegistro}
       />
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="error"
+          sx={{ bgcolor: '#ffcdd2', color: '#b71c1c' }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

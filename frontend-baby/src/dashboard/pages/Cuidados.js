@@ -16,6 +16,8 @@ import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 import dayjs from "dayjs";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -42,6 +44,8 @@ export default function Cuidados() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [openForm, setOpenForm] = useState(false);
   const [selectedCuidado, setSelectedCuidado] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
   const [tipos, setTipos] = useState([]);
   const { activeBaby } = React.useContext(BabyContext);
   const { user } = React.useContext(AuthContext);
@@ -133,13 +137,15 @@ export default function Cuidados() {
 
   const handleDelete = (id) => {
     if (!bebeId || !usuarioId) return;
-    if (window.confirm("¿Eliminar cuidado?")) {
-      eliminarCuidado(usuarioId, id)
-        .then(() => fetchCuidados())
-        .catch((error) => {
-          console.error("Error deleting cuidado:", error);
-        });
-    }
+    eliminarCuidado(usuarioId, id)
+      .then(() => {
+        fetchCuidados();
+        setSnackbarMessage('Registro eliminado');
+        setOpenSnackbar(true);
+      })
+      .catch((error) => {
+        console.error("Error deleting cuidado:", error);
+      });
   };
 
   const handleFormSubmit = (data) => {
@@ -167,6 +173,11 @@ export default function Cuidados() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') return;
+    setOpenSnackbar(false);
   };
   // Exporta datos con columnas específicas según el tipo seleccionado.
   const handleExportCsv = () => {
@@ -385,6 +396,19 @@ export default function Cuidados() {
         onSubmit={handleFormSubmit}
         initialData={selectedCuidado}
       />
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="error"
+          sx={{ bgcolor: '#ffcdd2', color: '#b71c1c' }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
