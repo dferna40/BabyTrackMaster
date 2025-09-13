@@ -322,7 +322,7 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
                 </TextField>
               </FormControl>
               <FormControl fullWidth sx={{ mb: 2 }}>
-                <FormLabel sx={{ mb: 1 }}>Duración (minutos)</FormLabel>
+                <FormLabel sx={{ mb: 1 }}>Duración (min)</FormLabel>
                 <TextField
                   type="number"
                   name="duracionMin"
@@ -354,7 +354,7 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
                   </FormControl>
                   {isSolidoOtros && (
                     <FormControl fullWidth sx={{ mb: 2 }}>
-                      <FormLabel sx={{ mb: 1 }}>Especificar</FormLabel>
+                      <FormLabel sx={{ mb: 1 }}>Otro tipo de alimento</FormLabel>
                       <TextField
                         name="alimentacionOtros"
                         value={formData.alimentacionOtros}
@@ -450,7 +450,7 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
               </FormControl>
               {isSolidoOtros && (
                 <FormControl fullWidth sx={{ mb: 2 }}>
-                  <FormLabel sx={{ mb: 1 }}>Especificar</FormLabel>
+                  <FormLabel sx={{ mb: 1 }}>Otro tipo de alimento</FormLabel>
                   <TextField
                     name="alimentacionOtros"
                     value={formData.alimentacionOtros}
@@ -461,7 +461,7 @@ export default function AlimentacionForm({ open, onClose, onSubmit, initialData 
                 </FormControl>
               )}
               <FormControl fullWidth sx={{ mb: 2 }}>
-                <FormLabel sx={{ mb: 1 }}>Cantidad</FormLabel>
+                <FormLabel sx={{ mb: 1 }}>Cantidad (g)</FormLabel>
                 <TextField
                   name="cantidad"
                   value={formData.cantidad}

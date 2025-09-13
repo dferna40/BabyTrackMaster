@@ -240,12 +240,12 @@ export default function Alimentacion() {
       'Tipo lactancia',
       'Lado',
       'Duración (min)',
-      'Alimento sólido',
+      'Alimento sólido (g)',
       'Cantidad alimento sólido (g)',
       'Cantidad leche fórmula (ml)',
       'Observaciones',
     ],
-    biberon: ['Hora', 'Tipo', 'Cantidad (ml)', 'Observaciones'],
+    biberon: ['Hora', 'Tipo de leche', 'Cantidad (ml)', 'Observaciones'],
     solidos: ['Hora', 'Alimento', 'Cantidad (g)', 'Observaciones'],
   };
 
