@@ -19,7 +19,6 @@ export default function CrecimientoForm({ open, onClose, onSubmit, initialData }
     fecha: null,
     tipoId: '',
     valor: '',
-    unidad: '',
     observaciones: '',
   });
   const [tipoOptions, setTipoOptions] = useState([]);
@@ -30,7 +29,6 @@ export default function CrecimientoForm({ open, onClose, onSubmit, initialData }
         fecha: initialData.fecha ? dayjs(initialData.fecha) : null,
         tipoId: initialData.tipoId || '',
         valor: initialData.valor || '',
-        unidad: initialData.unidad || '',
         observaciones: initialData.observaciones || '',
       });
     } else {
@@ -38,7 +36,6 @@ export default function CrecimientoForm({ open, onClose, onSubmit, initialData }
         fecha: null,
         tipoId: '',
         valor: '',
-        unidad: '',
         observaciones: '',
       });
     }
@@ -50,21 +47,11 @@ export default function CrecimientoForm({ open, onClose, onSubmit, initialData }
       .catch((err) => console.error('Error fetching tipos crecimiento:', err));
   }, []);
 
-  const getUnidad = (tipoId) => {
-    const tipo = tipoOptions.find((t) => t.id == tipoId);
-    if (!tipo) return '';
-    const nombre = tipo.nombre.toLowerCase();
-    if (nombre.includes('peso')) return 'kg';
-    if (nombre.includes('talla') || nombre.includes('perímetro') || nombre.includes('perimetro')) return 'cm';
-    return '';
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-      ...(name === 'tipoId' ? { unidad: getUnidad(value) } : {}),
     }));
   };
 
@@ -89,7 +76,9 @@ export default function CrecimientoForm({ open, onClose, onSubmit, initialData }
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>
-        {initialData && initialData.id ? 'Editar registro' : 'Añadir registro'}
+        {initialData && initialData.id
+          ? 'Editar registro'
+          : 'Registrar crecimiento'}
       </DialogTitle>
       <DialogContent>
         <Stack sx={{ mt: 1 }}>
@@ -127,16 +116,7 @@ export default function CrecimientoForm({ open, onClose, onSubmit, initialData }
               inputProps={{ min: 0, step: 'any' }}
             />
           </FormControl>
-          {formData.unidad && (
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <FormLabel sx={{ mb: 1 }}>Unidad</FormLabel>
-              <TextField
-                name="unidad"
-                value={formData.unidad}
-                onChange={handleChange}
-              />
-            </FormControl>
-          )}
+          {/* Unidad field removed as it's determined automatically */}
           <FormControl fullWidth sx={{ mb: 2 }}>
             <FormLabel sx={{ mb: 1 }}>Observaciones</FormLabel>
             <TextField
