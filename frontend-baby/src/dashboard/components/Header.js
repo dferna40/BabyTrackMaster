@@ -1,10 +1,14 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import Stack from '@mui/material/Stack';
+import Avatar from '@mui/material/Avatar';
 import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
+import { Link } from 'react-router-dom';
 import MenuButton from './MenuButton';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
+import { BabyContext } from '../../context/BabyContext';
 
 export default function Header() {
+  const { activeBaby } = useContext(BabyContext);
   return (
     <Stack
       direction="row"
@@ -22,6 +26,18 @@ export default function Header() {
         <NotificationsRoundedIcon />
       </MenuButton>
       <ColorModeIconDropdown />
+      <Avatar
+        component={Link}
+        to="/dashboard/editar-bebe"
+        src={
+          activeBaby?.imagenBebe
+            ? `data:image/*;base64,${activeBaby.imagenBebe}`
+            : undefined
+        }
+      >
+        {!activeBaby?.imagenBebe &&
+          activeBaby?.nombre?.[0]?.toUpperCase()}
+      </Avatar>
     </Stack>
   );
 }
