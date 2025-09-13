@@ -34,6 +34,34 @@ import { BabyContext } from "../../context/BabyContext";
 import { AuthContext } from "../../context/AuthContext";
 import { addButton } from "../../theme/buttonStyles";
 
+function getLabelsByTipo(tipo) {
+  switch (tipo?.nombre) {
+    case "Peso":
+      return {
+        valorHeader: "Peso (kg)",
+        chartTitle: "Evolución del peso",
+        seriesLabel: "Peso",
+      };
+    case "Talla":
+      return {
+        valorHeader: "Medida (cm)",
+        chartTitle: "Evolución de la talla",
+        seriesLabel: "Talla",
+      };
+    case "Perímetro cefálico":
+      return {
+        valorHeader: "Medida (cm)",
+        chartTitle: "Evolución del perímetro cefálico",
+        seriesLabel: "Perímetro cefálico",
+      };
+    default:
+      return {
+        valorHeader: "Valor",
+        chartTitle: "Evolución",
+      };
+  }
+}
+
 export default function Crecimiento() {
   const [tab, setTab] = useState(0);
   const [registros, setRegistros] = useState([]);
@@ -48,6 +76,8 @@ export default function Crecimiento() {
   const usuarioId = user?.id;
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+
+  const labels = useMemo(() => getLabelsByTipo(tipos[tab]), [tipos, tab]);
 
   const filteredRegistros = useMemo(() => {
     let data =
@@ -190,8 +220,8 @@ export default function Crecimiento() {
             <TableRow>
               <TableCell>Fecha</TableCell>
               <TableCell>Tipo</TableCell>
-              <TableCell>Valor</TableCell>
-              <TableCell>Nota</TableCell>
+              <TableCell>{labels.valorHeader}</TableCell>
+              <TableCell>Observaciones</TableCell>
               <TableCell align="center">Acciones</TableCell>
             </TableRow>
           </TableHead>
@@ -243,7 +273,7 @@ export default function Crecimiento() {
       <Card variant="outlined">
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            Evolución
+            {labels.chartTitle}
           </Typography>
           <LineChart
             height={300}
@@ -254,7 +284,10 @@ export default function Crecimiento() {
               },
             ]}
             series={[
-              { data: chartData.map((d) => d.y), label: "Valor" },
+              {
+                data: chartData.map((d) => d.y),
+                label: labels.seriesLabel || "Valor",
+              },
               ...(chartData.some((d) => d.p !== undefined)
                 ? [{ data: chartData.map((d) => d.p), label: "Percentil OMS" }]
                 : []),
