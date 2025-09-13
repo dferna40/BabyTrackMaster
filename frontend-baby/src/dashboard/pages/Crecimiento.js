@@ -34,6 +34,34 @@ import { BabyContext } from "../../context/BabyContext";
 import { AuthContext } from "../../context/AuthContext";
 import { addButton } from "../../theme/buttonStyles";
 
+function getLabelsByTipo(tipo) {
+  switch (tipo?.nombre) {
+    case "Peso":
+      return {
+        valorHeader: "Peso (kg)",
+        chartTitle: "Evolución del peso",
+        seriesLabel: "Peso",
+      };
+    case "Talla":
+      return {
+        valorHeader: "Medida (cm)",
+        chartTitle: "Evolución de la talla",
+        seriesLabel: "Talla",
+      };
+    case "Perímetro cefálico":
+      return {
+        valorHeader: "Medida (cm)",
+        chartTitle: "Evolución del perímetro cefálico",
+        seriesLabel: "Perímetro cefálico",
+      };
+    default:
+      return {
+        valorHeader: "Valor",
+        chartTitle: "Evolución",
+      };
+  }
+}
+
 export default function Crecimiento() {
   const [tab, setTab] = useState(0);
   const [registros, setRegistros] = useState([]);
@@ -48,6 +76,8 @@ export default function Crecimiento() {
   const usuarioId = user?.id;
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+
+  const labels = useMemo(() => getLabelsByTipo(tipos[tab]), [tipos, tab]);
 
   const filteredRegistros = useMemo(() => {
     let data =
@@ -183,18 +213,48 @@ export default function Crecimiento() {
           <Tab key={t.id} label={t.nombre} />
         ))}
       </Tabs>
-
-      {filteredRegistros.length > 0 ? (
-        <>
-          <TableContainer sx={{ mb: 4 }}>
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Fecha</TableCell>
-                  <TableCell>Tipo</TableCell>
-                  <TableCell>Valor</TableCell>
-                  <TableCell>Nota</TableCell>
-                  <TableCell align="center">Acciones</TableCell>
+      <TableContainer sx={{ mb: 4 }}>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Fecha</TableCell>
+              <TableCell>Tipo</TableCell>
+              <TableCell>{labels.valorHeader}</TableCell>
+              <TableCell>Observaciones</TableCell>
+              <TableCell align="center">Acciones</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredRegistros
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((registro) => (
+                <TableRow key={registro.id}>
+                  <TableCell>
+                    {dayjs(registro.fecha).format("DD/MM/YYYY")}
+                  </TableCell>
+                  <TableCell>{registro.tipoNombre}</TableCell>
+                  <TableCell sx={{ fontWeight: 600 }}>
+                    {registro.valor} {registro.unidad || ""}
+                  </TableCell>
+                  <TableCell>{registro.observaciones}</TableCell>
+                  <TableCell align="center">
+                    <IconButton
+                      size="small"
+                      aria-label="edit"
+                      onClick={() => handleEdit(registro)}
+                      sx={{ color: "#0d6efd" }}
+                    >
+                      <EditIcon fontSize="small" />
+                    </IconButton>
+                    <IconButton
+                      size="small"
+                      aria-label="delete"
+                      onClick={() => handleDelete(registro.id)}
+                      sx={{ color: "#dc3545" }}
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -241,7 +301,6 @@ export default function Crecimiento() {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </TableContainer>
-
           <Card variant="outlined">
             <CardContent>
               <Typography variant="h6" gutterBottom>
