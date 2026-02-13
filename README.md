@@ -73,13 +73,9 @@ BabyTrackMaster/
 
 ### 🔹 Infraestructura y DevOps
 - 🐋 Docker & Docker Compose
-- 🤵🏻‍♂️ Jenkins (CI/CD)
-- 🔥 Prometheus + Grafana (monitorización)
-- ELK Stack (Elasticsearch, Logstash, Kibana) para logs
-
-### 🔹 Otros Servicios
-- 📨 Mailtrap / SMTP (envío de correos)
-- 📦Amazon S3 o Cloudinary (almacenamiento de imágenes)
+- 🤵🏻‍♂️ Jenkins (CI/CD) (En desarrollo)
+- 🔥 Prometheus + Grafana (monitorización) (En desarrollo)
+- ELK Stack (Elasticsearch, Logstash, Kibana) para logs (En desarrollo)
 
 ---
 
@@ -103,14 +99,15 @@ BabyTrackMaster/
   	✅ Microservicio `api-citas`
 
    	✅ Microservicio `api-diario`
-
- 	✅ Microservicio `api-bff`
   
 🔹🔜 En Desarrollo:
 
-	🧱 Microservicio `api-gateway`
+	🧱 🤵🏻‍♂️ Jenkins (CI/CD) (En desarrollo)
 
-	🧱 Frontend
+	🧱 🔥 Prometheus + Grafana (monitorización) (En desarrollo)
+
+	🧱 Ajustar seguridad para entornos productivos
+
 ---
 
 ## 🔐 Seguridad
